@@ -57,6 +57,7 @@ Packages
    ephypype/neuropype_ephy
    graphpype <http://davidmeunier79.github.io/neuropype_graph/>
    examples/examples 
+   graphpype/index
 
    
 Indices and tables
