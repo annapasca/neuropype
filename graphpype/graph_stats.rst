@@ -1,13 +1,14 @@
 
-**********
-Modularity
-**********
+***********
+Graph_stats
+***********
 
-Functions used for the modularity computation
+Preparing stats and permutations
 
-ComputeNetList
+SwapLists
 **************
-.. automodule:: neuropype_graph.nodes.modularity
-   :members: ComputeNetList
-   :noindex:
-       
+.. autoclass:: neuropype_graph.nodes.graph_stats.SwapLists
+
+ShuffleMatrix
+****************
+.. autoclass:: neuropype_graph.nodes.graph_stats.ShuffleMatrix

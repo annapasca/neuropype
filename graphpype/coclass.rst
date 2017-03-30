@@ -7,7 +7,14 @@ Functions used for the generation of coclassification matrices
 
 PrepareCoclass
 **************
-.. automodule:: neuropype_graph.nodes.coclass
-   :members: PrepareCoclass
-   :noindex:
+.. autoclass:: neuropype_graph.nodes.coclass.PrepareCoclass
+       
+DiffMatrices
+************
+.. autoclass:: neuropype_graph.nodes.coclass.DiffMatrices
+       
+PlotCoclass
+***********
+.. autoclass:: neuropype_graph.nodes.coclass.PlotCoclass
+       
        

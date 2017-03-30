@@ -9,7 +9,10 @@ http://deim.urv.cat/~sergio.gomez/radatools.php
 
 PrepRada
 ********
-.. automodule:: neuropype_graph.interfaces.radatools.rada
-   :members: PrepRada
+.. autoclass:: neuropype_graph.interfaces.radatools.rada.PrepRada
         
-   :noindex:
+NetPropRada
+***********
+.. autoclass:: neuropype_graph.interfaces.radatools.rada.NetPropRada
+        
+

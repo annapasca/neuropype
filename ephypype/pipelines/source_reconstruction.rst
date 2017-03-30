@@ -15,8 +15,21 @@ The three Nodes of the inverse solution pipeline (:py:class:`LF_computation <neu
 :py:class:`inv_solution <neuropype_ephy.interfaces.mne.Inverse_solution>`) 
 wrap the MNE Python functions that perform the source reconstruction steps.
 
+In particular:
+   
+* :ref:`LF_computation`: compute the Lead Field matrix
+* :ref:`noise_covariance`: compute the noise covariance matrix
+* :ref:`inv_solution`: estimate the time series of the neural sources on a set of dipoles grid
+
 .. _inv_pipeline:
 
 .. figure::  ../../img/graph_dot_inv.jpg
    :scale: 75 %
-   :align:   center
+   :align: center
+   
+Before to use this pipeline, we need for each subject a template MRI or the individual MRI data.
+
+.. toctree::
+   :maxdepth: 1
+
+   nodes/inv_solution

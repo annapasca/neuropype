@@ -16,7 +16,7 @@ python framework.
 NeuroDaddy project includes two different packages:
 
 * :ref:`ephypype` based on `MNE python <http://martinos.org/mne/stable/index.html>`_ includes pipelines for electrophysiology analysis
-* :ref:`graphpype` based on `radatools <http://deim.urv.cat/~sergio.gomez/radatools.php>`_ includes pipelines for graph theoretical analysis of neuroimaging data 
+* `graphpype <http://davidmeunier79.github.io/neuropype_graph/>`_ based on `radatools <http://deim.urv.cat/~sergio.gomez/radatools.php>`_ includes pipelines for graph theoretical analysis of neuroimaging data 
 
 NeuroDaddy provides a very common and fast framework to develop workflows for advanced analyses, in particular
 defines a set of different pipelines that can be used stand-alone or as lego of a bigger workflow:
@@ -47,8 +47,7 @@ Installation
 ::
 
       git clone ...
-      
-      
+
 Packages
 ========
 
@@ -56,9 +55,10 @@ Packages
    :maxdepth: 1
 
    ephypype/neuropype_ephy
-   graphpype/neuropype_graph
-   examples/examples
+   graphpype <http://davidmeunier79.github.io/neuropype_graph/>
+   examples/examples 
 
+   
 Indices and tables
 ==================
 

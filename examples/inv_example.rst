@@ -5,6 +5,6 @@ Source reconstruction pipeline
 
 
 .. figure::  ../img/graph_dot_inv2graph.jpg
-   :scale: 75 %
+   :scale: 50 %
    :align: center
       
