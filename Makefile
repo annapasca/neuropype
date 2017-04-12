@@ -6,7 +6,7 @@ SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
 PAPER         =
 #BUILDDIR      = _build
-BUILDDIR      = ../neuropype_docs
+BUILDDIR      = ../neuropyconn_docs
 #PDFBUILDDIR   = /tmp
 #PDF           = ../manual.pdf
 
@@ -90,9 +90,9 @@ qthelp:
 	@echo
 	@echo "Build finished; now you can run "qcollectiongenerator" with the" \
 	      ".qhcp project file in $(BUILDDIR)/qthelp, like this:"
-	@echo "# qcollectiongenerator $(BUILDDIR)/qthelp/neuropype.qhcp"
+	@echo "# qcollectiongenerator $(BUILDDIR)/qthelp/neuropyconn.qhcp"
 	@echo "To view the help file:"
-	@echo "# assistant -collectionFile $(BUILDDIR)/qthelp/neuropype.qhc"
+	@echo "# assistant -collectionFile $(BUILDDIR)/qthelp/neuropyconn.qhc"
 
 applehelp:
 	$(SPHINXBUILD) -b applehelp $(ALLSPHINXOPTS) $(BUILDDIR)/applehelp
@@ -107,8 +107,8 @@ devhelp:
 	@echo
 	@echo "Build finished."
 	@echo "To view the help file:"
-	@echo "# mkdir -p $$HOME/.local/share/devhelp/neuropype"
-	@echo "# ln -s $(BUILDDIR)/devhelp $$HOME/.local/share/devhelp/neuropype"
+	@echo "# mkdir -p $$HOME/.local/share/devhelp/neuropyconn"
+	@echo "# ln -s $(BUILDDIR)/devhelp $$HOME/.local/share/devhelp/neuropyconn"
 	@echo "# devhelp"
 
 epub:
