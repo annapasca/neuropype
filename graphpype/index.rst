@@ -10,6 +10,12 @@ Welcome to Neuropype_graph's documentation!
    :maxdepth: 2
    
    includeme
+
+.. toctree::
+   :maxdepth: 1
+   
+   neurodaddy <https://annapasca.github.io/neurodaddy_doc/>
+   examples <https://annapasca.github.io/neurodaddy_doc/examples/examples.html>
    
 Nodes (proper):
 
