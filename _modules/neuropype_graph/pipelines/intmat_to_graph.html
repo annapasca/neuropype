@@ -1,0 +1,400 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>neuropype_graph.pipelines.intmat_to_graph &mdash; neuropyconn 0.0 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="neuropyconn 0.0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../../../index.html" class="fa fa-home"> neuropyconn</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../ephypype/neuropype_ephy.html">ephypype</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../ephypype/neuropype_ephy.html#subpackages">Subpackages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="http://davidmeunier79.github.io/neuropype_graph/">graphpype</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/examples.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/preproc_example.html">From raw data to preprocessed data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/inv_example.html">Source reconstruction pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/epoch_example.html">From epoch data to graph theoretical analysis</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">neuropyconn</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>neuropype_graph.pipelines.intmat_to_graph</li>
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <h1>Source code for neuropype_graph.pipelines.intmat_to_graph</h1><div class="highlight"><pre>
+<span class="c"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Support function for net handling</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="kn">as</span> <span class="nn">sp</span> 
+
+<span class="kn">import</span> <span class="nn">nipype.interfaces.utility</span>  <span class="kn">as</span> <span class="nn">niu</span>
+
+<span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="kn">as</span> <span class="nn">pe</span>
+    
+<span class="kn">from</span> <span class="nn">neuropype_graph.nodes.modularity</span> <span class="kn">import</span> <span class="n">ComputeIntNetList</span><span class="p">,</span><span class="n">ComputeNodeRoles</span>
+<span class="kn">from</span> <span class="nn">neuropype_graph.interfaces.radatools.rada</span> <span class="kn">import</span> <span class="n">PrepRada</span><span class="p">,</span><span class="n">CommRada</span><span class="p">,</span><span class="n">NetPropRada</span>
+ 
+<span class="c">#import imp</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">igraph</span>
+    <span class="n">can_plot_igraph</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="kn">from</span> <span class="nn">neuropype_graph.interfaces.plot_igraph.plots</span> <span class="kn">import</span> <span class="n">PlotIGraphModules</span>
+
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">can_plot_igraph</span> <span class="o">=</span> <span class="bp">False</span>
+    
+    
+ 
+<span class="c">#def create_pipeline_conmat_to_graph_density(correl_analysis_name,main_path,radatools_path,con_den = 1.0,multi = False,mod = True):</span>
+
+    <span class="c">#pipeline = pe.Workflow(name=correl_analysis_name)</span>
+    <span class="c">#pipeline.base_dir = main_path</span>
+    
+    <span class="c">#if multi == False:</span>
+        
+        <span class="c">################################################# density-based graphs</span>
+        
+        <span class="c">##### net_list</span>
+        <span class="c">#compute_net_List = pe.Node(interface = ComputeNetList(),name=&#39;compute_net_List&#39;)</span>
+        <span class="c">#compute_net_List.inputs.density = con_den</span>
+        
+        <span class="c">##pipeline.connect(convert_mat, &#39;conmat_file&#39;,compute_net_List, &#39;Z_cor_mat_file&#39;)</span>
+        
+        <span class="c">###### radatools ################################################################</span>
+
+        <span class="c">#### prepare net_list for radatools processing  </span>
+        <span class="c">#prep_rada = pe.Node(interface = PrepRada(),name=&#39;prep_rada&#39;,iterfield = [&quot;net_List_file&quot;])</span>
+        <span class="c">#prep_rada.inputs.radatools_path = radatools_path</span>
+        
+        <span class="c">#pipeline.connect(compute_net_List, &#39;net_List_file&#39;, prep_rada, &#39;net_List_file&#39;)</span>
+    
+        <span class="c">#if mod == True:</span>
+                
+            <span class="c">#### compute community with radatools</span>
+            <span class="c">#community_rada = pe.Node(interface = CommRada(), name=&#39;community_rada&#39;)</span>
+            <span class="c">##community_rada.inputs.optim_seq = radatools_optim</span>
+            <span class="c">#community_rada.inputs.radatools_path = radatools_path</span>
+            
+            <span class="c">#pipeline.connect( prep_rada, &#39;Pajek_net_file&#39;,community_rada,&#39;Pajek_net_file&#39;)</span>
+            
+            
+            
+            <span class="c">#### node roles</span>
+            <span class="c">#node_roles = pe.Node(interface = ComputeNodeRoles(role_type = &quot;4roles&quot;), name=&#39;node_roles&#39;)</span>
+            
+            <span class="c">#pipeline.connect( prep_rada, &#39;Pajek_net_file&#39;,node_roles,&#39;Pajek_net_file&#39;)</span>
+            <span class="c">#pipeline.connect( community_rada, &#39;rada_lol_file&#39;,node_roles,&#39;rada_lol_file&#39;)</span>
+            
+            <span class="c">##### plot_igraph_modules_rada</span>
+            <span class="c">#plot_igraph_modules_rada = pe.Node(interface = PlotIGraphModules(),name=&#39;plot_igraph_modules_rada&#39;)</span>
+            
+            <span class="c">#pipeline.connect(prep_rada, &#39;Pajek_net_file&#39;,plot_igraph_modules_rada,&#39;Pajek_net_file&#39;)</span>
+            <span class="c">#pipeline.connect(community_rada, &#39;rada_lol_file&#39;,plot_igraph_modules_rada,&#39;rada_lol_file&#39;)</span>
+            
+            <span class="c">#pipeline.connect(node_roles, &#39;node_roles_file&#39;,plot_igraph_modules_rada,&#39;node_roles_file&#39;)</span>
+    
+        <span class="c">############# compute network properties with rada</span>
+        <span class="c">#net_prop = pe.Node(interface = NetPropRada(optim_seq = &quot;A&quot;), name = &#39;net_prop&#39;)</span>
+        <span class="c">#net_prop.inputs.radatools_path = radatools_path</span>
+        
+        <span class="c">#pipeline.connect(prep_rada, &#39;Pajek_net_file&#39;,net_prop,&#39;Pajek_net_file&#39;)</span>
+        
+        
+    <span class="c">#else:</span>
+        
+        <span class="c">################################################# density-based graphs #################################################</span>
+        
+        <span class="c">##### net_list</span>
+        <span class="c">#compute_net_List = pe.MapNode(interface = ComputeNetList(),name=&#39;compute_net_List&#39;,iterfield = [&quot;Z_cor_mat_file&quot;])</span>
+        <span class="c">#compute_net_List.inputs.density = con_den</span>
+        
+        <span class="c">##pipeline.connect(convert_mat, &#39;conmat_file&#39;,compute_net_List, &#39;Z_cor_mat_file&#39;)</span>
+        
+        <span class="c">###### radatools ################################################################</span>
+
+        <span class="c">#### prepare net_list for radatools processing  </span>
+        <span class="c">#prep_rada = pe.MapNode(interface = PrepRada(),name=&#39;prep_rada&#39;,iterfield = [&quot;net_List_file&quot;])</span>
+        <span class="c">#prep_rada.inputs.radatools_path = radatools_path</span>
+        
+        <span class="c">#pipeline.connect(compute_net_List, &#39;net_List_file&#39;, prep_rada, &#39;net_List_file&#39;)</span>
+        
+        
+        <span class="c">#if mod == True:</span>
+                
+            <span class="c">#### compute community with radatools</span>
+            <span class="c">#community_rada = pe.MapNode(interface = CommRada(), name=&#39;community_rada&#39;,iterfield = [&quot;Pajek_net_file&quot;])</span>
+            <span class="c">##community_rada.inputs.optim_seq = radatools_optim</span>
+            <span class="c">#community_rada.inputs.radatools_path = radatools_path</span>
+            
+            <span class="c">#pipeline.connect( prep_rada, &#39;Pajek_net_file&#39;,community_rada,&#39;Pajek_net_file&#39;)</span>
+            
+            <span class="c">#### node roles</span>
+            <span class="c">#node_roles = pe.Node(interface = ComputeNodeRoles(role_type = &quot;4roles&quot;), name=&#39;node_roles&#39;)</span>
+            
+            <span class="c">#pipeline.connect( prep_rada, &#39;Pajek_net_file&#39;,node_roles,&#39;Pajek_net_file&#39;)</span>
+            <span class="c">#pipeline.connect( community_rada, &#39;rada_lol_file&#39;,node_roles,&#39;rada_lol_file&#39;)</span>
+            
+            <span class="c">##### plot_igraph_modules_rada</span>
+            <span class="c">#plot_igraph_modules_rada = pe.MapNode(interface = PlotIGraphModules(),name=&#39;plot_igraph_modules_rada&#39;,iterfield = [&#39;Pajek_net_file&#39;,&#39;rada_lol_file&#39;,&#39;node_roles_file&#39;])</span>
+            
+            <span class="c">#pipeline.connect(prep_rada, &#39;Pajek_net_file&#39;,plot_igraph_modules_rada,&#39;Pajek_net_file&#39;)</span>
+            <span class="c">#pipeline.connect(community_rada, &#39;rada_lol_file&#39;,plot_igraph_modules_rada,&#39;rada_lol_file&#39;)</span>
+            
+            <span class="c">#pipeline.connect(node_roles, &#39;node_roles_file&#39;,plot_igraph_modules_rada,&#39;node_roles_file&#39;)</span>
+            
+    
+        <span class="c">############# compute network properties with rada</span>
+        <span class="c">#net_prop = pe.MapNode(interface = NetPropRada(optim_seq = &quot;A&quot;), name = &#39;net_prop&#39;,iterfield = [&quot;Pajek_net_file&quot;])</span>
+        <span class="c">#net_prop.inputs.radatools_path = radatools_path</span>
+        
+        <span class="c">#pipeline.connect(prep_rada, &#39;Pajek_net_file&#39;,net_prop,&#39;Pajek_net_file&#39;)</span>
+
+
+    <span class="c">#return pipeline</span>
+
+<span class="c">################################################ threshold-based graphs</span>
+    
+<div class="viewcode-block" id="create_pipeline_intmat_to_graph_threshold"><a class="viewcode-back" href="../../../graphpype/intmat_to_graph.html#neuropype_graph.pipelines.intmat_to_graph.create_pipeline_intmat_to_graph_threshold">[docs]</a><span class="k">def</span> <span class="nf">create_pipeline_intmat_to_graph_threshold</span><span class="p">(</span><span class="n">main_path</span><span class="p">,</span><span class="n">analysis_name</span> <span class="o">=</span> <span class="s">&quot;int_graph_thr_pipe&quot;</span><span class="p">,</span><span class="n">threshold</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">mod</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">plot</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span><span class="n">radatools_optim</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    </span>
+<span class="sd">    Description:</span>
+<span class="sd">    </span>
+<span class="sd">    Pipeline from integer matrices (normally coclassification matrices) to graph analysis</span>
+<span class="sd">    </span>
+<span class="sd">    Threshold is value based, normally a pourcentage (threshold, 50 -&gt; 50%)</span>
+<span class="sd">    </span>
+<span class="sd">    Inputs (inputnode):</span>
+<span class="sd">    </span>
+<span class="sd">        * int_mat_file</span>
+<span class="sd">        * coords_file</span>
+<span class="sd">        * labels_file</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    Comments:</span>
+<span class="sd">    </span>
+<span class="sd">    Used for coclassification, not so much used anymore</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">analysis_name</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">base_dir</span> <span class="o">=</span> <span class="n">main_path</span>
+
+
+    <span class="n">inputnode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">niu</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;int_mat_file&#39;</span><span class="p">,</span><span class="s">&#39;coords_file&#39;</span><span class="p">,</span><span class="s">&#39;labels_file&#39;</span><span class="p">]),</span>
+                        <span class="n">name</span><span class="o">=</span><span class="s">&#39;inputnode&#39;</span><span class="p">)</span>
+     
+    
+    <span class="k">if</span> <span class="n">can_plot_igraph</span><span class="o">==</span><span class="bp">False</span><span class="p">:</span>
+        
+        <span class="n">plot</span> <span class="o">=</span> <span class="bp">False</span>
+        
+    <span class="k">print</span> <span class="s">&quot;########################### plot = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">plot</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot; #####################################################&quot;</span>
+    <span class="k">print</span> <span class="s">&quot;can_plot_igraph = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">can_plot_igraph</span><span class="p">)</span>
+    
+    <span class="c">### compute Z_list from coclass matrix</span>
+    <span class="n">compute_net_list</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">ComputeIntNetList</span><span class="p">(),</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;compute_net_list&#39;</span><span class="p">)</span>
+    <span class="n">compute_net_list</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">threshold</span> <span class="o">=</span> <span class="n">threshold</span>
+    
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s">&#39;int_mat_file&#39;</span><span class="p">,</span> <span class="n">compute_net_list</span><span class="p">,</span> <span class="s">&#39;int_mat_file&#39;</span><span class="p">)</span>
+    
+    <span class="c">############################################### radatools ################################################################</span>
+    
+    <span class="c">###--- prepare net_list for radatools processing</span>
+    <span class="n">prep_rada</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">PrepRada</span><span class="p">(),</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;prep_rada&#39;</span><span class="p">)</span>
+    
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">compute_net_list</span><span class="p">,</span> <span class="s">&#39;net_List_file&#39;</span><span class="p">,</span> <span class="n">prep_rada</span><span class="p">,</span> <span class="s">&#39;net_List_file&#39;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">mod</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+            
+        <span class="c">### compute community with radatools</span>
+        <span class="n">community_rada</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">CommRada</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;community_rada&#39;</span><span class="p">,</span><span class="n">iterfield</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Pajek_net_file&quot;</span><span class="p">])</span>
+        <span class="n">community_rada</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">optim_seq</span> <span class="o">=</span> <span class="n">radatools_optim</span>
+        
+        <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span> <span class="n">prep_rada</span><span class="p">,</span> <span class="s">&#39;Pajek_net_file&#39;</span><span class="p">,</span><span class="n">community_rada</span><span class="p">,</span><span class="s">&#39;Pajek_net_file&#39;</span><span class="p">)</span>
+        
+
+        
+        <span class="c">### node roles</span>
+        <span class="n">node_roles</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">ComputeNodeRoles</span><span class="p">(</span><span class="n">role_type</span> <span class="o">=</span> <span class="s">&quot;4roles&quot;</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;node_roles&#39;</span><span class="p">)</span>
+        
+        <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span> <span class="n">prep_rada</span><span class="p">,</span> <span class="s">&#39;Pajek_net_file&#39;</span><span class="p">,</span><span class="n">node_roles</span><span class="p">,</span><span class="s">&#39;Pajek_net_file&#39;</span><span class="p">)</span>
+        <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span> <span class="n">community_rada</span><span class="p">,</span> <span class="s">&#39;rada_lol_file&#39;</span><span class="p">,</span><span class="n">node_roles</span><span class="p">,</span><span class="s">&#39;rada_lol_file&#39;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">plot</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+                
+            <span class="c">#### plot_igraph_modules_rada</span>
+            <span class="n">plot_igraph_modules_rada</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">PlotIGraphModules</span><span class="p">(),</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;plot_igraph_modules_rada&#39;</span><span class="p">)</span>
+            
+            <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s">&#39;labels_file&#39;</span><span class="p">,</span><span class="n">plot_igraph_modules_rada</span><span class="p">,</span><span class="s">&#39;labels_file&#39;</span><span class="p">)</span>
+            <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s">&#39;coords_file&#39;</span><span class="p">,</span><span class="n">plot_igraph_modules_rada</span><span class="p">,</span><span class="s">&#39;coords_file&#39;</span><span class="p">)</span>
+            
+            <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">prep_rada</span><span class="p">,</span> <span class="s">&#39;Pajek_net_file&#39;</span><span class="p">,</span><span class="n">plot_igraph_modules_rada</span><span class="p">,</span><span class="s">&#39;Pajek_net_file&#39;</span><span class="p">)</span>
+            <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">community_rada</span><span class="p">,</span> <span class="s">&#39;rada_lol_file&#39;</span><span class="p">,</span><span class="n">plot_igraph_modules_rada</span><span class="p">,</span><span class="s">&#39;rada_lol_file&#39;</span><span class="p">)</span>
+            
+            <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node_roles</span><span class="p">,</span> <span class="s">&#39;node_roles_file&#39;</span><span class="p">,</span><span class="n">plot_igraph_modules_rada</span><span class="p">,</span><span class="s">&#39;node_roles_file&#39;</span><span class="p">)</span>
+
+
+    <span class="c">############################################ compute network properties with rada ############################################</span>
+    <span class="n">net_prop</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">NetPropRada</span><span class="p">(</span><span class="n">optim_seq</span> <span class="o">=</span> <span class="s">&quot;A&quot;</span><span class="p">),</span> <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;net_prop&#39;</span><span class="p">)</span>
+    
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">prep_rada</span><span class="p">,</span> <span class="s">&#39;Pajek_net_file&#39;</span><span class="p">,</span><span class="n">net_prop</span><span class="p">,</span><span class="s">&#39;Pajek_net_file&#39;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">pipeline</span>
+
+   </div>
+</pre></div>
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Dmitrii Altukhov, David Meunier, Annalisa Pascarella.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

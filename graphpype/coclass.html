@@ -1,0 +1,274 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>CoClass &mdash; neuropyconn 0.0 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="neuropyconn 0.0 documentation" href="../index.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../index.html" class="fa fa-home"> neuropyconn</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../ephypype/neuropype_ephy.html">ephypype</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../ephypype/neuropype_ephy.html#subpackages">Subpackages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="http://davidmeunier79.github.io/neuropype_graph/">graphpype</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/examples.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/preproc_example.html">From raw data to preprocessed data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/inv_example.html">Source reconstruction pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/epoch_example.html">From epoch data to graph theoretical analysis</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">neuropyconn</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>CoClass</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          <a href="../_sources/graphpype/coclass.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="coclass">
+<h1>CoClass<a class="headerlink" href="#coclass" title="Permalink to this headline">¶</a></h1>
+<p>Functions used for the generation of coclassification matrices</p>
+<div class="section" id="preparecoclass">
+<h2>PrepareCoclass<a class="headerlink" href="#preparecoclass" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="neuropype_graph.nodes.coclass.PrepareCoclass">
+<em class="property">class </em><code class="descclassname">neuropype_graph.nodes.coclass.</code><code class="descname">PrepareCoclass</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_graph/nodes/coclass.html#PrepareCoclass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_graph.nodes.coclass.PrepareCoclass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prepare a list of coclassification matrices, in a similar reference given by a coord (resp label)  file based on individual coords (resp labels) files</p>
+<p>Inputs:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>mod_files:</dt>
+<dd>type = List of Files, exists=True, desc=&#8217;list of all files representing modularity assignement (in rada, lol files) for each subject&#8217;, mandatory=True</dd>
+<dt>node_corres_files:</dt>
+<dd>type = List of Files, exists=True, desc=&#8217;list of all Pajek files (in txt format) to extract correspondance between nodes in rada analysis and original subject coordinates for each subject (as obtained from PrepRada)&#8217;, mandatory=True</dd>
+<dt>coords_files:</dt>
+<dd>type = List of Files, exists=True, desc=&#8217;list of all coordinates in numpy space files (in txt format) for each subject (after removal of non void data)&#8217;, mandatory=True, xor = [&#8216;labels_files&#8217;]</dd>
+<dt>gm_mask_coords_file </dt>
+<dd>type = File,exists=True, desc=&#8217;Coordinates in numpy space, corresponding to all possible nodes in the original space&#8217;, mandatory=False, xor = [&#8216;gm_mask_labels_file&#8217;]</dd>
+<dt>labels_files:</dt>
+<dd>type = List of Files, exists=True, desc=&#8217;list of labels (in txt format) for each subject (after removal of non void data)&#8217;, mandatory=True, xor = [&#8216;coords_files&#8217;]</dd>
+<dt>gm_mask_labels_file:</dt>
+<dd>type = File, exists=True, desc=&#8217;Labels for all possible nodes - in case coords are varying from one indiv to the other (source space for example)&#8217;, mandatory=False, xor = [&#8216;gm_mask_coords_file&#8217;]</dd>
+</dl>
+</div></blockquote>
+<p>Outputs:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>group_coclass_matrix_file:</dt>
+<dd>type = File,exists=True, desc=&#8221;all coclass matrices of the group in .npy  format&#8221;</dd>
+<dt>sum_coclass_matrix_file:</dt>
+<dd>type = File, exists=True, desc=&#8221;sum of coclass matrix of the group in .npy format&#8221;</dd>
+<dt>sum_possible_edge_matrix_file:</dt>
+<dd>type = File, exists=True, desc=&#8221;sum of possible edges matrices of the group in .npy format&#8221;</dd>
+<dt>norm_coclass_matrix_file:</dt>
+<dd>type = File, exists=True, desc=&#8221;sum of coclass matrix normalized by possible edges matrix of the group in .npy format&#8221;</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+</div>
+<div class="section" id="diffmatrices">
+<h2>DiffMatrices<a class="headerlink" href="#diffmatrices" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="neuropype_graph.nodes.coclass.DiffMatrices">
+<em class="property">class </em><code class="descclassname">neuropype_graph.nodes.coclass.</code><code class="descname">DiffMatrices</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_graph/nodes/coclass.html#DiffMatrices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_graph.nodes.coclass.DiffMatrices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description:</p>
+<p>Compute difference between two matrices, should have same shape</p>
+<p>Inputs:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>mat_file1:</dt>
+<dd>type = File,exists=True, desc=&#8217;Matrix in npy format&#8217;, mandatory=True</dd>
+<dt>mat_file2:</dt>
+<dd>type = File,exists=True, desc=&#8217;Matrix in npy format&#8217;, mandatory=True</dd>
+</dl>
+</div></blockquote>
+<dl class="docutils">
+<dt>Outputs:</dt>
+<dd><dl class="first last docutils">
+<dt>diff_mat_file:</dt>
+<dd>type = File, exists=True, desc=&#8217;Difference of Matrices (mat1 - mat2) in npy format&#8217;, mandatory=True</dd>
+</dl>
+</dd>
+</dl>
+<p>Comments:</p>
+<p>Not sure where it is used ...</p>
+</dd></dl>
+
+</div>
+<div class="section" id="plotcoclass">
+<h2>PlotCoclass<a class="headerlink" href="#plotcoclass" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="neuropype_graph.nodes.coclass.PlotCoclass">
+<em class="property">class </em><code class="descclassname">neuropype_graph.nodes.coclass.</code><code class="descname">PlotCoclass</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_graph/nodes/coclass.html#PlotCoclass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_graph.nodes.coclass.PlotCoclass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description :</p>
+<p>Plot coclass matrix with matplotlib matshow</p>
+<ul class="simple">
+<li>labels are optional</li>
+<li>range values are optional (default is min and max values of the matrix)</li>
+</ul>
+<p>Inputs:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>coclass_matrix_file:</dt>
+<dd>type = File, exists=True,  desc=&#8217;coclass matrix in npy format&#8217;, mandatory=True</dd>
+<dt>labels_file:</dt>
+<dd>type = File, exists=True,  desc=&#8217;labels of nodes&#8217;, mandatory=False</dd>
+<dt>list_value_range</dt>
+<dd>type = ListInt, desc=&#8217;force the range of the plot&#8217;, mandatory=False</dd>
+</dl>
+</div></blockquote>
+<p>Outputs:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>plot_coclass_matrix_file:</dt>
+<dd>type = File, exists=True, desc=&#8221;eps file with graphical representation&#8221;</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Dmitrii Altukhov, David Meunier, Annalisa Pascarella.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

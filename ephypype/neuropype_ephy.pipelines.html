@@ -1,0 +1,314 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>neuropype_ephy.pipelines package &mdash; neuropyconn 0.0 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="neuropyconn 0.0 documentation" href="../index.html"/>
+        <link rel="up" title="ephypype" href="neuropype_ephy.html"/>
+        <link rel="next" title="Preprocessing pipeline" href="pipelines/preproc_meeg.html"/>
+        <link rel="prev" title="neuropype_ephy.nodes package" href="neuropype_ephy.nodes.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../index.html" class="fa fa-home"> neuropyconn</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="neuropype_ephy.html">ephypype</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="neuropype_ephy.html#subpackages">Subpackages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="http://davidmeunier79.github.io/neuropype_graph/">graphpype</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/examples.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/preproc_example.html">From raw data to preprocessed data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/inv_example.html">Source reconstruction pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/epoch_example.html">From epoch data to graph theoretical analysis</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">neuropyconn</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="neuropype_ephy.html">ephypype</a> &raquo;</li>
+      
+    <li>neuropype_ephy.pipelines package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          <a href="../_sources/ephypype/neuropype_ephy.pipelines.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="neuropype-ephy-pipelines-package">
+<span id="pipelines"></span><h1>neuropype_ephy.pipelines package<a class="headerlink" href="#neuropype-ephy-pipelines-package" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<div class="section" id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-neuropype_ephy.pipelines.brain_vision_to_conmat">
+<span id="neuropype-ephy-pipelines-brain-vision-to-conmat"></span><h3>neuropype_ephy.pipelines.brain_vision_to_conmat<a class="headerlink" href="#module-neuropype_ephy.pipelines.brain_vision_to_conmat" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="neuropype_ephy.pipelines.brain_vision_to_conmat.create_pipeline_brain_vision_ascii_to_spectral_connectivity">
+<code class="descclassname">neuropype_ephy.pipelines.brain_vision_to_conmat.</code><code class="descname">create_pipeline_brain_vision_ascii_to_spectral_connectivity</code><span class="sig-paren">(</span><em>main_path</em>, <em>pipeline_name='brain_vision_to_conmat'</em>, <em>con_method='coh'</em>, <em>sample_size=512</em>, <em>sep_label_name=''</em>, <em>sfreq=512</em>, <em>filter_spectral=True</em>, <em>k_neigh=3</em>, <em>n_windows=[]</em>, <em>multicon=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/pipelines/brain_vision_to_conmat.html#create_pipeline_brain_vision_ascii_to_spectral_connectivity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.pipelines.brain_vision_to_conmat.create_pipeline_brain_vision_ascii_to_spectral_connectivity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description:</p>
+<p>Create pipeline from intraEEG times series in ascii format exported out of BrainVision, split txt and compute spectral connectivity.
+Possibly also filter out connections between &#8220;adjacent&#8221; contacts (on the same electrode)</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-neuropype_ephy.pipelines.fif_to_inv_sol">
+<span id="neuropype-ephy-pipelines-fif-to-inv-sol"></span><h3>neuropype_ephy.pipelines.fif_to_inv_sol<a class="headerlink" href="#module-neuropype_ephy.pipelines.fif_to_inv_sol" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="neuropype_ephy.pipelines.fif_to_inv_sol.create_pipeline_source_reconstruction">
+<code class="descclassname">neuropype_ephy.pipelines.fif_to_inv_sol.</code><code class="descname">create_pipeline_source_reconstruction</code><span class="sig-paren">(</span><em>main_path</em>, <em>sbj_dir</em>, <em>pipeline_name='inv_sol_pipeline'</em>, <em>spacing='ico-5'</em>, <em>inv_method='MNE'</em>, <em>is_epoched=False</em>, <em>events_id=None</em>, <em>t_min=None</em>, <em>t_max=None</em>, <em>is_evoked=False</em>, <em>parc='aparc'</em>, <em>aseg=False</em>, <em>aseg_labels=[]</em>, <em>noise_cov_fname=None</em>, <em>save_stc=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/pipelines/fif_to_inv_sol.html#create_pipeline_source_reconstruction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.pipelines.fif_to_inv_sol.create_pipeline_source_reconstruction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description:</p>
+<blockquote>
+<div>Source reconstruction pipeline</div></blockquote>
+<p>Inputs:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>main_path <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>the main path of the workflow</dd>
+<dt>sbj_dir <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>Freesurfer directory</dd>
+<dt>pipeline_name <span class="classifier-delimiter">:</span> <span class="classifier">str (default inv_sol_pipeline)</span></dt>
+<dd>name of the pipeline</dd>
+<dt>spacing <span class="classifier-delimiter">:</span> <span class="classifier">str (default &#8216;ico-5&#8217;)</span></dt>
+<dd>spacing to use to setup a source space</dd>
+<dt>inv_method <span class="classifier-delimiter">:</span> <span class="classifier">str (default MNE)</span></dt>
+<dd>the inverse method to use; possible choices: MNE, dSPM, sLORETA</dd>
+<dt>is_epoched <span class="classifier-delimiter">:</span> <span class="classifier">bool (default False)</span></dt>
+<dd>if True and events_id = None the input data are epoch data
+in the format -epo.fif
+if True and events_id is not None, the raw data are epoched
+according to events_id and t_min and t_max values</dd>
+<dt>events_id: dict (default None)</dt>
+<dd>the dict of events</dd>
+<dt>t_min, t_max: int (defualt None)</dt>
+<dd>define the time interval in which to epoch the raw data</dd>
+<dt>is_evoked: bool (default False)</dt>
+<dd>if True the raw data will be averaged according to the events
+contained in the dict events_id</dd>
+<dt>parc: str (default &#8216;aparc&#8217;)</dt>
+<dd>the parcellation defining the ROIs atlas in the source space</dd>
+<dt>aseg: bool (defualt False)</dt>
+<dd>if True a mixed source space will be created and the sub cortical
+regions defined in aseg_labels will be added to the source space</dd>
+<dt>aseg_labels: list (default [])</dt>
+<dd>list of substructures we want to include in the mixed source space</dd>
+<dt>noise_cov_fname: str (default None)</dt>
+<dd>filename for the noise covariance matrix</dd>
+<dt>save_stc: bool (defualt False)</dt>
+<dd>if True the stc will be saved</dd>
+</dl>
+</div></blockquote>
+<p>Outouts:</p>
+<blockquote>
+<div>pipeline : instance of Workflow</div></blockquote>
+</dd></dl>
+
+</div>
+<div class="section" id="module-neuropype_ephy.pipelines.preproc_meeg">
+<span id="neuropype-ephy-pipelines-preproc-meeg"></span><h3>neuropype_ephy.pipelines.preproc_meeg<a class="headerlink" href="#module-neuropype_ephy.pipelines.preproc_meeg" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="neuropype_ephy.pipelines.preproc_meeg.create_pipeline_preproc_meeg">
+<code class="descclassname">neuropype_ephy.pipelines.preproc_meeg.</code><code class="descname">create_pipeline_preproc_meeg</code><span class="sig-paren">(</span><em>main_path</em>, <em>pipeline_name='preproc_meeg'</em>, <em>data_type='fif'</em>, <em>l_freq=1</em>, <em>h_freq=150</em>, <em>down_sfreq=300</em>, <em>is_ICA=True</em>, <em>variance=0.95</em>, <em>ECG_ch_name=''</em>, <em>EoG_ch_name=''</em>, <em>reject=None</em>, <em>is_set_ICA_components=False</em>, <em>n_comp_exclude=[]</em>, <em>is_sensor_space=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/pipelines/preproc_meeg.html#create_pipeline_preproc_meeg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.pipelines.preproc_meeg.create_pipeline_preproc_meeg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description:</p>
+<blockquote>
+<div>Preprocessing pipeline</div></blockquote>
+<p>Inputs:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>main_path <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>the main path of the pipeline</dd>
+<dt>pipeline_name: str (default &#8216;preproc_meeg&#8217;)</dt>
+<dd>name of the pipeline</dd>
+<dt>data_type: str (default &#8216;fif&#8217;)</dt>
+<dd>data type: &#8216;fif&#8217; or &#8216;ds&#8217;</dd>
+<dt>l_freq: float (default 1)</dt>
+<dd>low cut-off frequency in Hz</dd>
+<dt>h_freq: float (default 150)</dt>
+<dd>high cut-off frequency in Hz</dd>
+<dt>down_sfreq: float (default 300)</dt>
+<dd>sampling frequency at which the data are downsampled</dd>
+<dt>is_ICA <span class="classifier-delimiter">:</span> <span class="classifier">boolean (default True)</span></dt>
+<dd>if True apply ICA to automatically remove ECG and EoG artifacts</dd>
+<dt>variance: float (default 0.95)</dt>
+<dd>the cumulative percentage of explained variance</dd>
+<dt>ECG_ch_name: str</dt>
+<dd>the name of ECG channels</dd>
+<dt>EoG_ch_name:</dt>
+<dd>the name of EoG channels</dd>
+<dt>reject: dict | None</dt>
+<dd>rejection parameters based on peak-to-peak amplitude. Valid keys
+are &#8216;grad&#8217; | &#8216;mag&#8217; | &#8216;eeg&#8217; | &#8216;eog&#8217; | &#8216;ecg&#8217;. If reject is None then
+no rejection is done</dd>
+<dt>is_set_ICA_components: boolean (default False)</dt>
+<dd>set to True if we had the ICA of the raw data, checked the Report
+and want to exclude some ICA components based on their topographies
+and time series
+if True, we have to fill the dictionary variable n_comp_exclude</dd>
+<dt>n_comp_exclude: dict</dt>
+<dd>if is_set_ICA_components=True, it has to be a dict containing for
+each subject and for each session the components to be excluded</dd>
+<dt>is_sensor_space: boolean (default True)</dt>
+<dd>True if we perform the analysis in sensor space and we use the
+pipeline as lego with the connectivity or inverse pipeline</dd>
+</dl>
+</div></blockquote>
+<p>Outouts:</p>
+<blockquote>
+<div>pipeline : instance of Workflow</div></blockquote>
+</dd></dl>
+
+</div>
+<div class="section" id="module-neuropype_ephy.pipelines.ts_to_conmat">
+<span id="neuropype-ephy-pipelines-ts-to-conmat"></span><h3>neuropype_ephy.pipelines.ts_to_conmat<a class="headerlink" href="#module-neuropype_ephy.pipelines.ts_to_conmat" title="Permalink to this headline">¶</a></h3>
+<p>Description:</p>
+<p>Wraps spectral connectivity function of MNE, as well as plot_circular_connectivity</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="pipelines/preproc_meeg.html" class="btn btn-neutral float-right" title="Preprocessing pipeline">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="neuropype_ephy.nodes.html" class="btn btn-neutral" title="neuropype_ephy.nodes package"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Dmitrii Altukhov, David Meunier, Annalisa Pascarella.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

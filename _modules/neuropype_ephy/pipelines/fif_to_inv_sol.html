@@ -1,0 +1,321 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>neuropype_ephy.pipelines.fif_to_inv_sol &mdash; neuropyconn 0.0 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="neuropyconn 0.0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../../../index.html" class="fa fa-home"> neuropyconn</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../ephypype/neuropype_ephy.html">ephypype</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../ephypype/neuropype_ephy.html#subpackages">Subpackages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="http://davidmeunier79.github.io/neuropype_graph/">graphpype</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/examples.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/preproc_example.html">From raw data to preprocessed data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/inv_example.html">Source reconstruction pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/epoch_example.html">From epoch data to graph theoretical analysis</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">neuropyconn</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>neuropype_ephy.pipelines.fif_to_inv_sol</li>
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <h1>Source code for neuropype_ephy.pipelines.fif_to_inv_sol</h1><div class="highlight"><pre>
+<span class="c"># -*- coding: utf-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="kn">as</span> <span class="nn">pe</span>
+
+<span class="kn">from</span> <span class="nn">nipype.interfaces.utility</span> <span class="kn">import</span> <span class="n">IdentityInterface</span>
+
+<span class="kn">from</span> <span class="nn">neuropype_ephy.preproc</span> <span class="kn">import</span> <span class="n">get_raw_info</span><span class="p">,</span> <span class="n">get_epochs_info</span>
+<span class="kn">from</span> <span class="nn">neuropype_ephy.interfaces.mne.LF_computation</span> <span class="kn">import</span> <span class="n">LFComputation</span>
+<span class="kn">from</span> <span class="nn">neuropype_ephy.interfaces.mne.Inverse_solution</span> <span class="kn">import</span> <span class="n">NoiseCovariance</span>
+<span class="kn">from</span> <span class="nn">neuropype_ephy.interfaces.mne.Inverse_solution</span> <span class="kn">import</span> <span class="n">InverseSolution</span>
+
+
+<div class="viewcode-block" id="create_pipeline_source_reconstruction"><a class="viewcode-back" href="../../../ephypype/neuropype_ephy.pipelines.html#neuropype_ephy.pipelines.fif_to_inv_sol.create_pipeline_source_reconstruction">[docs]</a><span class="k">def</span> <span class="nf">create_pipeline_source_reconstruction</span><span class="p">(</span><span class="n">main_path</span><span class="p">,</span> <span class="n">sbj_dir</span><span class="p">,</span>
+                                          <span class="n">pipeline_name</span><span class="o">=</span><span class="s">&#39;inv_sol_pipeline&#39;</span><span class="p">,</span>
+                                          <span class="n">spacing</span><span class="o">=</span><span class="s">&#39;ico-5&#39;</span><span class="p">,</span>
+                                          <span class="n">inv_method</span><span class="o">=</span><span class="s">&#39;MNE&#39;</span><span class="p">,</span>
+                                          <span class="n">is_epoched</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                                          <span class="n">events_id</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                                          <span class="n">t_min</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">t_max</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                                          <span class="n">is_evoked</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                                          <span class="n">parc</span><span class="o">=</span><span class="s">&#39;aparc&#39;</span><span class="p">,</span>
+                                          <span class="n">aseg</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                                          <span class="n">aseg_labels</span><span class="o">=</span><span class="p">[],</span>
+                                          <span class="n">noise_cov_fname</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                                          <span class="n">save_stc</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Description:</span>
+
+<span class="sd">        Source reconstruction pipeline</span>
+
+<span class="sd">    Inputs:</span>
+
+<span class="sd">        main_path : str</span>
+<span class="sd">            the main path of the workflow</span>
+<span class="sd">        sbj_dir : str</span>
+<span class="sd">            Freesurfer directory</span>
+<span class="sd">        pipeline_name : str (default inv_sol_pipeline)</span>
+<span class="sd">            name of the pipeline</span>
+<span class="sd">        spacing : str (default &#39;ico-5&#39;)</span>
+<span class="sd">            spacing to use to setup a source space</span>
+<span class="sd">        inv_method : str (default MNE)</span>
+<span class="sd">            the inverse method to use; possible choices: MNE, dSPM, sLORETA</span>
+<span class="sd">        is_epoched : bool (default False)</span>
+<span class="sd">            if True and events_id = None the input data are epoch data</span>
+<span class="sd">            in the format -epo.fif</span>
+<span class="sd">            if True and events_id is not None, the raw data are epoched</span>
+<span class="sd">            according to events_id and t_min and t_max values</span>
+<span class="sd">        events_id: dict (default None)</span>
+<span class="sd">            the dict of events</span>
+<span class="sd">        t_min, t_max: int (defualt None)</span>
+<span class="sd">            define the time interval in which to epoch the raw data</span>
+<span class="sd">        is_evoked: bool (default False)</span>
+<span class="sd">            if True the raw data will be averaged according to the events</span>
+<span class="sd">            contained in the dict events_id</span>
+<span class="sd">        parc: str (default &#39;aparc&#39;)</span>
+<span class="sd">            the parcellation defining the ROIs atlas in the source space</span>
+<span class="sd">        aseg: bool (defualt False)</span>
+<span class="sd">            if True a mixed source space will be created and the sub cortical</span>
+<span class="sd">            regions defined in aseg_labels will be added to the source space</span>
+<span class="sd">        aseg_labels: list (default [])</span>
+<span class="sd">            list of substructures we want to include in the mixed source space</span>
+<span class="sd">        noise_cov_fname: str (default None)</span>
+<span class="sd">            filename for the noise covariance matrix</span>
+<span class="sd">        save_stc: bool (defualt False)</span>
+<span class="sd">            if True the stc will be saved</span>
+
+<span class="sd">    Outouts:</span>
+
+<span class="sd">        pipeline : instance of Workflow</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">pipeline_name</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">base_dir</span> <span class="o">=</span> <span class="n">main_path</span>
+
+    <span class="n">inputnode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;sbj_id&#39;</span><span class="p">,</span> <span class="s">&#39;raw&#39;</span><span class="p">]),</span>
+                        <span class="n">name</span><span class="o">=</span><span class="s">&#39;inputnode&#39;</span><span class="p">)</span>
+
+    <span class="c"># Lead Field computation Node</span>
+    <span class="n">LF_computation</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">LFComputation</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;LF_computation&#39;</span><span class="p">)</span>
+    <span class="n">LF_computation</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">sbj_dir</span> <span class="o">=</span> <span class="n">sbj_dir</span>
+    <span class="n">LF_computation</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">spacing</span> <span class="o">=</span> <span class="n">spacing</span>
+    <span class="n">LF_computation</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">aseg</span> <span class="o">=</span> <span class="n">aseg</span>
+    <span class="k">if</span> <span class="n">aseg</span><span class="p">:</span>
+        <span class="n">LF_computation</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">aseg_labels</span> <span class="o">=</span> <span class="n">aseg_labels</span>
+
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s">&#39;sbj_id&#39;</span><span class="p">,</span> <span class="n">LF_computation</span><span class="p">,</span> <span class="s">&#39;sbj_id&#39;</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">events_id</span>
+    <span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
+        <span class="n">events_id</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="k">if</span> <span class="n">is_epoched</span> <span class="ow">and</span> <span class="n">events_id</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;raw&#39;</span><span class="p">,</span> <span class="n">get_epochs_info</span><span class="p">),</span>
+                         <span class="n">LF_computation</span><span class="p">,</span> <span class="s">&#39;raw_info&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;raw&#39;</span><span class="p">,</span> <span class="n">get_raw_info</span><span class="p">),</span>
+                         <span class="n">LF_computation</span><span class="p">,</span> <span class="s">&#39;raw_info&#39;</span><span class="p">)</span>
+
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s">&#39;raw&#39;</span><span class="p">,</span> <span class="n">LF_computation</span><span class="p">,</span> <span class="s">&#39;raw_fname&#39;</span><span class="p">)</span>
+
+    <span class="c"># Noise Covariance Matrix Node</span>
+    <span class="n">create_noise_cov</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">NoiseCovariance</span><span class="p">(),</span>
+                               <span class="n">name</span><span class="o">=</span><span class="s">&quot;create_noise_cov&quot;</span><span class="p">)</span>
+
+<span class="c">#    if noise_cov_fname is not None:</span>
+    <span class="n">create_noise_cov</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">cov_fname_in</span> <span class="o">=</span> <span class="n">noise_cov_fname</span>
+    <span class="n">create_noise_cov</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">is_epoched</span> <span class="o">=</span> <span class="n">is_epoched</span>
+    <span class="n">create_noise_cov</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">is_evoked</span> <span class="o">=</span> <span class="n">is_evoked</span>
+    <span class="k">if</span> <span class="n">is_evoked</span><span class="p">:</span>
+        <span class="n">create_noise_cov</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">events_id</span> <span class="o">=</span> <span class="n">events_id</span>
+        <span class="n">create_noise_cov</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">t_min</span> <span class="o">=</span> <span class="n">t_min</span>
+        <span class="n">create_noise_cov</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">t_max</span> <span class="o">=</span> <span class="n">t_max</span>
+
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s">&#39;raw&#39;</span><span class="p">,</span> <span class="n">create_noise_cov</span><span class="p">,</span> <span class="s">&#39;raw_filename&#39;</span><span class="p">)</span>
+
+    <span class="c"># Inverse Solution Node</span>
+    <span class="n">inv_solution</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">InverseSolution</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;inv_solution&#39;</span><span class="p">)</span>
+
+    <span class="n">inv_solution</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">sbj_dir</span> <span class="o">=</span> <span class="n">sbj_dir</span>
+    <span class="n">inv_solution</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inv_method</span> <span class="o">=</span> <span class="n">inv_method</span>
+    <span class="n">inv_solution</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">is_epoched</span> <span class="o">=</span> <span class="n">is_epoched</span>
+
+    <span class="k">if</span> <span class="n">is_epoched</span> <span class="ow">and</span> <span class="n">events_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">inv_solution</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">events_id</span> <span class="o">=</span> <span class="n">events_id</span>
+        <span class="n">inv_solution</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">t_min</span> <span class="o">=</span> <span class="n">t_min</span>
+        <span class="n">inv_solution</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">t_max</span> <span class="o">=</span> <span class="n">t_max</span>
+
+    <span class="n">inv_solution</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">is_evoked</span> <span class="o">=</span> <span class="n">is_evoked</span>
+    <span class="k">if</span> <span class="n">is_epoched</span> <span class="ow">and</span> <span class="n">is_evoked</span><span class="p">:</span>
+        <span class="n">inv_solution</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">events_id</span> <span class="o">=</span> <span class="n">events_id</span>
+
+    <span class="n">inv_solution</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">parc</span> <span class="o">=</span> <span class="n">parc</span>
+    <span class="n">inv_solution</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">aseg</span> <span class="o">=</span> <span class="n">aseg</span>
+    <span class="k">if</span> <span class="n">aseg</span><span class="p">:</span>
+        <span class="n">inv_solution</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">aseg_labels</span> <span class="o">=</span> <span class="n">aseg_labels</span>
+
+    <span class="n">inv_solution</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">save_stc</span> <span class="o">=</span> <span class="n">save_stc</span>
+
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s">&#39;sbj_id&#39;</span><span class="p">,</span> <span class="n">inv_solution</span><span class="p">,</span> <span class="s">&#39;sbj_id&#39;</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s">&#39;raw&#39;</span><span class="p">,</span> <span class="n">inv_solution</span><span class="p">,</span> <span class="s">&#39;raw_filename&#39;</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">LF_computation</span><span class="p">,</span> <span class="s">&#39;fwd_filename&#39;</span><span class="p">,</span>
+                     <span class="n">inv_solution</span><span class="p">,</span> <span class="s">&#39;fwd_filename&#39;</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">create_noise_cov</span><span class="p">,</span> <span class="s">&#39;cov_fname_out&#39;</span><span class="p">,</span>
+                     <span class="n">inv_solution</span><span class="p">,</span> <span class="s">&#39;cov_filename&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">pipeline</span></div>
+</pre></div>
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Dmitrii Altukhov, David Meunier, Annalisa Pascarella.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

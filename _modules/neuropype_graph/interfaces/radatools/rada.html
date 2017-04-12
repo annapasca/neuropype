@@ -1,0 +1,411 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>neuropype_graph.interfaces.radatools.rada &mdash; neuropyconn 0.0 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="neuropyconn 0.0 documentation" href="../../../../index.html"/>
+        <link rel="up" title="Module code" href="../../../index.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../../../../index.html" class="fa fa-home"> neuropyconn</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../ephypype/neuropype_ephy.html">ephypype</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ephypype/neuropype_ephy.html#subpackages">Subpackages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="http://davidmeunier79.github.io/neuropype_graph/">graphpype</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/examples.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../examples/preproc_example.html">From raw data to preprocessed data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../examples/inv_example.html">Source reconstruction pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../examples/epoch_example.html">From epoch data to graph theoretical analysis</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../../index.html">neuropyconn</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+      
+    <li>neuropype_graph.interfaces.radatools.rada</li>
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <h1>Source code for neuropype_graph.interfaces.radatools.rada</h1><div class="highlight"><pre>
+<span class="c"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Support function for net handling</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="c">#import scipy.sparse as sp </span>
+<span class="c">#import nibabel as nib</span>
+<span class="c">#import numpy as np</span>
+
+
+<span class="kn">from</span> <span class="nn">nipype.interfaces.base</span> <span class="kn">import</span> <span class="n">BaseInterface</span><span class="p">,</span> <span class="n">BaseInterfaceInputSpec</span>
+<span class="kn">from</span> <span class="nn">nipype.interfaces.base</span> <span class="kn">import</span> <span class="n">CommandLine</span><span class="p">,</span> <span class="n">CommandLineInputSpec</span> <span class="c">### not used but should be done for PrepRada</span>
+<span class="kn">from</span> <span class="nn">nipype.interfaces.base</span> <span class="kn">import</span> <span class="n">traits</span><span class="p">,</span> <span class="n">File</span><span class="p">,</span> <span class="n">TraitedSpec</span><span class="p">,</span> <span class="n">isdefined</span>
+
+<span class="kn">from</span> <span class="nn">nipype.utils.filemanip</span> <span class="kn">import</span> <span class="n">split_filename</span> <span class="k">as</span> <span class="n">split_f</span>
+    
+    
+    
+    
+
+
+
+
+<span class="c">######################################################################################## PrepRada ##################################################################################################################</span>
+
+<span class="k">class</span> <span class="nc">PrepRadaInputSpec</span><span class="p">(</span><span class="n">CommandLineInputSpec</span><span class="p">):</span>
+    
+    <span class="n">net_List_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;List of edges describing net in format i j weight&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">position</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">argstr</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">&quot;</span><span class="p">)</span>
+    
+    <span class="n">Pajek_net_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s">&quot;net description in Pajek format, generated by radatools&quot;</span><span class="p">,</span><span class="n">position</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">argstr</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">name_source</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;net_List_file&#39;</span><span class="p">],</span> <span class="n">hash_files</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">name_template</span><span class="o">=</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">.net&#39;</span><span class="p">,</span><span class="n">keep_extension</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+    
+    <span class="n">network_type</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Enum</span><span class="p">(</span><span class="s">&quot;A&quot;</span><span class="p">,</span><span class="s">&quot;U&quot;</span><span class="p">,</span><span class="s">&quot;D&quot;</span><span class="p">,</span> <span class="n">usedefault</span> <span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Type of network, force to undirected&#39;</span><span class="p">,</span> <span class="n">position</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">argstr</span><span class="o">=</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">&quot;</span><span class="p">)</span>
+    
+<span class="k">class</span> <span class="nc">PrepRadaOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
+    
+    <span class="n">Pajek_net_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&quot;net description in Pajek format, generated by radatools&quot;</span><span class="p">)</span>
+    
+<div class="viewcode-block" id="PrepRada"><a class="viewcode-back" href="../../../../graphpype/radatools.html#neuropype_graph.interfaces.radatools.rada.PrepRada">[docs]</a><span class="k">class</span> <span class="nc">PrepRada</span><span class="p">(</span><span class="n">CommandLine</span><span class="p">):</span>
+    
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Description:</span>
+<span class="sd">    </span>
+<span class="sd">        Format net list (format i j weight) to Pajek file</span>
+<span class="sd">        </span>
+<span class="sd">        wraps List_To_Net.exe from radatools</span>
+<span class="sd">        </span>
+<span class="sd">    Inputs:</span>
+<span class="sd">        net_List_file: </span>
+<span class="sd">          type = File, exists=True, desc=&#39;List of edges describing net in format i j weight&#39;, mandatory=True, position = 0, argstr = &quot;%s&quot;</span>
+<span class="sd">    </span>
+<span class="sd">        Pajek_net_file: </span>
+<span class="sd">            type = File, desc=&quot;net description in Pajek format, generated by radatools&quot;,position = 1, argstr = &quot;%s&quot;, name_source = [&#39;net_List_file&#39;], hash_files = True, name_template=&#39;%s.net&#39;,keep_extension = False</span>
+<span class="sd">    </span>
+<span class="sd">        network_type:</span>
+<span class="sd">            type = traits.Enum(&quot;A&quot;,&quot;U&quot;,&quot;D&quot;, usedefault =True, desc=&#39;Type of network, force to undirected&#39;, position = 2, argstr=&quot;%s&quot;)</span>
+<span class="sd">            </span>
+<span class="sd">    Outputs:</span>
+<span class="sd">        Pajek_net_file:</span>
+<span class="sd">            type = File, exists=True, desc=&quot;net description in Pajek format, generated by radatools&quot;</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">input_spec</span> <span class="o">=</span> <span class="n">PrepRadaInputSpec</span>
+    <span class="n">output_spec</span> <span class="o">=</span> <span class="n">PrepRadaOutputSpec</span>
+
+    <span class="n">_cmd</span> <span class="o">=</span> <span class="s">&#39;List_To_Net.exe&#39;</span>
+    
+    <span class="k">def</span> <span class="nf">_list_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_outputs</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        
+        <span class="n">net_List_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">net_List_file</span>
+        
+        <span class="n">path</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">split_f</span><span class="p">(</span><span class="n">net_List_file</span><span class="p">)</span>
+    
+        <span class="n">outputs</span><span class="p">[</span><span class="s">&quot;Pajek_net_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">fname</span> <span class="o">+</span> <span class="s">&#39;.net&#39;</span><span class="p">)</span>
+    
+        <span class="k">return</span> <span class="n">outputs</span>
+
+<span class="c">######################################################################################## NetPropRada ##################################################################################################################</span>
+</div>
+<span class="k">class</span> <span class="nc">NetPropRadaInputSpec</span><span class="p">(</span><span class="n">CommandLineInputSpec</span><span class="p">):</span>
+    
+    <span class="n">Pajek_net_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;net description in Pajek format&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">position</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">argstr</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">&quot;</span><span class="p">)</span>
+    
+    <span class="n">optim_seq</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="s">&#39;all 2&#39;</span><span class="p">,</span><span class="n">usedefault</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&quot;Optimisation sequence, see radatools documentation for more information&quot;</span><span class="p">,</span> <span class="n">position</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">argstr</span> <span class="o">=</span> <span class="s">&quot; </span><span class="si">%s</span><span class="s">&quot;</span><span class="p">)</span>
+    
+    <span class="c">#rada_log_file = File(desc=&quot;network properties log, generated by radatools&quot;,position = 2, argstr = &quot; &gt; %s&quot;, name_source = [&#39;Pajek_net_file&#39;], hash_files = True, name_template=&#39;%s.log&#39;,keep_extension = False)</span>
+    
+<span class="k">class</span> <span class="nc">NetPropRadaOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    blabla</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c">#rada_log_file = File(exists=True, desc=&quot;network properties log, generated by radatools&quot;)</span>
+    
+<div class="viewcode-block" id="NetPropRada"><a class="viewcode-back" href="../../../../graphpype/radatools.html#neuropype_graph.interfaces.radatools.rada.NetPropRada">[docs]</a><span class="k">class</span> <span class="nc">NetPropRada</span><span class="p">(</span><span class="n">CommandLine</span><span class="p">):</span>
+    
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Definition:</span>
+<span class="sd">    </span>
+<span class="sd">    Launch Network properties on Pajek file with given parameters (see Network_Properties in Radatools)</span>
+<span class="sd">    </span>
+<span class="sd">    Inputs:</span>
+<span class="sd">        </span>
+<span class="sd">        </span>
+<span class="sd">        Pajek_net_file:</span>
+<span class="sd">            type = File, exists=True, desc=&#39;net description in Pajek format&#39;, mandatory=True, position = 0, argstr = &quot;%s&quot;</span>
+<span class="sd">        </span>
+<span class="sd">        optim_seq: </span>
+<span class="sd">            type String, default = &#39;all 2&#39;,usedefault = True, desc = &quot;Optimisation sequence, see radatools documentation for more information&quot;, position = 1, argstr = &quot; %s&quot;</span>
+<span class="sd">    </span>
+<span class="sd">    Outputs:</span>
+<span class="sd">    </span>
+<span class="sd">        rada_log_file: (not used anymore)</span>
+<span class="sd">            type = File, exists=True, desc=&quot;network properties log, generated by radatools&quot;</span>
+<span class="sd">    </span>
+<span class="sd">        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">input_spec</span> <span class="o">=</span> <span class="n">NetPropRadaInputSpec</span>
+    <span class="n">output_spec</span> <span class="o">=</span> <span class="n">NetPropRadaOutputSpec</span>
+
+    <span class="c">#_cmd = &#39;04-Other_Tools/Network_Properties.exe&#39;</span>
+    <span class="n">_cmd</span> <span class="o">=</span> <span class="s">&#39;Network_Properties.exe&#39;</span>
+    
+    <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
+                
+        <span class="c">#radatools_path = self.inputs.radatools_path</span>
+        <span class="n">Pajek_net_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">Pajek_net_file</span>
+        
+        <span class="n">optim_seq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">optim_seq</span>
+        
+        <span class="n">path</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">split_f</span><span class="p">(</span><span class="n">Pajek_net_file</span><span class="p">)</span>
+    
+        <span class="n">rada_log_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">fname</span> <span class="o">+</span> <span class="s">&#39;.log&#39;</span><span class="p">)</span>
+        
+        <span class="n">cmd</span> <span class="o">=</span> <span class="s">&#39;Network_Properties.exe&#39;</span> <span class="o">+</span> <span class="s">&#39; &#39;</span> <span class="o">+</span> <span class="n">Pajek_net_file</span> <span class="o">+</span> <span class="s">&#39; &#39;</span> <span class="o">+</span> <span class="n">optim_seq</span> <span class="o">+</span> <span class="s">&#39; &gt; &#39;</span> <span class="o">+</span> <span class="n">rada_log_file</span>
+        
+        <span class="c">#+ &#39; &gt; &#39;+ rada_res_file</span>
+        
+        <span class="k">print</span> <span class="s">&quot;defining command &quot;</span> <span class="o">+</span> <span class="n">cmd</span>
+    
+        <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+    
+        <span class="k">return</span> <span class="n">runtime</span>
+        
+    <span class="k">def</span> <span class="nf">_list_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_outputs</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        
+        <span class="n">path</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">split_f</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">Pajek_net_file</span><span class="p">)</span>
+    
+        <span class="c">#outputs[&quot;rada_log_file&quot;] = os.path.abspath(fname + &#39;.log&#39;)</span>
+    
+        <span class="k">return</span> <span class="n">outputs</span>
+
+<span class="c">######################################################################################## CommRada ##################################################################################################################</span>
+</div>
+<span class="k">class</span> <span class="nc">CommRadaInputSpec</span><span class="p">(</span><span class="n">CommandLineInputSpec</span><span class="p">):</span>
+    
+    <span class="c">#radatools_path = traits.String(exists=True,desc=&#39;path to radatools software - installed externally &#39;, mandatory=True, position = 0, argstr=&quot;%s&quot;)</span>
+    
+    <span class="n">optim_seq</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="n">mandatory</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&quot;Optimisation sequence, see radatools documentation for more information&quot;</span><span class="p">,</span> <span class="n">position</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">argstr</span> <span class="o">=</span> <span class="s">&quot; v </span><span class="si">%s</span><span class="s">&quot;</span><span class="p">)</span>
+    
+    <span class="n">Pajek_net_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;net description in Pajek format&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">position</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">argstr</span> <span class="o">=</span> <span class="s">&quot; </span><span class="si">%s</span><span class="s">&quot;</span><span class="p">)</span>
+    
+    <span class="n">rada_lol_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s">&quot;modularity structure description, generated by radatools&quot;</span><span class="p">,</span><span class="n">position</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">argstr</span> <span class="o">=</span> <span class="s">&quot; </span><span class="si">%s</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">name_source</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;Pajek_net_file&#39;</span><span class="p">],</span> <span class="n">hash_files</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">name_template</span><span class="o">=</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">.lol&#39;</span><span class="p">,</span><span class="n">keep_extension</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+    
+    <span class="n">rada_log_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s">&quot;modularity structure description, generated by radatools&quot;</span><span class="p">,</span><span class="n">position</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">argstr</span> <span class="o">=</span> <span class="s">&quot; &gt; </span><span class="si">%s</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">name_source</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;Pajek_net_file&#39;</span><span class="p">],</span> <span class="n">hash_files</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">name_template</span><span class="o">=</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">.log&#39;</span><span class="p">,</span><span class="n">keep_extension</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+    
+<span class="k">class</span> <span class="nc">CommRadaOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
+    
+    <span class="n">rada_lol_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&quot;modularity structure description, generated by radatools&quot;</span><span class="p">)</span>
+    
+    <span class="n">rada_log_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&quot;optimisation steps, generated by radatools&quot;</span><span class="p">)</span>
+    
+<span class="k">class</span> <span class="nc">CommRada</span><span class="p">(</span><span class="n">CommandLine</span><span class="p">):</span>
+    
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Description:</span>
+<span class="sd">    </span>
+<span class="sd">    (The big one :)</span>
+<span class="sd">    </span>
+<span class="sd">    Launch community detection on Pajek file with given optimisation args</span>
+<span class="sd">    </span>
+<span class="sd">    Inputs:</span>
+<span class="sd">        </span>
+<span class="sd">        optim_seq:</span>
+<span class="sd">            type = String, mandatory = True, desc = &quot;Optimisation sequence, see radatools documentation for more information&quot;, position = 0, argstr = &quot; v %s&quot;</span>
+<span class="sd">        </span>
+<span class="sd">        Pajek_net_file:</span>
+<span class="sd">            type = File, exists=True, desc=&#39;net description in Pajek format&#39;, mandatory=True, position = 1, argstr = &quot; %s&quot;</span>
+<span class="sd">        </span>
+<span class="sd">        rada_lol_file:</span>
+<span class="sd">            type = File, desc=&quot;modularity structure description, generated by radatools&quot;,position = 2, argstr = &quot; %s&quot;, name_source = [&#39;Pajek_net_file&#39;], hash_files = True, name_template=&#39;%s.lol&#39;,keep_extension = False</span>
+<span class="sd">        </span>
+<span class="sd">        rada_log_file:</span>
+<span class="sd">            type = File, desc=&quot;modularity structure description, generated by radatools&quot;,position = 3, argstr = &quot; &gt; %s&quot;, name_source = [&#39;Pajek_net_file&#39;], hash_files = True, name_template=&#39;%s.log&#39;,keep_extension = False</span>
+<span class="sd">            </span>
+<span class="sd">    Outputs:</span>
+<span class="sd">            </span>
+<span class="sd">        rada_lol_file</span>
+<span class="sd">            type = File, exists=True, desc=&quot;modularity structure description, generated by radatools&quot;</span>
+<span class="sd">        </span>
+<span class="sd">        rada_log_file</span>
+<span class="sd">            type = File, exists=True, desc=&quot;optimisation steps, generated by radatools&quot;</span>
+<span class="sd">            </span>
+<span class="sd">        </span>
+<span class="sd">        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">input_spec</span> <span class="o">=</span> <span class="n">CommRadaInputSpec</span>
+    <span class="n">output_spec</span> <span class="o">=</span> <span class="n">CommRadaOutputSpec</span>
+
+    <span class="n">cmd</span> <span class="o">=</span> <span class="s">&quot;Communities_Detection.exe&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_list_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_outputs</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        
+        <span class="n">path</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">split_f</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">Pajek_net_file</span><span class="p">)</span>
+    
+        <span class="n">rada_lol_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">fname</span> <span class="o">+</span> <span class="s">&#39;.lol&#39;</span><span class="p">)</span>
+        <span class="n">rada_log_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">fname</span> <span class="o">+</span> <span class="s">&#39;.log&#39;</span><span class="p">)</span>
+        
+        <span class="n">outputs</span><span class="p">[</span><span class="s">&quot;rada_lol_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">fname</span> <span class="o">+</span> <span class="s">&#39;.lol&#39;</span><span class="p">)</span>
+        <span class="n">outputs</span><span class="p">[</span><span class="s">&quot;rada_log_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">fname</span> <span class="o">+</span> <span class="s">&#39;.log&#39;</span><span class="p">)</span>
+    
+        <span class="k">return</span> <span class="n">outputs</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span><span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    
+    <span class="n">test</span><span class="p">()</span>
+        
+</pre></div>
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Dmitrii Altukhov, David Meunier, Annalisa Pascarella.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../../',
+            VERSION:'0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,234 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Graph_stats &mdash; neuropyconn 0.0 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="neuropyconn 0.0 documentation" href="../index.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../index.html" class="fa fa-home"> neuropyconn</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../ephypype/neuropype_ephy.html">ephypype</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../ephypype/neuropype_ephy.html#subpackages">Subpackages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="http://davidmeunier79.github.io/neuropype_graph/">graphpype</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/examples.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/preproc_example.html">From raw data to preprocessed data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/inv_example.html">Source reconstruction pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/epoch_example.html">From epoch data to graph theoretical analysis</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">neuropyconn</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>Graph_stats</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          <a href="../_sources/graphpype/graph_stats.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="graph-stats">
+<h1>Graph_stats<a class="headerlink" href="#graph-stats" title="Permalink to this headline">¶</a></h1>
+<p>Preparing stats and permutations</p>
+<div class="section" id="swaplists">
+<h2>SwapLists<a class="headerlink" href="#swaplists" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="neuropype_graph.nodes.graph_stats.SwapLists">
+<em class="property">class </em><code class="descclassname">neuropype_graph.nodes.graph_stats.</code><code class="descname">SwapLists</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_graph/nodes/graph_stats.html#SwapLists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_graph.nodes.graph_stats.SwapLists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description:</p>
+<p>Exchange lists of files in a random fashion (based on seed value)
+Typically, cor_mat, coords -&gt; 2, or Z_list, node_corres and labels -&gt; 3</p>
+<p>If seed = -1, no swap is done (keep original values)</p>
+<p>Inputs:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>list_of_lists:</dt>
+<dd><ul class="first last simple">
+<li>type = List of List of  List of Files,</li>
+<li>exists=True,</li>
+<li>desc=&#8217;list of all correlation matrice files (in npy format) for each subject&#8217;,</li>
+<li>mandatory=True</li>
+</ul>
+</dd>
+<dt>seed:</dt>
+<dd>type = Int, default = -1, desc=&#8217;value for seed&#8217;, mandatory=True, usedefault = True</dd>
+</dl>
+</div></blockquote>
+<p>Outputs:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>permut_lists_of_lists:</dt>
+<dd>type = List of  List of List of Files ,exists=True, desc=&#8217;swapped list of all correlation matrice files (in npy format) for each subject&#8217;, mandatory=True</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+</div>
+<div class="section" id="shufflematrix">
+<h2>ShuffleMatrix<a class="headerlink" href="#shufflematrix" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="neuropype_graph.nodes.graph_stats.ShuffleMatrix">
+<em class="property">class </em><code class="descclassname">neuropype_graph.nodes.graph_stats.</code><code class="descname">ShuffleMatrix</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_graph/nodes/graph_stats.html#ShuffleMatrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_graph.nodes.graph_stats.ShuffleMatrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description:</p>
+<p>Compute randomisation of matrix, keeping the same distribution</p>
+<p>If seed = -1, no shuffling is done (keep original values)</p>
+<p>Inputs:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>original_matrix_file:</dt>
+<dd>type = File, exists=True, desc=&#8217;original matrix in npy format&#8217;, mandatory=True</dd>
+<dt>seed:</dt>
+<dd>type = Int, default = -1, desc=&#8217;value for seed&#8217;, mandatory=True, usedefault = True</dd>
+</dl>
+</div></blockquote>
+<p>Outputs:</p>
+<blockquote>
+<div><p>shuffled_matrix_file:</p>
+<blockquote>
+<div>type = File, exists=True, desc=&#8217;shuffled matrix in npy format&#8217;, mandatory=True</div></blockquote>
+</div></blockquote>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Dmitrii Altukhov, David Meunier, Annalisa Pascarella.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,260 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Plot_igraph &mdash; neuropyconn 0.0 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="neuropyconn 0.0 documentation" href="../index.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../index.html" class="fa fa-home"> neuropyconn</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../ephypype/neuropype_ephy.html">ephypype</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../ephypype/neuropype_ephy.html#subpackages">Subpackages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="http://davidmeunier79.github.io/neuropype_graph/">graphpype</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/examples.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/preproc_example.html">From raw data to preprocessed data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/inv_example.html">Source reconstruction pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/epoch_example.html">From epoch data to graph theoretical analysis</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">neuropyconn</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>Plot_igraph</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          <a href="../_sources/graphpype/plot_igraph.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="plot-igraph">
+<h1>Plot_igraph<a class="headerlink" href="#plot-igraph" title="Permalink to this headline">¶</a></h1>
+<p>Functions used for wrapping igraph</p>
+<p><a class="reference external" href="http://igraph.org/redirect.html">http://igraph.org/redirect.html</a></p>
+<div class="section" id="plotigraphmodules">
+<h2>PlotIGraphModules<a class="headerlink" href="#plotigraphmodules" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="neuropype_graph.interfaces.plot_igraph.plots.PlotIGraphModules">
+<em class="property">class </em><code class="descclassname">neuropype_graph.interfaces.plot_igraph.plots.</code><code class="descname">PlotIGraphModules</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_graph/interfaces/plot_igraph/plots.html#PlotIGraphModules"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_graph.interfaces.plot_igraph.plots.PlotIGraphModules" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description:</p>
+<p>Graphical representation of the modular structure of the network. 
+If coords are provided, plot in space, otherwise use topological space.    
+If node labels are provided, write them on the graph
+In node roles are provided , node shape are diplayed on the graph</p>
+<p>Inputs:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>rada_lol_file: </dt>
+<dd>type = File, exists=True, desc=&#8221;modularity structure description, generated by radatools&#8221;, mandatory=True</dd>
+<dt>Pajek_net_file:</dt>
+<dd>type = File, exists=True, desc=&#8217;net description in Pajek format&#8217;, mandatory=True</dd>
+<dt>coords_file:</dt>
+<dd>type = File, exists=True, desc=&#8221;txt file containing the coords of the nodes&#8221;, mandatory=False</dd>
+<dt>labels_file: </dt>
+<dd>type = File, exists=True, desc=&#8221;txt file containing the labels of the nodes (full description)&#8221;, mandatory=False</dd>
+<dt>node_roles_file:</dt>
+<dd>type = File, exists=True, desc=&#8221;txt file containing the roles of the nodes (integer labels)&#8221;, mandatory=False</dd>
+</dl>
+</div></blockquote>
+<p>Outputs:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>all_modules_files: </dt>
+<dd>type = List of Files, (exists=True), desc=&#8221;graphical representation in space (possibly, if coords is given) from different point of view of all modules together + (surely) topological representation&#8221;</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+</div>
+<div class="section" id="plotigraphcoclass">
+<h2>PlotIGraphCoclass<a class="headerlink" href="#plotigraphcoclass" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="neuropype_graph.interfaces.plot_igraph.plots.PlotIGraphCoclass">
+<em class="property">class </em><code class="descclassname">neuropype_graph.interfaces.plot_igraph.plots.</code><code class="descname">PlotIGraphCoclass</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_graph/interfaces/plot_igraph/plots.html#PlotIGraphCoclass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_graph.interfaces.plot_igraph.plots.PlotIGraphCoclass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description</p>
+<p>Plot coclassification matrix with igraph
+- labels are optional, 
+- threshold is optional (default, 50 = half the group)
+- coordinates are optional, if no coordinates are specified, representation in topological (Fruchterman-Reingold) space</p>
+<p>Inputs:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>coclass_matrix_file:</dt>
+<dd>type = File, exists=True,  desc=&#8217;coclass matrix in npy format&#8217;, mandatory=True</dd>
+<dt>labels_file:</dt>
+<dd>type = File, exists=True,  desc=&#8217;labels of nodes&#8217;, mandatory=False</dd>
+<dt>threshold:</dt>
+<dd>type = Int,default = 50, usedefault = True, desc=&#8217;What min coclass value is reresented by an edge on the graph&#8217;, mandatory=False</dd>
+<dt>gm_mask_coords_file:</dt>
+<dd>type = File, exists=True,  desc=&#8217;node coordinates in MNI space (txt file)&#8217;, mandatory=False</dd>
+</dl>
+</div></blockquote>
+<p>Outputs:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>plot_igraph_3D_coclass_matrix_file:</dt>
+<dd>type = File, exists=True, desc=&#8221;eps file with igraph graphical representation&#8221;</dd>
+</dl>
+</div></blockquote>
+<p>Comments:</p>
+<p>Used for coclassification, not so much used anymore</p>
+</dd></dl>
+
+</div>
+<div class="section" id="plotigraphconjcoclass">
+<h2>PlotIGraphConjCoclass<a class="headerlink" href="#plotigraphconjcoclass" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="neuropype_graph.interfaces.plot_igraph.plots.PlotIGraphConjCoclass">
+<em class="property">class </em><code class="descclassname">neuropype_graph.interfaces.plot_igraph.plots.</code><code class="descname">PlotIGraphConjCoclass</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_graph/interfaces/plot_igraph/plots.html#PlotIGraphConjCoclass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_graph.interfaces.plot_igraph.plots.PlotIGraphConjCoclass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description:</p>
+<p>Plot coclassification matrix with igraph
+- labels are optional, 
+- threshold is optional (default, 50 = half the group)
+- coordinates are optional, if no coordinates are specified, representation in topological (Fruchterman-Reingold) space</p>
+<p>Comments:</p>
+<p>Not sure it is still used somewhere...</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Dmitrii Altukhov, David Meunier, Annalisa Pascarella.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

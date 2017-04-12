@@ -1,0 +1,237 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Modularity &mdash; neuropyconn 0.0 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="neuropyconn 0.0 documentation" href="../index.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../index.html" class="fa fa-home"> neuropyconn</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../ephypype/neuropype_ephy.html">ephypype</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../ephypype/neuropype_ephy.html#subpackages">Subpackages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="http://davidmeunier79.github.io/neuropype_graph/">graphpype</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/examples.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/preproc_example.html">From raw data to preprocessed data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/inv_example.html">Source reconstruction pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/epoch_example.html">From epoch data to graph theoretical analysis</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">neuropyconn</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>Modularity</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          <a href="../_sources/graphpype/modularity.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="modularity">
+<h1>Modularity<a class="headerlink" href="#modularity" title="Permalink to this headline">¶</a></h1>
+<p>Functions used for the modularity computation</p>
+<div class="section" id="computenetlist">
+<h2>ComputeNetList<a class="headerlink" href="#computenetlist" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="neuropype_graph.nodes.modularity.ComputeNetList">
+<em class="property">class </em><code class="descclassname">neuropype_graph.nodes.modularity.</code><code class="descname">ComputeNetList</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_graph/nodes/modularity.html#ComputeNetList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_graph.nodes.modularity.ComputeNetList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description:</p>
+<blockquote>
+<div>Format correlation matrix to a list: format i j weight (integer = float * 1000)</div></blockquote>
+<p>Inputs:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>Z_cor_mat_file:</dt>
+<dd>type = File, exists=True, desc=&#8217;Normalized correlation matrix&#8217;, mandatory=True</dd>
+<dt>coords_file:</dt>
+<dd>type = File, exists=True, desc=&#8217;Corresponding coordiantes&#8217;, mandatory=False</dd>
+<dt>threshold:</dt>
+<dd>type = Float, xor = [&#8216;density&#8217;], mandatory = False</dd>
+<dt>density:</dt>
+<dd>type = Float, xor = [&#8216;threshold&#8217;], mandatory = False</dd>
+</dl>
+</div></blockquote>
+<p>Outputs:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>net_List_file:</dt>
+<dd>type = File, exists=True, desc=&#8221;net list for radatools&#8221;</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+</div>
+<div class="section" id="computenoderoles">
+<h2>ComputeNodeRoles<a class="headerlink" href="#computenoderoles" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="neuropype_graph.nodes.modularity.ComputeNodeRoles">
+<em class="property">class </em><code class="descclassname">neuropype_graph.nodes.modularity.</code><code class="descname">ComputeNodeRoles</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_graph/nodes/modularity.html#ComputeNodeRoles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_graph.nodes.modularity.ComputeNodeRoles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description:</p>
+<p>Compute node roles from lol modular partition and original network</p>
+<p>Inputs:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>rada_lol_file: </dt>
+<dd>type = File, exists=True,desc=&#8217;lol file, describing modular structure of the network&#8217;, mandatory=True</dd>
+<dt>Pajek_net_file:</dt>
+<dd>type = File(exists=True, desc=&#8217;net description in Pajek format&#8217;, mandatory=True</dd>
+<dt>role_type:</dt>
+<dd>One of Enum(&#8216;Amaral_roles&#8217;, &#8216;4roles&#8217;), desc=&#8217;definition of node roles, Amaral_roles = original 7 roles defined for transport network (useful for big network), 4_roles = defines only provincial/connecteur from participation coeff&#8217;, usedefault=True</dd>
+</dl>
+</div></blockquote>
+<p>Outputs:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>node_roles_file:</dt>
+<dd>type = File, exists=True, desc=&#8221;node roles with an integer code&#8221;</dd>
+<dt>all_Z_com_degree_file:</dt>
+<dd>type = File,exists=True, desc=&#8221;value of quantity, describing the hub/non-hub role of the nodes&#8221;</dd>
+<dt>all_participation_coeff_file</dt>
+<dd>type = File, exists=True, desc=&#8221;value of quality, descibing the provincial/connector role of the nodes&#8221;</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Dmitrii Altukhov, David Meunier, Annalisa Pascarella.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
