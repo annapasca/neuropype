@@ -5,7 +5,7 @@
 
 
 NeuropyConn documentation
-************************
+*************************
 
 NeuropyConn is an open-source multi-modal brain data analysis kit which provides **Python-based 
 pipelines** for advanced multi-thread processing of fMRI, MEG and EEG data, with a focus on connectivity 
@@ -13,10 +13,11 @@ and graph analyses. NeuropyConn is based on `Nipype <http://nipype.readthedocs.i
 a tool developed in fMRI field, which facilitates data analyses by wrapping many commonly-used neuro-imaging software into a common
 python framework.
 
-NeuropyConn project includes two different packages:
+NeuropyConn project includes three different packages:
 
-* :ref:`ephypype` based on `MNE python <http://martinos.org/mne/stable/index.html>`_ includes pipelines for electrophysiology analysis
-* `graphpype <http://davidmeunier79.github.io/neuropype_graph/>`_ based on `radatools <http://deim.urv.cat/~sergio.gomez/radatools.php>`_ includes pipelines for graph theoretical analysis of neuroimaging data 
+* :ref:`neuropype_ephy` based on `MNE python <http://martinos.org/mne/stable/index.html>`_ includes pipelines for electrophysiology analysis
+* `neuropype_cli <https://dmalt.github.io/neuropype_cli/>`_ is a command line interface for neuropype_ephy package
+* `neuropype_graph <http://davidmeunier79.github.io/neuropype_graph/>`_ based on `radatools <http://deim.urv.cat/~sergio.gomez/radatools.php>`_ includes pipelines for graph theoretical analysis of neuroimaging data
 
 NeuropyConn provides a very common and fast framework to develop workflows for advanced analyses, in particular
 defines a set of different pipelines that can be used stand-alone or as lego of a bigger workflow:
@@ -44,9 +45,38 @@ as well as providing easy ways to implement function defined by the user.
 Installation
 ============
 
+Install neuropype_ephy
+++++++++++++++++++++++
+
 ::
 
-      git clone ...
+    git clone https://github.com/annapasca/neuropype_ephy.git
+    cd neuropype_ephy
+    sudo python setup.py develop
+    cd ..
+
+
+Install neuropype_cli
++++++++++++++++++++++++
+
+::
+
+    git clone https://github.com/dmalt/neuropype_cli.git
+    cd neuropype_cli
+    pip install .
+    
+    
+Install neuropype_graph
++++++++++++++++++++++++
+
+::
+
+    git clone https://github.com/davidmeunier79/neuropype_graph.git
+    cd neuropype_graph
+    sudo python setup.py develop
+    cd ..
+
+
 
 Packages
 ========
@@ -55,7 +85,8 @@ Packages
    :maxdepth: 1
 
    ephypype/neuropype_ephy
-   graphpype <http://davidmeunier79.github.io/neuropype_graph/>
+   neuropype_cli <https://dmalt.github.io/neuropype_cli/>
+   neuropype_graph <http://davidmeunier79.github.io/neuropype_graph/>
    examples/examples 
 
    

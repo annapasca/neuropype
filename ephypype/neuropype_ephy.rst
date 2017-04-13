@@ -1,9 +1,9 @@
-.. _ephypype:
+.. _neuropype_ephy:
 
-ephypype
-********
+neuropype_ephy
+**************
 
-The ephypype package includes pipelines for electrophysiology analysis.
+The neuropype_ephy package includes pipelines for electrophysiology analysis.
 It's based mainly on MNE-Python package, as well as more standard python libraries such as Numpy and Scipy.
 Current implementations allow for 
 
@@ -11,7 +11,7 @@ Current implementations allow for
 * MEG/EEG data pre-processing and cleaning by an automatic removal of eyes and heart related artifacts
 * sensor or source-level connectivity analyses
 
-The ephypype package provides the main pipelines in the :ref:`pipelines`:
+The neuropype_ephy package provides the main pipelines in the :ref:`pipelines`:
 
 * the :ref:`preproc_meeg` runs the ICA algorithm for an automatic removal of eyes and heart related artefacts
 * the :ref:`source_reconstruction` computes the inverse solution starting from raw/epoched data
@@ -19,6 +19,11 @@ The ephypype package provides the main pipelines in the :ref:`pipelines`:
 
 Subpackages
 ===========
+
+.. toctree::
+   :maxdepth: 2
+   
+   includeme
 
 .. toctree::
    :titlesonly:
