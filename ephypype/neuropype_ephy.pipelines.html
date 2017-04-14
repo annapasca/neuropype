@@ -187,7 +187,7 @@ regions defined in aseg_labels will be added to the source space</dd>
 <span id="neuropype-ephy-pipelines-preproc-meeg"></span><h3>neuropype_ephy.pipelines.preproc_meeg<a class="headerlink" href="#module-neuropype_ephy.pipelines.preproc_meeg" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt id="neuropype_ephy.pipelines.preproc_meeg.create_pipeline_preproc_meeg">
-<code class="descclassname">neuropype_ephy.pipelines.preproc_meeg.</code><code class="descname">create_pipeline_preproc_meeg</code><span class="sig-paren">(</span><em>main_path</em>, <em>pipeline_name='preproc_meeg'</em>, <em>data_type='fif'</em>, <em>l_freq=1</em>, <em>h_freq=150</em>, <em>down_sfreq=300</em>, <em>is_ICA=True</em>, <em>variance=0.95</em>, <em>ECG_ch_name=''</em>, <em>EoG_ch_name=''</em>, <em>reject=None</em>, <em>is_set_ICA_components=False</em>, <em>n_comp_exclude=[]</em>, <em>is_sensor_space=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/pipelines/preproc_meeg.html#create_pipeline_preproc_meeg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.pipelines.preproc_meeg.create_pipeline_preproc_meeg" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">neuropype_ephy.pipelines.preproc_meeg.</code><code class="descname">create_pipeline_preproc_meeg</code><span class="sig-paren">(</span><em>main_path</em>, <em>pipeline_name='preproc_meeg'</em>, <em>data_type='fif'</em>, <em>l_freq=1</em>, <em>h_freq=150</em>, <em>down_sfreq=300</em>, <em>is_ICA=True</em>, <em>variance=0.95</em>, <em>ECG_ch_name=''</em>, <em>EoG_ch_name=''</em>, <em>reject=None</em>, <em>is_set_ICA_components=False</em>, <em>n_comp_exclude=[]</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/pipelines/preproc_meeg.html#create_pipeline_preproc_meeg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.pipelines.preproc_meeg.create_pipeline_preproc_meeg" title="Permalink to this definition">¶</a></dt>
 <dd><p>Description:</p>
 <blockquote>
 <div>Preprocessing pipeline</div></blockquote>
@@ -226,9 +226,6 @@ if True, we have to fill the dictionary variable n_comp_exclude</dd>
 <dt>n_comp_exclude: dict</dt>
 <dd>if is_set_ICA_components=True, it has to be a dict containing for
 each subject and for each session the components to be excluded</dd>
-<dt>is_sensor_space: boolean (default True)</dt>
-<dd>True if we perform the analysis in sensor space and we use the
-pipeline as lego with the connectivity or inverse pipeline</dd>
 </dl>
 </div></blockquote>
 <p>Outouts:</p>
