@@ -21,15 +21,108 @@ Subpackages
 ===========
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    
    includeme
 
 .. toctree::
-   :titlesonly:
+   :maxdepth: 1
 
    
    neuropype_ephy.interfaces
    neuropype_ephy.nodes
    neuropype_ephy.pipelines
+
+
+Submodules
+----------
+
+neuropype_ephy.aux_tools module
+-------------------------------
+
+.. automodule:: neuropype_ephy.aux_tools
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+neuropype_ephy.compute_fwd_problem module
+-----------------------------------------
+
+.. automodule:: neuropype_ephy.compute_fwd_problem
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+neuropype_ephy.compute_inv_problem module
+-----------------------------------------
+
+.. automodule:: neuropype_ephy.compute_inv_problem
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+neuropype_ephy.fif2ts module
+----------------------------
+
+.. automodule:: neuropype_ephy.fif2ts
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+neuropype_ephy.import_ctf module
+--------------------------------
+
+.. automodule:: neuropype_ephy.import_ctf
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+neuropype_ephy.import_mat module
+--------------------------------
+
+.. automodule:: neuropype_ephy.import_mat
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+neuropype_ephy.import_txt module
+--------------------------------
+
+.. automodule:: neuropype_ephy.import_txt
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+neuropype_ephy.power module
+---------------------------
+
+.. automodule:: neuropype_ephy.power
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+neuropype_ephy.preproc module
+-----------------------------
+
+.. automodule:: neuropype_ephy.preproc
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+neuropype_ephy.spectral module
+------------------------------
+
+.. automodule:: neuropype_ephy.spectral
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: neuropype_ephy
+    :members:
+    :undoc-members:
+    :show-inheritance:
 

@@ -1,7 +1,15 @@
 .. _example:
 
 Examples
-==============================
+========
+
+All example scripts are based on the sample datasets provided by `OMEGA project <https://omega.bic.mni.mcgill.ca/main.php>`_.
+In particular, we used the datasets organized according to the BIDS specifications 
+(Brain Imaging Data Structure, `<http://bids.neuroimaging.io>`_). After the registration to the OMEGA website, you can
+download the samp,e datatasets from `<https://box.bic.mni.mcgill.ca/s/omega?path=%2FContributions%20(in%20BIDS%20format)>`_.
+
+The example scripts need a params file :ref:`params`
+
 
 
  +---------------------------------------------+---------------------------------------------+
@@ -25,5 +33,19 @@ Examples
    preproc_example
    inv_example
    epoch_example
+   
+.. toctree::
+   :hidden:
+
+   params
+   run_preproc_ica
+
+   
+   
+   
+   
+   
+   
+   
 
    

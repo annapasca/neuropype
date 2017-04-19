@@ -75,6 +75,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/preproc_example.html">From raw data to preprocessed data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/inv_example.html">Source reconstruction pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/epoch_example.html">From epoch data to graph theoretical analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/params.html">params file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/run_preproc_ica.html">run_preproc_ica</a></li>
 </ul>
 </li>
 </ul>
@@ -124,7 +126,15 @@
 <span id="neuropype-ephy-pipelines-brain-vision-to-conmat"></span><h3>neuropype_ephy.pipelines.brain_vision_to_conmat<a class="headerlink" href="#module-neuropype_ephy.pipelines.brain_vision_to_conmat" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt id="neuropype_ephy.pipelines.brain_vision_to_conmat.create_pipeline_brain_vision_ascii_to_spectral_connectivity">
-<code class="descclassname">neuropype_ephy.pipelines.brain_vision_to_conmat.</code><code class="descname">create_pipeline_brain_vision_ascii_to_spectral_connectivity</code><span class="sig-paren">(</span><em>main_path</em>, <em>pipeline_name='brain_vision_to_conmat'</em>, <em>con_method='coh'</em>, <em>sample_size=512</em>, <em>sep_label_name=''</em>, <em>sfreq=512</em>, <em>filter_spectral=True</em>, <em>k_neigh=3</em>, <em>n_windows=[]</em>, <em>multicon=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/pipelines/brain_vision_to_conmat.html#create_pipeline_brain_vision_ascii_to_spectral_connectivity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.pipelines.brain_vision_to_conmat.create_pipeline_brain_vision_ascii_to_spectral_connectivity" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">neuropype_ephy.pipelines.brain_vision_to_conmat.</code><code class="descname">create_pipeline_brain_vision_ascii_to_spectral_connectivity</code><span class="sig-paren">(</span><em>main_path</em>, <em>pipeline_name='brain_vision_to_conmat'</em>, <em>con_method='coh'</em>, <em>sample_size=512</em>, <em>sep_label_name=''</em>, <em>sfreq=512</em>, <em>filter_spectral=True</em>, <em>k_neigh=3</em>, <em>n_windows=[]</em>, <em>multi_con=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/pipelines/brain_vision_to_conmat.html#create_pipeline_brain_vision_ascii_to_spectral_connectivity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.pipelines.brain_vision_to_conmat.create_pipeline_brain_vision_ascii_to_spectral_connectivity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description:</p>
+<p>Create pipeline from intraEEG times series in ascii format exported out of BrainVision, split txt and compute spectral connectivity.
+Possibly also filter out connections between &#8220;adjacent&#8221; contacts (on the same electrode)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="neuropype_ephy.pipelines.brain_vision_to_conmat.create_pipeline_brain_vision_vhdr_to_spectral_connectivity">
+<code class="descclassname">neuropype_ephy.pipelines.brain_vision_to_conmat.</code><code class="descname">create_pipeline_brain_vision_vhdr_to_spectral_connectivity</code><span class="sig-paren">(</span><em>main_path</em>, <em>pipeline_name='brain_vision_to_conmat'</em>, <em>con_method='coh'</em>, <em>sample_size=512</em>, <em>sep_label_name=''</em>, <em>sfreq=512</em>, <em>filter_spectral=True</em>, <em>k_neigh=3</em>, <em>n_windows=[]</em>, <em>multi_con=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/pipelines/brain_vision_to_conmat.html#create_pipeline_brain_vision_vhdr_to_spectral_connectivity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.pipelines.brain_vision_to_conmat.create_pipeline_brain_vision_vhdr_to_spectral_connectivity" title="Permalink to this definition">¶</a></dt>
 <dd><p>Description:</p>
 <p>Create pipeline from intraEEG times series in ascii format exported out of BrainVision, split txt and compute spectral connectivity.
 Possibly also filter out connections between &#8220;adjacent&#8221; contacts (on the same electrode)</p>

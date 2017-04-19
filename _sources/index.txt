@@ -82,7 +82,7 @@ Packages
 ========
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
    ephypype/neuropype_ephy
    neuropype_cli <https://dmalt.github.io/neuropype_cli/>

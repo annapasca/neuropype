@@ -73,6 +73,8 @@
 <li class="toctree-l2"><a class="reference internal" href="examples/preproc_example.html">From raw data to preprocessed data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/inv_example.html">Source reconstruction pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/epoch_example.html">From epoch data to graph theoretical analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/params.html">params file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/run_preproc_ica.html">run_preproc_ica</a></li>
 </ul>
 </li>
 </ul>
@@ -116,13 +118,16 @@
  | <a href="#D"><strong>D</strong></a>
  | <a href="#E"><strong>E</strong></a>
  | <a href="#F"><strong>F</strong></a>
+ | <a href="#G"><strong>G</strong></a>
  | <a href="#I"><strong>I</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
  | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
+ | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
  
 </div>
 <h2 id="C">C</h2>
@@ -141,6 +146,46 @@
   </dt>
 
       
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.spectral.compute_and_save_multi_spectral_connectivity">compute_and_save_multi_spectral_connectivity() (in module neuropype_ephy.spectral)</a>
+  </dt>
+
+      
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.power.compute_and_save_psd">compute_and_save_psd() (in module neuropype_ephy.power)</a>
+  </dt>
+
+      
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.spectral.compute_and_save_spectral_connectivity">compute_and_save_spectral_connectivity() (in module neuropype_ephy.spectral)</a>
+  </dt>
+
+      
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.compute_fwd_problem.compute_fwd_sol">compute_fwd_sol() (in module neuropype_ephy.compute_fwd_problem)</a>
+  </dt>
+
+      
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.preproc.compute_ica">compute_ica() (in module neuropype_ephy.preproc)</a>
+  </dt>
+
+      
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.compute_inv_problem.compute_noise_cov">compute_noise_cov() (in module neuropype_ephy.compute_inv_problem)</a>
+  </dt>
+
+      
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.import_ctf.compute_ROI_coordinates">compute_ROI_coordinates() (in module neuropype_ephy.import_ctf)</a>
+  </dt>
+
+      
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.compute_inv_problem.compute_ROIs_inv_sol">compute_ROIs_inv_sol() (in module neuropype_ephy.compute_inv_problem)</a>
+  </dt>
+
+      
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.spectral.compute_spectral_connectivity">compute_spectral_connectivity() (in module neuropype_ephy.spectral)</a>
+  </dt>
+
+      
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.compute_inv_problem.compute_ts_inv_sol">compute_ts_inv_sol() (in module neuropype_ephy.compute_inv_problem)</a>
+  </dt>
+
+      
   <dt><a href="graphpype/correl_mat.html#neuropype_graph.nodes.correl_mat.ComputeConfCorMat">ComputeConfCorMat (class in neuropype_graph.nodes.correl_mat)</a>
   </dt>
 
@@ -153,13 +198,23 @@
   </dt>
 
       
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.import_mat.concat_ts">concat_ts() (in module neuropype_ephy.import_mat)</a>
+  </dt>
+
+      
   <dt><a href="graphpype/correl_mat.html#neuropype_graph.nodes.correl_mat.ConcatTS">ConcatTS (class in neuropype_graph.nodes.correl_mat)</a>
+  </dt>
+
+      
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.import_ctf.convert_ds_to_raw_fif">convert_ds_to_raw_fif() (in module neuropype_ephy.import_ctf)</a>
   </dt>
 
       
   <dt><a href="ephypype/neuropype_ephy.nodes.html#neuropype_ephy.nodes.import_data.ConvertDs2Fif">ConvertDs2Fif (class in neuropype_ephy.nodes.import_data)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="ephypype/neuropype_ephy.nodes.html#neuropype_ephy.nodes.import_data.ConvertDs2FifInputSpec">ConvertDs2FifInputSpec (class in neuropype_ephy.nodes.import_data)</a>
   </dt>
@@ -168,10 +223,28 @@
   <dt><a href="ephypype/neuropype_ephy.nodes.html#neuropype_ephy.nodes.import_data.ConvertDs2FifOutputSpec">ConvertDs2FifOutputSpec (class in neuropype_ephy.nodes.import_data)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.compute_fwd_problem.create_bem_sol">create_bem_sol() (in module neuropype_ephy.compute_fwd_problem)</a>
+  </dt>
+
+      
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.preproc.create_epochs">create_epochs() (in module neuropype_ephy.preproc)</a>
+  </dt>
+
+      
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.preproc.create_events">create_events() (in module neuropype_ephy.preproc)</a>
+  </dt>
+
+      
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.compute_fwd_problem.create_mixed_source_space">create_mixed_source_space() (in module neuropype_ephy.compute_fwd_problem)</a>
+  </dt>
+
       
   <dt><a href="ephypype/neuropype_ephy.pipelines.html#neuropype_ephy.pipelines.brain_vision_to_conmat.create_pipeline_brain_vision_ascii_to_spectral_connectivity">create_pipeline_brain_vision_ascii_to_spectral_connectivity() (in module neuropype_ephy.pipelines.brain_vision_to_conmat)</a>
+  </dt>
+
+      
+  <dt><a href="ephypype/neuropype_ephy.pipelines.html#neuropype_ephy.pipelines.brain_vision_to_conmat.create_pipeline_brain_vision_vhdr_to_spectral_connectivity">create_pipeline_brain_vision_vhdr_to_spectral_connectivity() (in module neuropype_ephy.pipelines.brain_vision_to_conmat)</a>
   </dt>
 
       
@@ -196,6 +269,18 @@
 
       
   <dt><a href="ephypype/neuropype_ephy.pipelines.html#neuropype_ephy.pipelines.fif_to_inv_sol.create_pipeline_source_reconstruction">create_pipeline_source_reconstruction() (in module neuropype_ephy.pipelines.fif_to_inv_sol)</a>
+  </dt>
+
+      
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.preproc.create_reject_dict">create_reject_dict() (in module neuropype_ephy.preproc)</a>
+  </dt>
+
+      
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.compute_fwd_problem.create_src_space">create_src_space() (in module neuropype_ephy.compute_fwd_problem)</a>
+  </dt>
+
+      
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.preproc.create_ts">create_ts() (in module neuropype_ephy.preproc)</a>
   </dt>
 
       
@@ -231,15 +316,19 @@
   </dt>
 
       
-  <dt><a href="ephypype/neuropype_ephy.nodes.html#neuropype_ephy.nodes.import_data.Ep2tsInputSpec">Ep2tsInputSpec (class in neuropype_ephy.nodes.import_data)</a>
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.fif2ts.ep2ts">ep2ts() (in module neuropype_ephy.fif2ts)</a>
   </dt>
 
       
-  <dt><a href="ephypype/neuropype_ephy.nodes.html#neuropype_ephy.nodes.import_data.Ep2tsOutputSpec">Ep2tsOutputSpec (class in neuropype_ephy.nodes.import_data)</a>
+  <dt><a href="ephypype/neuropype_ephy.nodes.html#neuropype_ephy.nodes.import_data.Ep2tsInputSpec">Ep2tsInputSpec (class in neuropype_ephy.nodes.import_data)</a>
   </dt>
 
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="ephypype/neuropype_ephy.nodes.html#neuropype_ephy.nodes.import_data.Ep2tsOutputSpec">Ep2tsOutputSpec (class in neuropype_ephy.nodes.import_data)</a>
+  </dt>
+
       
   <dt><a href="graphpype/correl_mat.html#neuropype_graph.nodes.correl_mat.ExtractMeanTS">ExtractMeanTS (class in neuropype_graph.nodes.correl_mat)</a>
   </dt>
@@ -255,7 +344,37 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.spectral.filter_adj_plot_mat">filter_adj_plot_mat() (in module neuropype_ephy.spectral)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
   <dt><a href="graphpype/correl_mat.html#neuropype_graph.nodes.correl_mat.FindSPMRegressor">FindSPMRegressor (class in neuropype_graph.nodes.correl_mat)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="G">G</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.preproc.generate_report">generate_report() (in module neuropype_ephy.preproc)</a>
+  </dt>
+
+      
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.preproc.get_epochs_info">get_epochs_info() (in module neuropype_ephy.preproc)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.preproc.get_raw_info">get_raw_info() (in module neuropype_ephy.preproc)</a>
+  </dt>
+
+      
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.preproc.get_raw_sfreq">get_raw_sfreq() (in module neuropype_ephy.preproc)</a>
   </dt>
 
   </dl></td>
@@ -264,6 +383,22 @@
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.import_mat.import_amplmat_to_ts">import_amplmat_to_ts() (in module neuropype_ephy.import_mat)</a>
+  </dt>
+
+      
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.import_mat.import_mat_to_conmat">import_mat_to_conmat() (in module neuropype_ephy.import_mat)</a>
+  </dt>
+
+      
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.import_mat.import_mat_to_ts">import_mat_to_ts() (in module neuropype_ephy.import_mat)</a>
+  </dt>
+
+      
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.import_mat.import_tsmat_to_ts">import_tsmat_to_ts() (in module neuropype_ephy.import_mat)</a>
+  </dt>
+
       
   <dt><a href="ephypype/neuropype_ephy.nodes.html#neuropype_ephy.nodes.import_data.ImportBrainVisionAscii">ImportBrainVisionAscii (class in neuropype_ephy.nodes.import_data)</a>
   </dt>
@@ -276,6 +411,8 @@
   <dt><a href="ephypype/neuropype_ephy.nodes.html#neuropype_ephy.nodes.import_data.ImportBrainVisionAsciiOutputSpec">ImportBrainVisionAsciiOutputSpec (class in neuropype_ephy.nodes.import_data)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="ephypype/neuropype_ephy.nodes.html#neuropype_ephy.nodes.import_data.ImportMat">ImportMat (class in neuropype_ephy.nodes.import_data)</a>
   </dt>
@@ -284,8 +421,6 @@
   <dt><a href="ephypype/neuropype_ephy.nodes.html#neuropype_ephy.nodes.import_data.ImportMatInputSpec">ImportMatInputSpec (class in neuropype_ephy.nodes.import_data)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="ephypype/neuropype_ephy.nodes.html#neuropype_ephy.nodes.import_data.ImportMatOutputSpec">ImportMatOutputSpec (class in neuropype_ephy.nodes.import_data)</a>
   </dt>
@@ -332,6 +467,10 @@
   <dt><a href="ephypype/neuropype_ephy.interfaces.mne.html#neuropype_ephy.interfaces.mne.Inverse_solution.InverseSolution">InverseSolution (class in neuropype_ephy.interfaces.mne.Inverse_solution)</a>
   </dt>
 
+      
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.compute_fwd_problem.is_trans">is_trans() (in module neuropype_ephy.compute_fwd_problem)</a>
+  </dt>
+
   </dl></td>
 </tr></table>
 
@@ -363,6 +502,38 @@
   </dt>
 
       
+  <dt><a href="ephypype/neuropype_ephy.html#module-neuropype_ephy">neuropype_ephy (module)</a>
+  </dt>
+
+      
+  <dt><a href="ephypype/neuropype_ephy.html#module-neuropype_ephy.aux_tools">neuropype_ephy.aux_tools (module)</a>
+  </dt>
+
+      
+  <dt><a href="ephypype/neuropype_ephy.html#module-neuropype_ephy.compute_fwd_problem">neuropype_ephy.compute_fwd_problem (module)</a>
+  </dt>
+
+      
+  <dt><a href="ephypype/neuropype_ephy.html#module-neuropype_ephy.compute_inv_problem">neuropype_ephy.compute_inv_problem (module)</a>
+  </dt>
+
+      
+  <dt><a href="ephypype/neuropype_ephy.html#module-neuropype_ephy.fif2ts">neuropype_ephy.fif2ts (module)</a>
+  </dt>
+
+      
+  <dt><a href="ephypype/neuropype_ephy.html#module-neuropype_ephy.import_ctf">neuropype_ephy.import_ctf (module)</a>
+  </dt>
+
+      
+  <dt><a href="ephypype/neuropype_ephy.html#module-neuropype_ephy.import_mat">neuropype_ephy.import_mat (module)</a>
+  </dt>
+
+      
+  <dt><a href="ephypype/neuropype_ephy.html#module-neuropype_ephy.import_txt">neuropype_ephy.import_txt (module)</a>
+  </dt>
+
+      
   <dt><a href="ephypype/neuropype_ephy.interfaces.html#module-neuropype_ephy.interfaces">neuropype_ephy.interfaces (module)</a>
   </dt>
 
@@ -382,6 +553,8 @@
   <dt><a href="ephypype/neuropype_ephy.interfaces.mne.html#module-neuropype_ephy.interfaces.mne.power">neuropype_ephy.interfaces.mne.power (module)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="ephypype/neuropype_ephy.interfaces.mne.html#module-neuropype_ephy.interfaces.mne.preproc">neuropype_ephy.interfaces.mne.preproc (module)</a>
   </dt>
@@ -390,8 +563,6 @@
   <dt><a href="ephypype/neuropype_ephy.interfaces.mne.html#module-neuropype_ephy.interfaces.mne.spectral">neuropype_ephy.interfaces.mne.spectral (module)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="ephypype/neuropype_ephy.nodes.html#module-neuropype_ephy.nodes">neuropype_ephy.nodes (module)</a>
   </dt>
@@ -421,7 +592,23 @@
   </dt>
 
       
+  <dt><a href="ephypype/neuropype_ephy.html#module-neuropype_ephy.power">neuropype_ephy.power (module)</a>
+  </dt>
+
+      
+  <dt><a href="ephypype/neuropype_ephy.html#module-neuropype_ephy.preproc">neuropype_ephy.preproc (module)</a>
+  </dt>
+
+      
+  <dt><a href="ephypype/neuropype_ephy.html#module-neuropype_ephy.spectral">neuropype_ephy.spectral (module)</a>
+  </dt>
+
+      
   <dt><a href="ephypype/neuropype_ephy.interfaces.mne.html#neuropype_ephy.interfaces.mne.Inverse_solution.NoiseCovariance">NoiseCovariance (class in neuropype_ephy.interfaces.mne.Inverse_solution)</a>
+  </dt>
+
+      
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.aux_tools.nostdout">nostdout() (in module neuropype_ephy.aux_tools)</a>
   </dt>
 
   </dl></td>
@@ -471,6 +658,10 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.spectral.plot_circular_connectivity">plot_circular_connectivity() (in module neuropype_ephy.spectral)</a>
+  </dt>
+
+      
   <dt><a href="graphpype/coclass.html#neuropype_graph.nodes.coclass.PlotCoclass">PlotCoclass (class in neuropype_graph.nodes.coclass)</a>
   </dt>
 
@@ -505,6 +696,14 @@
   </dt>
 
       
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.preproc.preprocess_fif">preprocess_fif() (in module neuropype_ephy.preproc)</a>
+  </dt>
+
+      
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.preproc.preprocess_set_ICA_comp_fif_to_ts">preprocess_set_ICA_comp_fif_to_ts() (in module neuropype_ephy.preproc)</a>
+  </dt>
+
+      
   <dt><a href="ephypype/neuropype_ephy.interfaces.mne.html#neuropype_ephy.interfaces.mne.preproc.PreprocFif">PreprocFif (class in neuropype_ephy.interfaces.mne.preproc)</a>
   </dt>
 
@@ -514,6 +713,22 @@
 
       
   <dt><a href="ephypype/neuropype_ephy.interfaces.mne.html#neuropype_ephy.interfaces.mne.preproc.PreprocFifOutputSpec">PreprocFifOutputSpec (class in neuropype_ephy.interfaces.mne.preproc)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="R">R</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.import_txt.read_brainvision_vhdr">read_brainvision_vhdr() (in module neuropype_ephy.import_txt)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.compute_inv_problem.read_noise_cov">read_noise_cov() (in module neuropype_ephy.compute_inv_problem)</a>
   </dt>
 
   </dl></td>
@@ -535,6 +750,10 @@
   </dt>
 
       
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.import_txt.split_txt">split_txt() (in module neuropype_ephy.import_txt)</a>
+  </dt>
+
+      
   <dt><a href="ephypype/neuropype_ephy.nodes.html#neuropype_ephy.nodes.ts_tools.SplitWindows">SplitWindows (class in neuropype_ephy.nodes.ts_tools)</a>
   </dt>
 
@@ -549,7 +768,27 @@
   </dt>
 
       
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.aux_tools.suppress_stdout_stderr">suppress_stdout_stderr (class in neuropype_ephy.aux_tools)</a>
+  </dt>
+
+      
   <dt><a href="graphpype/graph_stats.html#neuropype_graph.nodes.graph_stats.SwapLists">SwapLists (class in neuropype_graph.nodes.graph_stats)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.import_ctf.test_convert_data">test_convert_data() (in module neuropype_ephy.import_ctf)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="ephypype/neuropype_ephy.html#neuropype_ephy.import_ctf.test_import_data">test_import_data() (in module neuropype_ephy.import_ctf)</a>
   </dt>
 
   </dl></td>

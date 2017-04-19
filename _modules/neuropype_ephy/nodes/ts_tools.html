@@ -73,6 +73,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../examples/preproc_example.html">From raw data to preprocessed data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../examples/inv_example.html">Source reconstruction pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../examples/epoch_example.html">From epoch data to graph theoretical analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/params.html">params file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/run_preproc_ica.html">run_preproc_ica</a></li>
 </ul>
 </li>
 </ul>
@@ -176,6 +178,8 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">win_ts_files</span> <span class="o">=</span> <span class="p">[]</span>
         
+        <span class="k">print</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">n_windows</span>
+        
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">n_win</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">n_windows</span><span class="p">):</span>
             
             <span class="k">print</span> <span class="n">i</span>
@@ -183,12 +187,15 @@
             
             <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">n_win</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">n_win</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">np_ts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span>
                 
+                <span class="c">#print &quot;OK for : 0 &lt;= {} and {} &lt;= {}&quot;.format(n_win[0],n_win[1],np_ts.shape[2])</span>
                 
                 <span class="n">win_ts</span> <span class="o">=</span> <span class="p">[]</span>
                 
                 <span class="k">for</span> <span class="n">trial_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">np_ts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
                     
-                    <span class="k">print</span> <span class="n">np_ts</span><span class="p">[</span><span class="n">trial_index</span><span class="p">,:,</span><span class="n">n_win</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">n_win</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+                    <span class="c">#print trial_index</span>
+                    
+                    <span class="c">#print np_ts[trial_index,:,n_win[0]:n_win[1]]</span>
                     
                     <span class="n">win_ts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np_ts</span><span class="p">[</span><span class="n">trial_index</span><span class="p">,:,</span><span class="n">n_win</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">n_win</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
                     
@@ -203,7 +210,13 @@
                 <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">win_ts_file</span><span class="p">,</span><span class="n">win_ts</span><span class="p">)</span>
 
                 <span class="bp">self</span><span class="o">.</span><span class="n">win_ts_files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">win_ts_file</span><span class="p">)</span>
-                    
+                
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">print</span> <span class="s">&quot;Warning, should be : 0 &lt;= {} and {} &lt;= {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_win</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">n_win</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">np_ts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                <span class="mi">0</span><span class="o">/</span><span class="mi">0</span>
+                
+            
+                   
         <span class="k">print</span> <span class="s">&quot;Generated {} win files&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">win_ts_files</span><span class="p">))</span>
         
         <span class="k">return</span> <span class="n">runtime</span>

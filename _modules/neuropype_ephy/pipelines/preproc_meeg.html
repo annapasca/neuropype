@@ -73,6 +73,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../examples/preproc_example.html">From raw data to preprocessed data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../examples/inv_example.html">Source reconstruction pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../examples/epoch_example.html">From epoch data to graph theoretical analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/params.html">params file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/run_preproc_ica.html">run_preproc_ica</a></li>
 </ul>
 </li>
 </ul>
@@ -190,9 +192,11 @@
 <span class="sd">        n_comp_exclude: dict</span>
 <span class="sd">            if is_set_ICA_components=True, it has to be a dict containing for</span>
 <span class="sd">            each subject and for each session the components to be excluded</span>
+<span class="sd">            </span>
 <span class="sd">    Outouts:</span>
 
 <span class="sd">        pipeline : instance of Workflow</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="kn">from</span> <span class="nn">neuropype_ephy.interfaces.mne.preproc</span> <span class="kn">import</span> <span class="n">PreprocFif</span>
