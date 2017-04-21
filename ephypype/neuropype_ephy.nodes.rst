@@ -1,30 +1,17 @@
 neuropype_ephy.nodes package
 ============================
 
-Submodules
-----------
+Modules
+-------
 
-neuropype_ephy.nodes.import_data module
----------------------------------------
+neuropype_ephy.nodes.import_data
+--------------------------------
 
 .. automodule:: neuropype_ephy.nodes.import_data
     :members:
-    :undoc-members:
-    :show-inheritance:
 
-neuropype_ephy.nodes.ts_tools module
-------------------------------------
+neuropype_ephy.nodes.ts_tools
+-----------------------------
 
 .. automodule:: neuropype_ephy.nodes.ts_tools
     :members:
-    :undoc-members:
-    :show-inheritance:
-
-
-Module contents
----------------
-
-.. automodule:: neuropype_ephy.nodes
-    :members:
-    :undoc-members:
-    :show-inheritance:

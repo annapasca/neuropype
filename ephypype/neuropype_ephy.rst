@@ -17,19 +17,107 @@ The neuropype_ephy package provides the main pipelines in the :ref:`pipelines`:
 * the :ref:`source_reconstruction` computes the inverse solution starting from raw/epoched data
 * the :ref:`spectral_connectivity` perform connectivity analysis in sensor or source space
 
-Subpackages
-===========
+
+Pipelines
+=========
 
 .. toctree::
    :maxdepth: 2
+
+   pipelines/preproc_meeg
+   pipelines/source_reconstruction
+   pipelines/spectral_connectivity
    
-   includeme
+
+Installation
+============
 
 .. toctree::
-   :titlesonly:
+   :maxdepth: 1
 
+   includeme
    
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 1
+
    neuropype_ephy.interfaces
    neuropype_ephy.nodes
    neuropype_ephy.pipelines
+
+
+Modules
+-------
+
+neuropype_ephy.aux_tools
+------------------------
+
+.. automodule:: neuropype_ephy.aux_tools
+    :members:
+
+
+neuropype_ephy.compute_fwd_problem
+----------------------------------
+
+.. automodule:: neuropype_ephy.compute_fwd_problem
+    :members:
+
+
+neuropype_ephy.compute_inv_problem
+----------------------------------
+
+.. automodule:: neuropype_ephy.compute_inv_problem
+    :members:
+
+
+neuropype_ephy.fif2ts
+---------------------
+
+.. automodule:: neuropype_ephy.fif2ts
+    :members:
+
+
+neuropype_ephy.import_ctf
+-------------------------
+
+
+.. automodule:: neuropype_ephy.import_ctf
+    :members:
+    
+
+neuropype_ephy.import_mat
+-------------------------
+
+.. automodule:: neuropype_ephy.import_mat
+    :members:
+    
+
+neuropype_ephy.import_txt
+-------------------------
+
+.. automodule:: neuropype_ephy.import_txt
+    :members:
+    
+
+neuropype_ephy.power
+--------------------
+
+.. automodule:: neuropype_ephy.power
+    :members:
+    
+
+neuropype_ephy.preproc
+----------------------
+
+.. automodule:: neuropype_ephy.preproc
+    :members:
+
+
+neuropype_ephy.spectral
+-----------------------
+
+.. automodule:: neuropype_ephy.spectral
+    :members:
 
