@@ -66,17 +66,19 @@
           
               <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../neuropype_ephy.html">neuropype_ephy</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="../neuropype_ephy.html#subpackages">Subpackages</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../neuropype_ephy.html#pipelines">Pipelines</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../neuropype_ephy.html#installation">Installation</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference external" href="https://dmalt.github.io/neuropype_cli/">neuropype_cli</a></li>
 <li class="toctree-l1"><a class="reference external" href="http://davidmeunier79.github.io/neuropype_graph/">neuropype_graph</a></li>
+</ul>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../examples/examples.html">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../examples/preproc_example.html">From raw data to preprocessed data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../examples/inv_example.html">Source reconstruction pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../examples/epoch_example.html">From epoch data to graph theoretical analysis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../examples/params.html">params file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../examples/run_preproc_ica.html">run_preproc_ica</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/examples.html#scripts">Scripts</a></li>
 </ul>
 </li>
 </ul>
@@ -120,12 +122,31 @@
             
   <div class="section" id="preprocessing-pipeline">
 <span id="preproc-meeg"></span><h1>Preprocessing pipeline<a class="headerlink" href="#preprocessing-pipeline" title="Permalink to this headline">¶</a></h1>
-<p>The preprocessing pipeline runs the ICA algorithm for an automatic removal of eyes and heart
-related artefacts. A report is automatically generated and can be used to correct and/or fine-tune the correction in each subject.</p>
-<p>The pipeline is defined by the function <a class="reference internal" href="../neuropype_ephy.pipelines.html#neuropype_ephy.pipelines.preproc_meeg.create_pipeline_preproc_meeg" title="neuropype_ephy.pipelines.preproc_meeg.create_pipeline_preproc_meeg"><code class="xref py py-func docutils literal"><span class="pre">create_pipeline_preproc_meeg</span></code></a>
-whose Nodes are based on the MNE python functions</p>
-<p>Example and pictures:</p>
-<p>...</p>
+<p>The preprocessing pipeline runs the ICA algorithm for an automatic removal of
+eyes and heart related artefacts. A report is automatically generated and can be used to
+correct and/or fine-tune the correction in each subject (see the example section <a class="reference internal" href="../../examples/preproc_example.html#preproc-example"><span>From raw data to preprocessed data</span></a>).</p>
+<p>The input data can be in <strong>ds</strong> or <strong>fif</strong> format.</p>
+<p>The output is the <strong>preprocessed data</strong> stored in the workflow directoty. It&#8217;s a good rule
+to inspect the report file saved in the same dir to look at the excluded IAC components. It is
+also possible to include and exclude more components by using either a jupyter notebook or
+the preprocessing pipeline with different flag parameters.</p>
+<p>The preprocessing pipeline is implemented by the function <a class="reference internal" href="../neuropype_ephy.pipelines.html#neuropype_ephy.pipelines.preproc_meeg.create_pipeline_preproc_meeg" title="neuropype_ephy.pipelines.preproc_meeg.create_pipeline_preproc_meeg"><code class="xref py py-func docutils literal"><span class="pre">create_pipeline_preproc_meeg</span></code></a>
+and its Nodes (<a class="reference internal" href="../neuropype_ephy.nodes.html#neuropype_ephy.nodes.import_data.ConvertDs2Fif" title="neuropype_ephy.nodes.import_data.ConvertDs2Fif"><code class="xref py py-class docutils literal"><span class="pre">ds2fif</span></code></a>,
+<a class="reference internal" href="../neuropype_ephy.interfaces.mne.html#neuropype_ephy.interfaces.mne.preproc.PreprocFif" title="neuropype_ephy.interfaces.mne.preproc.PreprocFif"><code class="xref py py-class docutils literal"><span class="pre">preproc</span></code></a>,
+<a class="reference internal" href="../neuropype_ephy.interfaces.mne.html#neuropype_ephy.interfaces.mne.preproc.CompIca" title="neuropype_ephy.interfaces.mne.preproc.CompIca"><code class="xref py py-class docutils literal"><span class="pre">ica</span></code></a>)
+are based on the MNE Python functions performing the decomposition of the MEG/EEG signal using an ICA
+algorithm.</p>
+<p>An <strong>ICA tutorial</strong> with the main functions used in MNE can be found <a href="http://martinos.org/mne/stable/auto_tutorials/plot_artifacts_correction_ica.html" target="_blank">here</a>.</p>
+<p>In particular, the node:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../neuropype_ephy.nodes.html#neuropype_ephy.nodes.import_data.ConvertDs2Fif" title="neuropype_ephy.nodes.import_data.ConvertDs2Fif"><code class="xref py py-class docutils literal"><span class="pre">ds2fif</span></code></a> converts from ds to fif data format</li>
+<li><a class="reference internal" href="../neuropype_ephy.interfaces.mne.html#neuropype_ephy.interfaces.mne.preproc.PreprocFif" title="neuropype_ephy.interfaces.mne.preproc.PreprocFif"><code class="xref py py-class docutils literal"><span class="pre">preproc</span></code></a> performs filtering on the raw data</li>
+<li><a class="reference internal" href="../neuropype_ephy.interfaces.mne.html#neuropype_ephy.interfaces.mne.preproc.CompIca" title="neuropype_ephy.interfaces.mne.preproc.CompIca"><code class="xref py py-class docutils literal"><span class="pre">ica</span></code></a> computes ICA solution on raw fif data</li>
+</ul>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/graph_dot_preproc.jpg"><img alt="../../_images/graph_dot_preproc.jpg" src="../../_images/graph_dot_preproc.jpg" style="width: 216.0px; height: 446.25px;" /></a>
+</div>
+<p>See <a class="reference internal" href="../../examples/preproc_example.html#preproc-example"><span>From raw data to preprocessed data</span></a> to get an example on how to write a preprocessing pipeline.</p>
 </div>
 
 

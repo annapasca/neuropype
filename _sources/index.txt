@@ -15,9 +15,18 @@ python framework.
 
 NeuropyConn project includes three different packages:
 
-* :ref:`neuropype_ephy` based on `MNE python <http://martinos.org/mne/stable/index.html>`_ includes pipelines for electrophysiology analysis
+* :ref:`neuropype_ephy` based on |MNE python| includes pipelines for electrophysiology analysis
 * `neuropype_cli <https://dmalt.github.io/neuropype_cli/>`_ is a command line interface for neuropype_ephy package
-* `neuropype_graph <http://davidmeunier79.github.io/neuropype_graph/>`_ based on `radatools <http://deim.urv.cat/~sergio.gomez/radatools.php>`_ includes pipelines for graph theoretical analysis of neuroimaging data
+* `neuropype_graph <http://davidmeunier79.github.io/neuropype_graph/>`_ based on |radatools| includes pipelines for graph theoretical analysis of neuroimaging data
+
+
+.. |MNE python| raw:: html
+
+   <a href="http://martinos.org/mne/stable/index.html" target="_blank">MNE python</a>
+
+.. |radatools| raw:: html
+
+   <a href="http://deim.urv.cat/~sergio.gomez/radatools.php" target="_blank">radatools</a>
 
 NeuropyConn provides a very common and fast framework to develop workflows for advanced analyses, in particular
 defines a set of different pipelines that can be used stand-alone or as lego of a bigger workflow:
@@ -40,7 +49,6 @@ Each pipeline based on nipype engine is defined by nodes connected together,
 where each node maybe wrapping of existing software (as MNE-python modules or radatools functions) 
 as well as providing easy ways to implement function defined by the user. 
 
-:ref:`example`
 
 Installation
 ============
@@ -82,13 +90,21 @@ Packages
 ========
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    ephypype/neuropype_ephy
    neuropype_cli <https://dmalt.github.io/neuropype_cli/>
    neuropype_graph <http://davidmeunier79.github.io/neuropype_graph/>
-   examples/examples 
+   
 
+
+Examples
+========
+
+.. toctree::
+   :maxdepth: 1
+   
+   examples/examples 
    
 Indices and tables
 ==================

@@ -64,17 +64,19 @@
           
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../ephypype/neuropype_ephy.html">neuropype_ephy</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../ephypype/neuropype_ephy.html#subpackages">Subpackages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ephypype/neuropype_ephy.html#pipelines">Pipelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ephypype/neuropype_ephy.html#installation">Installation</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference external" href="https://dmalt.github.io/neuropype_cli/">neuropype_cli</a></li>
 <li class="toctree-l1"><a class="reference external" href="http://davidmeunier79.github.io/neuropype_graph/">neuropype_graph</a></li>
+</ul>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../examples/examples.html">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../examples/preproc_example.html">From raw data to preprocessed data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../examples/inv_example.html">Source reconstruction pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../examples/epoch_example.html">From epoch data to graph theoretical analysis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../examples/params.html">params file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../examples/run_preproc_ica.html">run_preproc_ica</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/examples.html#scripts">Scripts</a></li>
 </ul>
 </li>
 </ul>
@@ -134,16 +136,16 @@
 
 <span class="c">#from neuropype_ephy.import_mat import import_tsmat_to_ts</span>
 
-<div class="viewcode-block" id="SplitWindowsInputSpec"><a class="viewcode-back" href="../../../ephypype/neuropype_ephy.nodes.html#neuropype_ephy.nodes.ts_tools.SplitWindowsInputSpec">[docs]</a><span class="k">class</span> <span class="nc">SplitWindowsInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">SplitWindowsInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
     
     <span class="n">ts_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;nodes * time series in .npy format&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     
     <span class="n">n_windows</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">traits</span><span class="o">.</span><span class="n">Tuple</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;List of start and stop points (tuple of two integers) of temporal windows&#39;</span><span class="p">,</span> <span class="n">mandatory</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
-    </div>
-<div class="viewcode-block" id="SplitWindowsOutputSpec"><a class="viewcode-back" href="../../../ephypype/neuropype_ephy.nodes.html#neuropype_ephy.nodes.ts_tools.SplitWindowsOutputSpec">[docs]</a><span class="k">class</span> <span class="nc">SplitWindowsOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
+    
+<span class="k">class</span> <span class="nc">SplitWindowsOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
     
     <span class="n">win_ts_files</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s">&quot;List of files with splitted timeseries by windows&quot;</span><span class="p">)</span>
-    </div>
+    
 <div class="viewcode-block" id="SplitWindows"><a class="viewcode-back" href="../../../ephypype/neuropype_ephy.nodes.html#neuropype_ephy.nodes.ts_tools.SplitWindows">[docs]</a><span class="k">class</span> <span class="nc">SplitWindows</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
     
     <span class="sd">&quot;&quot;&quot;</span>

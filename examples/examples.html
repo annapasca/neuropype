@@ -63,19 +63,21 @@
         
           
           
-              <ul class="current">
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../ephypype/neuropype_ephy.html">neuropype_ephy</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../ephypype/neuropype_ephy.html#subpackages">Subpackages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ephypype/neuropype_ephy.html#pipelines">Pipelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ephypype/neuropype_ephy.html#installation">Installation</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference external" href="https://dmalt.github.io/neuropype_cli/">neuropype_cli</a></li>
 <li class="toctree-l1"><a class="reference external" href="http://davidmeunier79.github.io/neuropype_graph/">neuropype_graph</a></li>
+</ul>
+<ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="preproc_example.html">From raw data to preprocessed data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="inv_example.html">Source reconstruction pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="epoch_example.html">From epoch data to graph theoretical analysis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="params.html">params file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="run_preproc_ica.html">run_preproc_ica</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scripts">Scripts</a></li>
 </ul>
 </li>
 </ul>
@@ -115,11 +117,18 @@
             
   <div class="section" id="examples">
 <span id="example"></span><h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
-<p>All example scripts are based on the sample datasets provided by <a class="reference external" href="https://omega.bic.mni.mcgill.ca/main.php">OMEGA project</a>.
-In particular, we used the datasets organized according to the BIDS specifications
-(Brain Imaging Data Structure, <a class="reference external" href="http://bids.neuroimaging.io">http://bids.neuroimaging.io</a>). After the registration to the OMEGA website, you can
-download the samp,e datatasets from <a class="reference external" href="https://box.bic.mni.mcgill.ca/s/omega?path=%2FContributions%20(in%20BIDS%20format)">https://box.bic.mni.mcgill.ca/s/omega?path=%2FContributions%20(in%20BIDS%20format)</a>.</p>
-<p>The example scripts need a params file <a class="reference internal" href="params.html#params"><span>params file</span></a></p>
+<p>All example scripts are based on the sample datasets provided by <a href="https://omega.bic.mni.mcgill.ca/main.php" target="_blank">OMEGA project</a>.
+In particular, we used the datasets organized according to the BIDS specifications (<a href="http://bids.neuroimaging.io" target="_blank">Brain Imaging Data Structure</a>):
+after the registration to the OMEGA website, the sample datatasets to use with the scripts can be downloaded from
+the <a href="https://box.bic.mni.mcgill.ca/s/omega?path=%2FContributions%20(in%20BIDS%20format)" target="_blank">OMEGA link</a>.</p>
+<p>All example scripts need a <a class="reference internal" href="params.html#params"><span>params file</span></a> where to set</p>
+<ul class="simple">
+<li>the list of subjects</li>
+<li>the data path</li>
+<li>the parameters related to the preprocessing pipeline</li>
+<li>the parameters related to the connectivity pipeline</li>
+<li>the parameters related to the source reconstruction pipeline</li>
+</ul>
 <blockquote>
 <div><table border="1" class="docutils">
 <colgroup>
@@ -128,7 +137,7 @@ download the samp,e datatasets from <a class="reference external" href="https://
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><div class="first last figure align-center" id="id1">
-<a class="reference internal image-reference" href="../_images/graph_dot_preproc.jpg"><img alt="../_images/graph_dot_preproc.jpg" src="../_images/graph_dot_preproc.jpg" style="width: 134.0px; height: 230.5px;" /></a>
+<a class="reference internal image-reference" href="../_images/ICA_1comp.jpg"><img alt="../_images/ICA_1comp.jpg" src="../_images/ICA_1comp.jpg" style="width: 350.0px; height: 300.0px;" /></a>
 <p class="caption"><span class="caption-text"><a class="reference internal" href="preproc_example.html#preproc-example"><span>From raw data to preprocessed data</span></a></span></p>
 </div>
 </td>
@@ -147,6 +156,7 @@ download the samp,e datatasets from <a class="reference external" href="https://
 </tr>
 </tbody>
 </table>
+</div></blockquote>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="preproc_example.html">From raw data to preprocessed data</a></li>
@@ -154,8 +164,14 @@ download the samp,e datatasets from <a class="reference external" href="https://
 <li class="toctree-l1"><a class="reference internal" href="epoch_example.html">From epoch data to graph theoretical analysis</a></li>
 </ul>
 </div>
-</div></blockquote>
+<div class="section" id="scripts">
+<h2>Scripts<a class="headerlink" href="#scripts" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="params.html">params file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_preproc_ica.html">run_preproc_ica</a></li>
+</ul>
+</div>
 </div>
 </div>
 

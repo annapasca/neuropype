@@ -17,112 +17,107 @@ The neuropype_ephy package provides the main pipelines in the :ref:`pipelines`:
 * the :ref:`source_reconstruction` computes the inverse solution starting from raw/epoched data
 * the :ref:`spectral_connectivity` perform connectivity analysis in sensor or source space
 
-Subpackages
-===========
+
+Pipelines
+=========
+
+.. toctree::
+   :maxdepth: 2
+
+   pipelines/preproc_meeg
+   pipelines/source_reconstruction
+   pipelines/spectral_connectivity
+   
+
+Installation
+============
 
 .. toctree::
    :maxdepth: 1
-   
+
    includeme
+   
+Subpackages
+-----------
 
 .. toctree::
    :maxdepth: 1
 
-   
    neuropype_ephy.interfaces
    neuropype_ephy.nodes
    neuropype_ephy.pipelines
 
 
-Submodules
-----------
+Modules
+-------
 
-neuropype_ephy.aux_tools module
--------------------------------
+neuropype_ephy.aux_tools
+------------------------
 
 .. automodule:: neuropype_ephy.aux_tools
     :members:
-    :undoc-members:
-    :show-inheritance:
 
-neuropype_ephy.compute_fwd_problem module
------------------------------------------
+
+neuropype_ephy.compute_fwd_problem
+----------------------------------
 
 .. automodule:: neuropype_ephy.compute_fwd_problem
     :members:
-    :undoc-members:
-    :show-inheritance:
 
-neuropype_ephy.compute_inv_problem module
------------------------------------------
+
+neuropype_ephy.compute_inv_problem
+----------------------------------
 
 .. automodule:: neuropype_ephy.compute_inv_problem
     :members:
-    :undoc-members:
-    :show-inheritance:
 
-neuropype_ephy.fif2ts module
-----------------------------
+
+neuropype_ephy.fif2ts
+---------------------
 
 .. automodule:: neuropype_ephy.fif2ts
     :members:
-    :undoc-members:
-    :show-inheritance:
 
-neuropype_ephy.import_ctf module
---------------------------------
+
+neuropype_ephy.import_ctf
+-------------------------
+
 
 .. automodule:: neuropype_ephy.import_ctf
     :members:
-    :undoc-members:
-    :show-inheritance:
+    
 
-neuropype_ephy.import_mat module
---------------------------------
+neuropype_ephy.import_mat
+-------------------------
 
 .. automodule:: neuropype_ephy.import_mat
     :members:
-    :undoc-members:
-    :show-inheritance:
+    
 
-neuropype_ephy.import_txt module
---------------------------------
+neuropype_ephy.import_txt
+-------------------------
 
 .. automodule:: neuropype_ephy.import_txt
     :members:
-    :undoc-members:
-    :show-inheritance:
+    
 
-neuropype_ephy.power module
----------------------------
+neuropype_ephy.power
+--------------------
 
 .. automodule:: neuropype_ephy.power
     :members:
-    :undoc-members:
-    :show-inheritance:
+    
 
-neuropype_ephy.preproc module
------------------------------
+neuropype_ephy.preproc
+----------------------
 
 .. automodule:: neuropype_ephy.preproc
     :members:
-    :undoc-members:
-    :show-inheritance:
 
-neuropype_ephy.spectral module
-------------------------------
+
+neuropype_ephy.spectral
+-----------------------
 
 .. automodule:: neuropype_ephy.spectral
     :members:
-    :undoc-members:
-    :show-inheritance:
-
-
-Module contents
----------------
-
-.. automodule:: neuropype_ephy
-    :members:
-    :undoc-members:
-    :show-inheritance:
 
