@@ -1,0 +1,246 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>params file &mdash; neuropyconn 0.0 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="neuropyconn 0.0 documentation" href="../index.html"/>
+        <link rel="up" title="Examples" href="examples.html"/>
+        <link rel="next" title="run_preproc_ica" href="run_preproc_ica.html"/>
+        <link rel="prev" title="From epoch data to graph theoretical analysis" href="epoch_example.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../index.html" class="fa fa-home"> neuropyconn</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../ephypype/neuropype_ephy.html">neuropype_ephy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../ephypype/neuropype_ephy.html#pipelines">Pipelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ephypype/neuropype_ephy.html#installation">Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="https://dmalt.github.io/neuropype_cli/">neuropype_cli</a></li>
+<li class="toctree-l1"><a class="reference external" href="http://davidmeunier79.github.io/neuropype_graph/">neuropype_graph</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="examples.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="preproc_example.html">From raw data to preprocessed data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inv_example.html">Source reconstruction pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="epoch_example.html">From epoch data to graph theoretical analysis</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="examples.html#scripts">Scripts</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">neuropyconn</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="examples.html">Examples</a> &raquo;</li>
+      
+    <li>params file</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          <a href="../_sources/examples/params.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="params-file">
+<span id="params"></span><h1>params file<a class="headerlink" href="#params-file" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="set-path-and-subjects-list">
+<h2>Set path and subjects list<a class="headerlink" href="#set-path-and-subjects-list" title="Permalink to this headline">¶</a></h2>
+<p>Set the main directories where the data are stored, the list of subjects and sessions
+and the kind of MEG data (ds or fif format)</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">getpass</span>
+
+<span class="n">data_type</span> <span class="o">=</span> <span class="s">&#39;ds&#39;</span>
+
+<span class="n">main_path</span> <span class="o">=</span> <span class="s">&#39;/meg_data/omega/sample_BIDS_omega/&#39;</span>
+<span class="n">data_path</span> <span class="o">=</span> <span class="n">main_path</span>
+
+<span class="n">test</span> <span class="o">=</span> <span class="bp">True</span>
+
+<span class="n">subject_ids</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;sub-0002&#39;</span><span class="p">,</span> <span class="s">&#39;sub-0003&#39;</span><span class="p">,</span> <span class="s">&#39;sub-0004&#39;</span><span class="p">,</span> <span class="s">&#39;sub-0006&#39;</span><span class="p">,</span> <span class="s">&#39;sub-0007&#39;</span><span class="p">]</span>
+<span class="n">sessions</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;ses-0001&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="filter-parameters">
+<h2>Filter parameters<a class="headerlink" href="#filter-parameters" title="Permalink to this headline">¶</a></h2>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">down_sfreq</span> <span class="o">=</span> <span class="mi">800</span>  <span class="c"># sampling frequency at which downsample the data</span>
+<span class="n">l_freq</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">h_freq</span> <span class="o">=</span> <span class="mi">150</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ica-variables">
+<h2>ICA variables<a class="headerlink" href="#ica-variables" title="Permalink to this headline">¶</a></h2>
+<p>Set <code class="docutils literal"><span class="pre">is_ICA</span> <span class="pre">=</span> <span class="pre">True</span></code> to apply ICA to automatically remove ECG and EoG artifacts</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">is_ICA</span> <span class="o">=</span> <span class="bp">True</span>
+
+<span class="c"># specify ECG and EoG channel names if we have these channels in the data</span>
+<span class="n">ECG_ch_name</span> <span class="o">=</span> <span class="s">&#39;ECG&#39;</span>
+<span class="n">EoG_ch_name</span> <span class="o">=</span> <span class="s">&#39;HEOG, VEOG&#39;</span>
+<span class="n">variance</span> <span class="o">=</span> <span class="mf">0.95</span>
+
+<span class="n">reject</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">mag</span><span class="o">=</span><span class="mf">5e-12</span><span class="p">,</span> <span class="n">grad</span><span class="o">=</span><span class="mf">5000e-13</span><span class="p">)</span>
+
+<span class="n">preproc_pipeline_name</span> <span class="o">=</span> <span class="s">&quot;preprocessing_pipeline&quot;</span>
+<span class="k">if</span> <span class="n">test</span><span class="p">:</span>
+  <span class="n">preproc_pipeline_name</span> <span class="o">=</span> <span class="n">preproc_pipeline_name</span> <span class="o">+</span> <span class="s">&#39;_test&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="connectivity-variables">
+<h2>Connectivity variables<a class="headerlink" href="#connectivity-variables" title="Permalink to this headline">¶</a></h2>
+<p>Here we specify the frequency bands in which we want to compute the connectivity matrices</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">freq_bands</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">],</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">12</span><span class="p">],</span> <span class="p">[</span><span class="mi">15</span><span class="p">,</span> <span class="mi">29</span><span class="p">],</span> <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">59</span><span class="p">],</span> <span class="p">[</span><span class="mi">60</span><span class="p">,</span> <span class="mi">90</span><span class="p">]]</span>
+<span class="n">freq_band_names</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;delta&#39;</span><span class="p">,</span> <span class="s">&#39;theta&#39;</span><span class="p">,</span> <span class="s">&#39;alpha&#39;</span><span class="p">,</span> <span class="s">&#39;beta&#39;</span><span class="p">,</span> <span class="s">&#39;gamma1&#39;</span><span class="p">,</span> <span class="s">&#39;gamma2&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Download <a class="reference download internal" href="../_downloads/params.py"><code class="xref download docutils literal"><span class="pre">the</span> <span class="pre">params</span> <span class="pre">file</span></code></a></p>
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="run_preproc_ica.html" class="btn btn-neutral float-right" title="run_preproc_ica">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="epoch_example.html" class="btn btn-neutral" title="From epoch data to graph theoretical analysis"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Dmitrii Altukhov, David Meunier, Annalisa Pascarella.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

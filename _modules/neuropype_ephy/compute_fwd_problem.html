@@ -1,0 +1,338 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>neuropype_ephy.compute_fwd_problem &mdash; neuropyconn 0.0 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="neuropyconn 0.0 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../../index.html" class="fa fa-home"> neuropyconn</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ephypype/neuropype_ephy.html">neuropype_ephy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ephypype/neuropype_ephy.html#pipelines">Pipelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ephypype/neuropype_ephy.html#installation">Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="https://dmalt.github.io/neuropype_cli/">neuropype_cli</a></li>
+<li class="toctree-l1"><a class="reference external" href="http://davidmeunier79.github.io/neuropype_graph/">neuropype_graph</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/examples.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/preproc_example.html">From raw data to preprocessed data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/inv_example.html">Source reconstruction pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/epoch_example.html">From epoch data to graph theoretical analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/examples.html#scripts">Scripts</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">neuropyconn</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>neuropype_ephy.compute_fwd_problem</li>
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <h1>Source code for neuropype_ephy.compute_fwd_problem</h1><div class="highlight"><pre>
+<span class="c"># 2015.10.09 12:03:07 EDT</span>
+<span class="c"># Embedded file name: /home/karim/Documents/pasca/packages/neuropype_ephy/neuropype_ephy/compute_fwd_problem.py</span>
+
+<span class="c"># Created on Mon Oct  5 17:36:56 2015</span>
+<span class="c"># @author: pasca</span>
+
+
+<span class="k">def</span> <span class="nf">create_bem_sol</span><span class="p">(</span><span class="n">sbj_dir</span><span class="p">,</span> <span class="n">sbj_id</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">os.path</span> <span class="kn">as</span> <span class="nn">op</span>
+    <span class="kn">import</span> <span class="nn">mne</span>
+
+    <span class="kn">from</span> <span class="nn">mne.bem</span> <span class="kn">import</span> <span class="n">make_watershed_bem</span>
+    <span class="kn">from</span> <span class="nn">mne.report</span> <span class="kn">import</span> <span class="n">Report</span>
+
+    <span class="n">report</span> <span class="o">=</span> <span class="n">Report</span><span class="p">()</span>
+
+    <span class="n">bem_dir</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sbj_dir</span><span class="p">,</span> <span class="n">sbj_id</span><span class="p">,</span> <span class="s">&#39;bem&#39;</span><span class="p">)</span>
+
+    <span class="n">surf_name</span> <span class="o">=</span> <span class="s">&#39;inner_skull.surf&#39;</span>
+    <span class="n">sbj_inner_skull_fname</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bem_dir</span><span class="p">,</span> <span class="n">sbj_id</span> <span class="o">+</span> <span class="s">&#39;-&#39;</span> <span class="o">+</span> <span class="n">surf_name</span><span class="p">)</span>
+    <span class="n">inner_skull_fname</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bem_dir</span><span class="p">,</span> <span class="n">surf_name</span><span class="p">)</span>
+
+    <span class="c"># check if bem-sol was created, if not creates the bem sol using C MNE</span>
+    <span class="n">bem_fname</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bem_dir</span><span class="p">,</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">-5120-bem-sol.fif&#39;</span> <span class="o">%</span> <span class="n">sbj_id</span><span class="p">)</span>
+    <span class="n">model_fname</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bem_dir</span><span class="p">,</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">-5120-bem.fif&#39;</span> <span class="o">%</span> <span class="n">sbj_id</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">op</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">bem_fname</span><span class="p">):</span>
+        <span class="c"># chek if inner_skull surf exists, if not BEM computation is</span>
+        <span class="c"># performed by MNE python functions mne.bem.make_watershed_bem</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">sbj_inner_skull_fname</span><span class="p">)</span> <span class="ow">or</span>
+                <span class="n">op</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">inner_skull_fname</span><span class="p">)):</span>
+            <span class="k">print</span> <span class="n">inner_skull_fname</span> <span class="o">+</span> <span class="s">&#39;---&gt; FILE NOT FOUND!!!---&gt; BEM computed&#39;</span>
+            <span class="n">make_watershed_bem</span><span class="p">(</span><span class="n">sbj_id</span><span class="p">,</span> <span class="n">sbj_dir</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">*** inner skull </span><span class="si">%s</span><span class="s"> surface exists!!!</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">inner_skull_fname</span>
+
+        <span class="c"># Create a BEM model for a subject</span>
+        <span class="n">surfaces</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">make_bem_model</span><span class="p">(</span><span class="n">sbj_id</span><span class="p">,</span> <span class="n">ico</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">conductivity</span><span class="o">=</span><span class="p">[</span><span class="mf">0.3</span><span class="p">],</span>
+                                      <span class="n">subjects_dir</span><span class="o">=</span><span class="n">sbj_dir</span><span class="p">)</span>
+
+        <span class="c"># Write BEM surfaces to a fiff file</span>
+        <span class="n">mne</span><span class="o">.</span><span class="n">write_bem_surfaces</span><span class="p">(</span><span class="n">model_fname</span><span class="p">,</span> <span class="n">surfaces</span><span class="p">)</span>
+
+        <span class="c"># Create a BEM solution using the linear collocation approach</span>
+        <span class="n">bem</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">make_bem_solution</span><span class="p">(</span><span class="n">surfaces</span><span class="p">)</span>
+        <span class="n">mne</span><span class="o">.</span><span class="n">write_bem_solution</span><span class="p">(</span><span class="n">bem_fname</span><span class="p">,</span> <span class="n">bem</span><span class="p">)</span>
+
+        <span class="k">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">*** BEM solution file </span><span class="si">%s</span><span class="s"> written ***</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">bem_fname</span>
+
+        <span class="c"># add BEM figures to a Report</span>
+        <span class="n">report</span><span class="o">.</span><span class="n">add_bem_to_section</span><span class="p">(</span><span class="n">subject</span><span class="o">=</span><span class="n">sbj_id</span><span class="p">,</span> <span class="n">subjects_dir</span><span class="o">=</span><span class="n">sbj_dir</span><span class="p">)</span>
+        <span class="n">report_filename</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bem_dir</span><span class="p">,</span> <span class="s">&quot;BEM_report.html&quot;</span><span class="p">)</span>
+        <span class="k">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">*** REPORT file </span><span class="si">%s</span><span class="s"> written ***</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">report_filename</span>
+        <span class="k">print</span> <span class="n">report_filename</span>
+        <span class="n">report</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">report_filename</span><span class="p">,</span> <span class="n">open_browser</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">bem</span> <span class="o">=</span> <span class="n">bem_fname</span>
+        <span class="k">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">*** BEM solution file </span><span class="si">%s</span><span class="s"> exists!!! ***</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">bem_fname</span>
+
+    <span class="k">return</span> <span class="n">bem</span>
+
+
+<span class="k">def</span> <span class="nf">create_src_space</span><span class="p">(</span><span class="n">sbj_dir</span><span class="p">,</span> <span class="n">sbj_id</span><span class="p">,</span> <span class="n">spacing</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">os.path</span> <span class="kn">as</span> <span class="nn">op</span>
+    <span class="kn">import</span> <span class="nn">mne</span>
+
+    <span class="n">bem_dir</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sbj_dir</span><span class="p">,</span> <span class="n">sbj_id</span><span class="p">,</span> <span class="s">&#39;bem&#39;</span><span class="p">)</span>
+
+    <span class="c"># check if source space exists, if not it creates using mne-python fun</span>
+    <span class="c"># we have to create the cortical surface source space even when aseg is</span>
+    <span class="c"># True</span>
+    <span class="n">src_fname</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bem_dir</span><span class="p">,</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">-</span><span class="si">%s</span><span class="s">-src.fif&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">sbj_id</span><span class="p">,</span> <span class="n">spacing</span><span class="p">))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">op</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">src_fname</span><span class="p">):</span>
+        <span class="n">src</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">setup_source_space</span><span class="p">(</span><span class="n">sbj_id</span><span class="p">,</span> <span class="n">subjects_dir</span><span class="o">=</span><span class="n">sbj_dir</span><span class="p">,</span>
+                                     <span class="n">fname</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                                     <span class="n">spacing</span><span class="o">=</span><span class="n">spacing</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;-&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">),</span>
+                                     <span class="n">add_dist</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                                     <span class="n">n_jobs</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">*** source space file </span><span class="si">%s</span><span class="s"> written ***</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">src_fname</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">*** source space file </span><span class="si">%s</span><span class="s"> exists!!!</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">src_fname</span>
+        <span class="n">src</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">read_source_spaces</span><span class="p">(</span><span class="n">src_fname</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">src</span>
+
+
+<span class="k">def</span> <span class="nf">create_mixed_source_space</span><span class="p">(</span><span class="n">sbj_dir</span><span class="p">,</span> <span class="n">sbj_id</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">src</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">os.path</span> <span class="kn">as</span> <span class="nn">op</span>
+    <span class="kn">from</span> <span class="nn">mne</span> <span class="kn">import</span> <span class="n">setup_volume_source_space</span>
+
+    <span class="n">bem_dir</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sbj_dir</span><span class="p">,</span> <span class="n">sbj_id</span><span class="p">,</span> <span class="s">&#39;bem&#39;</span><span class="p">)</span>
+
+<span class="c">#    src_aseg_fname = op.join(bem_dir, &#39;%s-%s-aseg-src.fif&#39; %(sbj_id, spacing))</span>
+    <span class="n">aseg_fname</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sbj_dir</span><span class="p">,</span> <span class="n">sbj_id</span><span class="p">,</span> <span class="s">&#39;mri/aseg.mgz&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">spacing</span> <span class="o">==</span> <span class="s">&#39;oct-6&#39;</span><span class="p">:</span>
+        <span class="n">pos</span> <span class="o">=</span> <span class="mf">5.0</span>
+    <span class="k">elif</span> <span class="n">spacing</span> <span class="o">==</span> <span class="s">&#39;ico-5&#39;</span><span class="p">:</span>
+        <span class="n">pos</span> <span class="o">=</span> <span class="mf">3.0</span>
+
+    <span class="n">model_fname</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bem_dir</span><span class="p">,</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">-5120-bem.fif&#39;</span> <span class="o">%</span> <span class="n">sbj_id</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>
+        <span class="k">print</span> <span class="n">l</span>
+        <span class="n">vol_label</span> <span class="o">=</span> <span class="n">setup_volume_source_space</span><span class="p">(</span><span class="n">sbj_id</span><span class="p">,</span> <span class="n">mri</span><span class="o">=</span><span class="n">aseg_fname</span><span class="p">,</span>
+                                              <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span>
+                                              <span class="n">bem</span><span class="o">=</span><span class="n">model_fname</span><span class="p">,</span>
+                                              <span class="n">volume_label</span><span class="o">=</span><span class="n">l</span><span class="p">,</span>
+                                              <span class="n">subjects_dir</span><span class="o">=</span><span class="n">sbj_dir</span><span class="p">)</span>
+        <span class="n">src</span> <span class="o">+=</span> <span class="n">vol_label</span>
+
+<span class="c">#    write_source_spaces(src_aseg_fname, src)</span>
+
+    <span class="c"># Export source positions to nift file</span>
+    <span class="n">nii_fname</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bem_dir</span><span class="p">,</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">-</span><span class="si">%s</span><span class="s">-aseg-src.nii&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">sbj_id</span><span class="p">,</span> <span class="n">spacing</span><span class="p">))</span>
+
+    <span class="c"># Combine the source spaces</span>
+    <span class="n">src</span><span class="o">.</span><span class="n">export_volume</span><span class="p">(</span><span class="n">nii_fname</span><span class="p">,</span> <span class="n">mri_resolution</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">src</span>
+
+
+<span class="k">def</span> <span class="nf">is_trans</span><span class="p">(</span><span class="n">raw_fname</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">glob</span>
+    <span class="kn">import</span> <span class="nn">os.path</span> <span class="kn">as</span> <span class="nn">op</span>
+
+    <span class="kn">from</span> <span class="nn">nipype.utils.filemanip</span> <span class="kn">import</span> <span class="n">split_filename</span> <span class="k">as</span> <span class="n">split_f</span>
+
+<span class="c">#    data_path, raw_fname, ext = split_f(raw_info[&#39;filename&#39;])</span>
+    <span class="n">data_path</span><span class="p">,</span> <span class="n">raw_fname</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">split_f</span><span class="p">(</span><span class="n">raw_fname</span><span class="p">)</span>
+
+    <span class="c"># check if the co-registration file was created</span>
+    <span class="c"># if not raise an runtime error</span>
+    <span class="n">i_ica</span> <span class="o">=</span> <span class="n">raw_fname</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;-cleaned&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">i_ica</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">raw_fname</span> <span class="o">=</span> <span class="n">raw_fname</span><span class="p">[:</span><span class="n">i_ica</span><span class="p">]</span>
+
+    <span class="n">trans_fname</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">*trans.fif&#39;</span> <span class="o">%</span> <span class="n">raw_fname</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">trans_fname</span> <span class="ow">in</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">trans_fname</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">*** coregistration file </span><span class="si">%s</span><span class="s"> found!!!</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">trans_fname</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">op</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">trans_fname</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&#39;*** coregistration file </span><span class="si">%s</span><span class="s"> NOT found!!!&#39;</span>
+                           <span class="o">%</span> <span class="n">trans_fname</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">trans_fname</span>
+
+
+<div class="viewcode-block" id="compute_fwd_sol"><a class="viewcode-back" href="../../ephypype/neuropype_ephy.html#neuropype_ephy.compute_fwd_problem.compute_fwd_sol">[docs]</a><span class="k">def</span> <span class="nf">compute_fwd_sol</span><span class="p">(</span><span class="n">raw_info</span><span class="p">,</span> <span class="n">trans_fname</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">bem</span><span class="p">,</span> <span class="n">fwd_filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute leadfield matrix by BEM</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">mne</span>
+
+    <span class="n">mne</span><span class="o">.</span><span class="n">make_forward_solution</span><span class="p">(</span><span class="n">raw_info</span><span class="p">,</span> <span class="n">trans_fname</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">bem</span><span class="p">,</span>
+                              <span class="n">fwd_filename</span><span class="p">,</span>
+                              <span class="n">mindist</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span> <span class="c"># ignore sources &lt;= 0mm from inner skull</span>
+                              <span class="n">meg</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">eeg</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                              <span class="n">n_jobs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                              <span class="n">overwrite</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="k">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">*** FWD file </span><span class="si">%s</span><span class="s"> written!!!</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">fwd_filename</span></div>
+</pre></div>
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Dmitrii Altukhov, David Meunier, Annalisa Pascarella.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
