@@ -6,8 +6,6 @@ From raw data to preprocessed data
 The following script implements the preprocessing pipeline to perform **ICA** on MEG data in **ds** format 
 (see :ref:`preproc_meeg`). Before to run the script, the :ref:`params` has to be downloaded. 
 
-To inspect the ICA components, a jupyter notebook can be used.
-
 
 .. code:: python
 
@@ -103,7 +101,17 @@ To inspect the ICA components, a jupyter notebook can be used.
       main_workflow.run(plugin='MultiProc', plugin_args={'n_procs': 8})
 
 
-   
+The output of the pipeline will be the
+
+* ica solution file saved in $main_path/$preproc_pipeline_name/preproc_meeg/_sess_index_#_subject_id_#/ica/$raw_file_ica_solution.fif
+* cleaned raw data file saved in $main_path/$preproc_pipeline_name/preproc_meeg/_sess_index_#_subject_id_#/ica/$raw_file_ica.fif
+* report html file saved in $main_path/$preproc_pipeline_name/preproc_meeg/_sess_index_#_subject_id_#/ica/$raw_file-report.html
+
+To visually inspect the ICA components, the report file can be visualized by a jupyter notebook where it is 
+possible include or exclude the ICA components inspecting their topographies and time series.
+
+The raw data file will be saved in the subject data directory.
+
    
 Download Python source code: :download:`run_preprocess_pipeline.py <../../examples/run_preprocess_pipeline.py>`
 

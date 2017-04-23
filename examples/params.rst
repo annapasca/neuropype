@@ -66,5 +66,13 @@ Here we specify the frequency bands in which we want to compute the connectivity
     freq_bands = [[2,4], [5,7], [8, 12], [15, 29], [30, 59], [60, 90]]
     freq_band_names = ['delta', 'theta', 'alpha', 'beta', 'gamma1', 'gamma2']
     
+    # 'pli', 'plv', 'pli2_unbiased', 'coh', 'cohy', 'ppc', 'wpli', 'wpli2_debiased', 'correl'
+    con_method = 'imcoh'
+    epoch_window_length = 3.0
 
+    # pipeline directory within the main_path dir
+    correl_analysis_name = 'spectral_connectivity_' + data_type + \
+				'_' + con_method
+    
+    
 Download :download:`the params file <../../examples/params.py>`
