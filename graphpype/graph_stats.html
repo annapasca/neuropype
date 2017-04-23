@@ -73,6 +73,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../examples/examples.html">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../examples/preproc_example.html">From raw data to preprocessed data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/conn_graph_example.html">Spectral connectivity and graph pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/inv_example.html">Source reconstruction pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/epoch_example.html">From epoch data to graph theoretical analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/examples.html#scripts">Scripts</a></li>
@@ -121,32 +122,7 @@
 <dl class="class">
 <dt id="neuropype_graph.nodes.graph_stats.SwapLists">
 <em class="property">class </em><code class="descclassname">neuropype_graph.nodes.graph_stats.</code><code class="descname">SwapLists</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_graph/nodes/graph_stats.html#SwapLists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_graph.nodes.graph_stats.SwapLists" title="Permalink to this definition">¶</a></dt>
-<dd><p>Description:</p>
-<p>Exchange lists of files in a random fashion (based on seed value)
-Typically, cor_mat, coords -&gt; 2, or Z_list, node_corres and labels -&gt; 3</p>
-<p>If seed = -1, no swap is done (keep original values)</p>
-<p>Inputs:</p>
-<blockquote>
-<div><dl class="docutils">
-<dt>list_of_lists:</dt>
-<dd><ul class="first last simple">
-<li>type = List of List of  List of Files,</li>
-<li>exists=True,</li>
-<li>desc=&#8217;list of all correlation matrice files (in npy format) for each subject&#8217;,</li>
-<li>mandatory=True</li>
-</ul>
-</dd>
-<dt>seed:</dt>
-<dd>type = Int, default = -1, desc=&#8217;value for seed&#8217;, mandatory=True, usedefault = True</dd>
-</dl>
-</div></blockquote>
-<p>Outputs:</p>
-<blockquote>
-<div><dl class="docutils">
-<dt>permut_lists_of_lists:</dt>
-<dd>type = List of  List of List of Files ,exists=True, desc=&#8217;swapped list of all correlation matrice files (in npy format) for each subject&#8217;, mandatory=True</dd>
-</dl>
-</div></blockquote>
+<dd><p>Extract mean time series from a labelled mask in Nifti Format where the voxels of interest have values 1</p>
 </dd></dl>
 
 </div>
@@ -155,24 +131,7 @@ Typically, cor_mat, coords -&gt; 2, or Z_list, node_corres and labels -&gt; 3</p
 <dl class="class">
 <dt id="neuropype_graph.nodes.graph_stats.ShuffleMatrix">
 <em class="property">class </em><code class="descclassname">neuropype_graph.nodes.graph_stats.</code><code class="descname">ShuffleMatrix</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_graph/nodes/graph_stats.html#ShuffleMatrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_graph.nodes.graph_stats.ShuffleMatrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Description:</p>
-<p>Compute randomisation of matrix, keeping the same distribution</p>
-<p>If seed = -1, no shuffling is done (keep original values)</p>
-<p>Inputs:</p>
-<blockquote>
-<div><dl class="docutils">
-<dt>original_matrix_file:</dt>
-<dd>type = File, exists=True, desc=&#8217;original matrix in npy format&#8217;, mandatory=True</dd>
-<dt>seed:</dt>
-<dd>type = Int, default = -1, desc=&#8217;value for seed&#8217;, mandatory=True, usedefault = True</dd>
-</dl>
-</div></blockquote>
-<p>Outputs:</p>
-<blockquote>
-<div><p>shuffled_matrix_file:</p>
-<blockquote>
-<div>type = File, exists=True, desc=&#8217;shuffled matrix in npy format&#8217;, mandatory=True</div></blockquote>
-</div></blockquote>
+<dd><p>Extract mean time series from a labelled mask in Nifti Format where the voxels of interest have values 1</p>
 </dd></dl>
 
 </div>

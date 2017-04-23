@@ -73,6 +73,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../examples/examples.html">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../examples/preproc_example.html">From raw data to preprocessed data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/conn_graph_example.html">Spectral connectivity and graph pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/inv_example.html">Source reconstruction pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/epoch_example.html">From epoch data to graph theoretical analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/examples.html#scripts">Scripts</a></li>
@@ -156,14 +157,17 @@
 <dl class="class">
 <dt id="neuropype_graph.nodes.correl_mat.IntersectMask">
 <em class="property">class </em><code class="descclassname">neuropype_graph.nodes.correl_mat.</code><code class="descname">IntersectMask</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_graph/nodes/correl_mat.html#IntersectMask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_graph.nodes.correl_mat.IntersectMask" title="Permalink to this definition">¶</a></dt>
-<dd><p>Description:</p>
-<p>Keep only values of indexed mask where filter_mask is present.
-Optionnally, keep only ijk_coords, MNI_coords and labels that are kept in filtered mask</p>
+<dd><dl class="docutils">
+<dt>Description:</dt>
+<dd>Keep only values of indexed mask where filtermask is present
+Optionnally, keep only ijk_coords, MNI_coords and labels that are kept in filtered mask</dd>
+</dl>
 <p>Inputs:</p>
 <blockquote>
-<div><dl class="docutils">
-<dt>indexed_rois_file:</dt>
-<dd>type = File, exists=True, desc=&#8217;nii file with indexed mask where all voxels belonging to the same ROI have the same value (! starting from 0)&#8217;, mandatory=True</dd>
+<div><p>indexed_rois_file:</p>
+<blockquote>
+<div>type = File, exists=True, desc=&#8217;nii file with indexed mask where all voxels belonging to the same ROI have the same value (! starting from 0)&#8217;, mandatory=True</div></blockquote>
+<dl class="docutils">
 <dt>filter_mask_file:</dt>
 <dd>type = File, exists=True, desc=&#8217;nii file with (binary) mask - e.g. grey matter mask&#8217;, mandatory=True</dd>
 <dt>coords_rois_file:</dt>
@@ -197,32 +201,7 @@ Optionnally, keep only ijk_coords, MNI_coords and labels that are kept in filter
 <dl class="class">
 <dt id="neuropype_graph.nodes.correl_mat.ExtractMeanTS">
 <em class="property">class </em><code class="descclassname">neuropype_graph.nodes.correl_mat.</code><code class="descname">ExtractMeanTS</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_graph/nodes/correl_mat.html#ExtractMeanTS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_graph.nodes.correl_mat.ExtractMeanTS" title="Permalink to this definition">¶</a></dt>
-<dd><p>Description:</p>
-<p>Extract mean time series from a labelled mask in Nifti Format where the voxels of interest have values 1 (mask_file), or from a percent mask (filter_mask_file) with values higher than threshold (filter_thr)</p>
-<p>Inputs:</p>
-<blockquote>
-<div><dl class="docutils">
-<dt>file_4D:</dt>
-<dd>type = File, exists=True, desc=&#8216;4D volume to be extracted&#8217;, mandatory=True</dd>
-<dt>mask_file:</dt>
-<dd>type = File, xor = [&#8216;filter_mask_file&#8217;], exists=True, desc=&#8217;mask file where all voxels belonging to the selected region have index 1&#8217;, mandatory=True</dd>
-<dt>filter_mask_file:</dt>
-<dd>type = File, xor = [&#8216;mask_file&#8217;],requires = [&#8216;filter_thr&#8217;], exists=True, desc=&#8217;mask file where all voxels belonging to the selected region have values higher than threshold&#8217;, mandatory=True</dd>
-<dt>filter_thr:</dt>
-<dd>type = Float, default = 0.99, usedefault = True, desc=&#8217;Value to threshold filter_mask&#8217;</dd>
-<dt>suffix:</dt>
-<dd>type = String, default = &#8220;suf&#8221;,desc=&#8217;Suffix added to describe the extracted time series&#8217;,mandatory=False,usedefault = True</dd>
-<dt>plot_fig:</dt>
-<dd>type = Bool, default = False, desc = &#8220;Plotting mean signal or not&#8221;, usedefault = True</dd>
-</dl>
-</div></blockquote>
-<p>Outputs:</p>
-<blockquote>
-<div><dl class="docutils">
-<dt>mean_masked_ts_file:</dt>
-<dd>type = File, exists=True, desc=&#8221;mean ts in .npy format&#8221;</dd>
-</dl>
-</div></blockquote>
+<dd><p>Extract mean time series from a labelled mask in Nifti Format where the voxels of interest have values 1</p>
 </dd></dl>
 
 </div>
@@ -231,24 +210,7 @@ Optionnally, keep only ijk_coords, MNI_coords and labels that are kept in filter
 <dl class="class">
 <dt id="neuropype_graph.nodes.correl_mat.ConcatTS">
 <em class="property">class </em><code class="descclassname">neuropype_graph.nodes.correl_mat.</code><code class="descname">ConcatTS</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_graph/nodes/correl_mat.html#ConcatTS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_graph.nodes.correl_mat.ConcatTS" title="Permalink to this definition">¶</a></dt>
-<dd><p>Description:</p>
-<p>Concatenate time series</p>
-<p>Inputs:</p>
-<blockquote>
-<div><dl class="docutils">
-<dt>all_ts_file:</dt>
-<dd>type = File, exists=True, desc=&#8217;npy file containing all ts to be concatenated&#8217;, mandatory=True</dd>
-</dl>
-</div></blockquote>
-<p>Outputs:</p>
-<blockquote>
-<div><dl class="docutils">
-<dt>concatenated_ts_file:</dt>
-<dd>type = File, exists=True, desc=&#8221;ts after concatenation&#8221;</dd>
-</dl>
-</div></blockquote>
-<p>Comments:</p>
-<p>Not sure where it is used</p>
+<dd><p>Concenate time series</p>
 </dd></dl>
 
 </div>
@@ -257,24 +219,7 @@ Optionnally, keep only ijk_coords, MNI_coords and labels that are kept in filter
 <dl class="class">
 <dt id="neuropype_graph.nodes.correl_mat.MergeTS">
 <em class="property">class </em><code class="descclassname">neuropype_graph.nodes.correl_mat.</code><code class="descname">MergeTS</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_graph/nodes/correl_mat.html#MergeTS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_graph.nodes.correl_mat.MergeTS" title="Permalink to this definition">¶</a></dt>
-<dd><p>Description:</p>
-<p>Merges time series from several files</p>
-<p>Inputs:</p>
-<blockquote>
-<div><dl class="docutils">
-<dt>all_ts_files:</dt>
-<dd>type = List of Files, exists=True, desc=&#8217;list of npy files containing all ts to be merged&#8217;, mandatory=True</dd>
-</dl>
-</div></blockquote>
-<p>Outputs:</p>
-<blockquote>
-<div><dl class="docutils">
-<dt>merged_ts_file: </dt>
-<dd>type = File, exists=True, desc=&#8221;ts after merge&#8221;</dd>
-</dl>
-</div></blockquote>
-<p>Comments:</p>
-<p>Used for multiple-session merges</p>
+<dd><p>Merges time series from several files</p>
 </dd></dl>
 
 </div>
@@ -283,24 +228,7 @@ Optionnally, keep only ijk_coords, MNI_coords and labels that are kept in filter
 <dl class="class">
 <dt id="neuropype_graph.nodes.correl_mat.SeparateTS">
 <em class="property">class </em><code class="descclassname">neuropype_graph.nodes.correl_mat.</code><code class="descname">SeparateTS</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_graph/nodes/correl_mat.html#SeparateTS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_graph.nodes.correl_mat.SeparateTS" title="Permalink to this definition">¶</a></dt>
-<dd><p>Description:</p>
-<p>Save all time series from a npy file to several single time series npy files</p>
-<p>Inputs:</p>
-<blockquote>
-<div><dl class="docutils">
-<dt>all_ts_file:</dt>
-<dd>type = File, exists=True, desc=&#8217;npy file containing all ts to be concatenated&#8217;, mandatory=True</dd>
-</dl>
-</div></blockquote>
-<p>Outputs:</p>
-<blockquote>
-<div><dl class="docutils">
-<dt>separated_ts_files</dt>
-<dd>type = List of Files, exists=True, desc=&#8221;ts files after separation&#8221;</dd>
-</dl>
-</div></blockquote>
-<p>Comments:</p>
-<p>Not sure where it is used...</p>
+<dd><p>Extract time series from a labelled mask in Nifti Format where all ROIs have the same index</p>
 </dd></dl>
 
 </div>
@@ -309,32 +237,8 @@ Optionnally, keep only ijk_coords, MNI_coords and labels that are kept in filter
 <dl class="class">
 <dt id="neuropype_graph.nodes.correl_mat.FindSPMRegressor">
 <em class="property">class </em><code class="descclassname">neuropype_graph.nodes.correl_mat.</code><code class="descname">FindSPMRegressor</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_graph/nodes/correl_mat.html#FindSPMRegressor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_graph.nodes.correl_mat.FindSPMRegressor" title="Permalink to this definition">¶</a></dt>
-<dd><p>Description:</p>
-<p>Find regressor in SPM.mat and save it as timeseries txt file</p>
-<p>Inputs:</p>
-<blockquote>
-<div><dl class="docutils">
-<dt>spm_mat_file:</dt>
-<dd>type = File, exists=True, desc=&#8217;SPM design matrix after generate model&#8217;, mandatory=True</dd>
-<dt>regressor_name:</dt>
-<dd>type = String, exists=True, desc=&#8217;Name of the regressor in SPM design matrix to be looked after&#8217;, mandatory=True</dd>
-<dt>run_index:</dt>
-<dd>type = Int, default = 1 , usedefault = True , desc = &#8220;Run (session) index, default is one in SPM&#8221;</dd>
-<dt>only_positive_values:</dt>
-<dd>type = Bool, default = True, usedefault = True , desc = &#8220;Return only positive values of the regressor (negative values are set to 0); Otherwise return all values&#8221;</dd>
-<dt>concatenated_runs:  </dt>
-<dd><p class="first">type = Bool, default = False , usedefault = True , desc = &#8220;If concatenate runs, need to search for the length of the session&#8221;</p>
-<p class="last">Deprecation: #concatenate_runs = traits.Int(1, usedefault = True , desc = &#8220;If concatenate runs, how many runs there is (needed to return the part of the regressors that is active for the session only)&#8221;)</p>
-</dd>
-</dl>
-</div></blockquote>
-<p>Outputs:</p>
-<blockquote>
-<div><dl class="docutils">
-<dt>regressor_file:</dt>
-<dd>type = File,exists=True, desc=&#8221;txt file containing the regressor&#8221;</dd>
-</dl>
-</div></blockquote>
+<dd><p>Regress parameters of non-interest (i.e. movement parameters, white matter, csf) from signal
+Optionnally filter and normalize (z-score) the residuals</p>
 </dd></dl>
 
 </div>

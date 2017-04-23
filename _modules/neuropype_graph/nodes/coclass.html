@@ -74,6 +74,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../examples/examples.html">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../examples/preproc_example.html">From raw data to preprocessed data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/conn_graph_example.html">Spectral connectivity and graph pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../examples/inv_example.html">Source reconstruction pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../examples/epoch_example.html">From epoch data to graph theoretical analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../examples/examples.html#scripts">Scripts</a></li>
@@ -161,44 +162,7 @@
 <div class="viewcode-block" id="PrepareCoclass"><a class="viewcode-back" href="../../../graphpype/coclass.html#neuropype_graph.nodes.coclass.PrepareCoclass">[docs]</a><span class="k">class</span> <span class="nc">PrepareCoclass</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
     
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Prepare a list of coclassification matrices, in a similar reference given by a coord (resp label)  file based on individual coords (resp labels) files </span>
-<span class="sd">    </span>
-<span class="sd">    Inputs:</span>
-<span class="sd">        </span>
-<span class="sd">        mod_files:</span>
-<span class="sd">            type = List of Files, exists=True, desc=&#39;list of all files representing modularity assignement (in rada, lol files) for each subject&#39;, mandatory=True</span>
-<span class="sd">        </span>
-<span class="sd">        node_corres_files:</span>
-<span class="sd">            type = List of Files, exists=True, desc=&#39;list of all Pajek files (in txt format) to extract correspondance between nodes in rada analysis and original subject coordinates for each subject (as obtained from PrepRada)&#39;, mandatory=True</span>
-<span class="sd">        </span>
-<span class="sd">        coords_files:</span>
-<span class="sd">            type = List of Files, exists=True, desc=&#39;list of all coordinates in numpy space files (in txt format) for each subject (after removal of non void data)&#39;, mandatory=True, xor = [&#39;labels_files&#39;]</span>
-<span class="sd">        </span>
-<span class="sd">        gm_mask_coords_file </span>
-<span class="sd">            type = File,exists=True, desc=&#39;Coordinates in numpy space, corresponding to all possible nodes in the original space&#39;, mandatory=False, xor = [&#39;gm_mask_labels_file&#39;]</span>
-<span class="sd">        </span>
-<span class="sd">        labels_files:</span>
-<span class="sd">            type = List of Files, exists=True, desc=&#39;list of labels (in txt format) for each subject (after removal of non void data)&#39;, mandatory=True, xor = [&#39;coords_files&#39;]</span>
-<span class="sd">        </span>
-<span class="sd">        gm_mask_labels_file:</span>
-<span class="sd">            type = File, exists=True, desc=&#39;Labels for all possible nodes - in case coords are varying from one indiv to the other (source space for example)&#39;, mandatory=False, xor = [&#39;gm_mask_coords_file&#39;]</span>
-<span class="sd">            </span>
-<span class="sd">    Outputs:</span>
-<span class="sd">            </span>
-<span class="sd">        group_coclass_matrix_file:</span>
-<span class="sd">            type = File,exists=True, desc=&quot;all coclass matrices of the group in .npy  format&quot;</span>
-<span class="sd">        </span>
-<span class="sd">        sum_coclass_matrix_file:</span>
-<span class="sd">            type = File, exists=True, desc=&quot;sum of coclass matrix of the group in .npy format&quot;</span>
-<span class="sd">        </span>
-<span class="sd">        sum_possible_edge_matrix_file:</span>
-<span class="sd">            type = File, exists=True, desc=&quot;sum of possible edges matrices of the group in .npy format&quot;</span>
-<span class="sd">        </span>
-<span class="sd">        norm_coclass_matrix_file:</span>
-<span class="sd">            type = File, exists=True, desc=&quot;sum of coclass matrix normalized by possible edges matrix of the group in .npy format&quot;</span>
-<span class="sd">        </span>
-<span class="sd">    </span>
-<span class="sd">        </span>
+<span class="sd">    Extract mean time series from a labelled mask in Nifti Format where the voxels of interest have values 1</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">input_spec</span> <span class="o">=</span> <span class="n">PrepareCoclassInputSpec</span>
     <span class="n">output_spec</span> <span class="o">=</span> <span class="n">PrepareCoclassOutputSpec</span>
@@ -209,6 +173,12 @@
         <span class="n">mod_files</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mod_files</span>
         
         <span class="n">node_corres_files</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">node_corres_files</span>
+        
+        <span class="c">#print gm_mask_coords_file</span>
+        <span class="c">#print coords_files</span>
+        
+        <span class="c">#print gm_mask_labels_file</span>
+        <span class="c">#print labels_files</span>
         
         <span class="k">if</span> <span class="n">isdefined</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">gm_mask_coords_file</span><span class="p">)</span> <span class="ow">and</span> <span class="n">isdefined</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">coords_files</span><span class="p">):</span>
         
@@ -428,26 +398,7 @@
 <div class="viewcode-block" id="DiffMatrices"><a class="viewcode-back" href="../../../graphpype/coclass.html#neuropype_graph.nodes.coclass.DiffMatrices">[docs]</a><span class="k">class</span> <span class="nc">DiffMatrices</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
     
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Description:</span>
-<span class="sd">    </span>
-<span class="sd">    Compute difference between two matrices, should have same shape</span>
-<span class="sd">    </span>
-<span class="sd">    Inputs:</span>
-<span class="sd">            </span>
-<span class="sd">        mat_file1:</span>
-<span class="sd">            type = File,exists=True, desc=&#39;Matrix in npy format&#39;, mandatory=True</span>
-<span class="sd">        </span>
-<span class="sd">        mat_file2:</span>
-<span class="sd">            type = File,exists=True, desc=&#39;Matrix in npy format&#39;, mandatory=True</span>
-<span class="sd">        </span>
-<span class="sd">    Outputs:</span>
-<span class="sd">        diff_mat_file:</span>
-<span class="sd">            type = File, exists=True, desc=&#39;Difference of Matrices (mat1 - mat2) in npy format&#39;, mandatory=True</span>
-<span class="sd">    </span>
-<span class="sd">    Comments:</span>
-<span class="sd">    </span>
-<span class="sd">    Not sure where it is used ...</span>
-<span class="sd">    </span>
+<span class="sd">    Extract mean time series from a labelled mask in Nifti Format where the voxels of interest have values 1</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">input_spec</span> <span class="o">=</span> <span class="n">DiffMatricesInputSpec</span>
     <span class="n">output_spec</span> <span class="o">=</span> <span class="n">DiffMatricesOutputSpec</span>
@@ -514,30 +465,9 @@
 <div class="viewcode-block" id="PlotCoclass"><a class="viewcode-back" href="../../../graphpype/coclass.html#neuropype_graph.nodes.coclass.PlotCoclass">[docs]</a><span class="k">class</span> <span class="nc">PlotCoclass</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
     
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Description :</span>
-<span class="sd">    </span>
-<span class="sd">    Plot coclass matrix with matplotlib matshow</span>
-<span class="sd">    </span>
+<span class="sd">    Plot coclass matrix </span>
 <span class="sd">    - labels are optional</span>
 <span class="sd">    - range values are optional (default is min and max values of the matrix)</span>
-<span class="sd">    </span>
-<span class="sd">    Inputs:</span>
-<span class="sd">        </span>
-<span class="sd">        coclass_matrix_file:</span>
-<span class="sd">            type = File, exists=True,  desc=&#39;coclass matrix in npy format&#39;, mandatory=True</span>
-<span class="sd">        </span>
-<span class="sd">        labels_file:</span>
-<span class="sd">            type = File, exists=True,  desc=&#39;labels of nodes&#39;, mandatory=False</span>
-<span class="sd">        </span>
-<span class="sd">        list_value_range</span>
-<span class="sd">            type = ListInt, desc=&#39;force the range of the plot&#39;, mandatory=False</span>
-<span class="sd">    </span>
-<span class="sd">    Outputs:</span>
-<span class="sd">        </span>
-<span class="sd">        plot_coclass_matrix_file:</span>
-<span class="sd">            type = File, exists=True, desc=&quot;eps file with graphical representation&quot;</span>
-<span class="sd">    </span>
-<span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">input_spec</span> <span class="o">=</span> <span class="n">PlotCoclassInputSpec</span>
     <span class="n">output_spec</span> <span class="o">=</span> <span class="n">PlotCoclassOutputSpec</span>

@@ -74,6 +74,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../examples/examples.html">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../examples/preproc_example.html">From raw data to preprocessed data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/conn_graph_example.html">Spectral connectivity and graph pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../examples/inv_example.html">Source reconstruction pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../examples/epoch_example.html">From epoch data to graph theoretical analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../examples/examples.html#scripts">Scripts</a></li>
@@ -305,13 +306,13 @@
     
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Description:</span>
-<span class="sd">    </span>
-<span class="sd">    Keep only values of indexed mask where filter_mask is present.</span>
-<span class="sd">    Optionnally, keep only ijk_coords, MNI_coords and labels that are kept in filtered mask</span>
+<span class="sd">        Keep only values of indexed mask where filtermask is present</span>
+<span class="sd">        Optionnally, keep only ijk_coords, MNI_coords and labels that are kept in filtered mask</span>
 <span class="sd">        </span>
 <span class="sd">    Inputs:</span>
 <span class="sd">            </span>
 <span class="sd">        indexed_rois_file:</span>
+<span class="sd">        </span>
 <span class="sd">            type = File, exists=True, desc=&#39;nii file with indexed mask where all voxels belonging to the same ROI have the same value (! starting from 0)&#39;, mandatory=True</span>
 <span class="sd">            </span>
 <span class="sd">        filter_mask_file:</span>
@@ -525,57 +526,27 @@
 <span class="kn">from</span> <span class="nn">neuropype_graph.utils_cor</span> <span class="kn">import</span> <span class="n">mean_select_mask_data</span>
 
 <span class="k">class</span> <span class="nc">ExtractMeanTSInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
-    
-    <span class="n">file_4D</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;4D volume to be extracted&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    
     <span class="n">mask_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">xor</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;filter_mask_file&#39;</span><span class="p">],</span> <span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;mask file where all voxels belonging to the selected region have index 1&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     
     <span class="n">filter_mask_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">xor</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;mask_file&#39;</span><span class="p">],</span><span class="n">requires</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;filter_thr&#39;</span><span class="p">],</span> <span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;mask file where all voxels belonging to the selected region have values higher than threshold&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     
     <span class="n">filter_thr</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="mf">0.99</span><span class="p">,</span> <span class="n">usedefault</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Value to threshold filter_mask&#39;</span><span class="p">)</span>
     
-    <span class="n">suffix</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="s">&quot;suf&quot;</span><span class="p">,</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;Suffix added to describe the extracted time series&#39;</span><span class="p">,</span><span class="n">mandatory</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">usedefault</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+    <span class="n">file_4D</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;4D volume to be extracted&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    
+    <span class="n">suffix</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;Suffix added to describe the extracted time series&#39;</span><span class="p">,</span><span class="n">mandatory</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 
     <span class="n">plot_fig</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Bool</span><span class="p">(</span><span class="bp">False</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&quot;Plotting mean signal or not&quot;</span><span class="p">,</span> <span class="n">usedefault</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
     
 <span class="k">class</span> <span class="nc">ExtractMeanTSOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
     
-    <span class="n">mean_masked_ts_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&quot;mean ts in .npy format&quot;</span><span class="p">)</span>
+    <span class="n">mean_masked_ts_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&quot;mean ts in .npy (pickle format)&quot;</span><span class="p">)</span>
     
 
 <div class="viewcode-block" id="ExtractMeanTS"><a class="viewcode-back" href="../../../graphpype/correl_mat.html#neuropype_graph.nodes.correl_mat.ExtractMeanTS">[docs]</a><span class="k">class</span> <span class="nc">ExtractMeanTS</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
     
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Description:</span>
-<span class="sd">    </span>
-<span class="sd">    Extract mean time series from a labelled mask in Nifti Format where the voxels of interest have values 1 (mask_file), or from a percent mask (filter_mask_file) with values higher than threshold (filter_thr)</span>
-<span class="sd">    </span>
-<span class="sd">    Inputs:</span>
-<span class="sd">        </span>
-<span class="sd">        file_4D:</span>
-<span class="sd">            type = File, exists=True, desc=&#39;4D volume to be extracted&#39;, mandatory=True</span>
-<span class="sd">        </span>
-<span class="sd">        mask_file:</span>
-<span class="sd">            type = File, xor = [&#39;filter_mask_file&#39;], exists=True, desc=&#39;mask file where all voxels belonging to the selected region have index 1&#39;, mandatory=True</span>
-<span class="sd">        </span>
-<span class="sd">        filter_mask_file:</span>
-<span class="sd">            type = File, xor = [&#39;mask_file&#39;],requires = [&#39;filter_thr&#39;], exists=True, desc=&#39;mask file where all voxels belonging to the selected region have values higher than threshold&#39;, mandatory=True</span>
-<span class="sd">        </span>
-<span class="sd">        filter_thr:</span>
-<span class="sd">            type = Float, default = 0.99, usedefault = True, desc=&#39;Value to threshold filter_mask&#39;</span>
-<span class="sd">        </span>
-<span class="sd">        suffix:</span>
-<span class="sd">            type = String, default = &quot;suf&quot;,desc=&#39;Suffix added to describe the extracted time series&#39;,mandatory=False,usedefault = True</span>
-
-<span class="sd">        plot_fig:</span>
-<span class="sd">            type = Bool, default = False, desc = &quot;Plotting mean signal or not&quot;, usedefault = True</span>
-<span class="sd">        </span>
-<span class="sd">    Outputs:</span>
-<span class="sd">    </span>
-<span class="sd">        mean_masked_ts_file:</span>
-<span class="sd">            type = File, exists=True, desc=&quot;mean ts in .npy format&quot;</span>
-<span class="sd">    </span>
-
+<span class="sd">    Extract mean time series from a labelled mask in Nifti Format where the voxels of interest have values 1</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">input_spec</span> <span class="o">=</span> <span class="n">ExtractMeanTSInputSpec</span>
     <span class="n">output_spec</span> <span class="o">=</span> <span class="n">ExtractMeanTSOutputSpec</span>
@@ -591,7 +562,11 @@
         <span class="n">plot_fig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">plot_fig</span>
         
         
-        <span class="n">suffix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">suffix</span>            
+        <span class="k">if</span> <span class="n">isdefined</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">suffix</span><span class="p">):</span>
+            <span class="n">suffix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">suffix</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">suffix</span> <span class="o">=</span> <span class="s">&quot;suf&quot;</span>
+            
             
         <span class="k">print</span> <span class="s">&quot;loading img data &quot;</span> <span class="o">+</span> <span class="n">file_4D</span>
 
@@ -602,27 +577,21 @@
         <span class="k">print</span> <span class="n">img_data</span><span class="o">.</span><span class="n">shape</span>
 
         
-        <span class="c">### Reading 3D mask file</span>
+        <span class="c">### Reading 4D volume file to extract time series</span>
         <span class="k">if</span> <span class="n">isdefined</span><span class="p">(</span><span class="n">mask_file</span><span class="p">):</span>
         
             <span class="k">print</span> <span class="s">&quot;loading mask data &quot;</span> <span class="o">+</span> <span class="n">mask_file</span>
 
             <span class="n">mask_data</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">mask_file</span><span class="p">)</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
             
-        <span class="k">elif</span> <span class="n">isdefined</span><span class="p">(</span><span class="n">filter_mask_file</span><span class="p">)</span> <span class="ow">and</span> <span class="n">isdefined</span><span class="p">(</span><span class="n">filter_thr</span><span class="p">):</span>
+        <span class="k">elif</span> <span class="n">isdefined</span><span class="p">(</span><span class="n">filter_mask_file</span><span class="p">):</span>
             <span class="k">print</span> <span class="s">&quot;loading filter mask data &quot;</span> <span class="o">+</span> <span class="n">filter_mask_file</span>
-            
+
             <span class="n">filter_mask_data</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filter_mask_file</span><span class="p">)</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
-            
             <span class="n">mask_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span> <span class="o">=</span> <span class="n">filter_mask_data</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="s">&#39;int&#39;</span><span class="p">)</span>
             
             <span class="n">mask_data</span><span class="p">[</span><span class="n">filter_mask_data</span> <span class="o">&gt;</span> <span class="n">filter_thr</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
             
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="s">&quot;Error, either mask_file or (filter_mask_file and filter_thr) should be defined&quot;</span><span class="p">)</span>
-            
-            <span class="k">return</span>
-        
         <span class="k">print</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">mask_data</span><span class="p">)</span>
         <span class="k">print</span> <span class="n">mask_data</span><span class="o">.</span><span class="n">shape</span>
         
@@ -681,35 +650,23 @@
 
 <div class="viewcode-block" id="ConcatTS"><a class="viewcode-back" href="../../../graphpype/correl_mat.html#neuropype_graph.nodes.correl_mat.ConcatTS">[docs]</a><span class="k">class</span> <span class="nc">ConcatTS</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
     
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Description:</span>
-<span class="sd">    </span>
-<span class="sd">    Concatenate time series </span>
-<span class="sd">    </span>
-<span class="sd">    Inputs:</span>
-<span class="sd">    </span>
-<span class="sd">        all_ts_file:</span>
-<span class="sd">            type = File, exists=True, desc=&#39;npy file containing all ts to be concatenated&#39;, mandatory=True</span>
-<span class="sd">            </span>
-<span class="sd">    Outputs:</span>
-<span class="sd">        </span>
-<span class="sd">        concatenated_ts_file:</span>
-<span class="sd">            type = File, exists=True, desc=&quot;ts after concatenation&quot;</span>
-<span class="sd">        </span>
-<span class="sd">    Comments:</span>
-<span class="sd">    </span>
-<span class="sd">    Not sure where it is used</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Concenate time series &quot;&quot;&quot;</span>
 
     <span class="n">input_spec</span> <span class="o">=</span> <span class="n">ConcatTSInputSpec</span>
     <span class="n">output_spec</span> <span class="o">=</span> <span class="n">ConcatTSOutputSpec</span>
 
     <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
             
+        <span class="c">#import os</span>
+        <span class="c">#import numpy as np</span>
+        <span class="c">#import nibabel as nib</span>
+        
+        <span class="c">#from neuropype_graph.utils_plot import plot_signals</span>
+        
         <span class="n">all_ts_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">all_ts_file</span>
         
         
-        <span class="c">## loading time series</span>
+        <span class="c">## loading ROI coordinates</span>
         <span class="n">all_ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">all_ts_file</span><span class="p">)</span>
         
         <span class="k">print</span> <span class="s">&quot;all_ts: &quot;</span> 
@@ -724,6 +681,8 @@
         <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">concatenated_ts_file</span><span class="p">,</span><span class="n">concatenated_ts</span><span class="p">)</span>
         
         <span class="k">return</span> <span class="n">runtime</span>
+        
+        <span class="c">#return mean_masked_ts_file,subj_coord_rois_file</span>
         
     <span class="k">def</span> <span class="nf">_list_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
@@ -746,26 +705,7 @@
 
 <div class="viewcode-block" id="MergeTS"><a class="viewcode-back" href="../../../graphpype/correl_mat.html#neuropype_graph.nodes.correl_mat.MergeTS">[docs]</a><span class="k">class</span> <span class="nc">MergeTS</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
     
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Description:</span>
-<span class="sd">    </span>
-<span class="sd">    Merges time series from several files </span>
-<span class="sd">    </span>
-<span class="sd">    Inputs:</span>
-<span class="sd">    </span>
-<span class="sd">        all_ts_files:</span>
-<span class="sd">            type = List of Files, exists=True, desc=&#39;list of npy files containing all ts to be merged&#39;, mandatory=True</span>
-<span class="sd">            </span>
-<span class="sd">    Outputs:</span>
-<span class="sd">        </span>
-<span class="sd">        merged_ts_file: </span>
-<span class="sd">            type = File, exists=True, desc=&quot;ts after merge&quot;</span>
-<span class="sd">        </span>
-<span class="sd">    Comments:</span>
-<span class="sd">    </span>
-<span class="sd">    Used for multiple-session merges</span>
-<span class="sd">    </span>
-<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Merges time series from several files &quot;&quot;&quot;</span>
 
     <span class="n">input_spec</span> <span class="o">=</span> <span class="n">MergeTSInputSpec</span>
     <span class="n">output_spec</span> <span class="o">=</span> <span class="n">MergeTSOutputSpec</span>
@@ -819,26 +759,7 @@
     
 <div class="viewcode-block" id="SeparateTS"><a class="viewcode-back" href="../../../graphpype/correl_mat.html#neuropype_graph.nodes.correl_mat.SeparateTS">[docs]</a><span class="k">class</span> <span class="nc">SeparateTS</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
     
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Description:</span>
-<span class="sd">    </span>
-<span class="sd">    Save all time series from a npy file to several single time series npy files</span>
-<span class="sd">    </span>
-<span class="sd">    Inputs:</span>
-<span class="sd">    </span>
-<span class="sd">        all_ts_file:</span>
-<span class="sd">            type = File, exists=True, desc=&#39;npy file containing all ts to be concatenated&#39;, mandatory=True</span>
-<span class="sd">            </span>
-<span class="sd">    Outputs:</span>
-<span class="sd">    </span>
-<span class="sd">        separated_ts_files</span>
-<span class="sd">            type = List of Files, exists=True, desc=&quot;ts files after separation&quot;</span>
-<span class="sd">    </span>
-<span class="sd">    </span>
-<span class="sd">    Comments:</span>
-<span class="sd">    </span>
-<span class="sd">    Not sure where it is used...</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Extract time series from a labelled mask in Nifti Format where all ROIs have the same index&quot;&quot;&quot;</span>
 
     <span class="n">input_spec</span> <span class="o">=</span> <span class="n">SeparateTSInputSpec</span>
     <span class="n">output_spec</span> <span class="o">=</span> <span class="n">SeparateTSOutputSpec</span>
@@ -912,38 +833,8 @@
     
 <span class="k">class</span> <span class="nc">RegressCovar</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Description:</span>
-<span class="sd">    </span>
-<span class="sd">    Regress parameters of non-interest (i.e. movement parameters, white matter, csf) from signal.</span>
-<span class="sd">    Optionnally filter and normalize (z-score) the residuals.</span>
-<span class="sd">    </span>
-<span class="sd">    Inputs:</span>
-<span class="sd">        </span>
-<span class="sd">        masked_ts_file:</span>
-<span class="sd">            type = File, exists=True, desc=&#39;Time series in npy format&#39;, mandatory=True</span>
-<span class="sd">        </span>
-<span class="sd">        rp_file: </span>
-<span class="sd">            type = File, exists=True, desc=&#39;Movement parameters in txt format, SPM style&#39;, mandatory=True</span>
-<span class="sd">        </span>
-<span class="sd">        mean_wm_ts_file:</span>
-<span class="sd">            type = File: exists=True, desc=&#39;White matter signal&#39;, mandatory=False</span>
-<span class="sd">            </span>
-<span class="sd">        </span>
-<span class="sd">        mean_csf_ts_file:   </span>
-<span class="sd">            type = File, exists=True, desc=&#39;Cerebro-spinal fluid (ventricules) signal&#39;, mandatory=False</span>
-<span class="sd">        </span>
-<span class="sd">        filtered:</span>
-<span class="sd">            type= Bool, default = True, usedefault = True , desc = &quot;Filter the signal  after regression?&quot;</span>
-<span class="sd">        </span>
-<span class="sd">        normalized</span>
-<span class="sd">            type = Bool(True, usedefault = True , desc = &quot;Normalize the signal after regression?&quot;</span>
-<span class="sd">            </span>
-<span class="sd">    Outputs:</span>
-<span class="sd">    </span>
-<span class="sd">        resid_ts_file:</span>
-<span class="sd">            type = File, exists=True, desc=&quot;residuals of time series after regression of all paramters&quot;</span>
-<span class="sd">    </span>
-<span class="sd">        </span>
+<span class="sd">    Regress parameters of non-interest (i.e. movement parameters, white matter, csf) from signal</span>
+<span class="sd">    Optionnally filter and normalize (z-score) the residuals</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">input_spec</span> <span class="o">=</span> <span class="n">RegressCovarInputSpec</span>
     <span class="n">output_spec</span> <span class="o">=</span> <span class="n">RegressCovarOutputSpec</span>
@@ -969,6 +860,7 @@
         <span class="k">print</span> <span class="n">rp_file</span>
         
         <span class="n">rp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">genfromtxt</span><span class="p">(</span><span class="n">rp_file</span><span class="p">)</span>
+        <span class="c">#rp = np.loadtxt(rp_file,dtype = np.float)</span>
         
         <span class="k">print</span> <span class="n">rp</span><span class="o">.</span><span class="n">shape</span>
         
@@ -982,6 +874,7 @@
             
             <span class="k">print</span> <span class="n">mean_csf_ts</span><span class="o">.</span><span class="n">shape</span>
             
+            <span class="c">#rp = np.concatenate((rp,mean_csf_ts),axis = 1)</span>
             <span class="n">rp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">rp</span><span class="p">,</span><span class="n">mean_csf_ts</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">mean_csf_ts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="mi">1</span><span class="p">)),</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
             
             <span class="k">print</span> <span class="n">rp</span><span class="o">.</span><span class="n">shape</span>
@@ -995,6 +888,8 @@
             
             <span class="n">mean_wm_ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">mean_wm_ts_file</span><span class="p">)</span>
             
+            
+            <span class="c">#rp = np.concatenate((rp,mean_csf_ts),axis = 1)</span>
             <span class="n">rp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">rp</span><span class="p">,</span><span class="n">mean_wm_ts</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">mean_wm_ts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="mi">1</span><span class="p">)),</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
             
             <span class="k">print</span> <span class="n">rp</span><span class="o">.</span><span class="n">shape</span>
@@ -1052,6 +947,13 @@
             
             <span class="n">plot_sep_signals</span><span class="p">(</span><span class="n">plot_resid_ts_file</span><span class="p">,</span><span class="n">resid_data_matrix</span><span class="p">)</span>
             
+            
+            <span class="c">#print &quot;plotting diff filtered and non filtered data&quot;</span>
+            
+            <span class="c">#plot_diff_filt_ts_file = os.path.abspath(&#39;diff_filt_ts.eps&#39;)</span>
+            
+            <span class="c">#plot_signals(plot_diff_filt_ts_file,np.array(resid_filt_data_matrix - resid_data_matrix,dtype = &#39;float&#39;))</span>
+            
         <span class="k">else</span><span class="p">:</span>
             
             <span class="k">print</span> <span class="s">&quot;Warning, not implemented (RegressCovar)&quot;</span>
@@ -1080,6 +982,7 @@
      
     <span class="n">only_positive_values</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Bool</span><span class="p">(</span><span class="bp">True</span><span class="p">,</span> <span class="n">usedefault</span> <span class="o">=</span> <span class="bp">True</span> <span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&quot;Return only positive values of the regressor (negative values are set to 0)&quot;</span><span class="p">)</span>
     
+    <span class="c">#concatenate_runs = traits.Int(1, usedefault = True , desc = &quot;If concatenate runs, how many runs there is (needed to return the part of the regressors that is active for the session only)&quot;)</span>
     <span class="n">concatenated_runs</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Bool</span><span class="p">(</span><span class="bp">False</span><span class="p">,</span> <span class="n">usedefault</span> <span class="o">=</span> <span class="bp">True</span> <span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&quot;If concatenate runs, need to search for the lenghth of the session&quot;</span><span class="p">)</span>
     
 <span class="k">class</span> <span class="nc">FindSPMRegressorOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
@@ -1088,35 +991,8 @@
     
 <div class="viewcode-block" id="FindSPMRegressor"><a class="viewcode-back" href="../../../graphpype/correl_mat.html#neuropype_graph.nodes.correl_mat.FindSPMRegressor">[docs]</a><span class="k">class</span> <span class="nc">FindSPMRegressor</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    </span>
-<span class="sd">    Description:</span>
-<span class="sd">    </span>
-<span class="sd">    Find regressor in SPM.mat and save it as timeseries txt file</span>
-<span class="sd">    </span>
-<span class="sd">    Inputs:</span>
-<span class="sd">        </span>
-<span class="sd">        spm_mat_file:</span>
-<span class="sd">            type = File, exists=True, desc=&#39;SPM design matrix after generate model&#39;, mandatory=True</span>
-<span class="sd">        </span>
-<span class="sd">        regressor_name:</span>
-<span class="sd">            type = String, exists=True, desc=&#39;Name of the regressor in SPM design matrix to be looked after&#39;, mandatory=True</span>
-<span class="sd">        </span>
-<span class="sd">        run_index:</span>
-<span class="sd">            type = Int, default = 1 , usedefault = True , desc = &quot;Run (session) index, default is one in SPM&quot;</span>
-<span class="sd">        </span>
-<span class="sd">        only_positive_values:</span>
-<span class="sd">            type = Bool, default = True, usedefault = True , desc = &quot;Return only positive values of the regressor (negative values are set to 0); Otherwise return all values&quot;</span>
-<span class="sd">        </span>
-<span class="sd">        concatenated_runs:  </span>
-<span class="sd">            type = Bool, default = False , usedefault = True , desc = &quot;If concatenate runs, need to search for the length of the session&quot;</span>
-<span class="sd">            </span>
-<span class="sd">            Deprecation: #concatenate_runs = traits.Int(1, usedefault = True , desc = &quot;If concatenate runs, how many runs there is (needed to return the part of the regressors that is active for the session only)&quot;)</span>
-<span class="sd">    Outputs:</span>
-<span class="sd">        </span>
-<span class="sd">        regressor_file:</span>
-<span class="sd">            type = File,exists=True, desc=&quot;txt file containing the regressor&quot;</span>
-<span class="sd">        </span>
-
+<span class="sd">    Regress parameters of non-interest (i.e. movement parameters, white matter, csf) from signal</span>
+<span class="sd">    Optionnally filter and normalize (z-score) the residuals</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">input_spec</span> <span class="o">=</span> <span class="n">FindSPMRegressorInputSpec</span>
     <span class="n">output_spec</span> <span class="o">=</span> <span class="n">FindSPMRegressorOutputSpec</span>

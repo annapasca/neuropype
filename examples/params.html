@@ -32,7 +32,6 @@
   
     <link rel="top" title="neuropyconn 0.0 documentation" href="../index.html"/>
         <link rel="up" title="Examples" href="examples.html"/>
-        <link rel="next" title="run_preproc_ica" href="run_preproc_ica.html"/>
         <link rel="prev" title="From epoch data to graph theoretical analysis" href="epoch_example.html"/> 
 
   
@@ -76,6 +75,7 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="examples.html">Examples</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="preproc_example.html">From raw data to preprocessed data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="conn_graph_example.html">Spectral connectivity and graph pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="inv_example.html">Source reconstruction pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="epoch_example.html">From epoch data to graph theoretical analysis</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="examples.html#scripts">Scripts</a></li>
@@ -170,6 +170,14 @@ and the kind of MEG data (ds or fif format)</p>
 <p>Here we specify the frequency bands in which we want to compute the connectivity matrices</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">freq_bands</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">],</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">12</span><span class="p">],</span> <span class="p">[</span><span class="mi">15</span><span class="p">,</span> <span class="mi">29</span><span class="p">],</span> <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">59</span><span class="p">],</span> <span class="p">[</span><span class="mi">60</span><span class="p">,</span> <span class="mi">90</span><span class="p">]]</span>
 <span class="n">freq_band_names</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;delta&#39;</span><span class="p">,</span> <span class="s">&#39;theta&#39;</span><span class="p">,</span> <span class="s">&#39;alpha&#39;</span><span class="p">,</span> <span class="s">&#39;beta&#39;</span><span class="p">,</span> <span class="s">&#39;gamma1&#39;</span><span class="p">,</span> <span class="s">&#39;gamma2&#39;</span><span class="p">]</span>
+
+<span class="c"># &#39;pli&#39;, &#39;plv&#39;, &#39;pli2_unbiased&#39;, &#39;coh&#39;, &#39;cohy&#39;, &#39;ppc&#39;, &#39;wpli&#39;, &#39;wpli2_debiased&#39;, &#39;correl&#39;</span>
+<span class="n">con_method</span> <span class="o">=</span> <span class="s">&#39;imcoh&#39;</span>
+<span class="n">epoch_window_length</span> <span class="o">=</span> <span class="mf">3.0</span>
+
+<span class="c"># pipeline directory within the main_path dir</span>
+<span class="n">correl_analysis_name</span> <span class="o">=</span> <span class="s">&#39;spectral_connectivity_&#39;</span> <span class="o">+</span> <span class="n">data_type</span> <span class="o">+</span> \
+                            <span class="s">&#39;_&#39;</span> <span class="o">+</span> <span class="n">con_method</span>
 </pre></div>
 </div>
 <p>Download <a class="reference download internal" href="../_downloads/params.py"><code class="xref download docutils literal"><span class="pre">the</span> <span class="pre">params</span> <span class="pre">file</span></code></a></p>
@@ -181,8 +189,6 @@ and the kind of MEG data (ds or fif format)</p>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="run_preproc_ica.html" class="btn btn-neutral float-right" title="run_preproc_ica">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="epoch_example.html" class="btn btn-neutral" title="From epoch data to graph theoretical analysis"><span class="fa fa-arrow-circle-left"></span> Previous</a>

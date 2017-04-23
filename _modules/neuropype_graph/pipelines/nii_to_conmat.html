@@ -74,6 +74,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../examples/examples.html">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../examples/preproc_example.html">From raw data to preprocessed data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/conn_graph_example.html">Spectral connectivity and graph pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../examples/inv_example.html">Source reconstruction pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../examples/epoch_example.html">From epoch data to graph theoretical analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../examples/examples.html#scripts">Scripts</a></li>
@@ -147,28 +148,7 @@
 
 <div class="viewcode-block" id="create_pipeline_nii_to_conmat"><a class="viewcode-back" href="../../../graphpype/nii_to_conmat.html#neuropype_graph.pipelines.nii_to_conmat.create_pipeline_nii_to_conmat">[docs]</a><span class="k">def</span> <span class="nf">create_pipeline_nii_to_conmat</span><span class="p">(</span><span class="n">main_path</span><span class="p">,</span> <span class="n">ROI_mask_file</span><span class="p">,</span><span class="n">filter_gm_threshold</span> <span class="o">=</span> <span class="mf">0.9</span><span class="p">,</span> <span class="n">pipeline_name</span> <span class="o">=</span> <span class="s">&quot;nii_to_conmat&quot;</span><span class="p">,</span><span class="n">conf_interval_prob</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Description:</span>
-<span class="sd">    </span>
-<span class="sd">    Pipeline from nifti 4D (after preprocessing) to connectivity matrices</span>
-<span class="sd">    </span>
-<span class="sd">    Inputs (inputnode):</span>
-<span class="sd">    </span>
-<span class="sd">        * nii_4D_file</span>
-<span class="sd">        * rp_file</span>
-<span class="sd">        * gm_anat_file</span>
-<span class="sd">        * wm_anat_file</span>
-<span class="sd">        * csf_anat_file</span>
-<span class="sd">        * ROI_coords_file</span>
-<span class="sd">        * ROI_MNI_coords_file</span>
-<span class="sd">        * ROI_labels_file</span>
-<span class="sd">    </span>
-<span class="sd">    Comments:</span>
-<span class="sd">    </span>
-<span class="sd">    Typically used after nipype preprocessing pipeline and before conmat_to_graph pipeline</span>
-<span class="sd">    </span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    
+
     <span class="n">pipeline</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">pipeline_name</span><span class="p">)</span>
     <span class="n">pipeline</span><span class="o">.</span><span class="n">base_dir</span> <span class="o">=</span> <span class="n">main_path</span>
     
@@ -259,27 +239,6 @@
 <div class="viewcode-block" id="create_pipeline_nii_to_weighted_conmat"><a class="viewcode-back" href="../../../graphpype/nii_to_conmat.html#neuropype_graph.pipelines.nii_to_conmat.create_pipeline_nii_to_weighted_conmat">[docs]</a><span class="k">def</span> <span class="nf">create_pipeline_nii_to_weighted_conmat</span><span class="p">(</span><span class="n">main_path</span><span class="p">,</span> <span class="n">pipeline_name</span> <span class="o">=</span> <span class="s">&quot;nii_to_weighted_conmat&quot;</span><span class="p">,</span> <span class="n">concatenated_runs</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">conf_interval_prob</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">mult_regnames</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">spm_reg</span> <span class="o">=</span> <span class="bp">True</span><span class="p">):</span>
 
 
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Description:</span>
-<span class="sd">    </span>
-<span class="sd">    Pipeline from resid_ts_file (after preprocessing) to weighted connectivity matrices</span>
-<span class="sd">    Involves a regressor file as wiehgt for computing weighted correlations</span>
-<span class="sd">    </span>
-<span class="sd">    Inputs (inputnode):</span>
-<span class="sd">    </span>
-<span class="sd">        * resid_ts_file</span>
-<span class="sd">        * spm_mat_file (from a typical SPM level1 activation analysis)</span>
-<span class="sd">        * regress_names (names to look after in spm_mat_file)</span>
-<span class="sd">        * run_index</span>
-<span class="sd">        * ROI_labels_file</span>
-<span class="sd">        * reg_txt (if spm_reg = False)</span>
-<span class="sd">        </span>
-<span class="sd">    Comments:</span>
-<span class="sd">    </span>
-<span class="sd">    Typically used after previous pipeline (create_pipeline_nii_to_conmat) and before conmat_to_graph pipeline</span>
-<span class="sd">    </span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    
     <span class="n">pipeline</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">pipeline_name</span><span class="p">)</span>
     <span class="n">pipeline</span><span class="o">.</span><span class="n">base_dir</span> <span class="o">=</span> <span class="n">main_path</span>
     

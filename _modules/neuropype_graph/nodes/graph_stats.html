@@ -74,6 +74,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../examples/examples.html">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../examples/preproc_example.html">From raw data to preprocessed data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/conn_graph_example.html">Spectral connectivity and graph pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../examples/inv_example.html">Source reconstruction pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../examples/epoch_example.html">From epoch data to graph theoretical analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../examples/examples.html#scripts">Scripts</a></li>
@@ -116,15 +117,7 @@
             
   <h1>Source code for neuropype_graph.nodes.graph_stats</h1><div class="highlight"><pre>
 <span class="c"># -*- coding: utf-8 -*-</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">.. module:: grapĥ_stats</span>
-<span class="sd">   :platform: Unix</span>
-<span class="sd">   :synopsis: Preparing, computing stats and permutations</span>
 
-<span class="sd">.. moduleauthor:: David Meunier &lt;david.meunier@inserm.fr&gt;</span>
-
-
-<span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">os</span>
 
@@ -294,6 +287,93 @@
         
         <span class="k">return</span> <span class="n">outputs</span>
 
+        
+<span class="c">############################################################################################### PlotIGraphSignedIntMat #####################################################################################################</span>
+
+<span class="kn">from</span> <span class="nn">neuropype_graph.plot_igraph</span> <span class="kn">import</span> <span class="n">plot_3D_igraph_signed_int_mat</span>
+<span class="kn">from</span> <span class="nn">neuropype_graph.utils</span> <span class="kn">import</span> <span class="n">check_np_shapes</span>
+
+<span class="c">#from dmgraphanalysis.utils_plot import plot_cormat</span>
+    
+    
+<span class="k">class</span> <span class="nc">PlotIGraphSignedIntMatInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
+    
+    <span class="n">signed_int_mat_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>  <span class="n">desc</span><span class="o">=</span><span class="s">&#39;signed int matrix in npy format&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    
+    <span class="n">labels_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>  <span class="n">desc</span><span class="o">=</span><span class="s">&#39;labels of nodes (txt file)&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">coords_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>  <span class="n">desc</span><span class="o">=</span><span class="s">&#39;node coordinates in MNI space (txt file)&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    
+<span class="k">class</span> <span class="nc">PlotIGraphSignedIntMatOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
+    
+    <span class="n">plot_3D_signed_int_mat_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&quot;eps file with igraph spatial representation&quot;</span><span class="p">)</span>
+    <span class="c">#plot_heatmap_signed_bin_mat_file = File(exists=True, desc=&quot;eps file heatmap representation&quot;)</span>
+    
+<span class="k">class</span> <span class="nc">PlotIGraphSignedIntMat</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
+    
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot coclassification matrix with igraph</span>
+<span class="sd">    - labels are optional, </span>
+<span class="sd">    - threshold is optional (default, 50 = half the group)</span>
+<span class="sd">    - coordinates are optional, if no coordiantes are specified, representation in topological (Fruchterman-Reingold) space</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">input_spec</span> <span class="o">=</span> <span class="n">PlotIGraphSignedIntMatInputSpec</span>
+    <span class="n">output_spec</span> <span class="o">=</span> <span class="n">PlotIGraphSignedIntMatOutputSpec</span>
+
+    <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
+                
+        <span class="k">print</span> <span class="s">&#39;in plot_coclass&#39;</span>
+        
+        <span class="n">signed_int_mat_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">signed_int_mat_file</span>
+        <span class="n">labels_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">labels_file</span>
+        <span class="n">coords_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">coords_file</span>
+            
+            
+        <span class="k">print</span> <span class="s">&#39;load bin matrix&#39;</span>
+        
+        <span class="n">signed_int_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">signed_int_mat_file</span><span class="p">)</span>
+        
+        <span class="k">print</span> <span class="n">signed_int_mat</span><span class="o">.</span><span class="n">shape</span>
+        
+        <span class="k">if</span> <span class="n">isdefined</span><span class="p">(</span><span class="n">labels_file</span><span class="p">):</span>
+            
+            <span class="k">print</span> <span class="s">&#39;loading labels&#39;</span>
+            <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">labels_file</span><span class="p">)]</span>
+            
+        <span class="k">else</span> <span class="p">:</span>
+            <span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
+            
+        <span class="k">if</span> <span class="n">isdefined</span><span class="p">(</span><span class="n">coords_file</span><span class="p">):</span>
+            
+            <span class="k">print</span> <span class="s">&#39;loading coords&#39;</span>
+            <span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">coords_file</span><span class="p">),</span><span class="n">dtype</span> <span class="o">=</span> <span class="s">&#39;int64&#39;</span><span class="p">)</span>
+            
+        <span class="k">else</span> <span class="p">:</span>
+            <span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+            
+            
+        <span class="k">print</span> <span class="n">coords</span><span class="o">.</span><span class="n">shape</span>
+        
+        
+        <span class="k">print</span> <span class="s">&#39;plotting igraph 3D&#39;</span>
+        
+        <span class="c">######## igraph 3D</span>
+        <span class="n">plot_3D_signed_int_mat_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;plot_igraph_3D_signed_int_mat.eps&#39;</span><span class="p">)</span>
+            
+        <span class="n">plot_3D_igraph_signed_int_mat</span><span class="p">(</span><span class="n">plot_3D_signed_int_mat_file</span><span class="p">,</span><span class="n">signed_int_mat</span><span class="p">,</span><span class="n">coords</span><span class="p">,</span><span class="n">labels</span><span class="p">)</span>
+        
+                
+        <span class="k">return</span> <span class="n">runtime</span>
+        
+    <span class="k">def</span> <span class="nf">_list_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_outputs</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        
+        <span class="n">outputs</span><span class="p">[</span><span class="s">&quot;plot_3D_signed_int_mat_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;plot_igraph_3D_signed_int_mat.eps&#39;</span><span class="p">)</span>
+        <span class="c">#outputs[&quot;plot_heatmap_signed_int_mat_file&quot;] = os.path.abspath(&#39;heatmap_signed_bin_mat.eps&#39;)</span>
+        
+        <span class="k">return</span> <span class="n">outputs</span>
+        
+        
         
         
 <span class="c">############################################################################################### PrepareCormat #####################################################################################################</span>
@@ -558,30 +638,7 @@
 <div class="viewcode-block" id="SwapLists"><a class="viewcode-back" href="../../../graphpype/graph_stats.html#neuropype_graph.nodes.graph_stats.SwapLists">[docs]</a><span class="k">class</span> <span class="nc">SwapLists</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
     
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Description:</span>
-<span class="sd">    </span>
-<span class="sd">    Exchange lists of files in a random fashion (based on seed value)</span>
-<span class="sd">    Typically, cor_mat, coords -&gt; 2, or Z_list, node_corres and labels -&gt; 3</span>
-<span class="sd">    </span>
-<span class="sd">    If seed = -1, no swap is done (keep original values)</span>
-<span class="sd">    </span>
-<span class="sd">    Inputs:</span>
-<span class="sd">        </span>
-<span class="sd">        list_of_lists:</span>
-<span class="sd">            * type = List of List of  List of Files,</span>
-<span class="sd">            * exists=True, </span>
-<span class="sd">            * desc=&#39;list of all correlation matrice files (in npy format) for each subject&#39;, </span>
-<span class="sd">            * mandatory=True</span>
-<span class="sd">            </span>
-<span class="sd">        seed:</span>
-<span class="sd">            type = Int, default = -1, desc=&#39;value for seed&#39;, mandatory=True, usedefault = True</span>
-<span class="sd">            </span>
-<span class="sd">    Outputs:</span>
-<span class="sd">    </span>
-<span class="sd">        permut_lists_of_lists:</span>
-<span class="sd">            type = List of  List of List of Files ,exists=True, desc=&#39;swapped list of all correlation matrice files (in npy format) for each subject&#39;, mandatory=True</span>
-<span class="sd">            </span>
-<span class="sd">    </span>
+<span class="sd">    Extract mean time series from a labelled mask in Nifti Format where the voxels of interest have values 1</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">input_spec</span> <span class="o">=</span> <span class="n">SwapListsInputSpec</span>
     <span class="n">output_spec</span> <span class="o">=</span> <span class="n">SwapListsOutputSpec</span>
@@ -709,27 +766,7 @@
 <div class="viewcode-block" id="ShuffleMatrix"><a class="viewcode-back" href="../../../graphpype/graph_stats.html#neuropype_graph.nodes.graph_stats.ShuffleMatrix">[docs]</a><span class="k">class</span> <span class="nc">ShuffleMatrix</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
     
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Description:</span>
-<span class="sd">    </span>
-<span class="sd">    Compute randomisation of matrix, keeping the same distribution</span>
-<span class="sd">    </span>
-<span class="sd">    If seed = -1, no shuffling is done (keep original values)</span>
-<span class="sd">    </span>
-<span class="sd">    Inputs:</span>
-<span class="sd">        </span>
-<span class="sd">        original_matrix_file:</span>
-<span class="sd">            type = File, exists=True, desc=&#39;original matrix in npy format&#39;, mandatory=True</span>
-<span class="sd">        </span>
-<span class="sd">        seed:</span>
-<span class="sd">            type = Int, default = -1, desc=&#39;value for seed&#39;, mandatory=True, usedefault = True</span>
-<span class="sd">            </span>
-<span class="sd">    Outputs:</span>
-<span class="sd">        </span>
-<span class="sd">        shuffled_matrix_file:</span>
-<span class="sd">        </span>
-<span class="sd">            type = File, exists=True, desc=&#39;shuffled matrix in npy format&#39;, mandatory=True</span>
-<span class="sd">    </span>
-<span class="sd">    </span>
+<span class="sd">    Extract mean time series from a labelled mask in Nifti Format where the voxels of interest have values 1</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">input_spec</span> <span class="o">=</span> <span class="n">ShuffleMatrixInputSpec</span>
     <span class="n">output_spec</span> <span class="o">=</span> <span class="n">ShuffleMatrixOutputSpec</span>

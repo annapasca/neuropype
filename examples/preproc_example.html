@@ -32,7 +32,7 @@
   
     <link rel="top" title="neuropyconn 0.0 documentation" href="../index.html"/>
         <link rel="up" title="Examples" href="examples.html"/>
-        <link rel="next" title="Source reconstruction pipeline" href="inv_example.html"/>
+        <link rel="next" title="Spectral connectivity and graph pipeline" href="conn_graph_example.html"/>
         <link rel="prev" title="Examples" href="examples.html"/> 
 
   
@@ -76,6 +76,7 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="examples.html">Examples</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="">From raw data to preprocessed data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="conn_graph_example.html">Spectral connectivity and graph pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="inv_example.html">Source reconstruction pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="epoch_example.html">From epoch data to graph theoretical analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples.html#scripts">Scripts</a></li>
@@ -122,7 +123,6 @@
 <span id="preproc-example"></span><h1>From raw data to preprocessed data<a class="headerlink" href="#from-raw-data-to-preprocessed-data" title="Permalink to this headline">¶</a></h1>
 <p>The following script implements the preprocessing pipeline to perform <strong>ICA</strong> on MEG data in <strong>ds</strong> format
 (see <a class="reference internal" href="../ephypype/pipelines/preproc_meeg.html#preproc-meeg"><span>Preprocessing pipeline</span></a>). Before to run the script, the <a class="reference internal" href="params.html#params"><span>params file</span></a> has to be downloaded.</p>
-<p>To inspect the ICA components, a jupyter notebook can be used.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="kn">as</span> <span class="nn">pe</span>
 <span class="kn">import</span> <span class="nn">nipype.interfaces.io</span> <span class="kn">as</span> <span class="nn">nio</span>
 
@@ -215,6 +215,15 @@
     <span class="n">main_workflow</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">plugin</span><span class="o">=</span><span class="s">&#39;MultiProc&#39;</span><span class="p">,</span> <span class="n">plugin_args</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;n_procs&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">})</span>
 </pre></div>
 </div>
+<p>The output of the pipeline will be the</p>
+<ul class="simple">
+<li>ica solution file saved in $main_path/$preproc_pipeline_name/preproc_meeg/_sess_index_#_subject_id_#/ica/$raw_file_ica_solution.fif</li>
+<li>cleaned raw data file saved in $main_path/$preproc_pipeline_name/preproc_meeg/_sess_index_#_subject_id_#/ica/$raw_file_ica.fif</li>
+<li>report html file saved in $main_path/$preproc_pipeline_name/preproc_meeg/_sess_index_#_subject_id_#/ica/$raw_file-report.html</li>
+</ul>
+<p>To visually inspect the ICA components, the report file can be visualized by a jupyter notebook where it is
+possible include or exclude the ICA components inspecting their topographies and time series.</p>
+<p>The raw data file will be saved in the subject data directory.</p>
 <p>Download Python source code: <a class="reference download internal" href="../_downloads/run_preprocess_pipeline.py"><code class="xref download docutils literal"><span class="pre">run_preprocess_pipeline.py</span></code></a></p>
 <p>Download Jupyter notebook: <a class="reference download internal" href="../_downloads/ipynb_report.ipynb"><code class="xref download docutils literal"><span class="pre">ipynb_report.ipynb</span></code></a></p>
 </div>
@@ -225,7 +234,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="inv_example.html" class="btn btn-neutral float-right" title="Source reconstruction pipeline">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="conn_graph_example.html" class="btn btn-neutral float-right" title="Spectral connectivity and graph pipeline">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="examples.html" class="btn btn-neutral" title="Examples"><span class="fa fa-arrow-circle-left"></span> Previous</a>

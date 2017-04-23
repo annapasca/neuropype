@@ -21,7 +21,8 @@ down_sfreq = 800
 l_freq = 0.1
 h_freq = 150
 
-# ------------------------ SET ICA vaiables ------------------------------#
+
+# ------------------------ SET ICA variables -----------------------------#
 
 is_ICA = True  # if True we apply ICA to remove ECG and EoG artifacts
 
@@ -32,6 +33,7 @@ variance = 0.95
 
 reject = dict(mag=5e-12, grad=5000e-13)
 
+# pipeline directory within the main_path dir
 preproc_pipeline_name = "preprocessing_pipeline"
 if test:
     preproc_pipeline_name = preproc_pipeline_name + '_test'
@@ -44,21 +46,22 @@ if test:
 	n_comp_exclude = []
 
 
-# ------------------------ SET connectivity vaiables ---------------------#
+# ----------------------- SET connectivity variables ---------------------#
 
 freq_bands = [[2,4], [5,7], [8, 12], [15, 29], [30, 59], [60, 90]]
 freq_band_names = ['delta', 'theta', 'alpha', 'beta', 'gamma1', 'gamma2']
 
-# 'pli', 'plv', 'pli2_unbiased', 'coh', 'cohy', 'ppc', 'wpli', 'wpli2_debiased', 'correl'
-con_method = 'imcoh'
-
+# 'pli', 'plv', 'pli2_unbiased', 'coh', 'cohy', 'ppc', 'wpli'
+# 'imcoh', 'wpli2_debiased', 'correl'
+con_method = 'coh'
 epoch_window_length = 3.0
 
-# nome della cartella dentro main_path
+# pipeline directory within the main_path dir
 correl_analysis_name = 'spectral_connectivity_' + data_type + \
                             '_' + con_method
 
 
+# ------------------- SET source reconstruction variables ----------------#
 
 # set sbj dir path, i.e. where the FS folfers are
 sbj_dir = os.path.join(main_path, 'FSF')
@@ -109,7 +112,8 @@ else:
     aseg_labels = []
 
 
-freq_con_thr = [0.05] * 7
+# ---------------------------- SET graph variables -----------------------#
+freq_con_thr = [0.05] * 7  # TODO is it used???
 con_den = 0.05
 
 if con_method == "correl":
