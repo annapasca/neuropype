@@ -7,11 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-<<<<<<< HEAD
   <title>neuropype_ephy.interfaces.mne.power &mdash; neuropype 0.0 documentation</title>
-=======
-  <title>neuropype_ephy.interfaces.mne.power &mdash; neuropyconn 0.0 documentation</title>
->>>>>>> 7350629c6b8802613d3fb60b9975df4b77543cc7
   
 
   
@@ -34,11 +30,7 @@
   
 
   
-<<<<<<< HEAD
     <link rel="top" title="neuropype 0.0 documentation" href="../../../../index.html"/>
-=======
-    <link rel="top" title="neuropyconn 0.0 documentation" href="../../../../index.html"/>
->>>>>>> 7350629c6b8802613d3fb60b9975df4b77543cc7
         <link rel="up" title="Module code" href="../../../index.html"/> 
 
   
@@ -54,11 +46,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-nav-search">
         
-<<<<<<< HEAD
           <a href="../../../../index.html" class="fa fa-home"> neuropype</a>
-=======
-          <a href="../../../../index.html" class="fa fa-home"> neuropyconn</a>
->>>>>>> 7350629c6b8802613d3fb60b9975df4b77543cc7
         
         
 <div role="search">
@@ -93,12 +81,9 @@
 </ul>
 </li>
 </ul>
-<<<<<<< HEAD
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../cinq/cinq.html">CINQ</a></li>
 </ul>
-=======
->>>>>>> 7350629c6b8802613d3fb60b9975df4b77543cc7
 
           
         
@@ -111,11 +96,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-<<<<<<< HEAD
         <a href="../../../../index.html">neuropype</a>
-=======
-        <a href="../../../../index.html">neuropyconn</a>
->>>>>>> 7350629c6b8802613d3fb60b9975df4b77543cc7
       </nav>
 
 
@@ -153,7 +134,6 @@
 <span class="kn">from</span> <span class="nn">neuropype_ephy.power</span> <span class="kn">import</span> <span class="n">compute_and_save_psd</span>
 
 <span class="k">class</span> <span class="nc">PowerInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
-<<<<<<< HEAD
 <span class="c">#    epochs_file = traits.File(exists=True, desc=&#39;File with mne.Epochs&#39;, mandatory=True)</span>
     <span class="n">epochs_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> 
                            <span class="n">desc</span><span class="o">=</span><span class="s">&#39;File with mne.Epochs or mne.io.Raw&#39;</span><span class="p">,</span> 
@@ -164,12 +144,6 @@
                          <span class="n">desc</span><span class="o">=</span><span class="s">&#39;power spectral density computation method&#39;</span><span class="p">)</span>
     <span class="n">is_epoched</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Bool</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;if true input data are mne.Epochs&#39;</span><span class="p">,</span>
                              <span class="n">mandatory</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-=======
-    <span class="n">epochs_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;File with mne.Epochs&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">fmin</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;lower psd frequency&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-    <span class="n">fmax</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;higher psd frequency&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-    <span class="n">method</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Enum</span><span class="p">(</span><span class="s">&#39;welch&#39;</span><span class="p">,</span> <span class="s">&#39;multitaper&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;power spectral density computation method&#39;</span><span class="p">)</span>
->>>>>>> 7350629c6b8802613d3fb60b9975df4b77543cc7
 
 
 <span class="k">class</span> <span class="nc">PowerOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
@@ -188,13 +162,9 @@
         <span class="n">fmin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fmin</span>
         <span class="n">fmax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fmax</span>
         <span class="n">method</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">method</span>
-<<<<<<< HEAD
         <span class="n">is_epoched</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">is_epoched</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">psds_file</span> <span class="o">=</span> <span class="n">compute_and_save_psd</span><span class="p">(</span><span class="n">epochs_file</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span>
                                               <span class="n">is_epoched</span><span class="p">)</span>
-=======
-        <span class="bp">self</span><span class="o">.</span><span class="n">psds_file</span> <span class="o">=</span> <span class="n">compute_and_save_psd</span><span class="p">(</span><span class="n">epochs_file</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span>
->>>>>>> 7350629c6b8802613d3fb60b9975df4b77543cc7
         <span class="k">return</span> <span class="n">runtime</span>
 
     <span class="k">def</span> <span class="nf">_list_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

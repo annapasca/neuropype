@@ -46,15 +46,12 @@ if test:
 	n_comp_exclude = []
 
 
-<<<<<<< HEAD
 #-------------------------- SET power variables --------------------------#
 data_type = 'fif'
 data_folder = 'Cleaned&epoched_files'
 power_analysis_name='my_little_power_pipeline'
 
 
-=======
->>>>>>> 7350629c6b8802613d3fb60b9975df4b77543cc7
 # ----------------------- SET connectivity variables ---------------------#
 
 freq_bands = [[2,4], [5,7], [8, 12], [15, 29], [30, 59], [60, 90]]

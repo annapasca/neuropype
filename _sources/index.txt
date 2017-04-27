@@ -4,16 +4,16 @@
    contain the root `toctree` directive.
 
 
-NeuropyConn documentation
-*************************
+NeuroPype documentation
+***********************
 
-NeuropyConn is an open-source multi-modal brain data analysis kit which provides **Python-based 
+NeuroPype is an open-source multi-modal brain data analysis kit which provides **Python-based 
 pipelines** for advanced multi-thread processing of fMRI, MEG and EEG data, with a focus on connectivity 
-and graph analyses. NeuropyConn is based on `Nipype <http://nipype.readthedocs.io/en/latest/#>`_,
+and graph analyses. NeuroPype is based on `Nipype <http://nipype.readthedocs.io/en/latest/#>`_,
 a tool developed in fMRI field, which facilitates data analyses by wrapping many commonly-used neuro-imaging software into a common
 python framework.
 
-NeuropyConn project includes three different packages:
+NeuroPype project includes three different packages:
 
 * :ref:`neuropype_ephy` based on |MNE python| includes pipelines for electrophysiology analysis
 * `neuropype_cli <https://dmalt.github.io/neuropype_cli/>`_ is a command line interface for neuropype_ephy package
@@ -28,7 +28,7 @@ NeuropyConn project includes three different packages:
 
    <a href="http://deim.urv.cat/~sergio.gomez/radatools.php" target="_blank">radatools</a>
 
-NeuropyConn provides a very common and fast framework to develop workflows for advanced analyses, in particular
+NeuroPype provides a very common and fast framework to develop workflows for advanced analyses, in particular
 defines a set of different pipelines that can be used stand-alone or as lego of a bigger workflow:
 the input of a pipeline will be the output of another pipeline. 
 
@@ -105,6 +105,14 @@ Examples
    :maxdepth: 1
    
    examples/examples 
+   
+CINQ
+====
+
+.. toctree::
+   :maxdepth: 1
+   
+   cinq/cinq 
    
 Indices and tables
 ==================

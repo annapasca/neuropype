@@ -31,19 +31,11 @@ from params import data_type, down_sfreq, l_freq, h_freq
 from params import variance, ECG_ch_name, EoG_ch_name
 from params import is_set_ICA_components, n_comp_exclude
 
-<<<<<<< HEAD
 from params import test
-=======
->>>>>>> 7350629c6b8802613d3fb60b9975df4b77543cc7
 
 def create_infosource():
     """Create node which passes input filenames to DataGrabber"""
     
-<<<<<<< HEAD
-=======
-    from params import test
-
->>>>>>> 7350629c6b8802613d3fb60b9975df4b77543cc7
     infosource = pe.Node(interface=IdentityInterface(fields=['subject_id',
                                                              'sess_index']),
                          name="infosource")
@@ -66,11 +58,6 @@ def create_infosource():
 def create_datasource():
     """"Create node to grab data"""
     
-<<<<<<< HEAD
-=======
-    from params import test
-    
->>>>>>> 7350629c6b8802613d3fb60b9975df4b77543cc7
     datasource = pe.Node(interface=nio.DataGrabber(infields=['subject_id',
                                                              'sess_index'],
                                                    outfields=['raw_file']),
