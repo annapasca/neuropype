@@ -54,7 +54,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'neuropyconn'
+project = u'neuropype'
 copyright = u'2017, Dmitrii Altukhov, David Meunier, Annalisa Pascarella'
 author = u'Dmitrii Altukhov, David Meunier, Annalisa Pascarella'
 
@@ -231,7 +231,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  (master_doc, 'neuropype_ephy.tex', u'neuropyconn\\_ephy Documentation',
+  (master_doc, 'neuropype_ephy.tex', u'neuropype\\_ephy Documentation',
    u'Author', 'manual'),
 ]
 

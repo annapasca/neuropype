@@ -127,9 +127,9 @@ if "%1" == "qthelp" (
 	echo.
 	echo.Build finished; now you can run "qcollectiongenerator" with the ^
 .qhcp project file in %BUILDDIR%/qthelp, like this:
-	echo.^> qcollectiongenerator %BUILDDIR%\qthelp\neuropyconn.qhcp
+	echo.^> qcollectiongenerator %BUILDDIR%\qthelp\neuropype.qhcp
 	echo.To view the help file:
-	echo.^> assistant -collectionFile %BUILDDIR%\qthelp\neuropyconn.ghc
+	echo.^> assistant -collectionFile %BUILDDIR%\qthelp\neuropype.ghc
 	goto end
 )
 
