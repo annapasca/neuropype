@@ -70,8 +70,7 @@ correl_analysis_name = 'spectral_connectivity_' + data_type + \
 # ------------------- SET source reconstruction variables ----------------#
 
 # set sbj dir path, i.e. where the FS folfers are
-sbj_dir = os.path.join(main_path, 'FSF')
-sbj_dir = '/home/pasca/Science/research/MEG/work/subjects/'
+sbj_dir = os.path.join(main_path, 'derivatives/freesurfer/')
 
 # set inverse parameters
 spacing = 'oct-6'    # ico-5 vs oct-6
