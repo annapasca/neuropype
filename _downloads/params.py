@@ -77,10 +77,10 @@ sbj_dir = '/home/pasca/Science/research/MEG/work/subjects/'
 spacing = 'oct-6'    # ico-5 vs oct-6
 snr = 1.0            # use smaller SNR for raw data
 inv_method = 'MNE'   # sLORETA, MNE, dSPM
-parc = 'aparc.a2009s'    # The parcellation to use: 'aparc' vs 'aparc.a2009s'
+parc = 'aparc'    # The parcellation to use: 'aparc' vs 'aparc.a2009s'
 
 # noise covariance matrix computed by room empty data
-noise_cov_fname = '*lyon_Noise-raw-cov.fif'
+noise_cov_fname = ''
 
 '''
 aseg_labels = ['Left-Accumbens-area',
