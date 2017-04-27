@@ -1,0 +1,476 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>neuropype_ephy.interfaces.mne package &mdash; neuropype 0.0 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="neuropype 0.0 documentation" href="../index.html"/>
+        <link rel="up" title="neuropype_ephy.interfaces package" href="neuropype_ephy.interfaces.html"/>
+        <link rel="next" title="neuropype_ephy.nodes package" href="neuropype_ephy.nodes.html"/>
+        <link rel="prev" title="neuropype_ephy.interfaces package" href="neuropype_ephy.interfaces.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../index.html" class="fa fa-home"> neuropype</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="neuropype_ephy.html">neuropype_ephy</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="neuropype_ephy.html#pipelines">Pipelines</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="neuropype_ephy.html#installation">Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="https://dmalt.github.io/neuropype_cli/">neuropype_cli</a></li>
+<li class="toctree-l1"><a class="reference external" href="http://davidmeunier79.github.io/neuropype_graph/">neuropype_graph</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/examples.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/preproc_example.html">From raw data to preprocessed data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/conn_graph_example.html">Spectral connectivity and graph pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/inv_example.html">Source reconstruction pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/epoch_example.html">From epoch data to graph theoretical analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples.html#scripts">Scripts</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cinq/cinq.html">CINQ</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">neuropype</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="neuropype_ephy.html">neuropype_ephy</a> &raquo;</li>
+      
+          <li><a href="neuropype_ephy.interfaces.html">neuropype_ephy.interfaces package</a> &raquo;</li>
+      
+    <li>neuropype_ephy.interfaces.mne package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          <a href="../_sources/ephypype/neuropype_ephy.interfaces.mne.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="neuropype-ephy-interfaces-mne-package">
+<h1>neuropype_ephy.interfaces.mne package<a class="headerlink" href="#neuropype-ephy-interfaces-mne-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-neuropype_ephy.interfaces.mne.Inverse_solution">
+<span id="neuropype-ephy-interfaces-mne-inverse-solution-module"></span><h2>neuropype_ephy.interfaces.mne.Inverse_solution module<a class="headerlink" href="#module-neuropype_ephy.interfaces.mne.Inverse_solution" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="neuropype_ephy.interfaces.mne.Inverse_solution.InverseSolution">
+<em class="property">class </em><code class="descclassname">neuropype_ephy.interfaces.mne.Inverse_solution.</code><code class="descname">InverseSolution</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/interfaces/mne/Inverse_solution.html#InverseSolution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.interfaces.mne.Inverse_solution.InverseSolution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the inverse solution on raw or epoch data considering N_r regions
+in source space based on a FreeSurfer cortical parcellation</p>
+<p>Parameters</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>sbj_id <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>subject name</dd>
+<dt>sbj_dir <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>Freesurfer directory</dd>
+<dt>raw_filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>filename of the raw data</dd>
+<dt>cov_filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>filename of the noise covariance matrix</dd>
+<dt>fwd_filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>filename of the forward operator</dd>
+<dt>is_epoched <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd>if True and events_id = None the input data are epoch data
+in the format -epo.fif
+if True and events_id is not None, the raw data are epoched
+according to events_id and t_min and t_max values</dd>
+<dt>events_id: dict</dt>
+<dd>the dict of events</dd>
+<dt>t_min, t_max: int (defualt None)</dt>
+<dd>define the time interval in which to epoch the raw data</dd>
+<dt>is_evoked: bool</dt>
+<dd>if True the raw data will be averaged according to the events
+contained in the dict events_id</dd>
+<dt>inv_method <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>the inverse method to use; possible choices: MNE, dSPM, sLORETA</dd>
+<dt>snr <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>the SNR value used to define the regularization parameter</dd>
+<dt>parc: str</dt>
+<dd>the parcellation defining the ROIs atlas in the source space</dd>
+<dt>aseg: bool</dt>
+<dd>if True a mixed source space will be created and the sub cortical
+regions defined in aseg_labels will be added to the source space</dd>
+<dt>aseg_labels: list</dt>
+<dd>list of substructures we want to include in the mixed source space</dd>
+<dt>save_stc: bool</dt>
+<dd>if True the stc will be saved</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="class">
+<dt id="neuropype_ephy.interfaces.mne.Inverse_solution.NoiseCovariance">
+<em class="property">class </em><code class="descclassname">neuropype_ephy.interfaces.mne.Inverse_solution.</code><code class="descname">NoiseCovariance</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/interfaces/mne/Inverse_solution.html#NoiseCovariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.interfaces.mne.Inverse_solution.NoiseCovariance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the noise covariance matrix</p>
+<dl class="docutils">
+<dt>Parameters</dt>
+<dd><dl class="first last docutils">
+<dt>raw_filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>filename of the raw data</dd>
+<dt>cov_fname_in <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>filename of the noise covarianca matrix</dd>
+<dt>is_epoched <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd>True if we want to epoch the data</dd>
+<dt>is_evoked <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd>True if we want to analyze evoked data</dd>
+<dt>events_id <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd>the id of all events to consider</dd>
+<dt>t_min <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>start time before event</dd>
+<dt>tmax <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>end time after event</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-neuropype_ephy.interfaces.mne.LF_computation">
+<span id="neuropype-ephy-interfaces-mne-lf-computation-module"></span><h2>neuropype_ephy.interfaces.mne.LF_computation module<a class="headerlink" href="#module-neuropype_ephy.interfaces.mne.LF_computation" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="neuropype_ephy.interfaces.mne.LF_computation.LFComputation">
+<em class="property">class </em><code class="descclassname">neuropype_ephy.interfaces.mne.LF_computation.</code><code class="descname">LFComputation</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/interfaces/mne/LF_computation.html#LFComputation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.interfaces.mne.LF_computation.LFComputation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the Lead Field matrix using MNE Python functions</p>
+<dl class="docutils">
+<dt>Parameters</dt>
+<dd><dl class="first last docutils">
+<dt>sbj_id <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>subject name</dd>
+<dt>sbj_dir <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>Freesurfer directory</dd>
+<dt>raw_info <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd>information dictionary of the raw data</dd>
+<dt>raw_filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>filename of the raw data</dd>
+<dt>spacing <span class="classifier-delimiter">:</span> <span class="classifier">str (default &#8216;ico-5&#8217;)</span></dt>
+<dd>spacing to use to setup a source space</dd>
+<dt>aseg: bool (defualt False)</dt>
+<dd>if True a mixed source space will be created and the sub cortical
+regions defined in aseg_labels will be added to the source space</dd>
+<dt>aseg_labels: list (default [])</dt>
+<dd>list of substructures we want to include in the mixed source space</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-neuropype_ephy.interfaces.mne.power">
+<span id="neuropype-ephy-interfaces-mne-power-module"></span><h2>neuropype_ephy.interfaces.mne.power module<a class="headerlink" href="#module-neuropype_ephy.interfaces.mne.power" title="Permalink to this headline">¶</a></h2>
+<p>Power computation module</p>
+<dl class="class">
+<dt id="neuropype_ephy.interfaces.mne.power.Power">
+<em class="property">class </em><code class="descclassname">neuropype_ephy.interfaces.mne.power.</code><code class="descname">Power</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/interfaces/mne/power.html#Power"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.interfaces.mne.power.Power" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute power spectral density on epochs</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-neuropype_ephy.interfaces.mne.preproc">
+<span id="neuropype-ephy-interfaces-mne-preproc-module"></span><h2>neuropype_ephy.interfaces.mne.preproc module<a class="headerlink" href="#module-neuropype_ephy.interfaces.mne.preproc" title="Permalink to this headline">¶</a></h2>
+<p>Interfaces for preprocessing nodes</p>
+<dl class="class">
+<dt id="neuropype_ephy.interfaces.mne.preproc.CompIca">
+<em class="property">class </em><code class="descclassname">neuropype_ephy.interfaces.mne.preproc.</code><code class="descname">CompIca</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/interfaces/mne/preproc.html#CompIca"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.interfaces.mne.preproc.CompIca" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute ICA solution on raw fif data</p>
+<dl class="attribute">
+<dt id="neuropype_ephy.interfaces.mne.preproc.CompIca.input_spec">
+<code class="descname">input_spec</code><a class="headerlink" href="#neuropype_ephy.interfaces.mne.preproc.CompIca.input_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#neuropype_ephy.interfaces.mne.preproc.CompIcaInputSpec" title="neuropype_ephy.interfaces.mne.preproc.CompIcaInputSpec"><code class="xref py py-class docutils literal"><span class="pre">CompIcaInputSpec</span></code></a></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="neuropype_ephy.interfaces.mne.preproc.CompIca.output_spec">
+<code class="descname">output_spec</code><a class="headerlink" href="#neuropype_ephy.interfaces.mne.preproc.CompIca.output_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#neuropype_ephy.interfaces.mne.preproc.CompIcaOutputSpec" title="neuropype_ephy.interfaces.mne.preproc.CompIcaOutputSpec"><code class="xref py py-class docutils literal"><span class="pre">CompIcaOutputSpec</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="neuropype_ephy.interfaces.mne.preproc.CompIcaInputSpec">
+<em class="property">class </em><code class="descclassname">neuropype_ephy.interfaces.mne.preproc.</code><code class="descname">CompIcaInputSpec</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/interfaces/mne/preproc.html#CompIcaInputSpec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.interfaces.mne.preproc.CompIcaInputSpec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Input specification for CompIca</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="neuropype_ephy.interfaces.mne.preproc.CompIcaOutputSpec">
+<em class="property">class </em><code class="descclassname">neuropype_ephy.interfaces.mne.preproc.</code><code class="descname">CompIcaOutputSpec</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/interfaces/mne/preproc.html#CompIcaOutputSpec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.interfaces.mne.preproc.CompIcaOutputSpec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Output specification for CompIca</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="neuropype_ephy.interfaces.mne.preproc.CreateEp">
+<em class="property">class </em><code class="descclassname">neuropype_ephy.interfaces.mne.preproc.</code><code class="descname">CreateEp</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/interfaces/mne/preproc.html#CreateEp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.interfaces.mne.preproc.CreateEp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interface for preproc.create_epochs</p>
+<dl class="attribute">
+<dt id="neuropype_ephy.interfaces.mne.preproc.CreateEp.input_spec">
+<code class="descname">input_spec</code><a class="headerlink" href="#neuropype_ephy.interfaces.mne.preproc.CreateEp.input_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#neuropype_ephy.interfaces.mne.preproc.CreateEpInputSpec" title="neuropype_ephy.interfaces.mne.preproc.CreateEpInputSpec"><code class="xref py py-class docutils literal"><span class="pre">CreateEpInputSpec</span></code></a></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="neuropype_ephy.interfaces.mne.preproc.CreateEp.output_spec">
+<code class="descname">output_spec</code><a class="headerlink" href="#neuropype_ephy.interfaces.mne.preproc.CreateEp.output_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#neuropype_ephy.interfaces.mne.preproc.CreateEpOutputSpec" title="neuropype_ephy.interfaces.mne.preproc.CreateEpOutputSpec"><code class="xref py py-class docutils literal"><span class="pre">CreateEpOutputSpec</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="neuropype_ephy.interfaces.mne.preproc.CreateEpInputSpec">
+<em class="property">class </em><code class="descclassname">neuropype_ephy.interfaces.mne.preproc.</code><code class="descname">CreateEpInputSpec</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/interfaces/mne/preproc.html#CreateEpInputSpec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.interfaces.mne.preproc.CreateEpInputSpec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Input specification for CreateEp</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="neuropype_ephy.interfaces.mne.preproc.CreateEpOutputSpec">
+<em class="property">class </em><code class="descclassname">neuropype_ephy.interfaces.mne.preproc.</code><code class="descname">CreateEpOutputSpec</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/interfaces/mne/preproc.html#CreateEpOutputSpec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.interfaces.mne.preproc.CreateEpOutputSpec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Output specification for CreateEp</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="neuropype_ephy.interfaces.mne.preproc.PreprocFif">
+<em class="property">class </em><code class="descclassname">neuropype_ephy.interfaces.mne.preproc.</code><code class="descname">PreprocFif</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/interfaces/mne/preproc.html#PreprocFif"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.interfaces.mne.preproc.PreprocFif" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interface for preproc.preprocess_fif</p>
+<dl class="attribute">
+<dt id="neuropype_ephy.interfaces.mne.preproc.PreprocFif.input_spec">
+<code class="descname">input_spec</code><a class="headerlink" href="#neuropype_ephy.interfaces.mne.preproc.PreprocFif.input_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#neuropype_ephy.interfaces.mne.preproc.PreprocFifInputSpec" title="neuropype_ephy.interfaces.mne.preproc.PreprocFifInputSpec"><code class="xref py py-class docutils literal"><span class="pre">PreprocFifInputSpec</span></code></a></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="neuropype_ephy.interfaces.mne.preproc.PreprocFif.output_spec">
+<code class="descname">output_spec</code><a class="headerlink" href="#neuropype_ephy.interfaces.mne.preproc.PreprocFif.output_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#neuropype_ephy.interfaces.mne.preproc.PreprocFifOutputSpec" title="neuropype_ephy.interfaces.mne.preproc.PreprocFifOutputSpec"><code class="xref py py-class docutils literal"><span class="pre">PreprocFifOutputSpec</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="neuropype_ephy.interfaces.mne.preproc.PreprocFifInputSpec">
+<em class="property">class </em><code class="descclassname">neuropype_ephy.interfaces.mne.preproc.</code><code class="descname">PreprocFifInputSpec</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/interfaces/mne/preproc.html#PreprocFifInputSpec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.interfaces.mne.preproc.PreprocFifInputSpec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Input specification for PreprocFif</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="neuropype_ephy.interfaces.mne.preproc.PreprocFifOutputSpec">
+<em class="property">class </em><code class="descclassname">neuropype_ephy.interfaces.mne.preproc.</code><code class="descname">PreprocFifOutputSpec</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/interfaces/mne/preproc.html#PreprocFifOutputSpec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.interfaces.mne.preproc.PreprocFifOutputSpec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Output specification for PreprocFif</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-neuropype_ephy.interfaces.mne.spectral">
+<span id="neuropype-ephy-interfaces-mne-spectral-module"></span><h2>neuropype_ephy.interfaces.mne.spectral module<a class="headerlink" href="#module-neuropype_ephy.interfaces.mne.spectral" title="Permalink to this headline">¶</a></h2>
+<p>Definition of nodes for computing and plotting spectral connectivity</p>
+<dl class="class">
+<dt id="neuropype_ephy.interfaces.mne.spectral.PlotSpectralConn">
+<em class="property">class </em><code class="descclassname">neuropype_ephy.interfaces.mne.spectral.</code><code class="descname">PlotSpectralConn</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/interfaces/mne/spectral.html#PlotSpectralConn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.interfaces.mne.spectral.PlotSpectralConn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description:</p>
+<p>Plot connectivity matrix using mne plot_circular_connectivity function</p>
+<p>Inputs:</p>
+<dl class="docutils">
+<dt>conmat_file </dt>
+<dd>type = File, exists=True, desc=&#8217;connectivity matrix in .npy format&#8217;, mandatory=True</dd>
+<dt>is_sensor_space </dt>
+<dd>type = Bool, default = True, desc = &#8216;if True uses labels as returned from mne&#8217;, usedefault = True</dd>
+<dt>vmin </dt>
+<dd>type = Float, default = 0.3, desc=&#8217;min scale value&#8217;, usedefault = True</dd>
+<dt>vmax</dt>
+<dd>type = Float, default = 1.0, desc=&#8217;max scale value&#8217;, usedefault = True</dd>
+<dt>nb_lines </dt>
+<dd>type = Int, default = 200, desc=&#8217;nb lines kept in the representation&#8217;, usedefault = True</dd>
+<dt>labels_file </dt>
+<dd>type = File, desc=&#8217;list of labels associated with nodes&#8217;</dd>
+</dl>
+<p>Outputs:</p>
+<dl class="docutils">
+<dt>plot_conmat_file</dt>
+<dd>type = File, exists=True, desc=&#8221;plot spectral connectivity matrix in .eps format&#8221;</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="neuropype_ephy.interfaces.mne.spectral.SpectralConn">
+<em class="property">class </em><code class="descclassname">neuropype_ephy.interfaces.mne.spectral.</code><code class="descname">SpectralConn</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/interfaces/mne/spectral.html#SpectralConn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.interfaces.mne.spectral.SpectralConn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description:</p>
+<p>Compute spectral connectivity in a given frequency bands</p>
+<p>Inputs:</p>
+<dl class="docutils">
+<dt>ts_file </dt>
+<dd>type = File , exists=True, desc=&#8217;nodes * time series in .npy format&#8217;, mandatory=True</dd>
+<dt>sfreq </dt>
+<dd>type = Float, desc=&#8217;sampling frequency&#8217;, mandatory=True</dd>
+<dt>freq_band </dt>
+<dd>type = List(Float) , exists=True, desc=&#8217;frequency bands&#8217;, mandatory=True</dd>
+<dt>con_method </dt>
+<dd>type = Enum(&#8220;coh&#8221;,&#8221;imcoh&#8221;,&#8221;plv&#8221;,&#8221;pli&#8221;,&#8221;wpli&#8221;,&#8221;pli2_unbiased&#8221;,&#8221;ppc&#8221;,&#8221;cohy&#8221;,&#8221;wpli2_debiased&#8221;) , desc=&#8217;metric computed on time series for connectivity&#8217;</dd>
+<dt>epoch_window_length </dt>
+<dd>type = Float, desc=&#8217;epoched data&#8217;, mandatory=False</dd>
+<dt>export_to_matlab </dt>
+<dd>type = Bool, default = False, desc=&#8217;If conmat is exported to .mat format as well&#8217;,usedefault = True</dd>
+<dt>index:</dt>
+<dd>type = String, default = &#8220;0&#8221;, desc=&#8217;What to add to the name of the file&#8217;,usedefault = True</dd>
+<dt>multi_con:</dt>
+<dd>type Bool, default = False, desc=&#8217;If multiple connectivity matrices are exported&#8217;,usedefault = True</dd>
+</dl>
+<p>Outputs:</p>
+<dl class="docutils">
+<dt>conmat_file </dt>
+<dd>type = File, exists=True, desc=&#8221;spectral connectivty matrix in .npy format&#8221;</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-neuropype_ephy.interfaces.mne">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-neuropype_ephy.interfaces.mne" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="neuropype_ephy.nodes.html" class="btn btn-neutral float-right" title="neuropype_ephy.nodes package">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="neuropype_ephy.interfaces.html" class="btn btn-neutral" title="neuropype_ephy.interfaces package"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Dmitrii Altukhov, David Meunier, Annalisa Pascarella.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

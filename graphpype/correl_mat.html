@@ -1,0 +1,346 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Correl Mat &mdash; neuropype 0.0 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="neuropype 0.0 documentation" href="../index.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../index.html" class="fa fa-home"> neuropype</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../ephypype/neuropype_ephy.html">neuropype_ephy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../ephypype/neuropype_ephy.html#pipelines">Pipelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ephypype/neuropype_ephy.html#installation">Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="https://dmalt.github.io/neuropype_cli/">neuropype_cli</a></li>
+<li class="toctree-l1"><a class="reference external" href="http://davidmeunier79.github.io/neuropype_graph/">neuropype_graph</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/examples.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/preproc_example.html">From raw data to preprocessed data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/conn_graph_example.html">Spectral connectivity and graph pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/inv_example.html">Source reconstruction pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/epoch_example.html">From epoch data to graph theoretical analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples.html#scripts">Scripts</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cinq/cinq.html">CINQ</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">neuropype</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>Correl Mat</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          <a href="../_sources/graphpype/correl_mat.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="correl-mat">
+<h1>Correl Mat<a class="headerlink" href="#correl-mat" title="Permalink to this headline">¶</a></h1>
+<p>Functions used for the generation of weighted correlation matrices</p>
+<div class="section" id="extractts">
+<h2>ExtractTS<a class="headerlink" href="#extractts" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="neuropype_graph.nodes.correl_mat.ExtractTS">
+<em class="property">class </em><code class="descclassname">neuropype_graph.nodes.correl_mat.</code><code class="descname">ExtractTS</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_graph/nodes/correl_mat.html#ExtractTS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_graph.nodes.correl_mat.ExtractTS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description: Extract time series from a labelled mask in Nifti Format where all ROIs have the same index</p>
+<p>Inputs:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>indexed_rois_file:</dt>
+<dd>type = File, exists=True, desc=&#8217;indexed mask where all voxels belonging to the same ROI have the same value (! starting from 1)&#8217;, mandatory=True</dd>
+<dt>file_4D:</dt>
+<dd>type = File, exists=True, desc=&#8216;4D volume to be extracted&#8217;, mandatory=True</dd>
+<dt>coord_rois_file:</dt>
+<dd>type = File, desc=&#8217;ROI coordinates&#8217;</dd>
+<dt>min_BOLD_intensity:</dt>
+<dd>type = Float, default = 50.0, desc=&#8217;BOLD signal below this value will be set to zero&#8217;,usedefault = True</dd>
+<dt>percent_signal:</dt>
+<dd>type = Float, default = 0.5, desc  = &#8220;Percent of voxels in a ROI with signal higher that min_BOLD_intensity to keep this ROI&#8221;,usedefault = True</dd>
+<dt>plot_fig:</dt>
+<dd>type = Bool, defaults = False, desc = &#8220;Plotting mean signal or not&#8221;, usedefault = True)</dd>
+</dl>
+</div></blockquote>
+<p>Outputs:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>mean_masked_ts_file: </dt>
+<dd>type = File, exists=True, desc=&#8221;mean ts in .npy (pickle format)&#8221;</dd>
+<dt>subj_coord_rois_file: </dt>
+<dd>type = File, exists=True, desc=&#8221;ROI coordinates retained for the subject&#8221;</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+</div>
+<div class="section" id="intersectmask">
+<h2>IntersectMask<a class="headerlink" href="#intersectmask" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="neuropype_graph.nodes.correl_mat.IntersectMask">
+<em class="property">class </em><code class="descclassname">neuropype_graph.nodes.correl_mat.</code><code class="descname">IntersectMask</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_graph/nodes/correl_mat.html#IntersectMask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_graph.nodes.correl_mat.IntersectMask" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Description:</dt>
+<dd>Keep only values of indexed mask where filtermask is present
+Optionnally, keep only ijk_coords, MNI_coords and labels that are kept in filtered mask</dd>
+</dl>
+<p>Inputs:</p>
+<blockquote>
+<div><p>indexed_rois_file:</p>
+<blockquote>
+<div>type = File, exists=True, desc=&#8217;nii file with indexed mask where all voxels belonging to the same ROI have the same value (! starting from 0)&#8217;, mandatory=True</div></blockquote>
+<dl class="docutils">
+<dt>filter_mask_file:</dt>
+<dd>type = File, exists=True, desc=&#8217;nii file with (binary) mask - e.g. grey matter mask&#8217;, mandatory=True</dd>
+<dt>coords_rois_file:</dt>
+<dd>type = File, desc=&#8217;ijk coords txt file&#8217;</dd>
+<dt>labels_rois_file:</dt>
+<dd>type = File, desc=&#8217;labels txt file&#8217;</dd>
+<dt>MNI_coords_rois_file:</dt>
+<dd>type = File, desc=&#8217;MNI coords txt file&#8217;</dd>
+<dt>filter_thr:</dt>
+<dd>type = Float, default = 0.99, usedefault = True, desc=&#8217;Value to threshold filter_mask&#8217;</dd>
+</dl>
+</div></blockquote>
+<p>Outputs:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>filtered_indexed_rois_file:</dt>
+<dd>type = File, exists=True, desc=&#8217;nii file with indexed mask where all voxels belonging to the same ROI have the same value (! starting from 0)&#8217;</dd>
+<dt>filtered_coords_rois_file:</dt>
+<dd>type = File, exists=False, desc=&#8217;filtered ijk coords txt file&#8217;</dd>
+<dt>filtered_labels_rois_file:</dt>
+<dd>type = File, exists=False, desc=&#8217;filtered labels txt file&#8217;</dd>
+<dt>filtered_MNI_coords_rois_file:</dt>
+<dd>type = File, exists=False, desc=&#8217;filtered MNI coords txt file&#8217;</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+</div>
+<div class="section" id="extractmeants">
+<h2>ExtractMeanTS<a class="headerlink" href="#extractmeants" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="neuropype_graph.nodes.correl_mat.ExtractMeanTS">
+<em class="property">class </em><code class="descclassname">neuropype_graph.nodes.correl_mat.</code><code class="descname">ExtractMeanTS</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_graph/nodes/correl_mat.html#ExtractMeanTS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_graph.nodes.correl_mat.ExtractMeanTS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract mean time series from a labelled mask in Nifti Format where the voxels of interest have values 1</p>
+</dd></dl>
+
+</div>
+<div class="section" id="concatts">
+<h2>ConcatTS<a class="headerlink" href="#concatts" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="neuropype_graph.nodes.correl_mat.ConcatTS">
+<em class="property">class </em><code class="descclassname">neuropype_graph.nodes.correl_mat.</code><code class="descname">ConcatTS</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_graph/nodes/correl_mat.html#ConcatTS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_graph.nodes.correl_mat.ConcatTS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Concenate time series</p>
+</dd></dl>
+
+</div>
+<div class="section" id="mergets">
+<h2>MergeTS<a class="headerlink" href="#mergets" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="neuropype_graph.nodes.correl_mat.MergeTS">
+<em class="property">class </em><code class="descclassname">neuropype_graph.nodes.correl_mat.</code><code class="descname">MergeTS</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_graph/nodes/correl_mat.html#MergeTS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_graph.nodes.correl_mat.MergeTS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merges time series from several files</p>
+</dd></dl>
+
+</div>
+<div class="section" id="separatets">
+<h2>SeparateTS<a class="headerlink" href="#separatets" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="neuropype_graph.nodes.correl_mat.SeparateTS">
+<em class="property">class </em><code class="descclassname">neuropype_graph.nodes.correl_mat.</code><code class="descname">SeparateTS</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_graph/nodes/correl_mat.html#SeparateTS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_graph.nodes.correl_mat.SeparateTS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract time series from a labelled mask in Nifti Format where all ROIs have the same index</p>
+</dd></dl>
+
+</div>
+<div class="section" id="findspmregressor">
+<h2>FindSPMRegressor<a class="headerlink" href="#findspmregressor" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="neuropype_graph.nodes.correl_mat.FindSPMRegressor">
+<em class="property">class </em><code class="descclassname">neuropype_graph.nodes.correl_mat.</code><code class="descname">FindSPMRegressor</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_graph/nodes/correl_mat.html#FindSPMRegressor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_graph.nodes.correl_mat.FindSPMRegressor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Regress parameters of non-interest (i.e. movement parameters, white matter, csf) from signal
+Optionnally filter and normalize (z-score) the residuals</p>
+</dd></dl>
+
+</div>
+<div class="section" id="computeconfcormat">
+<h2>ComputeConfCorMat<a class="headerlink" href="#computeconfcormat" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="neuropype_graph.nodes.correl_mat.ComputeConfCorMat">
+<em class="property">class </em><code class="descclassname">neuropype_graph.nodes.correl_mat.</code><code class="descname">ComputeConfCorMat</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_graph/nodes/correl_mat.html#ComputeConfCorMat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_graph.nodes.correl_mat.ComputeConfCorMat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description:</p>
+<p>Compute correlation between time series, with a given confidence interval. If weight_file is specified, used for weighted correlation</p>
+<p>Inputs:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>ts_file:</dt>
+<dd>type = File, exists=True, desc=&#8217;Numpy files with time series to be correlated&#8217;,mandatory=True</dd>
+<dt>transpose_ts:</dt>
+<dd>type = Bool, default=True,usedefault = True,desc =  &#8216;whether to transpose timeseries&#8217;, mandatory = True</dd>
+<dt>weight_file:</dt>
+<dd>type = File, exists=True, desc=&#8217;Weight of the correlation (normally, condition regressor file)&#8217;, mandatory=False</dd>
+<dt>conf_interval_prob:</dt>
+<dd>type = Float, default = 0.05, usedefault = True, desc=&#8217;Confidence interval&#8217;, mandatory=True</dd>
+<dt>plot_mat:</dt>
+<dd>type = Bool, default = True, usedefault = True, desc=&#8217;Confidence interval&#8217;, mandatory=False</dd>
+<dt>labels_file:</dt>
+<dd>type = File, exists=True, desc=&#8217;Name of the nodes (used only if plot = true)&#8217;, mandatory=False</dd>
+</dl>
+</div></blockquote>
+<p>Outputs:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>cor_mat_file:</dt>
+<dd>type = File, exists=True, desc=&#8221;npy file containing the R values of correlation&#8221;</dd>
+<dt>Z_cor_mat_file:</dt>
+<dd>type = File, exists=True, desc=&#8221;npy file containing the Z-values (after Fisher&#8217;s R-to-Z trasformation) of correlation&#8221;</dd>
+<dt>conf_cor_mat_file:</dt>
+<dd>type = File, exists=True, desc=&#8221;npy file containing the confidence interval around R values&#8221;</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Dmitrii Altukhov, David Meunier, Annalisa Pascarella.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

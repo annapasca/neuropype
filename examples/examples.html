@@ -1,0 +1,253 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Examples &mdash; neuropype 0.0 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="neuropype 0.0 documentation" href="../index.html"/>
+        <link rel="next" title="From raw data to preprocessed data" href="preproc_example.html"/>
+        <link rel="prev" title="Connectivity pipeline" href="../ephypype/pipelines/spectral_connectivity.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../index.html" class="fa fa-home"> neuropype</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../ephypype/neuropype_ephy.html">neuropype_ephy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../ephypype/neuropype_ephy.html#pipelines">Pipelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ephypype/neuropype_ephy.html#installation">Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="https://dmalt.github.io/neuropype_cli/">neuropype_cli</a></li>
+<li class="toctree-l1"><a class="reference external" href="http://davidmeunier79.github.io/neuropype_graph/">neuropype_graph</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="preproc_example.html">From raw data to preprocessed data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="conn_graph_example.html">Spectral connectivity and graph pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inv_example.html">Source reconstruction pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="epoch_example.html">From epoch data to graph theoretical analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scripts">Scripts</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cinq/cinq.html">CINQ</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">neuropype</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>Examples</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          <a href="../_sources/examples/examples.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="examples">
+<span id="example"></span><h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
+<p>All example scripts are based on the sample datasets provided by <a href="https://omega.bic.mni.mcgill.ca/main.php" target="_blank">OMEGA project</a>.
+In particular, we used the datasets organized according to the BIDS specifications (<a href="http://bids.neuroimaging.io" target="_blank">Brain Imaging Data Structure</a>):
+after the registration to the OMEGA website, the sample datatasets to use with the scripts can be downloaded from
+the <a href="https://box.bic.mni.mcgill.ca/s/omega?path=%2FContributions%20(in%20BIDS%20format)" target="_blank">OMEGA link</a>.</p>
+<p>All example scripts need a <a class="reference internal" href="params.html#params"><span>params file</span></a> where to set</p>
+<ul class="simple">
+<li>the list of subjects</li>
+<li>the data path</li>
+<li>the parameters related to the preprocessing pipeline</li>
+<li>the parameters related to the connectivity pipeline</li>
+<li>the parameters related to the source reconstruction pipeline</li>
+</ul>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><div class="first last figure align-center" id="id1">
+<a class="reference internal image-reference" href="../_images/ICA_1comp.jpg"><img alt="../_images/ICA_1comp.jpg" src="../_images/ICA_1comp.jpg" style="width: 350.0px; height: 300.0px;" /></a>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="preproc_example.html#preproc-example"><span>From raw data to preprocessed data</span></a></span></p>
+</div>
+</td>
+<td><div class="first last figure align-center" id="id2">
+<a class="reference internal image-reference" href="../_images/graph_dot_conn2graph1.jpg"><img alt="../_images/graph_dot_conn2graph1.jpg" src="../_images/graph_dot_conn2graph1.jpg" style="width: 460.5px; height: 539.5px;" /></a>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="conn_graph_example.html#conn-graph-example"><span>Spectral connectivity and graph pipeline</span></a></span></p>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><div class="first last figure align-center" id="id3">
+<a class="reference internal image-reference" href="../_images/graph_epoch2graph.jpg"><img alt="../_images/graph_epoch2graph.jpg" src="../_images/graph_epoch2graph.jpg" style="width: 471.0px; height: 474.0px;" /></a>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="epoch_example.html#epoch-example"><span>From epoch data to graph theoretical analysis</span></a></span></p>
+</div>
+</td>
+<td><div class="first last figure align-center" id="id4">
+<a class="reference internal image-reference" href="../_images/graph_dot_inv2graph.jpg"><img alt="../_images/graph_dot_inv2graph.jpg" src="../_images/graph_dot_inv2graph.jpg" style="width: 467.0px; height: 579.0px;" /></a>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="inv_example.html#inv-example"><span>Source reconstruction pipeline</span></a></span></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="preproc_example.html">From raw data to preprocessed data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conn_graph_example.html">Spectral connectivity and graph pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inv_example.html">Source reconstruction pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epoch_example.html">From epoch data to graph theoretical analysis</a></li>
+</ul>
+</div>
+<div class="section" id="scripts">
+<h2>Scripts<a class="headerlink" href="#scripts" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="params.html">params file</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="preproc_example.html" class="btn btn-neutral float-right" title="From raw data to preprocessed data">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../ephypype/pipelines/spectral_connectivity.html" class="btn btn-neutral" title="Connectivity pipeline"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Dmitrii Altukhov, David Meunier, Annalisa Pascarella.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

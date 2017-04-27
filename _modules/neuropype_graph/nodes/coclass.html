@@ -1,0 +1,581 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>neuropype_graph.nodes.coclass &mdash; neuropype 0.0 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="neuropype 0.0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../../../index.html" class="fa fa-home"> neuropype</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../ephypype/neuropype_ephy.html">neuropype_ephy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../ephypype/neuropype_ephy.html#pipelines">Pipelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ephypype/neuropype_ephy.html#installation">Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="https://dmalt.github.io/neuropype_cli/">neuropype_cli</a></li>
+<li class="toctree-l1"><a class="reference external" href="http://davidmeunier79.github.io/neuropype_graph/">neuropype_graph</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/examples.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/preproc_example.html">From raw data to preprocessed data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/conn_graph_example.html">Spectral connectivity and graph pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/inv_example.html">Source reconstruction pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/epoch_example.html">From epoch data to graph theoretical analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/examples.html#scripts">Scripts</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cinq/cinq.html">CINQ</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">neuropype</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>neuropype_graph.nodes.coclass</li>
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <h1>Source code for neuropype_graph.nodes.coclass</h1><div class="highlight"><pre>
+<span class="c"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Definition of nodes for computing reordering and plotting coclass_matrices</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">nipype.interfaces.base</span> <span class="kn">import</span> <span class="n">BaseInterface</span><span class="p">,</span> \
+    <span class="n">BaseInterfaceInputSpec</span><span class="p">,</span> <span class="n">traits</span><span class="p">,</span> <span class="n">File</span><span class="p">,</span> <span class="n">TraitedSpec</span><span class="p">,</span> <span class="n">isdefined</span>
+    
+<span class="c">############################################################################################### PrepareCoclass #####################################################################################################</span>
+
+<span class="kn">from</span> <span class="nn">neuropype_graph.utils_cor</span> <span class="kn">import</span> <span class="n">return_coclass_mat</span><span class="p">,</span><span class="n">return_coclass_mat_labels</span>
+<span class="c">#,return_hierachical_order</span>
+<span class="kn">from</span> <span class="nn">neuropype_graph.utils_net</span> <span class="kn">import</span> <span class="n">read_Pajek_corres_nodes</span><span class="p">,</span><span class="n">read_lol_file</span>
+
+<span class="k">class</span> <span class="nc">PrepareCoclassInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
+    
+    <span class="n">mod_files</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;list of all files representing modularity assignement (in rada, lol files) for each subject&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    
+    <span class="n">node_corres_files</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;list of all Pajek files (in txt format) to extract correspondance between nodes in rada analysis and original subject coordinates for each subject (as obtained from PrepRada)&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    
+    <span class="n">coords_files</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;list of all coordinates in numpy space files (in txt format) for each subject (after removal of non void data)&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">xor</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;labels_files&#39;</span><span class="p">])</span>
+    
+    <span class="n">labels_files</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;list of labels (in txt format) for each subject (after removal of non void data)&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">xor</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;coords_files&#39;</span><span class="p">])</span>
+    
+    <span class="n">gm_mask_coords_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Coordinates in numpy space, corresponding to all possible nodes in the original space&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">xor</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;gm_mask_labels_file&#39;</span><span class="p">])</span>
+    
+    <span class="n">gm_mask_labels_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Labels for all possible nodes - in case coords are varying from one indiv to the other (source space for example)&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">xor</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;gm_mask_coords_file&#39;</span><span class="p">])</span>
+    
+<span class="k">class</span> <span class="nc">PrepareCoclassOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
+    
+    <span class="n">group_coclass_matrix_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&quot;all coclass matrices of the group in .npy (pickle format)&quot;</span><span class="p">)</span>
+    
+    <span class="n">sum_coclass_matrix_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&quot;sum of coclass matrix of the group in .npy (pickle format)&quot;</span><span class="p">)</span>
+    
+    <span class="n">sum_possible_edge_matrix_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&quot;sum of possible edges matrices of the group in .npy (pickle format)&quot;</span><span class="p">)</span>
+    
+    <span class="n">norm_coclass_matrix_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&quot;sum of coclass matrix normalized by possible edges matrix of the group in .npy (pickle format)&quot;</span><span class="p">)</span>
+    
+    
+    
+<div class="viewcode-block" id="PrepareCoclass"><a class="viewcode-back" href="../../../graphpype/coclass.html#neuropype_graph.nodes.coclass.PrepareCoclass">[docs]</a><span class="k">class</span> <span class="nc">PrepareCoclass</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
+    
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extract mean time series from a labelled mask in Nifti Format where the voxels of interest have values 1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">input_spec</span> <span class="o">=</span> <span class="n">PrepareCoclassInputSpec</span>
+    <span class="n">output_spec</span> <span class="o">=</span> <span class="n">PrepareCoclassOutputSpec</span>
+
+    <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
+                
+        <span class="k">print</span> <span class="s">&#39;in prepare_coclass&#39;</span>
+        <span class="n">mod_files</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mod_files</span>
+        
+        <span class="n">node_corres_files</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">node_corres_files</span>
+        
+        <span class="c">#print gm_mask_coords_file</span>
+        <span class="c">#print coords_files</span>
+        
+        <span class="c">#print gm_mask_labels_file</span>
+        <span class="c">#print labels_files</span>
+        
+        <span class="k">if</span> <span class="n">isdefined</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">gm_mask_coords_file</span><span class="p">)</span> <span class="ow">and</span> <span class="n">isdefined</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">coords_files</span><span class="p">):</span>
+        
+            <span class="n">coords_files</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">coords_files</span>
+            
+            <span class="n">gm_mask_coords_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">gm_mask_coords_file</span>
+        
+            <span class="k">print</span> <span class="s">&#39;loading gm mask corres&#39;</span>
+            
+            <span class="n">gm_mask_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">gm_mask_coords_file</span><span class="p">)</span>
+            
+            <span class="k">print</span> <span class="n">gm_mask_coords</span><span class="o">.</span><span class="n">shape</span>
+                
+            <span class="c">#### read matrix from the first group</span>
+            <span class="c">#print Z_cor_mat_files</span>
+            
+            <span class="n">sum_coclass_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">gm_mask_coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">gm_mask_coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
+            <span class="n">sum_possible_edge_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">gm_mask_coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">gm_mask_coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
+            
+            <span class="c">#print sum_coclass_matrix.shape</span>
+            
+                    
+            <span class="n">group_coclass_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">gm_mask_coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">gm_mask_coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="nb">len</span><span class="p">(</span><span class="n">mod_files</span><span class="p">)),</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
+            
+            <span class="k">print</span> <span class="n">group_coclass_matrix</span><span class="o">.</span><span class="n">shape</span>
+            
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">mod_files</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">coords_files</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">mod_files</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">node_corres_files</span><span class="p">):</span>
+                <span class="k">print</span> <span class="s">&quot;warning, length of mod_files, coords_files and node_corres_files are imcompatible {} {} {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mod_files</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">coords_files</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">node_corres_files</span><span class="p">))</span>
+            
+            <span class="k">for</span> <span class="n">index_file</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mod_files</span><span class="p">)):</span>
+            <span class="c">#for index_file in range(1):</span>
+                    
+                <span class="k">print</span> <span class="n">mod_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">]</span>
+                
+                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">mod_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">])</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">node_corres_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">])</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">coords_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">]):</span>
+                
+                    <span class="n">community_vect</span> <span class="o">=</span> <span class="n">read_lol_file</span><span class="p">(</span><span class="n">mod_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">])</span>
+                    <span class="k">print</span> <span class="s">&quot;community_vect:&quot;</span>
+                    <span class="k">print</span> <span class="n">community_vect</span><span class="o">.</span><span class="n">shape</span>
+                    
+                    <span class="n">node_corres_vect</span> <span class="o">=</span> <span class="n">read_Pajek_corres_nodes</span><span class="p">(</span><span class="n">node_corres_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">])</span>
+                    <span class="k">print</span> <span class="s">&quot;node_corres_vect:&quot;</span>
+                    <span class="k">print</span> <span class="n">node_corres_vect</span><span class="o">.</span><span class="n">shape</span>
+                    
+                    
+                    <span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">coords_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">])</span>
+                    <span class="k">print</span> <span class="s">&quot;coords_subj:&quot;</span>
+                    <span class="k">print</span> <span class="n">coords</span><span class="o">.</span><span class="n">shape</span>
+                    
+                    
+                    <span class="n">corres_coords</span> <span class="o">=</span> <span class="n">coords</span><span class="p">[</span><span class="n">node_corres_vect</span><span class="p">,:]</span>
+                    <span class="k">print</span> <span class="s">&quot;corres_coords:&quot;</span>
+                    <span class="k">print</span> <span class="n">corres_coords</span><span class="o">.</span><span class="n">shape</span>
+                    
+                    
+                    <span class="n">coclass_mat</span><span class="p">,</span><span class="n">possible_edge_mat</span> <span class="o">=</span> <span class="n">return_coclass_mat</span><span class="p">(</span><span class="n">community_vect</span><span class="p">,</span><span class="n">corres_coords</span><span class="p">,</span><span class="n">gm_mask_coords</span><span class="p">)</span>
+                    
+                    <span class="k">print</span> <span class="n">coclass_mat</span>
+                    
+                    <span class="n">np</span><span class="o">.</span><span class="n">fill_diagonal</span><span class="p">(</span><span class="n">coclass_mat</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+                    
+                    <span class="n">np</span><span class="o">.</span><span class="n">fill_diagonal</span><span class="p">(</span><span class="n">possible_edge_mat</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+                    
+                    <span class="n">sum_coclass_matrix</span> <span class="o">+=</span> <span class="n">coclass_mat</span>
+                    
+                    <span class="n">sum_possible_edge_matrix</span> <span class="o">+=</span> <span class="n">possible_edge_mat</span>
+                    
+                    <span class="n">group_coclass_matrix</span><span class="p">[:,:,</span><span class="n">index_file</span><span class="p">]</span> <span class="o">=</span> <span class="n">coclass_mat</span>
+                    
+                    
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">print</span> <span class="s">&quot;Warning, one or more files between &quot;</span> <span class="o">+</span> <span class="n">mod_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;,&#39;</span> <span class="o">+</span> <span class="n">node_corres_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;, &#39;</span> <span class="o">+</span> <span class="n">coords_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">]</span> <span class="o">+</span> <span class="s">&quot; do not exists&quot;</span>
+              
+        <span class="k">elif</span> <span class="n">isdefined</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">gm_mask_labels_file</span><span class="p">)</span> <span class="ow">and</span> <span class="n">isdefined</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">labels_files</span><span class="p">):</span>    
+                
+            <span class="n">labels_files</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">labels_files</span>
+            
+            <span class="n">gm_mask_labels_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">gm_mask_labels_file</span>
+            
+                
+            <span class="k">print</span> <span class="s">&#39;loading gm mask labels&#39;</span>
+            
+            <span class="c">#gm_mask_labels = [line.strip() for line in open(gm_mask_labels_file)]</span>
+            
+            <span class="c">#print len(gm_mask_labels)</span>
+                
+            <span class="n">gm_mask_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">gm_mask_labels_file</span><span class="p">)],</span><span class="n">dtype</span> <span class="o">=</span> <span class="s">&#39;str&#39;</span><span class="p">)</span>
+            
+            <span class="k">print</span> <span class="n">gm_mask_labels</span><span class="o">.</span><span class="n">shape</span>
+            
+            <span class="n">sum_coclass_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">gm_mask_labels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">gm_mask_labels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
+            <span class="n">sum_possible_edge_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">gm_mask_labels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">gm_mask_labels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
+            
+            <span class="c">#print sum_coclass_matrix.shape</span>
+            
+                    
+            <span class="n">group_coclass_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">gm_mask_labels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">gm_mask_labels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="nb">len</span><span class="p">(</span><span class="n">mod_files</span><span class="p">)),</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
+            
+            <span class="k">print</span> <span class="n">group_coclass_matrix</span><span class="o">.</span><span class="n">shape</span>
+            
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">mod_files</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">coords_files</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">mod_files</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">node_corres_files</span><span class="p">):</span>
+                <span class="k">print</span> <span class="s">&quot;warning, length of mod_files, coords_files and node_corres_files are imcompatible {} {} {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mod_files</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">coords_files</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">node_corres_files</span><span class="p">))</span>
+            
+            <span class="k">for</span> <span class="n">index_file</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mod_files</span><span class="p">)):</span>
+            <span class="c">#for index_file in range(1):</span>
+                    
+                <span class="k">print</span> <span class="n">mod_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">]</span>
+                
+                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">mod_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">])</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">node_corres_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">])</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">labels_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">]):</span>
+                
+                    <span class="n">community_vect</span> <span class="o">=</span> <span class="n">read_lol_file</span><span class="p">(</span><span class="n">mod_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">])</span>
+                    <span class="k">print</span> <span class="s">&quot;community_vect:&quot;</span>
+                    <span class="k">print</span> <span class="n">community_vect</span><span class="o">.</span><span class="n">shape</span>
+                    
+                    <span class="n">node_corres_vect</span> <span class="o">=</span> <span class="n">read_Pajek_corres_nodes</span><span class="p">(</span><span class="n">node_corres_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">])</span>
+                    <span class="k">print</span> <span class="s">&quot;node_corres_vect:&quot;</span>
+                    <span class="k">print</span> <span class="n">node_corres_vect</span><span class="o">.</span><span class="n">shape</span>
+                    
+                    
+                    <span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">labels_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">])],</span><span class="n">dtype</span> <span class="o">=</span> <span class="s">&#39;str&#39;</span><span class="p">)</span>
+                    <span class="k">print</span> <span class="s">&quot;labels_subj:&quot;</span>
+                    <span class="k">print</span> <span class="n">labels</span><span class="o">.</span><span class="n">shape</span>
+                    
+                    <span class="n">corres_labels</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="n">node_corres_vect</span><span class="p">]</span>
+                    <span class="k">print</span> <span class="s">&quot;corres_labels:&quot;</span>
+                    <span class="k">print</span> <span class="n">corres_labels</span><span class="o">.</span><span class="n">shape</span>
+                    
+                    
+                    <span class="n">coclass_mat</span><span class="p">,</span><span class="n">possible_edge_mat</span> <span class="o">=</span> <span class="n">return_coclass_mat_labels</span><span class="p">(</span><span class="n">community_vect</span><span class="p">,</span><span class="n">corres_labels</span><span class="p">,</span><span class="n">gm_mask_labels</span><span class="p">)</span>
+                    
+                    <span class="k">print</span> <span class="n">coclass_mat</span>
+                    
+                    <span class="n">np</span><span class="o">.</span><span class="n">fill_diagonal</span><span class="p">(</span><span class="n">coclass_mat</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+                    
+                    <span class="n">np</span><span class="o">.</span><span class="n">fill_diagonal</span><span class="p">(</span><span class="n">possible_edge_mat</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+                    
+                    <span class="n">sum_coclass_matrix</span> <span class="o">+=</span> <span class="n">coclass_mat</span>
+                    
+                    <span class="n">sum_possible_edge_matrix</span> <span class="o">+=</span> <span class="n">possible_edge_mat</span>
+                    
+                    <span class="n">group_coclass_matrix</span><span class="p">[:,:,</span><span class="n">index_file</span><span class="p">]</span> <span class="o">=</span> <span class="n">coclass_mat</span>
+                    
+                    
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">print</span> <span class="s">&quot;Warning, one or more files between &quot;</span> <span class="o">+</span> <span class="n">mod_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;,&#39;</span> <span class="o">+</span> <span class="n">node_corres_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;, &#39;</span> <span class="o">+</span> <span class="n">coords_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">]</span> <span class="o">+</span> <span class="s">&quot; do not exists&quot;</span>
+                
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&quot;Error, gm_mask_coords_file XOR gm_mask_labels_file should be defined&quot;</span>
+            <span class="k">return</span>
+            
+            
+        <span class="n">group_coclass_matrix_file</span><span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;group_coclass_matrix.npy&#39;</span><span class="p">)</span>
+        
+        <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">group_coclass_matrix_file</span><span class="p">,</span><span class="n">group_coclass_matrix</span><span class="p">)</span>
+        
+            
+        <span class="k">print</span> <span class="s">&#39;saving coclass matrix&#39;</span>
+        
+        <span class="n">sum_coclass_matrix_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;sum_coclass_matrix.npy&#39;</span><span class="p">)</span>
+        
+        <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">sum_coclass_matrix_file</span><span class="p">,</span><span class="n">sum_coclass_matrix</span><span class="p">)</span>
+        
+        <span class="k">print</span> <span class="s">&#39;saving possible_edge matrix&#39;</span>
+        
+        <span class="n">sum_possible_edge_matrix_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;sum_possible_edge_matrix.npy&#39;</span><span class="p">)</span>
+        
+        <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">sum_possible_edge_matrix_file</span><span class="p">,</span><span class="n">sum_possible_edge_matrix</span><span class="p">)</span>
+        
+        
+        <span class="c">#### save norm_coclass_matrix</span>
+        <span class="k">print</span> 
+        
+        <span class="k">print</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sum_possible_edge_matrix</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span>
+            
+        <span class="n">norm_coclass_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sum_coclass_matrix</span><span class="p">,</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sum_possible_edge_matrix</span><span class="p">,</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">))</span> <span class="o">*</span> <span class="mi">100</span>
+        
+        
+        <span class="c">#0/0</span>
+        
+        <span class="k">print</span> <span class="s">&#39;saving norm coclass matrix&#39;</span>
+        
+        <span class="n">norm_coclass_matrix_file</span> <span class="o">=</span>  <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;norm_coclass_matrix.npy&#39;</span><span class="p">)</span>
+        
+        <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">norm_coclass_matrix_file</span><span class="p">,</span><span class="n">norm_coclass_matrix</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">runtime</span>
+        
+    <span class="k">def</span> <span class="nf">_list_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_outputs</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        
+        <span class="n">outputs</span><span class="p">[</span><span class="s">&quot;group_coclass_matrix_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;group_coclass_matrix.npy&#39;</span><span class="p">)</span>
+        
+        <span class="n">outputs</span><span class="p">[</span><span class="s">&quot;sum_coclass_matrix_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;sum_coclass_matrix.npy&#39;</span><span class="p">)</span>
+        
+        <span class="n">outputs</span><span class="p">[</span><span class="s">&quot;sum_possible_edge_matrix_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;sum_possible_edge_matrix.npy&#39;</span><span class="p">)</span>
+        
+        <span class="n">outputs</span><span class="p">[</span><span class="s">&quot;norm_coclass_matrix_file&quot;</span><span class="p">]</span> <span class="o">=</span>  <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;norm_coclass_matrix.npy&#39;</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">outputs</span>
+        
+        <span class="c">############################################################################################### DiffMatrices #####################################################################################################</span>
+</div>
+<span class="kn">from</span> <span class="nn">neuropype_graph.utils</span> <span class="kn">import</span> <span class="n">check_np_shapes</span>
+        
+<span class="k">class</span> <span class="nc">DiffMatricesInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
+    
+    <span class="n">mat_file1</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Matrix in npy format&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    
+    <span class="n">mat_file2</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Matrix in npy format&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    
+    
+<span class="k">class</span> <span class="nc">DiffMatricesOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
+    
+    <span class="n">diff_mat_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Difference of Matrices (mat1 - mat2) in npy format&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    
+<div class="viewcode-block" id="DiffMatrices"><a class="viewcode-back" href="../../../graphpype/coclass.html#neuropype_graph.nodes.coclass.DiffMatrices">[docs]</a><span class="k">class</span> <span class="nc">DiffMatrices</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
+    
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extract mean time series from a labelled mask in Nifti Format where the voxels of interest have values 1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">input_spec</span> <span class="o">=</span> <span class="n">DiffMatricesInputSpec</span>
+    <span class="n">output_spec</span> <span class="o">=</span> <span class="n">DiffMatricesOutputSpec</span>
+
+    <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
+                
+        <span class="k">print</span> <span class="s">&#39;in prepare_coclass&#39;</span>
+        <span class="n">mat_file1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mat_file1</span>
+        <span class="n">mat_file2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mat_file2</span>
+            
+        <span class="n">mat1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">mat_file1</span><span class="p">)</span>
+        <span class="k">print</span> <span class="n">mat1</span><span class="o">.</span><span class="n">shape</span>
+        
+        <span class="n">mat2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">mat_file2</span><span class="p">)</span>
+        <span class="k">print</span> <span class="n">mat2</span><span class="o">.</span><span class="n">shape</span>
+        
+        <span class="k">if</span> <span class="n">check_np_shapes</span><span class="p">(</span><span class="n">mat1</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">mat2</span><span class="o">.</span><span class="n">shape</span><span class="p">):</span>
+            
+            <span class="n">diff_mat</span> <span class="o">=</span> <span class="n">mat1</span> <span class="o">-</span> <span class="n">mat2</span>
+            <span class="k">print</span> <span class="n">diff_mat</span>
+            
+            <span class="n">diff_mat_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&quot;diff_matrix.npy&quot;</span><span class="p">)</span>
+            
+            <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">diff_mat_file</span><span class="p">,</span><span class="n">diff_mat</span><span class="p">)</span>
+            
+        <span class="k">else</span><span class="p">:</span>
+        
+            <span class="k">print</span> <span class="s">&quot;Warning, shapes are different, cannot substrat matrices&quot;</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+            
+        
+        
+        <span class="k">return</span> <span class="n">runtime</span>
+        
+    <span class="k">def</span> <span class="nf">_list_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_outputs</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        
+        <span class="n">outputs</span><span class="p">[</span><span class="s">&quot;diff_mat_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&quot;diff_matrix.npy&quot;</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">outputs</span>
+        
+<span class="c">#def diff_matrix(mat_file1,mat_file2):</span>
+
+        
+<span class="c">############################################################################################### PlotCoclass #####################################################################################################</span>
+</div>
+<span class="kn">from</span> <span class="nn">nipype.utils.filemanip</span> <span class="kn">import</span> <span class="n">split_filename</span> <span class="k">as</span> <span class="n">split_f</span>
+
+<span class="kn">from</span> <span class="nn">neuropype_graph.utils_plot</span> <span class="kn">import</span> <span class="n">plot_ranged_cormat</span>
+
+<span class="k">class</span> <span class="nc">PlotCoclassInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
+    
+    <span class="n">coclass_matrix_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>  <span class="n">desc</span><span class="o">=</span><span class="s">&#39;coclass matrix in npy format&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    
+    <span class="n">labels_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>  <span class="n">desc</span><span class="o">=</span><span class="s">&#39;labels of nodes&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    
+    <span class="n">list_value_range</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">ListInt</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;force the range of the plot&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    
+<span class="k">class</span> <span class="nc">PlotCoclassOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
+    
+    <span class="n">plot_coclass_matrix_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&quot;eps file with graphical representation&quot;</span><span class="p">)</span>
+    
+<div class="viewcode-block" id="PlotCoclass"><a class="viewcode-back" href="../../../graphpype/coclass.html#neuropype_graph.nodes.coclass.PlotCoclass">[docs]</a><span class="k">class</span> <span class="nc">PlotCoclass</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
+    
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot coclass matrix </span>
+<span class="sd">    - labels are optional</span>
+<span class="sd">    - range values are optional (default is min and max values of the matrix)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">input_spec</span> <span class="o">=</span> <span class="n">PlotCoclassInputSpec</span>
+    <span class="n">output_spec</span> <span class="o">=</span> <span class="n">PlotCoclassOutputSpec</span>
+
+    <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
+                
+        <span class="k">print</span> <span class="s">&#39;in plot_coclass&#39;</span>
+        
+        <span class="n">coclass_matrix_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">coclass_matrix_file</span>
+        <span class="n">labels_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">labels_file</span>
+        <span class="n">list_value_range</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">list_value_range</span>
+            
+        
+        <span class="k">print</span> <span class="s">&#39;loading coclass&#39;</span>
+        <span class="n">coclass_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">coclass_matrix_file</span><span class="p">)</span>
+        
+        
+        <span class="k">if</span> <span class="n">isdefined</span><span class="p">(</span><span class="n">labels_file</span><span class="p">):</span>
+            
+            <span class="k">print</span> <span class="s">&#39;loading labels&#39;</span>
+            <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">labels_file</span><span class="p">)]</span>
+            
+        <span class="k">else</span> <span class="p">:</span>
+            <span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
+            
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">isdefined</span><span class="p">(</span><span class="n">list_value_range</span><span class="p">):</span>
+        
+            <span class="n">list_value_range</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">amin</span><span class="p">(</span><span class="n">coclass_mat</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">coclass_mat</span><span class="p">)]</span>
+        
+        <span class="k">print</span> <span class="s">&#39;plotting heatmap&#39;</span>
+        
+        <span class="n">path</span><span class="p">,</span><span class="n">fname</span><span class="p">,</span><span class="n">ext</span> <span class="o">=</span> <span class="n">split_f</span><span class="p">(</span><span class="n">coclass_matrix_file</span><span class="p">)</span>
+        
+        <span class="n">plot_coclass_matrix_file</span> <span class="o">=</span>  <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;heatmap_&#39;</span> <span class="o">+</span> <span class="n">fname</span> <span class="o">+</span> <span class="s">&#39;.eps&#39;</span><span class="p">)</span>
+        
+        <span class="n">plot_ranged_cormat</span><span class="p">(</span><span class="n">plot_coclass_matrix_file</span><span class="p">,</span><span class="n">coclass_mat</span><span class="p">,</span><span class="n">labels</span><span class="p">,</span><span class="n">fix_full_range</span> <span class="o">=</span> <span class="n">list_value_range</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">runtime</span>
+        
+    <span class="k">def</span> <span class="nf">_list_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_outputs</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        
+        <span class="n">path</span><span class="p">,</span><span class="n">fname</span><span class="p">,</span><span class="n">ext</span> <span class="o">=</span> <span class="n">split_f</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">coclass_matrix_file</span><span class="p">)</span>
+        
+        <span class="n">outputs</span><span class="p">[</span><span class="s">&quot;plot_coclass_matrix_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;heatmap_&#39;</span> <span class="o">+</span> <span class="n">fname</span> <span class="o">+</span> <span class="s">&#39;.eps&#39;</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">outputs</span></div>
+</pre></div>
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Dmitrii Altukhov, David Meunier, Annalisa Pascarella.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

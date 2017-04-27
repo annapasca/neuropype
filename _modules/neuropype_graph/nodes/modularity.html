@@ -1,0 +1,506 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>neuropype_graph.nodes.modularity &mdash; neuropype 0.0 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="neuropype 0.0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../../../index.html" class="fa fa-home"> neuropype</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../ephypype/neuropype_ephy.html">neuropype_ephy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../ephypype/neuropype_ephy.html#pipelines">Pipelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ephypype/neuropype_ephy.html#installation">Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="https://dmalt.github.io/neuropype_cli/">neuropype_cli</a></li>
+<li class="toctree-l1"><a class="reference external" href="http://davidmeunier79.github.io/neuropype_graph/">neuropype_graph</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/examples.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/preproc_example.html">From raw data to preprocessed data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/conn_graph_example.html">Spectral connectivity and graph pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/inv_example.html">Source reconstruction pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/epoch_example.html">From epoch data to graph theoretical analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/examples.html#scripts">Scripts</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cinq/cinq.html">CINQ</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">neuropype</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>neuropype_graph.nodes.modularity</li>
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <h1>Source code for neuropype_graph.nodes.modularity</h1><div class="highlight"><pre>
+<span class="c"># -*- coding: utf-8 -*-</span>
+
+<span class="c">#from neuropype_graph.plot_igraph import *</span>
+
+<span class="c">#import rpy,os</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">nibabel</span> <span class="kn">as</span> <span class="nn">nib</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+
+<span class="kn">from</span> <span class="nn">nipype.interfaces.base</span> <span class="kn">import</span> <span class="n">BaseInterface</span><span class="p">,</span> <span class="n">BaseInterfaceInputSpec</span>
+
+<span class="c">#from nipype.interfaces.base import CommandLine, CommandLineInputSpec ### not used but should be done for PrepRada</span>
+
+<span class="kn">from</span> <span class="nn">nipype.interfaces.base</span> <span class="kn">import</span> <span class="n">traits</span><span class="p">,</span> <span class="n">File</span><span class="p">,</span> <span class="n">TraitedSpec</span><span class="p">,</span> <span class="n">isdefined</span>
+    
+<span class="kn">from</span> <span class="nn">nipype.utils.filemanip</span> <span class="kn">import</span> <span class="n">split_filename</span> <span class="k">as</span> <span class="n">split_f</span>
+    
+    
+<span class="c">#from enthought.traits.trait_base import Undefined</span>
+<span class="c">######################################################################################## ComputeNetList ##################################################################################################################</span>
+
+<span class="kn">from</span> <span class="nn">neuropype_graph.utils_net</span> <span class="kn">import</span> <span class="n">return_net_list</span>
+<span class="c">#from neuropype_graph.utils_net import export_List_net_from_list,export_Louvain_net_from_list</span>
+<span class="kn">from</span> <span class="nn">neuropype_graph.utils_net</span> <span class="kn">import</span> <span class="n">export_List_net_from_list</span>
+
+<span class="k">class</span> <span class="nc">ComputeNetListInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
+    
+    <span class="n">Z_cor_mat_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Normalized correlation matrix&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    
+    <span class="c">#coords_file = File(exists=True, desc=&#39;Corresponding coordiantes&#39;, mandatory=False)</span>
+    
+    <span class="n">threshold</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="n">xor</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;density&#39;</span><span class="p">],</span> <span class="n">mandatory</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+    
+    <span class="n">density</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="n">xor</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;threshold&#39;</span><span class="p">],</span> <span class="n">mandatory</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+    
+<span class="k">class</span> <span class="nc">ComputeNetListOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
+    
+    <span class="n">net_List_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&quot;net list for radatools&quot;</span><span class="p">)</span>
+    
+    <span class="c">#net_Louvain_file = File(exists=True, desc=&quot;net list for Louvain&quot;)</span>
+    
+    <span class="c">#out_coords_file = File(exists=True, desc=&#39;Corresponding coordiantes (copy from previous one)&#39;)</span>
+    
+<div class="viewcode-block" id="ComputeNetList"><a class="viewcode-back" href="../../../graphpype/modularity.html#neuropype_graph.nodes.modularity.ComputeNetList">[docs]</a><span class="k">class</span> <span class="nc">ComputeNetList</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
+    
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Description:</span>
+<span class="sd">    </span>
+<span class="sd">        Format correlation matrix to a list: format i j weight (integer = float * 1000)</span>
+<span class="sd">        </span>
+<span class="sd">    Inputs:</span>
+<span class="sd">    </span>
+<span class="sd">        Z_cor_mat_file:</span>
+<span class="sd">            type = File, exists=True, desc=&#39;Normalized correlation matrix&#39;, mandatory=True</span>
+<span class="sd">    </span>
+<span class="sd">        coords_file:</span>
+<span class="sd">            type = File, exists=True, desc=&#39;Corresponding coordiantes&#39;, mandatory=False</span>
+<span class="sd">    </span>
+<span class="sd">        threshold:</span>
+<span class="sd">            type = Float, xor = [&#39;density&#39;], mandatory = False</span>
+<span class="sd">    </span>
+<span class="sd">        density:</span>
+<span class="sd">            type = Float, xor = [&#39;threshold&#39;], mandatory = False</span>
+<span class="sd">    </span>
+<span class="sd">    Outputs:</span>
+<span class="sd">            </span>
+<span class="sd">        net_List_file:</span>
+<span class="sd">            type = File, exists=True, desc=&quot;net list for radatools&quot;</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">input_spec</span> <span class="o">=</span> <span class="n">ComputeNetListInputSpec</span>
+    <span class="n">output_spec</span> <span class="o">=</span> <span class="n">ComputeNetListOutputSpec</span>
+
+    <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
+                
+        <span class="n">Z_cor_mat_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">Z_cor_mat_file</span>
+        <span class="c">#coords_file = self.inputs.coords_file</span>
+        <span class="n">threshold</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">threshold</span>
+        <span class="n">density</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">density</span>
+        
+        <span class="k">print</span> <span class="s">&quot;loading Z_cor_mat_file&quot;</span>
+        
+        <span class="n">Z_cor_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">Z_cor_mat_file</span><span class="p">)</span>
+        
+        <span class="k">print</span> <span class="n">threshold</span><span class="p">,</span><span class="n">density</span>
+                
+        <span class="k">if</span> <span class="n">threshold</span> <span class="o">!=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Undefined</span> <span class="ow">and</span> <span class="n">density</span> <span class="o">==</span> <span class="n">traits</span><span class="o">.</span><span class="n">Undefined</span><span class="p">:</span>
+            
+            <span class="n">Z_cor_mat</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">Z_cor_mat</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">threshold</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+        
+            <span class="n">Z_list</span> <span class="o">=</span> <span class="n">return_net_list</span><span class="p">(</span><span class="n">Z_cor_mat</span><span class="p">)</span>
+        
+            <span class="k">print</span> <span class="n">Z_list</span>
+            
+        <span class="k">elif</span> <span class="n">threshold</span> <span class="o">==</span> <span class="n">traits</span><span class="o">.</span><span class="n">Undefined</span> <span class="ow">and</span> <span class="n">density</span> <span class="o">!=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Undefined</span><span class="p">:</span>
+            
+            <span class="k">print</span> <span class="n">density</span>
+            
+            <span class="n">Z_list</span> <span class="o">=</span> <span class="n">return_net_list</span><span class="p">(</span><span class="n">Z_cor_mat</span><span class="p">)</span>
+            <span class="k">print</span> <span class="n">Z_list</span><span class="o">.</span><span class="n">shape</span>
+            
+            <span class="n">N</span> <span class="o">=</span>  <span class="nb">int</span><span class="p">(</span><span class="n">Z_list</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">density</span><span class="p">)</span>
+            
+            <span class="n">all_sorted_indexes</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">Z_list</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]))</span><span class="o">.</span><span class="n">argsort</span><span class="p">()</span>
+            
+            <span class="k">print</span> <span class="n">all_sorted_indexes</span>
+            <span class="n">sorted_indexes</span> <span class="o">=</span>  <span class="n">all_sorted_indexes</span><span class="p">[:</span><span class="n">N</span><span class="p">]</span>
+            
+            <span class="n">max_thr_for_den_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;max_thr_for_den.txt&#39;</span><span class="p">)</span>
+            
+            <span class="k">if</span>  <span class="n">N</span> <span class="o">==</span> <span class="n">Z_list</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                <span class="n">N</span> <span class="o">=</span> <span class="n">N</span><span class="o">-</span><span class="mi">1</span>
+                
+            <span class="n">max_thr_for_den</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Z_list</span><span class="p">[</span><span class="n">all_sorted_indexes</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="mi">2</span><span class="p">])</span>
+            
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">max_thr_for_den_file</span><span class="p">,</span><span class="s">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;max_thr_for_den:{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">max_thr_for_den</span><span class="p">))</span>
+
+            <span class="n">Z_list</span> <span class="o">=</span> <span class="n">Z_list</span><span class="p">[</span><span class="n">sorted_indexes</span><span class="p">,:]</span>
+            
+            <span class="k">print</span> <span class="n">Z_list</span>
+            
+        <span class="k">else</span><span class="p">:</span>
+            
+            <span class="n">Z_list</span> <span class="o">=</span> <span class="n">return_net_list</span><span class="p">(</span><span class="n">Z_cor_mat</span><span class="p">)</span>
+        
+        <span class="c">## Z correl_mat as list of edges</span>
+        
+        <span class="k">print</span> <span class="s">&quot;saving Z_list as list of edges&quot;</span>
+        
+        <span class="n">net_List_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;Z_List.txt&#39;</span><span class="p">)</span>
+        
+        <span class="n">export_List_net_from_list</span><span class="p">(</span><span class="n">net_List_file</span><span class="p">,</span><span class="n">Z_list</span><span class="p">)</span>
+        
+        <span class="c">### Z correl_mat as Louvain format</span>
+        
+        <span class="c">#print &quot;saving Z_list as Louvain format&quot;</span>
+        
+        <span class="c">#net_Louvain_file = os.path.abspath(&#39;Z_Louvain.txt&#39;)</span>
+        
+        <span class="c">#export_Louvain_net_from_list(net_Louvain_file,Z_list,coords)</span>
+        
+        <span class="c">#### saving coordinates for references</span>
+        
+        <span class="c">#out_coords_file = os.path.abspath(&#39;coords.txt&#39;)</span>
+        
+        <span class="c">#np.savetxt(out_coords_file,coords,fmt = &quot;%d&quot;)</span>
+        
+        <span class="k">return</span> <span class="n">runtime</span>
+        
+        <span class="c">#return mean_masked_ts_file,subj_coord_rois_file</span>
+        
+    <span class="k">def</span> <span class="nf">_list_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_outputs</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        
+        <span class="n">outputs</span><span class="p">[</span><span class="s">&quot;net_List_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&quot;Z_List.txt&quot;</span><span class="p">)</span>
+        <span class="c">#outputs[&quot;net_Louvain_file&quot;] = os.path.abspath(&quot;Z_Louvain.txt&quot;)</span>
+        <span class="c">#outputs[&quot;out_coords_file&quot;] = os.path.abspath(&quot;coords.txt&quot;)</span>
+        
+        <span class="k">return</span> <span class="n">outputs</span>
+    
+<span class="c">######################################################################################## ComputeIntNetList ##################################################################################################################</span>
+</div>
+<span class="kn">from</span> <span class="nn">neuropype_graph.utils_net</span> <span class="kn">import</span> <span class="n">return_int_net_list</span>
+<span class="kn">from</span> <span class="nn">neuropype_graph.utils_net</span> <span class="kn">import</span> <span class="n">export_List_net_from_list</span><span class="p">,</span><span class="n">export_Louvain_net_from_list</span>
+
+<span class="k">class</span> <span class="nc">ComputeIntNetListInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
+    
+    <span class="n">int_mat_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Integer matrix&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    
+    <span class="c">#coords_file = File(exists=True, desc=&#39;Corresponding coordiantes&#39;, mandatory=True)</span>
+    
+    <span class="n">threshold</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Int</span><span class="p">(</span><span class="n">exists</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&quot;Interger Value (optional) for thresholding&quot;</span><span class="p">,</span> <span class="n">mandatory</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span> 
+    
+<span class="k">class</span> <span class="nc">ComputeIntNetListOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
+    
+    <span class="n">net_List_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&quot;net list for radatools&quot;</span><span class="p">)</span>
+    
+    <span class="c">#net_Louvain_file = File(exists=True, desc=&quot;net list for Louvain&quot;)</span>
+    
+<span class="k">class</span> <span class="nc">ComputeIntNetList</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
+    
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Format integer matrix to a list format i j weight </span>
+<span class="sd">    Option for thresholding </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">input_spec</span> <span class="o">=</span> <span class="n">ComputeIntNetListInputSpec</span>
+    <span class="n">output_spec</span> <span class="o">=</span> <span class="n">ComputeIntNetListOutputSpec</span>
+
+    <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
+                
+        <span class="n">int_mat_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">int_mat_file</span>
+        <span class="c">#coords_file = self.inputs.coords_file</span>
+        <span class="n">threshold</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">threshold</span>
+        
+        
+        <span class="k">print</span> <span class="s">&quot;loading int_mat_file&quot;</span>
+        
+        <span class="n">int_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">int_mat_file</span><span class="p">)</span>
+        
+        <span class="c">#print &#39;load coords&#39;</span>
+        
+        <span class="c">#coords = np.array(np.loadtxt(coords_file),dtype = int)</span>
+        
+        <span class="c">## compute int_list </span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">isdefined</span><span class="p">(</span><span class="n">threshold</span><span class="p">):</span>
+            
+            <span class="n">threshold</span> <span class="o">=</span> <span class="mi">0</span>
+        
+        
+        <span class="n">int_list</span> <span class="o">=</span> <span class="n">return_int_net_list</span><span class="p">(</span><span class="n">int_mat</span><span class="p">,</span><span class="n">threshold</span><span class="p">)</span>
+            
+        <span class="c">## int correl_mat as list of edges</span>
+        
+        <span class="k">print</span> <span class="s">&quot;saving int_list as list of edges&quot;</span>
+        
+        <span class="n">net_List_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;int_List.txt&#39;</span><span class="p">)</span>
+        
+        <span class="n">export_List_net_from_list</span><span class="p">(</span><span class="n">net_List_file</span><span class="p">,</span><span class="n">int_list</span><span class="p">)</span>
+        
+        <span class="c">#### int correl_mat as Louvain format</span>
+        <span class="c">#print &quot;saving int_list as Louvain format&quot;</span>
+        
+        <span class="c">#net_Louvain_file = os.path.abspath(&#39;int_Louvain.txt&#39;)</span>
+        
+        <span class="c">#export_Louvain_net_from_list(net_Louvain_file,int_list,coords)</span>
+        
+        <span class="k">return</span> <span class="n">runtime</span>
+        
+        
+    <span class="k">def</span> <span class="nf">_list_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_outputs</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        
+        <span class="n">outputs</span><span class="p">[</span><span class="s">&quot;net_List_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&quot;int_List.txt&quot;</span><span class="p">)</span>
+        <span class="c">#outputs[&quot;net_Louvain_file&quot;] = os.path.abspath(&quot;int_Louvain.txt&quot;)</span>
+    
+        <span class="k">return</span> <span class="n">outputs</span>
+    
+<span class="c">######################################################################################## ComputeNodeRoles ##################################################################################################################</span>
+
+<span class="kn">from</span> <span class="nn">neuropype_graph.utils_net</span> <span class="kn">import</span> <span class="n">read_lol_file</span><span class="p">,</span><span class="n">read_Pajek_corres_nodes_and_sparse_matrix</span>
+<span class="kn">from</span> <span class="nn">neuropype_graph.utils_mod</span> <span class="kn">import</span> <span class="n">compute_roles</span>
+
+<span class="k">class</span> <span class="nc">ComputeNodeRolesInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
+    
+    <span class="n">rada_lol_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;lol file, describing modular structure of the network&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">position</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">argstr</span><span class="o">=</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">&quot;</span><span class="p">)</span>
+    <span class="n">Pajek_net_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;net description in Pajek format&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    
+    <span class="n">role_type</span> <span class="o">=</span>  <span class="n">traits</span><span class="o">.</span><span class="n">Enum</span><span class="p">(</span><span class="s">&#39;Amaral_roles&#39;</span><span class="p">,</span> <span class="s">&#39;4roles&#39;</span><span class="p">,</span> 
+    <span class="n">desc</span><span class="o">=</span><span class="s">&#39;definition of node roles, Amaral_roles = original 7 roles defined for transport network (useful for big network), 4_roles defines only provincial/connecteur from participation coeff&#39;</span><span class="p">,</span>
+    <span class="n">usedefault</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    
+<span class="k">class</span> <span class="nc">ComputeNodeRolesOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
+    
+    <span class="n">node_roles_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&quot;node roles with an integer code&quot;</span><span class="p">)</span>
+    <span class="n">all_Z_com_degree_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&quot;value of quantity, describing the hub/non-hub role of the nodes&quot;</span><span class="p">)</span>
+    <span class="n">all_participation_coeff_file</span>  <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&quot;value of quality, descibing the provincial/connector role of the nodes&quot;</span><span class="p">)</span>
+    
+<div class="viewcode-block" id="ComputeNodeRoles"><a class="viewcode-back" href="../../../graphpype/modularity.html#neuropype_graph.nodes.modularity.ComputeNodeRoles">[docs]</a><span class="k">class</span> <span class="nc">ComputeNodeRoles</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
+    
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    compute node roles from lol modular partition and original network</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">input_spec</span> <span class="o">=</span> <span class="n">ComputeNodeRolesInputSpec</span>
+    <span class="n">output_spec</span> <span class="o">=</span> <span class="n">ComputeNodeRolesOutputSpec</span>
+
+    <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
+                
+        <span class="n">rada_lol_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">rada_lol_file</span>
+        <span class="n">Pajek_net_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">Pajek_net_file</span>
+        
+        
+        <span class="k">print</span> <span class="s">&#39;Loading Pajek_net_file for reading node_corres&#39;</span>
+        
+        <span class="n">node_corres</span><span class="p">,</span><span class="n">sparse_mat</span> <span class="o">=</span> <span class="n">read_Pajek_corres_nodes_and_sparse_matrix</span><span class="p">(</span><span class="n">Pajek_net_file</span><span class="p">)</span>
+        
+        <span class="k">print</span> <span class="n">sparse_mat</span><span class="o">.</span><span class="n">todense</span><span class="p">()</span>
+        
+        <span class="k">print</span> <span class="n">node_corres</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">sparse_mat</span><span class="o">.</span><span class="n">todense</span><span class="p">()</span><span class="o">.</span><span class="n">shape</span>
+        
+        <span class="k">print</span> <span class="s">&quot;Loading community belonging file &quot;</span> <span class="o">+</span> <span class="n">rada_lol_file</span>
+
+        <span class="n">community_vect</span> <span class="o">=</span> <span class="n">read_lol_file</span><span class="p">(</span><span class="n">rada_lol_file</span><span class="p">)</span>
+        
+        <span class="k">print</span> <span class="n">community_vect</span>
+        
+        <span class="k">print</span> <span class="s">&quot;Computing node roles&quot;</span>
+        
+        <span class="n">node_roles</span><span class="p">,</span><span class="n">all_Z_com_degree</span><span class="p">,</span><span class="n">all_participation_coeff</span> <span class="o">=</span> <span class="n">compute_roles</span><span class="p">(</span><span class="n">community_vect</span><span class="p">,</span><span class="n">sparse_mat</span><span class="p">,</span> <span class="n">role_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">role_type</span><span class="p">)</span>
+        
+        <span class="k">print</span> <span class="n">node_roles</span>
+        
+        
+        <span class="n">node_roles_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;node_roles.txt&#39;</span><span class="p">)</span>
+        
+        <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">node_roles_file</span><span class="p">,</span><span class="n">node_roles</span><span class="p">,</span><span class="n">fmt</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%d</span><span class="s">&#39;</span><span class="p">)</span>
+        
+        
+        <span class="n">all_Z_com_degree_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;all_Z_com_degree.txt&#39;</span><span class="p">)</span>
+        
+        <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">all_Z_com_degree_file</span><span class="p">,</span><span class="n">all_Z_com_degree</span><span class="p">,</span><span class="n">fmt</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%f</span><span class="s">&#39;</span><span class="p">)</span>
+        
+        
+        <span class="n">all_participation_coeff_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;all_participation_coeff.txt&#39;</span><span class="p">)</span>
+        
+        <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">all_participation_coeff_file</span><span class="p">,</span><span class="n">all_participation_coeff</span><span class="p">,</span><span class="n">fmt</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%f</span><span class="s">&#39;</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">runtime</span>
+        
+    <span class="k">def</span> <span class="nf">_list_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_outputs</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        
+        <span class="n">outputs</span><span class="p">[</span><span class="s">&quot;node_roles_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;node_roles.txt&#39;</span><span class="p">)</span>
+        <span class="n">outputs</span><span class="p">[</span><span class="s">&quot;all_Z_com_degree_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;all_Z_com_degree.txt&#39;</span><span class="p">)</span>
+        <span class="n">outputs</span><span class="p">[</span><span class="s">&quot;all_participation_coeff_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;all_participation_coeff.txt&#39;</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">outputs</span></div>
+</pre></div>
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Dmitrii Altukhov, David Meunier, Annalisa Pascarella.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,500 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>neuropype_ephy.interfaces.mne.spectral &mdash; neuropype 0.0 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="neuropype 0.0 documentation" href="../../../../index.html"/>
+        <link rel="up" title="Module code" href="../../../index.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../../../../index.html" class="fa fa-home"> neuropype</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../ephypype/neuropype_ephy.html">neuropype_ephy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ephypype/neuropype_ephy.html#pipelines">Pipelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ephypype/neuropype_ephy.html#installation">Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="https://dmalt.github.io/neuropype_cli/">neuropype_cli</a></li>
+<li class="toctree-l1"><a class="reference external" href="http://davidmeunier79.github.io/neuropype_graph/">neuropype_graph</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/examples.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../examples/preproc_example.html">From raw data to preprocessed data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../examples/conn_graph_example.html">Spectral connectivity and graph pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../examples/inv_example.html">Source reconstruction pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../examples/epoch_example.html">From epoch data to graph theoretical analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../examples/examples.html#scripts">Scripts</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../cinq/cinq.html">CINQ</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../../index.html">neuropype</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+      
+    <li>neuropype_ephy.interfaces.mne.spectral</li>
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <h1>Source code for neuropype_ephy.interfaces.mne.spectral</h1><div class="highlight"><pre>
+<span class="c"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Definition of nodes for computing and plotting spectral connectivity</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+
+<span class="kn">from</span> <span class="nn">nipype.interfaces.base</span> <span class="kn">import</span> <span class="n">BaseInterface</span><span class="p">,</span> \
+    <span class="n">BaseInterfaceInputSpec</span><span class="p">,</span> <span class="n">traits</span><span class="p">,</span> <span class="n">File</span><span class="p">,</span> <span class="n">TraitedSpec</span><span class="p">,</span> <span class="n">isdefined</span>
+    
+<span class="kn">from</span> <span class="nn">nipype.utils.filemanip</span> <span class="kn">import</span> <span class="n">split_filename</span> <span class="k">as</span> <span class="n">split_f</span>
+    
+<span class="c">############################################################################################### SpectralConn #####################################################################################################</span>
+
+<span class="kn">from</span> <span class="nn">neuropype_ephy.spectral</span> <span class="kn">import</span> <span class="n">compute_and_save_spectral_connectivity</span><span class="p">,</span><span class="n">compute_and_save_multi_spectral_connectivity</span>
+
+<span class="k">class</span> <span class="nc">SpectralConnInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
+    
+    <span class="n">ts_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;nodes * time series in .npy format&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    
+    <span class="n">sfreq</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;sampling frequency&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    
+    <span class="n">freq_band</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;frequency bands&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    
+    <span class="n">mode</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Enum</span><span class="p">(</span><span class="s">&quot;multitaper&quot;</span><span class="p">,</span><span class="s">&quot;cwt_morlet&quot;</span><span class="p">,</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;Mode for computing frequency bands&#39;</span><span class="p">)</span>
+    
+    <span class="n">con_method</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Enum</span><span class="p">(</span><span class="s">&quot;coh&quot;</span><span class="p">,</span><span class="s">&quot;imcoh&quot;</span><span class="p">,</span><span class="s">&quot;plv&quot;</span><span class="p">,</span><span class="s">&quot;pli&quot;</span><span class="p">,</span><span class="s">&quot;wpli&quot;</span><span class="p">,</span><span class="s">&quot;pli2_unbiased&quot;</span><span class="p">,</span><span class="s">&quot;ppc&quot;</span><span class="p">,</span><span class="s">&quot;cohy&quot;</span><span class="p">,</span><span class="s">&quot;wpli2_debiased&quot;</span><span class="p">,</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;metric computed on time series for connectivity&#39;</span><span class="p">)</span>
+    
+    <span class="n">epoch_window_length</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;epoched data&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    
+    <span class="n">export_to_matlab</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Bool</span><span class="p">(</span><span class="bp">False</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;If conmat is exported to .mat format as well&#39;</span><span class="p">,</span><span class="n">usedefault</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+    
+    <span class="n">index</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="s">&quot;0&quot;</span><span class="p">,</span><span class="n">desc</span> <span class="o">=</span> <span class="s">&quot;What to add to the name of the file&quot;</span> <span class="p">,</span><span class="n">usedefault</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+    
+    <span class="n">multi_con</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Bool</span><span class="p">(</span><span class="bp">False</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;If multiple connectivity matrices are exported&#39;</span><span class="p">,</span><span class="n">usedefault</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+    
+<span class="k">class</span> <span class="nc">SpectralConnOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
+    
+    <span class="n">conmat_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&quot;mean spectral connectivty matrix in .npy format&quot;</span><span class="p">)</span>
+    
+    <span class="n">conmat_files</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">False</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s">&quot;all spectral connectivty matrices in .npy format&quot;</span><span class="p">)</span>
+    
+<div class="viewcode-block" id="SpectralConn"><a class="viewcode-back" href="../../../../ephypype/neuropype_ephy.interfaces.mne.html#neuropype_ephy.interfaces.mne.spectral.SpectralConn">[docs]</a><span class="k">class</span> <span class="nc">SpectralConn</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
+    
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Description:</span>
+<span class="sd">    </span>
+<span class="sd">    Compute spectral connectivity in a given frequency bands</span>
+<span class="sd">    </span>
+<span class="sd">    Inputs:</span>
+<span class="sd">    </span>
+<span class="sd">    ts_file </span>
+<span class="sd">        type = File , exists=True, desc=&#39;nodes * time series in .npy format&#39;, mandatory=True</span>
+<span class="sd">    </span>
+<span class="sd">    sfreq </span>
+<span class="sd">        type = Float, desc=&#39;sampling frequency&#39;, mandatory=True</span>
+<span class="sd">    </span>
+<span class="sd">    freq_band </span>
+<span class="sd">        type = List(Float) , exists=True, desc=&#39;frequency bands&#39;, mandatory=True</span>
+<span class="sd">    </span>
+<span class="sd">    con_method </span>
+<span class="sd">        type = Enum(&quot;coh&quot;,&quot;imcoh&quot;,&quot;plv&quot;,&quot;pli&quot;,&quot;wpli&quot;,&quot;pli2_unbiased&quot;,&quot;ppc&quot;,&quot;cohy&quot;,&quot;wpli2_debiased&quot;) , desc=&#39;metric computed on time series for connectivity&#39;</span>
+<span class="sd">        </span>
+<span class="sd">    epoch_window_length </span>
+<span class="sd">        type = Float, desc=&#39;epoched data&#39;, mandatory=False</span>
+<span class="sd">    </span>
+<span class="sd">    export_to_matlab </span>
+<span class="sd">        type = Bool, default = False, desc=&#39;If conmat is exported to .mat format as well&#39;,usedefault = True</span>
+<span class="sd">   </span>
+<span class="sd">    index:</span>
+<span class="sd">        type = String, default = &quot;0&quot;, desc=&#39;What to add to the name of the file&#39;,usedefault = True</span>
+<span class="sd">        </span>
+<span class="sd">    multi_con:</span>
+<span class="sd">        type Bool, default = False, desc=&#39;If multiple connectivity matrices are exported&#39;,usedefault = True</span>
+<span class="sd">        </span>
+<span class="sd">    Outputs:</span>
+<span class="sd">    </span>
+<span class="sd">    conmat_file </span>
+<span class="sd">        type = File, exists=True, desc=&quot;spectral connectivty matrix in .npy format&quot;</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">input_spec</span> <span class="o">=</span> <span class="n">SpectralConnInputSpec</span>
+    <span class="n">output_spec</span> <span class="o">=</span> <span class="n">SpectralConnOutputSpec</span>
+
+    <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
+                
+        <span class="k">print</span> <span class="s">&#39;in SpectralConn&#39;</span>
+        
+        <span class="n">ts_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">ts_file</span>
+        <span class="n">sfreq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">sfreq</span>
+        <span class="n">freq_band</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">freq_band</span>
+        <span class="n">con_method</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">con_method</span>
+        <span class="n">epoch_window_length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">epoch_window_length</span>
+        <span class="n">export_to_matlab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">export_to_matlab</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">index</span>
+        <span class="n">mode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mode</span>
+        <span class="n">multi_con</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">multi_con</span> 
+        
+        <span class="k">print</span> <span class="n">mode</span>
+        
+        <span class="k">if</span> <span class="n">epoch_window_length</span> <span class="o">==</span> <span class="n">traits</span><span class="o">.</span><span class="n">Undefined</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&#39;*** NO epoch_window_length ***&#39;</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ts_file</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">raw_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ts_file</span><span class="p">)</span>
+            
+            <span class="k">print</span> <span class="n">raw_data</span><span class="o">.</span><span class="n">shape</span>
+            <span class="k">print</span> <span class="nb">int</span><span class="p">(</span><span class="n">epoch_window_length</span> <span class="o">*</span> <span class="n">sfreq</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">raw_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                
+                <span class="k">if</span> <span class="n">raw_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    
+                    <span class="n">raw_data</span> <span class="o">=</span> <span class="n">raw_data</span><span class="p">[</span><span class="mi">0</span><span class="p">,:,:]</span>
+                    
+            <span class="k">print</span> <span class="n">raw_data</span><span class="o">.</span><span class="n">shape</span>
+                  
+            <span class="n">nb_splits</span> <span class="o">=</span> <span class="n">raw_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="p">(</span><span class="n">epoch_window_length</span> <span class="o">*</span> <span class="n">sfreq</span><span class="p">)</span>
+            <span class="n">reste</span> <span class="o">=</span> <span class="n">raw_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">%</span> <span class="nb">int</span><span class="p">(</span><span class="n">epoch_window_length</span> <span class="o">*</span> <span class="n">sfreq</span><span class="p">)</span>
+            
+            
+            
+            <span class="k">if</span> <span class="n">reste</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">raw_data</span> <span class="o">=</span> <span class="n">raw_data</span><span class="p">[:,:</span><span class="o">-</span><span class="n">reste</span><span class="p">]</span>
+                
+            <span class="k">print</span> <span class="s">&quot;epoching data with {}s by window, resulting in {} epochs (rest = {})&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">epoch_window_length</span><span class="p">,</span><span class="n">nb_splits</span><span class="p">,</span><span class="n">reste</span><span class="p">)</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array_split</span><span class="p">(</span><span class="n">raw_data</span><span class="p">,</span><span class="n">nb_splits</span><span class="p">,</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))</span>
+          
+            <span class="k">print</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span>
+            
+        <span class="k">if</span> <span class="n">multi_con</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">conmat_files</span> <span class="o">=</span> <span class="n">compute_and_save_multi_spectral_connectivity</span><span class="p">(</span><span class="n">all_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">,</span><span class="n">con_method</span> <span class="o">=</span> <span class="n">con_method</span><span class="p">,</span><span class="n">index</span> <span class="o">=</span> <span class="n">index</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="n">sfreq</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span> <span class="n">freq_band</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">fmax</span><span class="o">=</span><span class="n">freq_band</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">export_to_matlab</span> <span class="o">=</span> <span class="n">export_to_matlab</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span><span class="p">)</span>
+            
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">conmat_file</span> <span class="o">=</span> <span class="n">compute_and_save_spectral_connectivity</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">,</span><span class="n">con_method</span> <span class="o">=</span> <span class="n">con_method</span><span class="p">,</span><span class="n">index</span> <span class="o">=</span> <span class="n">index</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="n">sfreq</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span> <span class="n">freq_band</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">fmax</span><span class="o">=</span><span class="n">freq_band</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">export_to_matlab</span> <span class="o">=</span> <span class="n">export_to_matlab</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span><span class="p">)</span>
+        
+        
+        <span class="k">return</span> <span class="n">runtime</span>
+        
+    <span class="k">def</span> <span class="nf">_list_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_outputs</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">multi_con</span><span class="p">:</span>
+            <span class="n">outputs</span><span class="p">[</span><span class="s">&quot;conmat_files&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conmat_files</span>
+        
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">outputs</span><span class="p">[</span><span class="s">&quot;conmat_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conmat_file</span>
+        
+        <span class="k">return</span> <span class="n">outputs</span>
+        
+<span class="c">############################################################################################### PlotSpectralConn #####################################################################################################</span>
+</div>
+<span class="kn">from</span> <span class="nn">neuropype_ephy.spectral</span> <span class="kn">import</span> <span class="n">plot_circular_connectivity</span>
+
+<span class="k">class</span> <span class="nc">PlotSpectralConnInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
+    
+    <span class="n">conmat_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;connectivity matrix in .npy format&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    
+    <span class="n">is_sensor_space</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Bool</span><span class="p">(</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;if True uses labels as returned from mne&#39;</span><span class="p">,</span> <span class="n">usedefault</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+    
+    <span class="n">vmin</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;min scale value&#39;</span><span class="p">,</span> <span class="n">usedefault</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+    
+    <span class="n">vmax</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;max scale value&#39;</span><span class="p">,</span> <span class="n">usedefault</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+    
+    <span class="n">nb_lines</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Int</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;nb lines kept in the representation&#39;</span><span class="p">,</span> <span class="n">usedefault</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+    
+    <span class="n">labels_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;list of labels associated with nodes&#39;</span><span class="p">)</span>
+    
+<span class="k">class</span> <span class="nc">PlotSpectralConnOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
+    
+    <span class="n">plot_conmat_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&quot;plot spectral connectivity matrix in .eps format&quot;</span><span class="p">)</span>
+    
+<div class="viewcode-block" id="PlotSpectralConn"><a class="viewcode-back" href="../../../../ephypype/neuropype_ephy.interfaces.mne.html#neuropype_ephy.interfaces.mne.spectral.PlotSpectralConn">[docs]</a><span class="k">class</span> <span class="nc">PlotSpectralConn</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
+    
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Description:</span>
+<span class="sd">    </span>
+<span class="sd">    Plot connectivity matrix using mne plot_circular_connectivity function</span>
+<span class="sd">    </span>
+<span class="sd">    Inputs:</span>
+<span class="sd">    </span>
+<span class="sd">    conmat_file </span>
+<span class="sd">        type = File, exists=True, desc=&#39;connectivity matrix in .npy format&#39;, mandatory=True</span>
+<span class="sd">    </span>
+<span class="sd">    is_sensor_space </span>
+<span class="sd">        type = Bool, default = True, desc = &#39;if True uses labels as returned from mne&#39;, usedefault = True</span>
+<span class="sd">    </span>
+<span class="sd">    vmin </span>
+<span class="sd">        type = Float, default = 0.3, desc=&#39;min scale value&#39;, usedefault = True</span>
+<span class="sd">    </span>
+<span class="sd">    vmax</span>
+<span class="sd">        type = Float, default = 1.0, desc=&#39;max scale value&#39;, usedefault = True</span>
+<span class="sd">    </span>
+<span class="sd">    nb_lines </span>
+<span class="sd">        type = Int, default = 200, desc=&#39;nb lines kept in the representation&#39;, usedefault = True</span>
+<span class="sd">    </span>
+<span class="sd">    labels_file </span>
+<span class="sd">        type = File, desc=&#39;list of labels associated with nodes&#39;</span>
+<span class="sd">    </span>
+<span class="sd">    Outputs:</span>
+<span class="sd">    </span>
+<span class="sd">    plot_conmat_file</span>
+<span class="sd">        type = File, exists=True, desc=&quot;plot spectral connectivity matrix in .eps format&quot;</span>
+<span class="sd">        </span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">input_spec</span> <span class="o">=</span> <span class="n">PlotSpectralConnInputSpec</span>
+    <span class="n">output_spec</span> <span class="o">=</span> <span class="n">PlotSpectralConnOutputSpec</span>
+
+    <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
+                
+        <span class="k">print</span> <span class="s">&#39;in PlotSpectralConn&#39;</span>
+        
+        <span class="n">conmat_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">conmat_file</span>
+        <span class="n">vmin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">vmin</span>
+        <span class="n">vmax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">vmax</span>
+        <span class="n">nb_lines</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">nb_lines</span>
+        <span class="n">is_sensor_space</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">is_sensor_space</span>
+        <span class="n">labels_file</span> <span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">labels_file</span>
+        
+        
+        <span class="c">### reading matrix and base filename from conmat_file</span>
+        <span class="n">path</span><span class="p">,</span><span class="n">fname</span><span class="p">,</span><span class="n">ext</span> <span class="o">=</span> <span class="n">split_f</span><span class="p">(</span><span class="n">conmat_file</span><span class="p">)</span>    
+        <span class="k">print</span> <span class="n">fname</span>
+        
+        <span class="n">conmat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">conmat_file</span><span class="p">)</span>
+        <span class="k">print</span> <span class="n">conmat</span><span class="o">.</span><span class="n">shape</span>
+        
+        <span class="k">assert</span> <span class="n">conmat</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span> <span class="s">&quot;Warning, conmat should be 2D matrix , ndim = {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">conmat</span><span class="o">.</span><span class="n">ndim</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">conmat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">conmat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s">&quot;Warning, conmat should be a squared matrix , {} != {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">conmat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">conmat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        
+            
+        <span class="k">if</span> <span class="n">isdefined</span><span class="p">(</span><span class="n">labels_file</span><span class="p">):</span>
+            
+            <span class="k">if</span> <span class="n">is_sensor_space</span><span class="p">:</span>
+                <span class="n">label_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">labels_file</span><span class="p">)]</span>
+                <span class="n">node_order</span>  <span class="o">=</span> <span class="n">label_names</span>
+                <span class="n">node_colors</span> <span class="o">=</span> <span class="bp">None</span>
+                
+                
+                <span class="k">print</span> <span class="n">label_names</span>
+            
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">labels_file</span><span class="p">,</span> <span class="s">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)):</span>
+                        <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
+                
+                <span class="k">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s"> ********************** </span><span class="se">\n</span><span class="s">&#39;</span> 
+                <span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+                <span class="k">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s"> ********************** </span><span class="se">\n</span><span class="s">&#39;</span> 
+<span class="c">#                0/0</span>
+                <span class="c"># read colors</span>
+                <span class="n">node_colors</span> <span class="o">=</span> <span class="p">[</span><span class="n">label</span><span class="o">.</span><span class="n">color</span> <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">]</span>    
+                
+                <span class="c"># reorder the labels based on their location in the left hemi</span>
+                <span class="n">label_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">label</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">]</span>
+                <span class="n">lh_labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">label_names</span> <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;lh&#39;</span><span class="p">)]</span>
+                <span class="n">rh_labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">label_names</span> <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;rh&#39;</span><span class="p">)]</span>
+                
+                <span class="c"># Get the y-location of the label</span>
+                <span class="n">label_ypos_lh</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">lh_labels</span><span class="p">:</span>
+                    <span class="n">idx</span> <span class="o">=</span> <span class="n">label_names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+                    <span class="n">ypos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">pos</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+                    <span class="n">label_ypos_lh</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ypos</span><span class="p">)</span>
+                    
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">idx</span> <span class="o">=</span> <span class="n">label_names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s">&#39;Brain-Stem&#39;</span><span class="p">)</span>
+                    <span class="n">ypos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">pos</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+                    <span class="n">lh_labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;Brain-Stem&#39;</span><span class="p">)</span>
+                    <span class="n">label_ypos_lh</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ypos</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                    <span class="k">pass</span>
+                        
+                <span class="c"># Reorder the labels based on their location</span>
+                <span class="n">lh_labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">label</span> <span class="k">for</span> <span class="p">(</span><span class="n">yp</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">label_ypos_lh</span><span class="p">,</span> <span class="n">lh_labels</span><span class="p">))]</span>
+<span class="c">#                rh_labels = [label for (yp, label) in sorted(zip(label_ypos_rh, rh_labels))]</span>
+                
+                <span class="c"># For the right hemi</span>
+                <span class="n">rh_labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">label</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;rh&#39;</span> <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">lh_labels</span>
+                            <span class="k">if</span> <span class="n">label</span> <span class="o">!=</span> <span class="s">&#39;Brain-Stem&#39;</span> <span class="ow">and</span> <span class="n">label</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span> <span class="s">&#39;rh&#39;</span> <span class="ow">in</span> <span class="n">rh_labels</span><span class="p">]</span>
+
+                <span class="c"># Save the plot order </span>
+                <span class="n">node_order</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+                <span class="n">node_order</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">lh_labels</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>  <span class="c"># reverse the order</span>
+                <span class="n">node_order</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">rh_labels</span><span class="p">)</span>    
+                <span class="k">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s"> ********************** </span><span class="se">\n</span><span class="s">&#39;</span>  
+                <span class="k">print</span> <span class="n">lh_labels</span>
+                <span class="k">print</span> <span class="n">rh_labels</span>
+                <span class="k">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s"> ********************** </span><span class="se">\n</span><span class="s">&#39;</span>  
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">label_names</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">conmat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">node_order</span>  <span class="o">=</span> <span class="n">label_names</span>
+            <span class="n">node_colors</span> <span class="o">=</span> <span class="bp">None</span>
+           
+        <span class="k">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s"> ********************** </span><span class="se">\n</span><span class="s">&#39;</span>   
+        <span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">label_names</span><span class="p">)</span>
+        <span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">node_order</span><span class="p">)</span>
+        <span class="k">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s"> ********************** </span><span class="se">\n</span><span class="s">&#39;</span>   
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot_conmat_file</span> <span class="o">=</span> <span class="n">plot_circular_connectivity</span><span class="p">(</span><span class="n">conmat</span><span class="p">,</span><span class="n">label_names</span><span class="p">,</span><span class="n">node_colors</span><span class="p">,</span><span class="n">node_order</span><span class="p">,</span> <span class="n">vmin</span><span class="p">,</span><span class="n">vmax</span> <span class="p">,</span><span class="n">nb_lines</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">runtime</span>
+        
+    <span class="k">def</span> <span class="nf">_list_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_outputs</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        
+        <span class="n">outputs</span><span class="p">[</span><span class="s">&quot;plot_conmat_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot_conmat_file</span>
+        
+        <span class="k">return</span> <span class="n">outputs</span>
+        </div>
+</pre></div>
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Dmitrii Altukhov, David Meunier, Annalisa Pascarella.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../../',
+            VERSION:'0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

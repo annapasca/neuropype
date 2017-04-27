@@ -1,0 +1,390 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>neuropype_ephy.nodes package &mdash; neuropype 0.0 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="neuropype 0.0 documentation" href="../index.html"/>
+        <link rel="up" title="neuropype_ephy" href="neuropype_ephy.html"/>
+        <link rel="next" title="neuropype_ephy.pipelines package" href="neuropype_ephy.pipelines.html"/>
+        <link rel="prev" title="neuropype_ephy.interfaces.mne package" href="neuropype_ephy.interfaces.mne.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../index.html" class="fa fa-home"> neuropype</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="neuropype_ephy.html">neuropype_ephy</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="neuropype_ephy.html#pipelines">Pipelines</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="neuropype_ephy.html#installation">Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="https://dmalt.github.io/neuropype_cli/">neuropype_cli</a></li>
+<li class="toctree-l1"><a class="reference external" href="http://davidmeunier79.github.io/neuropype_graph/">neuropype_graph</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/examples.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/preproc_example.html">From raw data to preprocessed data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/conn_graph_example.html">Spectral connectivity and graph pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/inv_example.html">Source reconstruction pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/epoch_example.html">From epoch data to graph theoretical analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples.html#scripts">Scripts</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cinq/cinq.html">CINQ</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">neuropype</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="neuropype_ephy.html">neuropype_ephy</a> &raquo;</li>
+      
+    <li>neuropype_ephy.nodes package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          <a href="../_sources/ephypype/neuropype_ephy.nodes.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="neuropype-ephy-nodes-package">
+<h1>neuropype_ephy.nodes package<a class="headerlink" href="#neuropype-ephy-nodes-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-neuropype_ephy.nodes.import_data">
+<span id="neuropype-ephy-nodes-import-data"></span><h2>neuropype_ephy.nodes.import_data<a class="headerlink" href="#module-neuropype_ephy.nodes.import_data" title="Permalink to this headline">¶</a></h2>
+<p>Description:</p>
+<p>All nodes for import that are NOT specific to a ephy package</p>
+<dl class="class">
+<dt id="neuropype_ephy.nodes.import_data.ConvertDs2Fif">
+<em class="property">class </em><code class="descclassname">neuropype_ephy.nodes.import_data.</code><code class="descname">ConvertDs2Fif</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/nodes/import_data.html#ConvertDs2Fif"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.nodes.import_data.ConvertDs2Fif" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description:</p>
+<p>Inputs:</p>
+<p>Outputs:</p>
+<dl class="attribute">
+<dt id="neuropype_ephy.nodes.import_data.ConvertDs2Fif.input_spec">
+<code class="descname">input_spec</code><a class="headerlink" href="#neuropype_ephy.nodes.import_data.ConvertDs2Fif.input_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#neuropype_ephy.nodes.import_data.ConvertDs2FifInputSpec" title="neuropype_ephy.nodes.import_data.ConvertDs2FifInputSpec"><code class="xref py py-class docutils literal"><span class="pre">ConvertDs2FifInputSpec</span></code></a></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="neuropype_ephy.nodes.import_data.ConvertDs2Fif.output_spec">
+<code class="descname">output_spec</code><a class="headerlink" href="#neuropype_ephy.nodes.import_data.ConvertDs2Fif.output_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#neuropype_ephy.nodes.import_data.ConvertDs2FifOutputSpec" title="neuropype_ephy.nodes.import_data.ConvertDs2FifOutputSpec"><code class="xref py py-class docutils literal"><span class="pre">ConvertDs2FifOutputSpec</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="neuropype_ephy.nodes.import_data.ConvertDs2FifInputSpec">
+<em class="property">class </em><code class="descclassname">neuropype_ephy.nodes.import_data.</code><code class="descname">ConvertDs2FifInputSpec</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/nodes/import_data.html#ConvertDs2FifInputSpec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.nodes.import_data.ConvertDs2FifInputSpec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Input specification for ImportMat</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="neuropype_ephy.nodes.import_data.ConvertDs2FifOutputSpec">
+<em class="property">class </em><code class="descclassname">neuropype_ephy.nodes.import_data.</code><code class="descname">ConvertDs2FifOutputSpec</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/nodes/import_data.html#ConvertDs2FifOutputSpec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.nodes.import_data.ConvertDs2FifOutputSpec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Output spec for Import Mat</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="neuropype_ephy.nodes.import_data.Ep2ts">
+<em class="property">class </em><code class="descclassname">neuropype_ephy.nodes.import_data.</code><code class="descname">Ep2ts</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/nodes/import_data.html#Ep2ts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.nodes.import_data.Ep2ts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description:</p>
+<p>Convert electa fif raw or epochs file to numpy matrix format</p>
+<p>Inputs:</p>
+<p>Outputs:</p>
+<dl class="attribute">
+<dt id="neuropype_ephy.nodes.import_data.Ep2ts.input_spec">
+<code class="descname">input_spec</code><a class="headerlink" href="#neuropype_ephy.nodes.import_data.Ep2ts.input_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#neuropype_ephy.nodes.import_data.Ep2tsInputSpec" title="neuropype_ephy.nodes.import_data.Ep2tsInputSpec"><code class="xref py py-class docutils literal"><span class="pre">Ep2tsInputSpec</span></code></a></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="neuropype_ephy.nodes.import_data.Ep2ts.output_spec">
+<code class="descname">output_spec</code><a class="headerlink" href="#neuropype_ephy.nodes.import_data.Ep2ts.output_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#neuropype_ephy.nodes.import_data.Ep2tsOutputSpec" title="neuropype_ephy.nodes.import_data.Ep2tsOutputSpec"><code class="xref py py-class docutils literal"><span class="pre">Ep2tsOutputSpec</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="neuropype_ephy.nodes.import_data.Ep2tsInputSpec">
+<em class="property">class </em><code class="descclassname">neuropype_ephy.nodes.import_data.</code><code class="descname">Ep2tsInputSpec</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/nodes/import_data.html#Ep2tsInputSpec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.nodes.import_data.Ep2tsInputSpec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Input specification for Ep2ts</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="neuropype_ephy.nodes.import_data.Ep2tsOutputSpec">
+<em class="property">class </em><code class="descclassname">neuropype_ephy.nodes.import_data.</code><code class="descname">Ep2tsOutputSpec</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/nodes/import_data.html#Ep2tsOutputSpec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.nodes.import_data.Ep2tsOutputSpec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Output specification for Ep2ts</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="neuropype_ephy.nodes.import_data.ImportBrainVisionAscii">
+<em class="property">class </em><code class="descclassname">neuropype_ephy.nodes.import_data.</code><code class="descname">ImportBrainVisionAscii</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/nodes/import_data.html#ImportBrainVisionAscii"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.nodes.import_data.ImportBrainVisionAscii" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description:</p>
+<p>Import IntraEEG Brain Vision (unsplitted) ascii time series txt file and
+return splitted time series in .npy format, as well as electrode names in txt format</p>
+<p>Inputs:</p>
+<dl class="docutils">
+<dt>txt_file</dt>
+<dd>type = File, exists=True, desc=&#8217;Ascii text file exported from BrainVision&#8217;, mandatory=True</dd>
+<dt>sample_size</dt>
+<dd>type = Int, desc = &#8220;Size (number of time points) of all samples&#8221;, mandatory = True</dd>
+<dt>sep_label_name</dt>
+<dd>type = String, default = &#8220;&#8221;, desc=&#8217;Separator between electrode name
+(normally a capital letter) and contact numbers&#8217;, usedefault=True</dd>
+<dt>repair</dt>
+<dd>type = Bool, default = True, desc=&#8217;Repair file if behaves strangely
+(adding space sometimes...)&#8217;, usedefault  = True</dd>
+<dt>sep</dt>
+<dd>type = String, default = &#8221;;&#8221;,&#8221;Separator between time points&#8221;,usedefault = True)</dd>
+</dl>
+<p>Outputs:</p>
+<dl class="docutils">
+<dt>splitted_ts_file</dt>
+<dd>type  = File, exists=True, desc=&#8221;splitted time series in .npy format&#8221;</dd>
+<dt>elec_names_file</dt>
+<dd>type = File, exists=True, desc=&#8221;electrode names in txt format&#8221;</dd>
+</dl>
+<dl class="attribute">
+<dt id="neuropype_ephy.nodes.import_data.ImportBrainVisionAscii.output_spec">
+<code class="descname">output_spec</code><a class="headerlink" href="#neuropype_ephy.nodes.import_data.ImportBrainVisionAscii.output_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#neuropype_ephy.nodes.import_data.ImportBrainVisionAsciiOutputSpec" title="neuropype_ephy.nodes.import_data.ImportBrainVisionAsciiOutputSpec"><code class="xref py py-class docutils literal"><span class="pre">ImportBrainVisionAsciiOutputSpec</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="neuropype_ephy.nodes.import_data.ImportBrainVisionAsciiOutputSpec">
+<em class="property">class </em><code class="descclassname">neuropype_ephy.nodes.import_data.</code><code class="descname">ImportBrainVisionAsciiOutputSpec</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/nodes/import_data.html#ImportBrainVisionAsciiOutputSpec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.nodes.import_data.ImportBrainVisionAsciiOutputSpec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Output specification for ImportBrainVisionAscii</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="neuropype_ephy.nodes.import_data.ImportMat">
+<em class="property">class </em><code class="descclassname">neuropype_ephy.nodes.import_data.</code><code class="descname">ImportMat</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/nodes/import_data.html#ImportMat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.nodes.import_data.ImportMat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description:</p>
+<p>Import matlab file to numpy ndarry, and save it as numpy file .npy</p>
+<p>Inputs:</p>
+<dl class="docutils">
+<dt>tsmat_file:</dt>
+<dd><dl class="first last docutils">
+<dt>type = File, exists=True, desc=&#8217;nodes * time series</dt>
+<dd>in .mat (matlab format format&#8217;, mandatory=True</dd>
+</dl>
+</dd>
+<dt>data_field_name</dt>
+<dd>type = String, default = &#8216;F&#8217;, desc=&#8217;Name of the structure in matlab&#8217;,
+usedefault=True</dd>
+<dt>good_channels_field_name</dt>
+<dd><dl class="first last docutils">
+<dt>type = String, default = &#8216;ChannelFlag&#8217;,</dt>
+<dd>desc=&#8217;Boolean structure for choosing nodes,
+name of structure in matlab file&#8217;</dd>
+</dl>
+</dd>
+</dl>
+<p>Outputs:</p>
+<dl class="docutils">
+<dt>ts_file</dt>
+<dd>type = File, exists=True, desc=&#8221;time series in .npy format&#8221;</dd>
+</dl>
+<dl class="attribute">
+<dt id="neuropype_ephy.nodes.import_data.ImportMat.input_spec">
+<code class="descname">input_spec</code><a class="headerlink" href="#neuropype_ephy.nodes.import_data.ImportMat.input_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#neuropype_ephy.nodes.import_data.ImportMatInputSpec" title="neuropype_ephy.nodes.import_data.ImportMatInputSpec"><code class="xref py py-class docutils literal"><span class="pre">ImportMatInputSpec</span></code></a></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="neuropype_ephy.nodes.import_data.ImportMat.output_spec">
+<code class="descname">output_spec</code><a class="headerlink" href="#neuropype_ephy.nodes.import_data.ImportMat.output_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#neuropype_ephy.nodes.import_data.ImportMatOutputSpec" title="neuropype_ephy.nodes.import_data.ImportMatOutputSpec"><code class="xref py py-class docutils literal"><span class="pre">ImportMatOutputSpec</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="neuropype_ephy.nodes.import_data.ImportMatInputSpec">
+<em class="property">class </em><code class="descclassname">neuropype_ephy.nodes.import_data.</code><code class="descname">ImportMatInputSpec</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/nodes/import_data.html#ImportMatInputSpec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.nodes.import_data.ImportMatInputSpec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Input specification for ImportMat</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="neuropype_ephy.nodes.import_data.ImportMatOutputSpec">
+<em class="property">class </em><code class="descclassname">neuropype_ephy.nodes.import_data.</code><code class="descname">ImportMatOutputSpec</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/nodes/import_data.html#ImportMatOutputSpec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.nodes.import_data.ImportMatOutputSpec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Output spec for Import Mat</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-neuropype_ephy.nodes.ts_tools">
+<span id="neuropype-ephy-nodes-ts-tools"></span><h2>neuropype_ephy.nodes.ts_tools<a class="headerlink" href="#module-neuropype_ephy.nodes.ts_tools" title="Permalink to this headline">¶</a></h2>
+<p>Description:</p>
+<p>All nodes for import that are NOT specific to a ephy package</p>
+<dl class="class">
+<dt id="neuropype_ephy.nodes.ts_tools.SplitWindows">
+<em class="property">class </em><code class="descclassname">neuropype_ephy.nodes.ts_tools.</code><code class="descname">SplitWindows</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/nodes/ts_tools.html#SplitWindows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.nodes.ts_tools.SplitWindows" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description:</p>
+<p>Split time series in several windows for all trials, and save each ndarray as an independant numpy file .npy</p>
+<p>Inputs:</p>
+<dl class="docutils">
+<dt>ts_file:</dt>
+<dd>type = File, exists=True, desc=&#8217;nodes * time series in .npy format&#8217;, mandatory=True</dd>
+<dt>n_windows </dt>
+<dd>type = List(Tuple), desc=&#8217;List of start and stop points (tuple of two integers)of temporal windows&#8217;, mandatory = True</dd>
+</dl>
+<p>Outputs:</p>
+<dl class="docutils">
+<dt>ts_file </dt>
+<dd>type = File, exists=True, desc=&#8221;time series in .npy format&#8221;</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="neuropype_ephy.pipelines.html" class="btn btn-neutral float-right" title="neuropype_ephy.pipelines package">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="neuropype_ephy.interfaces.mne.html" class="btn btn-neutral" title="neuropype_ephy.interfaces.mne package"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Dmitrii Altukhov, David Meunier, Annalisa Pascarella.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,340 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>neuropype_ephy.pipelines.preproc_meeg &mdash; neuropype 0.0 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="neuropype 0.0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../../../index.html" class="fa fa-home"> neuropype</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../ephypype/neuropype_ephy.html">neuropype_ephy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../ephypype/neuropype_ephy.html#pipelines">Pipelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ephypype/neuropype_ephy.html#installation">Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="https://dmalt.github.io/neuropype_cli/">neuropype_cli</a></li>
+<li class="toctree-l1"><a class="reference external" href="http://davidmeunier79.github.io/neuropype_graph/">neuropype_graph</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/examples.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/preproc_example.html">From raw data to preprocessed data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/conn_graph_example.html">Spectral connectivity and graph pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/inv_example.html">Source reconstruction pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/epoch_example.html">From epoch data to graph theoretical analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/examples.html#scripts">Scripts</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cinq/cinq.html">CINQ</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">neuropype</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>neuropype_ephy.pipelines.preproc_meeg</li>
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <h1>Source code for neuropype_ephy.pipelines.preproc_meeg</h1><div class="highlight"><pre>
+<span class="c"># Created on Tue Apr 26 17:06:36 2016</span>
+<span class="c"># @author: pasca</span>
+
+
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s">&#39;PS&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">get_ext_file</span><span class="p">(</span><span class="n">raw_file</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">nipype.utils.filemanip</span> <span class="kn">import</span> <span class="n">split_filename</span> <span class="k">as</span> <span class="n">split_f</span>
+
+    <span class="n">subj_path</span><span class="p">,</span> <span class="n">basename</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">split_f</span><span class="p">(</span><span class="n">raw_file</span><span class="p">)</span>
+
+    <span class="k">print</span> <span class="n">raw_file</span>
+    <span class="n">is_ds</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="k">if</span> <span class="n">ext</span> <span class="ow">is</span> <span class="s">&#39;ds&#39;</span><span class="p">:</span>
+        <span class="n">is_ds</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">return</span> <span class="n">is_ds</span>
+    <span class="k">elif</span> <span class="n">ext</span> <span class="ow">is</span> <span class="s">&#39;fif&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">is_ds</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&#39;only fif and ds file format!!!&#39;</span><span class="p">)</span>
+
+
+<span class="c"># is_ICA=True                 =&gt; apply ICA to automatically remove ECG and EoG</span>
+<span class="c">#                                artifacts</span>
+<span class="c"># is_set_ICA_components=False =&gt; specify all subject_ids and sessions</span>
+<span class="c"># is_set_ICA_components=True  =&gt; specify the dataset for we want to recompute</span>
+<span class="c">#                               the ICA</span>
+<span class="c"># in Elekta data, ICA routine automatically looks for EEG61, EEG62</span>
+<div class="viewcode-block" id="create_pipeline_preproc_meeg"><a class="viewcode-back" href="../../../ephypype/neuropype_ephy.pipelines.html#neuropype_ephy.pipelines.preproc_meeg.create_pipeline_preproc_meeg">[docs]</a><span class="k">def</span> <span class="nf">create_pipeline_preproc_meeg</span><span class="p">(</span><span class="n">main_path</span><span class="p">,</span>
+                                 <span class="n">pipeline_name</span><span class="o">=</span><span class="s">&#39;preproc_meeg&#39;</span><span class="p">,</span>
+                                 <span class="n">data_type</span><span class="o">=</span><span class="s">&#39;fif&#39;</span><span class="p">,</span>
+                                 <span class="n">l_freq</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">h_freq</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">down_sfreq</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+                                 <span class="n">is_ICA</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">variance</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span>
+                                 <span class="n">ECG_ch_name</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">EoG_ch_name</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+                                 <span class="n">reject</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                                 <span class="n">is_set_ICA_components</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                                 <span class="n">n_comp_exclude</span><span class="o">=</span><span class="p">[],</span>
+                                 <span class="n">is_sensor_space</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Description:</span>
+<span class="sd">    </span>
+<span class="sd">        Preprocessing pipeline</span>
+
+<span class="sd">    Inputs:</span>
+
+<span class="sd">        main_path : str</span>
+<span class="sd">            the main path of the pipeline</span>
+<span class="sd">        pipeline_name: str (default &#39;preproc_meeg&#39;)</span>
+<span class="sd">            name of the pipeline</span>
+<span class="sd">        data_type: str (default &#39;fif&#39;)</span>
+<span class="sd">            data type: &#39;fif&#39; or &#39;ds&#39;</span>
+<span class="sd">        l_freq: float (default 1)</span>
+<span class="sd">            low cut-off frequency in Hz</span>
+<span class="sd">        h_freq: float (default 150)</span>
+<span class="sd">            high cut-off frequency in Hz</span>
+<span class="sd">        down_sfreq: float (default 300)</span>
+<span class="sd">            sampling frequency at which the data are downsampled</span>
+<span class="sd">        is_ICA : boolean (default True)</span>
+<span class="sd">            if True apply ICA to automatically remove ECG and EoG artifacts</span>
+<span class="sd">        variance: float (default 0.95)</span>
+<span class="sd">            float between 0 and 1: the ICA components will be selected by the </span>
+<span class="sd">            cumulative percentage of explained variance</span>
+<span class="sd">        ECG_ch_name: str (default &#39;&#39;)</span>
+<span class="sd">            the name of ECG channels</span>
+<span class="sd">        EoG_ch_name: str (default &#39;&#39;)</span>
+<span class="sd">            the name of EoG channels</span>
+<span class="sd">        reject: dict | None</span>
+<span class="sd">            rejection parameters based on peak-to-peak amplitude. Valid keys</span>
+<span class="sd">            are &#39;grad&#39; | &#39;mag&#39; | &#39;eeg&#39; | &#39;eog&#39; | &#39;ecg&#39;. If reject is None then</span>
+<span class="sd">            no rejection is done</span>
+<span class="sd">        is_set_ICA_components: boolean (default False)</span>
+<span class="sd">            set to True if we had the ICA of the raw data, checked the Report</span>
+<span class="sd">            and want to exclude some ICA components based on their topographies</span>
+<span class="sd">            and time series</span>
+<span class="sd">            if True, we have to fill the dictionary variable n_comp_exclude</span>
+<span class="sd">        n_comp_exclude: dict</span>
+<span class="sd">            if is_set_ICA_components=True, it has to be a dict containing for</span>
+<span class="sd">            each subject and for each session the components to be excluded</span>
+<span class="sd">	is_sensor_space: boolean (default True)</span>
+<span class="sd">            True if we perform the analysis in sensor space and we use the</span>
+<span class="sd">            pipeline as lego with the connectivity or inverse pipeline</span>
+<span class="sd">            </span>
+<span class="sd">    Outouts:</span>
+
+<span class="sd">        pipeline : instance of Workflow</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="kn">from</span> <span class="nn">neuropype_ephy.interfaces.mne.preproc</span> <span class="kn">import</span> <span class="n">PreprocFif</span>
+    <span class="kn">from</span> <span class="nn">neuropype_ephy.interfaces.mne.preproc</span> <span class="kn">import</span> <span class="n">CompIca</span>
+    <span class="kn">from</span> <span class="nn">neuropype_ephy.nodes.import_data</span> <span class="kn">import</span> <span class="n">ConvertDs2Fif</span>
+    <span class="kn">from</span> <span class="nn">neuropype_ephy.preproc</span> <span class="kn">import</span> <span class="n">preprocess_set_ICA_comp_fif_to_ts</span>
+    <span class="kn">from</span> <span class="nn">nipype.interfaces.utility</span> <span class="kn">import</span> <span class="n">IdentityInterface</span><span class="p">,</span> <span class="n">Function</span>
+
+    <span class="kn">import</span> <span class="nn">nipype</span>
+    <span class="k">print</span> <span class="n">nipype</span><span class="o">.</span><span class="n">__version__</span>
+
+    <span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="kn">as</span> <span class="nn">pe</span>
+
+    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">pipeline_name</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">base_dir</span> <span class="o">=</span> <span class="n">main_path</span>
+
+    <span class="k">print</span> <span class="s">&#39;*** main_path -&gt; </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">main_path</span> <span class="o">+</span> <span class="s">&#39; ***&#39;</span>
+
+    <span class="c"># define the inputs of the pipeline</span>
+    <span class="n">inputnode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;raw_file&#39;</span><span class="p">,</span> <span class="s">&#39;subject_id&#39;</span><span class="p">]),</span>
+                        <span class="n">name</span><span class="o">=</span><span class="s">&#39;inputnode&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">data_type</span> <span class="ow">is</span> <span class="s">&#39;ds&#39;</span><span class="p">:</span>
+        <span class="n">ds2fif_node</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">ConvertDs2Fif</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;ds2fif&#39;</span><span class="p">)</span>
+        <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s">&#39;raw_file&#39;</span><span class="p">,</span> <span class="n">ds2fif_node</span><span class="p">,</span> <span class="s">&#39;ds_file&#39;</span><span class="p">)</span>        
+
+    <span class="c"># preprocess</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_set_ICA_components</span><span class="p">:</span>
+      <span class="n">preproc_node</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">PreprocFif</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;preproc&#39;</span><span class="p">)</span>
+
+      <span class="n">preproc_node</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">l_freq</span> <span class="o">=</span> <span class="n">l_freq</span>
+      <span class="n">preproc_node</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">h_freq</span> <span class="o">=</span> <span class="n">h_freq</span>
+      <span class="n">preproc_node</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">down_sfreq</span> <span class="o">=</span> <span class="n">down_sfreq</span>
+    
+    
+      <span class="k">if</span> <span class="n">data_type</span> <span class="ow">is</span> <span class="s">&#39;ds&#39;</span><span class="p">:</span>
+	  <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">ds2fif_node</span><span class="p">,</span> <span class="s">&#39;fif_file&#39;</span><span class="p">,</span> <span class="n">preproc_node</span><span class="p">,</span> <span class="s">&#39;fif_file&#39;</span><span class="p">)</span>
+      <span class="k">elif</span> <span class="n">data_type</span> <span class="ow">is</span> <span class="s">&#39;fif&#39;</span><span class="p">:</span>
+	  <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s">&#39;raw_file&#39;</span><span class="p">,</span> <span class="n">preproc_node</span><span class="p">,</span> <span class="s">&#39;fif_file&#39;</span><span class="p">)</span>
+    
+
+    <span class="k">if</span> <span class="n">is_ICA</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">is_set_ICA_components</span><span class="p">:</span>
+            <span class="n">ica_node</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;fif_file&#39;</span><span class="p">,</span>
+                                                               <span class="s">&#39;subject_id&#39;</span><span class="p">,</span>
+                                                               <span class="s">&#39;n_comp_exclude&#39;</span><span class="p">,</span>
+                                                               <span class="s">&#39;is_sensor_space&#39;</span><span class="p">],</span>
+                                                  <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;out_file&#39;</span><span class="p">,</span>
+                                                                <span class="s">&#39;channel_coords_file&#39;</span><span class="p">,</span>
+                                                                <span class="s">&#39;channel_names_file&#39;</span><span class="p">,</span>
+                                                                <span class="s">&#39;sfreq&#39;</span><span class="p">],</span>
+                                                  <span class="n">function</span><span class="o">=</span><span class="n">preprocess_set_ICA_comp_fif_to_ts</span><span class="p">),</span>
+                              <span class="n">name</span><span class="o">=</span><span class="s">&#39;ica_set_comp&#39;</span><span class="p">)</span>
+            <span class="n">ica_node</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">n_comp_exclude</span> <span class="o">=</span> <span class="n">n_comp_exclude</span>
+            <span class="n">ica_node</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">is_sensor_space</span> <span class="o">=</span> <span class="n">is_sensor_space</span>
+            
+            <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s">&#39;raw_file&#39;</span><span class="p">,</span> <span class="n">ica_node</span><span class="p">,</span> <span class="s">&#39;fif_file&#39;</span><span class="p">)</span>
+            <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s">&#39;subject_id&#39;</span><span class="p">,</span> <span class="n">ica_node</span><span class="p">,</span> <span class="s">&#39;subject_id&#39;</span><span class="p">)</span>
+            
+        <span class="k">else</span><span class="p">:</span>
+            
+            <span class="n">ica_node</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">CompIca</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;ica&#39;</span><span class="p">)</span>
+            <span class="n">ica_node</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">n_components</span> <span class="o">=</span> <span class="n">variance</span>
+            <span class="n">ica_node</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">ecg_ch_name</span> <span class="o">=</span> <span class="n">ECG_ch_name</span>
+            <span class="n">ica_node</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">eog_ch_name</span> <span class="o">=</span> <span class="n">EoG_ch_name</span>
+
+            <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">preproc_node</span><span class="p">,</span> <span class="s">&#39;fif_file&#39;</span><span class="p">,</span> <span class="n">ica_node</span><span class="p">,</span> <span class="s">&#39;fif_file&#39;</span><span class="p">)</span>
+            
+
+    <span class="k">return</span> <span class="n">pipeline</span>
+</pre></div></div>
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Dmitrii Altukhov, David Meunier, Annalisa Pascarella.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
