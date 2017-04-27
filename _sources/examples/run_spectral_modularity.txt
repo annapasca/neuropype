@@ -1,5 +1,0 @@
-.. _run_spectral_modularity:
-
-run_spectral_modularity
-=======================
-
