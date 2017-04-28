@@ -21,8 +21,6 @@ and its Nodes (:py:class:`ds2fif <neuropype_ephy.nodes.import_data.ConvertDs2Fif
 are based on the MNE Python functions performing the decomposition of the MEG/EEG signal using an ICA
 algorithm.
 
-An **ICA tutorial** with the main functions used in MNE can be found |here|.
-
 .. |here| raw:: html
 
    <a href="http://martinos.org/mne/stable/auto_tutorials/plot_artifacts_correction_ica.html" target="_blank">here</a>
@@ -38,6 +36,7 @@ In particular, the node:
    :scale: 75 %
    :align: center
    
+.. note:: An **ICA tutorial** with the main functions used in MNE can be found |here|.
 .. seealso:: :ref:`preproc_example` to get an example on how to write a preprocessing pipeline.
 
 
