@@ -63,6 +63,7 @@ Install neuropype_ephy
     sudo python setup.py develop
     cd ..
 
+see :ref:`includeme` for more information
 
 Install neuropype_cli
 +++++++++++++++++++++++
@@ -84,7 +85,8 @@ Install neuropype_graph
     sudo python setup.py develop
     cd ..
 
-
+see `README <http://davidmeunier79.github.io/neuropype_graph/includeme.html>`_ for 
+more information
 
 Packages
 ========
