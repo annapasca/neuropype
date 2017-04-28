@@ -71,6 +71,7 @@ correl_analysis_name = 'spectral_connectivity_' + data_type + \
 
 # set sbj dir path, i.e. where the FS folfers are
 sbj_dir = os.path.join(main_path, 'derivatives/freesurfer/')
+noise_path = data_path
 
 # set inverse parameters
 spacing = 'oct-6'    # ico-5 vs oct-6
