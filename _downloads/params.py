@@ -80,7 +80,7 @@ inv_method = 'MNE'   # sLORETA, MNE, dSPM
 parc = 'aparc'    # The parcellation to use: 'aparc' vs 'aparc.a2009s'
 
 # noise covariance matrix computed by room empty data
-noise_cov_fname = ''
+noise_cov_fname = '*noise*.ds'
 
 '''
 aseg_labels = ['Left-Accumbens-area',

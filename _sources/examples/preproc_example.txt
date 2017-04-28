@@ -101,18 +101,18 @@ The following script implements the preprocessing pipeline to perform **ICA** on
       main_workflow.run(plugin='MultiProc', plugin_args={'n_procs': 8})
 
 
-The output of the pipeline will be the
+The outputs of the pipeline will be saved in the pipeline directory specified by ``main_workflow.base_dir = main_path``:
 
-* ica solution file saved in $main_path/$preproc_pipeline_name/preproc_meeg/_sess_index_#_subject_id_#/ica/$raw_file_ica_solution.fif
-* cleaned raw data file saved in $main_path/$preproc_pipeline_name/preproc_meeg/_sess_index_#_subject_id_#/ica/$raw_file_ica.fif
-* report html file saved in $main_path/$preproc_pipeline_name/preproc_meeg/_sess_index_#_subject_id_#/ica/$raw_file-report.html
+* **ica solution** file saved in $main_path/$preproc_pipeline_name/preproc_meeg/_sess_index_#_subject_id_#/ica/$raw_file_ica_solution.fif
+* **cleaned raw** data file saved in $main_path/$preproc_pipeline_name/preproc_meeg/_sess_index_#_subject_id_#/ica/$raw_file_ica.fif
+* **report html** file saved in $main_path/$preproc_pipeline_name/preproc_meeg/_sess_index_#_subject_id_#/ica/$raw_file-report.html
 
 To visually inspect the ICA components, the report file can be visualized by a jupyter notebook where it is 
 possible include or exclude the ICA components inspecting their topographies and time series.
 
-The raw data file will be saved in the subject data directory.
+.. warning:: The new cleaned raw data file has to be saved in the **subject data directory**.
 
    
-Download Python source code: :download:`run_preprocess_pipeline.py <../../examples/run_preprocess_pipeline.py>`
+**Download** Python source code: :download:`run_preprocess_pipeline.py <../../examples/run_preprocess_pipeline.py>`
 
-Download Jupyter notebook: :download:`ipynb_report.ipynb <../../examples/ipynb_report.ipynb>`
+**Download** Jupyter notebook: :download:`ipynb_report.ipynb <../../examples/ipynb_report.ipynb>`

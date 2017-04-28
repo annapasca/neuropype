@@ -38,7 +38,7 @@ In particular, the node:
    :scale: 75 %
    :align: center
    
-See :ref:`preproc_example` to get an example on how to write a preprocessing pipeline.
+.. seealso:: :ref:`preproc_example` to get an example on how to write a preprocessing pipeline.
 
 
 

@@ -218,17 +218,20 @@
     <span class="n">main_workflow</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">plugin</span><span class="o">=</span><span class="s">&#39;MultiProc&#39;</span><span class="p">,</span> <span class="n">plugin_args</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;n_procs&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">})</span>
 </pre></div>
 </div>
-<p>The output of the pipeline will be the</p>
+<p>The outputs of the pipeline will be saved in the pipeline directory specified by <code class="docutils literal"><span class="pre">main_workflow.base_dir</span> <span class="pre">=</span> <span class="pre">main_path</span></code>:</p>
 <ul class="simple">
-<li>ica solution file saved in $main_path/$preproc_pipeline_name/preproc_meeg/_sess_index_#_subject_id_#/ica/$raw_file_ica_solution.fif</li>
-<li>cleaned raw data file saved in $main_path/$preproc_pipeline_name/preproc_meeg/_sess_index_#_subject_id_#/ica/$raw_file_ica.fif</li>
-<li>report html file saved in $main_path/$preproc_pipeline_name/preproc_meeg/_sess_index_#_subject_id_#/ica/$raw_file-report.html</li>
+<li><strong>ica solution</strong> file saved in $main_path/$preproc_pipeline_name/preproc_meeg/_sess_index_#_subject_id_#/ica/$raw_file_ica_solution.fif</li>
+<li><strong>cleaned raw</strong> data file saved in $main_path/$preproc_pipeline_name/preproc_meeg/_sess_index_#_subject_id_#/ica/$raw_file_ica.fif</li>
+<li><strong>report html</strong> file saved in $main_path/$preproc_pipeline_name/preproc_meeg/_sess_index_#_subject_id_#/ica/$raw_file-report.html</li>
 </ul>
 <p>To visually inspect the ICA components, the report file can be visualized by a jupyter notebook where it is
 possible include or exclude the ICA components inspecting their topographies and time series.</p>
-<p>The raw data file will be saved in the subject data directory.</p>
-<p>Download Python source code: <a class="reference download internal" href="../_downloads/run_preprocess_pipeline.py"><code class="xref download docutils literal"><span class="pre">run_preprocess_pipeline.py</span></code></a></p>
-<p>Download Jupyter notebook: <a class="reference download internal" href="../_downloads/ipynb_report.ipynb"><code class="xref download docutils literal"><span class="pre">ipynb_report.ipynb</span></code></a></p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The new cleaned raw data file has to be saved in the <strong>subject data directory</strong>.</p>
+</div>
+<p><strong>Download</strong> Python source code: <a class="reference download internal" href="../_downloads/run_preprocess_pipeline.py"><code class="xref download docutils literal"><span class="pre">run_preprocess_pipeline.py</span></code></a></p>
+<p><strong>Download</strong> Jupyter notebook: <a class="reference download internal" href="../_downloads/ipynb_report.ipynb"><code class="xref download docutils literal"><span class="pre">ipynb_report.ipynb</span></code></a></p>
 </div>
 
 

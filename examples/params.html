@@ -136,8 +136,6 @@ and the kind of MEG data (ds or fif format)</p>
 <span class="n">main_path</span> <span class="o">=</span> <span class="s">&#39;/meg_data/omega/sample_BIDS_omega/&#39;</span>
 <span class="n">data_path</span> <span class="o">=</span> <span class="n">main_path</span>
 
-<span class="n">test</span> <span class="o">=</span> <span class="bp">True</span>
-
 <span class="n">subject_ids</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;sub-0002&#39;</span><span class="p">,</span> <span class="s">&#39;sub-0003&#39;</span><span class="p">,</span> <span class="s">&#39;sub-0004&#39;</span><span class="p">,</span> <span class="s">&#39;sub-0006&#39;</span><span class="p">,</span> <span class="s">&#39;sub-0007&#39;</span><span class="p">]</span>
 <span class="n">sessions</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;ses-0001&#39;</span><span class="p">]</span>
 </pre></div>
@@ -164,8 +162,6 @@ and the kind of MEG data (ds or fif format)</p>
 <span class="n">reject</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">mag</span><span class="o">=</span><span class="mf">5e-12</span><span class="p">,</span> <span class="n">grad</span><span class="o">=</span><span class="mf">5000e-13</span><span class="p">)</span>
 
 <span class="n">preproc_pipeline_name</span> <span class="o">=</span> <span class="s">&quot;preprocessing_pipeline&quot;</span>
-<span class="k">if</span> <span class="n">test</span><span class="p">:</span>
-  <span class="n">preproc_pipeline_name</span> <span class="o">=</span> <span class="n">preproc_pipeline_name</span> <span class="o">+</span> <span class="s">&#39;_test&#39;</span>
 </pre></div>
 </div>
 </div>
