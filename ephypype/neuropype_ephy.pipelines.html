@@ -76,9 +76,9 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../examples/examples.html">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../examples/preproc_example.html">From raw data to preprocessed data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/power_example.html">PSD pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/conn_graph_example.html">Spectral connectivity and graph pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/inv_example.html">Source reconstruction pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/epoch_example.html">From epoch data to graph theoretical analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/examples.html#scripts">Scripts</a></li>
 </ul>
 </li>
@@ -149,6 +149,7 @@ Possibly also filter out connections between &#8220;adjacent&#8221; contacts (on
 </div>
 <div class="section" id="module-neuropype_ephy.pipelines.fif_to_inv_sol">
 <span id="neuropype-ephy-pipelines-fif-to-inv-sol"></span><h3>neuropype_ephy.pipelines.fif_to_inv_sol<a class="headerlink" href="#module-neuropype_ephy.pipelines.fif_to_inv_sol" title="Permalink to this headline">¶</a></h3>
+<p>Inverse Solution Pipeline</p>
 <dl class="function">
 <dt id="neuropype_ephy.pipelines.fif_to_inv_sol.create_pipeline_source_reconstruction">
 <code class="descclassname">neuropype_ephy.pipelines.fif_to_inv_sol.</code><code class="descname">create_pipeline_source_reconstruction</code><span class="sig-paren">(</span><em>main_path</em>, <em>sbj_dir</em>, <em>pipeline_name='inv_sol_pipeline'</em>, <em>spacing='ico-5'</em>, <em>inv_method='MNE'</em>, <em>is_epoched=False</em>, <em>events_id=None</em>, <em>t_min=None</em>, <em>t_max=None</em>, <em>is_evoked=False</em>, <em>parc='aparc'</em>, <em>aseg=False</em>, <em>aseg_labels=[]</em>, <em>noise_cov_fname=None</em>, <em>save_stc=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/pipelines/fif_to_inv_sol.html#create_pipeline_source_reconstruction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.pipelines.fif_to_inv_sol.create_pipeline_source_reconstruction" title="Permalink to this definition">¶</a></dt>
@@ -199,8 +200,21 @@ regions defined in aseg_labels will be added to the source space</dd>
 </dd></dl>
 
 </div>
+<div class="section" id="module-neuropype_ephy.pipelines.power">
+<span id="neuropype-ephy-pipelines-power"></span><h3>neuropype_ephy.pipelines.power<a class="headerlink" href="#module-neuropype_ephy.pipelines.power" title="Permalink to this headline">¶</a></h3>
+<p>Power Pipeline</p>
+<dl class="function">
+<dt id="neuropype_ephy.pipelines.power.create_pipeline_power">
+<code class="descclassname">neuropype_ephy.pipelines.power.</code><code class="descname">create_pipeline_power</code><span class="sig-paren">(</span><em>main_path</em>, <em>pipeline_name='power'</em>, <em>fmin=0</em>, <em>fmax=300</em>, <em>method='welch'</em>, <em>is_epoched=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/pipelines/power.html#create_pipeline_power"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.pipelines.power.create_pipeline_power" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description:</p>
+<blockquote>
+<div>Wraps functions of MNE to compute PSD of epoch or raw data</div></blockquote>
+</dd></dl>
+
+</div>
 <div class="section" id="module-neuropype_ephy.pipelines.preproc_meeg">
 <span id="neuropype-ephy-pipelines-preproc-meeg"></span><h3>neuropype_ephy.pipelines.preproc_meeg<a class="headerlink" href="#module-neuropype_ephy.pipelines.preproc_meeg" title="Permalink to this headline">¶</a></h3>
+<p>Preprocessing Pipeline</p>
 <dl class="function">
 <dt id="neuropype_ephy.pipelines.preproc_meeg.create_pipeline_preproc_meeg">
 <code class="descclassname">neuropype_ephy.pipelines.preproc_meeg.</code><code class="descname">create_pipeline_preproc_meeg</code><span class="sig-paren">(</span><em>main_path</em>, <em>pipeline_name='preproc_meeg'</em>, <em>data_type='fif'</em>, <em>l_freq=1</em>, <em>h_freq=150</em>, <em>down_sfreq=300</em>, <em>is_ICA=True</em>, <em>variance=0.95</em>, <em>ECG_ch_name=''</em>, <em>EoG_ch_name=''</em>, <em>reject=None</em>, <em>is_set_ICA_components=False</em>, <em>n_comp_exclude=[]</em>, <em>is_sensor_space=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/pipelines/preproc_meeg.html#create_pipeline_preproc_meeg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.pipelines.preproc_meeg.create_pipeline_preproc_meeg" title="Permalink to this definition">¶</a></dt>
@@ -248,7 +262,7 @@ each subject and for each session the components to be excluded</dd>
 pipeline as lego with the connectivity or inverse pipeline</dd>
 </dl>
 </div></blockquote>
-<p>Outouts:</p>
+<p>Outputs:</p>
 <blockquote>
 <div>pipeline : instance of Workflow</div></blockquote>
 </dd></dl>
@@ -257,7 +271,8 @@ pipeline as lego with the connectivity or inverse pipeline</dd>
 <div class="section" id="module-neuropype_ephy.pipelines.ts_to_conmat">
 <span id="neuropype-ephy-pipelines-ts-to-conmat"></span><h3>neuropype_ephy.pipelines.ts_to_conmat<a class="headerlink" href="#module-neuropype_ephy.pipelines.ts_to_conmat" title="Permalink to this headline">¶</a></h3>
 <p>Description:</p>
-<p>Wraps spectral connectivity function of MNE, as well as plot_circular_connectivity</p>
+<p>Wraps spectral connectivity function of MNE, as well as
+plot_circular_connectivity</p>
 </div>
 </div>
 </div>

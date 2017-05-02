@@ -1,8 +1,6 @@
-""" Parameters file for run_preprocess_pipeline.py """
+""" Parameters file"""
 
 import os
-import getpass
-
 
 test = True
 
@@ -10,11 +8,11 @@ data_type = 'ds'
 
 main_path = '/run/media/pasca/paska/meg_data/omega/sample_BIDS_omega/'
 if test:
-  data_type = 'fif'
+    data_type = 'fif'
 
 data_path = main_path
 
-subject_ids = ['sub-0002', 'sub-0003', 'sub-0004', 'sub-0006', 'sub-0007']            
+subject_ids = ['sub-0002', 'sub-0003', 'sub-0004', 'sub-0006', 'sub-0007']
 sessions = ['ses-0001']
 
 down_sfreq = 800
@@ -41,20 +39,24 @@ if test:
     is_set_ICA_components = True
 
     if is_set_ICA_components:
-	n_comp_exclude = {'sub-0002': {'ses-0001': [0, 1, 3]}}
+        n_comp_exclude = {'sub-0002': {'ses-0001': [0, 1, 3]}}
     else:
-	n_comp_exclude = []
+        n_comp_exclude = []
 
 
-#-------------------------- SET power variables --------------------------#
+# -------------------------- SET power variables --------------------------#
 data_type = 'fif'
 data_folder = 'Cleaned&epoched_files'
-power_analysis_name='my_little_power_pipeline'
+power_analysis_name = 'power_pipeline'
+fmin = 0
+fmax = 300
+power_method = 'welch'
+is_epoched = False
 
 
-# ----------------------- SET connectivity variables ---------------------#
+# ----------------------- SET connectivity variables ----------------------#
 
-freq_bands = [[2,4], [5,7], [8, 12], [15, 29], [30, 59], [60, 90]]
+freq_bands = [[2, 4], [5, 7], [8, 12], [15, 29], [30, 59], [60, 90]]
 freq_band_names = ['delta', 'theta', 'alpha', 'beta', 'gamma1', 'gamma2']
 
 # 'pli', 'plv', 'pli2_unbiased', 'coh', 'cohy', 'ppc', 'wpli'

@@ -74,9 +74,9 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../examples/examples.html">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../examples/preproc_example.html">From raw data to preprocessed data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../examples/power_example.html">PSD pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../examples/conn_graph_example.html">Spectral connectivity and graph pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../examples/inv_example.html">Source reconstruction pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../../examples/epoch_example.html">From epoch data to graph theoretical analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../examples/examples.html#scripts">Scripts</a></li>
 </ul>
 </li>
@@ -119,11 +119,12 @@
           <div role="main" class="document">
             
   <h1>Source code for neuropype_ephy.interfaces.mne.spectral</h1><div class="highlight"><pre>
-<span class="c"># -*- coding: utf-8 -*-</span>
-
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Definition of nodes for computing and plotting spectral connectivity</span>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="c"># Author: David Meunier &lt;david_meunier_79@hotmail.fr&gt;</span>
+
+
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">pickle</span>

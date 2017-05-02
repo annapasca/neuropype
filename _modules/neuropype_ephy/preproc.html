@@ -74,9 +74,9 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../examples/examples.html">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../examples/preproc_example.html">From raw data to preprocessed data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/power_example.html">PSD pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../examples/conn_graph_example.html">Spectral connectivity and graph pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../examples/inv_example.html">Source reconstruction pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../examples/epoch_example.html">From epoch data to graph theoretical analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../examples/examples.html#scripts">Scripts</a></li>
 </ul>
 </li>
@@ -120,6 +120,8 @@
             
   <h1>Source code for neuropype_ephy.preproc</h1><div class="highlight"><pre>
 <span class="sd">&quot;&quot;&quot;Preprocessing functions&quot;&quot;&quot;</span>
+<span class="c"># Authors: Dmitrii Altukhov &lt;dm-altukhov@ya.ru&gt;</span>
+<span class="c">#          Annalisa Pascarella &lt;a.pascarella@iac.cnr.it&gt;</span>
 
 
 <div class="viewcode-block" id="preprocess_fif"><a class="viewcode-back" href="../../ephypype/neuropype_ephy.html#neuropype_ephy.preproc.preprocess_fif">[docs]</a><span class="k">def</span> <span class="nf">preprocess_fif</span><span class="p">(</span><span class="n">fif_file</span><span class="p">,</span> <span class="n">l_freq</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">h_freq</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">down_sfreq</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
@@ -247,16 +249,14 @@
 <span class="k">def</span> <span class="nf">preprocess_set_ICA_comp_fif_to_ts</span><span class="p">(</span><span class="n">fif_file</span><span class="p">,</span> <span class="n">subject_id</span><span class="p">,</span> <span class="n">n_comp_exclude</span><span class="p">,</span>
                                       <span class="n">is_sensor_space</span><span class="p">):</span>
     <span class="kn">import</span> <span class="nn">os</span>
-    <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
     <span class="kn">import</span> <span class="nn">sys</span>
 
     <span class="kn">import</span> <span class="nn">mne</span>
     <span class="kn">from</span> <span class="nn">mne.preprocessing</span> <span class="kn">import</span> <span class="n">read_ica</span>
-    <span class="kn">from</span> <span class="nn">mne.report</span> <span class="kn">import</span> <span class="n">Report</span>
 
     <span class="kn">from</span> <span class="nn">nipype.utils.filemanip</span> <span class="kn">import</span> <span class="n">split_filename</span> <span class="k">as</span> <span class="n">split_f</span>
     <span class="kn">from</span> <span class="nn">neuropype_ephy.preproc</span> <span class="kn">import</span> <span class="n">create_ts</span>
-    
+
     <span class="n">subj_path</span><span class="p">,</span> <span class="n">basename</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">split_f</span><span class="p">(</span><span class="n">fif_file</span><span class="p">)</span>
     <span class="p">(</span><span class="n">data_path</span><span class="p">,</span>  <span class="n">sbj_name</span><span class="p">)</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">subj_path</span><span class="p">)</span>
 
@@ -265,22 +265,22 @@
     <span class="c"># Read raw</span>
     <span class="n">current_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_dir</span><span class="p">,</span> <span class="s">&#39;../ica&#39;</span><span class="p">,</span> <span class="n">basename</span> <span class="o">+</span> <span class="s">&#39;_ica&#39;</span> <span class="o">+</span> <span class="n">ext</span><span class="p">)):</span>
-      <span class="n">raw_ica_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_dir</span><span class="p">,</span> <span class="s">&#39;../ica&#39;</span><span class="p">,</span> <span class="n">basename</span> <span class="o">+</span> <span class="s">&#39;_ica&#39;</span> <span class="o">+</span> <span class="n">ext</span><span class="p">)</span>
+        <span class="n">raw_ica_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_dir</span><span class="p">,</span> <span class="s">&#39;../ica&#39;</span><span class="p">,</span> <span class="n">basename</span> <span class="o">+</span> <span class="s">&#39;_ica&#39;</span> <span class="o">+</span> <span class="n">ext</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_dir</span><span class="p">,</span> <span class="s">&#39;../ica&#39;</span><span class="p">,</span> <span class="n">basename</span> <span class="o">+</span> <span class="s">&#39;_filt_ica&#39;</span> <span class="o">+</span> <span class="n">ext</span><span class="p">)):</span>
-      <span class="n">raw_ica_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_dir</span><span class="p">,</span> <span class="s">&#39;../ica&#39;</span><span class="p">,</span> <span class="n">basename</span> <span class="o">+</span> <span class="s">&#39;_filt_ica&#39;</span> <span class="o">+</span> <span class="n">ext</span><span class="p">)</span>
+        <span class="n">raw_ica_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_dir</span><span class="p">,</span> <span class="s">&#39;../ica&#39;</span><span class="p">,</span> <span class="n">basename</span> <span class="o">+</span> <span class="s">&#39;_filt_ica&#39;</span> <span class="o">+</span> <span class="n">ext</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_dir</span><span class="p">,</span> <span class="s">&#39;../ica&#39;</span><span class="p">,</span> <span class="n">basename</span> <span class="o">+</span> <span class="s">&#39;_filt_dsamp_ica&#39;</span> <span class="o">+</span> <span class="n">ext</span><span class="p">)):</span>  
-      <span class="n">raw_ica_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_dir</span><span class="p">,</span> <span class="s">&#39;../ica&#39;</span><span class="p">,</span> <span class="n">basename</span> <span class="o">+</span> <span class="s">&#39;_filt_dsamp_ica&#39;</span> <span class="o">+</span> <span class="n">ext</span><span class="p">)</span>
+        <span class="n">raw_ica_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_dir</span><span class="p">,</span> <span class="s">&#39;../ica&#39;</span><span class="p">,</span> <span class="n">basename</span> <span class="o">+</span> <span class="s">&#39;_filt_dsamp_ica&#39;</span> <span class="o">+</span> <span class="n">ext</span><span class="p">)</span>
       
     <span class="k">print</span> <span class="s">&#39;*** raw_ica_file </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">raw_ica_file</span> <span class="o">+</span> <span class="s">&#39;***&#39;</span>
     <span class="n">raw</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_raw_fif</span><span class="p">(</span><span class="n">raw_ica_file</span><span class="p">,</span> <span class="n">preload</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
     <span class="c"># load ICA</span>
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_dir</span><span class="p">,</span> <span class="s">&#39;../ica&#39;</span><span class="p">,</span> <span class="n">basename</span> <span class="o">+</span> <span class="s">&#39;_ica_solution.fif&#39;</span><span class="p">)):</span>
-      <span class="n">ica_sol_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_dir</span><span class="p">,</span> <span class="s">&#39;../ica&#39;</span><span class="p">,</span> <span class="n">basename</span> <span class="o">+</span> <span class="s">&#39;_ica_solution.fif&#39;</span><span class="p">)</span>
+        <span class="n">ica_sol_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_dir</span><span class="p">,</span> <span class="s">&#39;../ica&#39;</span><span class="p">,</span> <span class="n">basename</span> <span class="o">+</span> <span class="s">&#39;_ica_solution.fif&#39;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_dir</span><span class="p">,</span> <span class="s">&#39;../ica&#39;</span><span class="p">,</span> <span class="n">basename</span> <span class="o">+</span> <span class="s">&#39;_filt_ica_solution.fif&#39;</span><span class="p">)):</span>
-      <span class="n">ica_sol_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_dir</span><span class="p">,</span> <span class="s">&#39;../ica&#39;</span><span class="p">,</span> <span class="n">basename</span> <span class="o">+</span> <span class="s">&#39;_filt_ica_solution.fif&#39;</span><span class="p">)</span>
+        <span class="n">ica_sol_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_dir</span><span class="p">,</span> <span class="s">&#39;../ica&#39;</span><span class="p">,</span> <span class="n">basename</span> <span class="o">+</span> <span class="s">&#39;_filt_ica_solution.fif&#39;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_dir</span><span class="p">,</span> <span class="s">&#39;../ica&#39;</span><span class="p">,</span> <span class="n">basename</span> <span class="o">+</span> <span class="s">&#39;_filt_dsamp_ica_solution.fif&#39;</span><span class="p">)):</span>  
-      <span class="n">ica_sol_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_dir</span><span class="p">,</span> <span class="s">&#39;../ica&#39;</span><span class="p">,</span> <span class="n">basename</span> <span class="o">+</span> <span class="s">&#39;_filt_dsamp_ica_solution.fif&#39;</span><span class="p">)</span>
+        <span class="n">ica_sol_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_dir</span><span class="p">,</span> <span class="s">&#39;../ica&#39;</span><span class="p">,</span> <span class="n">basename</span> <span class="o">+</span> <span class="s">&#39;_filt_dsamp_ica_solution.fif&#39;</span><span class="p">)</span>
       
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">ica_sol_file</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
         <span class="k">print</span> <span class="s">&#39;$$$ Warning, no </span><span class="si">%s</span><span class="s"> found&#39;</span> <span class="o">%</span> <span class="n">ica_sol_file</span>
@@ -351,13 +351,13 @@
     <span class="k">return</span> <span class="n">raw</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s">&#39;sfreq&#39;</span><span class="p">]</span>
 
 
-<span class="k">def</span> <span class="nf">get_epochs_info</span><span class="p">(</span><span class="n">raw_fname</span><span class="p">):</span>
-    <span class="kn">from</span> <span class="nn">mne.io</span> <span class="kn">import</span> <span class="n">Raw</span>
-    
-    <span class="n">raw</span> <span class="o">=</span> <span class="n">Raw</span><span class="p">(</span><span class="n">raw_fname</span><span class="p">,</span> <span class="n">preload</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">raw</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s">&#39;epochs&#39;</span><span class="p">]</span>
+<span class="c"># def get_epochs_info(raw_fname):</span>
+<span class="c">#    from mne.io import Raw</span>
+<span class="c">#</span>
+<span class="c">#    raw = Raw(raw_fname, preload=True)</span>
+<span class="c">#    return raw.info[&#39;epochs&#39;]</span>
 
- 
+
 <span class="k">def</span> <span class="nf">create_reject_dict</span><span class="p">(</span><span class="n">raw_info</span><span class="p">):</span>
     <span class="kn">from</span> <span class="nn">mne</span> <span class="kn">import</span> <span class="n">pick_types</span>
 

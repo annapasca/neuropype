@@ -75,9 +75,9 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../examples/examples.html">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../examples/preproc_example.html">From raw data to preprocessed data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/power_example.html">PSD pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/conn_graph_example.html">Spectral connectivity and graph pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/inv_example.html">Source reconstruction pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/epoch_example.html">From epoch data to graph theoretical analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/examples.html#scripts">Scripts</a></li>
 </ul>
 </li>
@@ -132,6 +132,7 @@ Current implementations allow for</p>
 <p>The neuropype_ephy package provides the main pipelines in the <a class="reference internal" href="neuropype_ephy.pipelines.html#pipelines"><span>neuropype_ephy.pipelines package</span></a>:</p>
 <ul class="simple">
 <li>the <a class="reference internal" href="pipelines/preproc_meeg.html#preproc-meeg"><span>Preprocessing pipeline</span></a> runs the ICA algorithm for an automatic removal of eyes and heart related artefacts</li>
+<li>the <a class="reference internal" href="pipelines/power.html#power"><span>Power pipeline</span></a> computes the power spectral density (PSD) on sensor space</li>
 <li>the <a class="reference internal" href="pipelines/source_reconstruction.html#source-reconstruction"><span>Source reconstruction pipeline</span></a> computes the inverse solution starting from raw/epoched data</li>
 <li>the <a class="reference internal" href="pipelines/spectral_connectivity.html#spectral-connectivity"><span>Connectivity pipeline</span></a> perform connectivity analysis in sensor or source space</li>
 </ul>
@@ -140,6 +141,7 @@ Current implementations allow for</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="pipelines/preproc_meeg.html">Preprocessing pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipelines/power.html">Power pipeline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pipelines/source_reconstruction.html">Source reconstruction pipeline</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="pipelines/nodes/inv_solution.html">Inverse solution Nodes</a></li>
 </ul>
@@ -196,6 +198,7 @@ exited (at least, I think that is why it lets exceptions through).</p>
 </div>
 <div class="section" id="module-neuropype_ephy.compute_fwd_problem">
 <span id="neuropype-ephy-compute-fwd-problem"></span><h3>neuropype_ephy.compute_fwd_problem<a class="headerlink" href="#module-neuropype_ephy.compute_fwd_problem" title="Permalink to this headline">¶</a></h3>
+<p>Lead Field computation functions</p>
 <dl class="function">
 <dt id="neuropype_ephy.compute_fwd_problem.compute_fwd_sol">
 <code class="descclassname">neuropype_ephy.compute_fwd_problem.</code><code class="descname">compute_fwd_sol</code><span class="sig-paren">(</span><em>raw_info</em>, <em>trans_fname</em>, <em>src</em>, <em>bem</em>, <em>fwd_filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/compute_fwd_problem.html#compute_fwd_sol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.compute_fwd_problem.compute_fwd_sol" title="Permalink to this definition">¶</a></dt>
@@ -346,10 +349,11 @@ result in pipeline folder structure</p>
 </div>
 <div class="section" id="module-neuropype_ephy.power">
 <span id="neuropype-ephy-power"></span><h3>neuropype_ephy.power<a class="headerlink" href="#module-neuropype_ephy.power" title="Permalink to this headline">¶</a></h3>
+<p>Power functions</p>
 <dl class="function">
 <dt id="neuropype_ephy.power.compute_and_save_psd">
 <code class="descclassname">neuropype_ephy.power.</code><code class="descname">compute_and_save_psd</code><span class="sig-paren">(</span><em>epochs_fname</em>, <em>fmin=0</em>, <em>fmax=120</em>, <em>method='welch'</em>, <em>is_epoched=False</em>, <em>n_fft=256</em>, <em>n_overlap=0</em>, <em>picks=None</em>, <em>proj=False</em>, <em>n_jobs=1</em>, <em>verbose=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/power.html#compute_and_save_psd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.power.compute_and_save_psd" title="Permalink to this definition">¶</a></dt>
-<dd><p>Load epochs from file,
+<dd><p>Load epochs/raw from file,
 compute psd and save the result in numpy arrays</p>
 </dd></dl>
 

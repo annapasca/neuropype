@@ -33,7 +33,7 @@
     <link rel="top" title="neuropype 0.0 documentation" href="../index.html"/>
         <link rel="up" title="Examples" href="examples.html"/>
         <link rel="next" title="CINQ" href="../cinq/cinq.html"/>
-        <link rel="prev" title="From epoch data to graph theoretical analysis" href="epoch_example.html"/> 
+        <link rel="prev" title="Source reconstruction pipeline" href="inv_example.html"/> 
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -76,9 +76,9 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="examples.html">Examples</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="preproc_example.html">From raw data to preprocessed data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="power_example.html">PSD pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="conn_graph_example.html">Spectral connectivity and graph pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="inv_example.html">Source reconstruction pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="epoch_example.html">From epoch data to graph theoretical analysis</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="examples.html#scripts">Scripts</a></li>
 </ul>
 </li>
@@ -165,6 +165,18 @@ and the kind of MEG data (ds or fif format)</p>
 </pre></div>
 </div>
 </div>
+<div class="section" id="psd-variables">
+<h2>PSD variables<a class="headerlink" href="#psd-variables" title="Permalink to this headline">¶</a></h2>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">data_type</span> <span class="o">=</span> <span class="s">&#39;fif&#39;</span>
+<span class="n">data_folder</span> <span class="o">=</span> <span class="s">&#39;Cleaned&amp;epoched_files&#39;</span>
+<span class="n">power_analysis_name</span> <span class="o">=</span> <span class="s">&#39;power_pipeline&#39;</span>
+<span class="n">fmin</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">fmax</span> <span class="o">=</span> <span class="mi">300</span>
+<span class="n">power_method</span> <span class="o">=</span> <span class="s">&#39;welch&#39;</span>
+<span class="n">is_epoched</span> <span class="o">=</span> <span class="bp">False</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="connectivity-variables">
 <h2>Connectivity variables<a class="headerlink" href="#connectivity-variables" title="Permalink to this headline">¶</a></h2>
 <p>Here we specify the frequency bands in which we want to compute the connectivity matrices</p>
@@ -180,7 +192,14 @@ and the kind of MEG data (ds or fif format)</p>
                             <span class="s">&#39;_&#39;</span> <span class="o">+</span> <span class="n">con_method</span>
 </pre></div>
 </div>
-<p>Download <a class="reference download internal" href="../_downloads/params.py"><code class="xref download docutils literal"><span class="pre">the</span> <span class="pre">params</span> <span class="pre">file</span></code></a></p>
+<p><strong>Download</strong> the parameters file</p>
+<blockquote>
+<div><ul class="simple">
+<li>with all variables <a class="reference download internal" href="../_downloads/params.py"><code class="xref download docutils literal"><span class="pre">params.py</span></code></a></li>
+<li>for <a class="reference internal" href="preproc_example.html#preproc-example"><span>From raw data to preprocessed data</span></a> example <a class="reference download internal" href="../_downloads/params_ica.py"><code class="xref download docutils literal"><span class="pre">params_ica.py</span></code></a></li>
+<li>for <a class="reference internal" href="../ephypype/pipelines/power.html#power"><span>Power pipeline</span></a> example <a class="reference download internal" href="../_downloads/params_power.py"><code class="xref download docutils literal"><span class="pre">params_power.py</span></code></a></li>
+</ul>
+</div></blockquote>
 </div>
 </div>
 
@@ -193,7 +212,7 @@ and the kind of MEG data (ds or fif format)</p>
         <a href="../cinq/cinq.html" class="btn btn-neutral float-right" title="CINQ">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="epoch_example.html" class="btn btn-neutral" title="From epoch data to graph theoretical analysis"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="inv_example.html" class="btn btn-neutral" title="Source reconstruction pipeline"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

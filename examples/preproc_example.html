@@ -32,7 +32,7 @@
   
     <link rel="top" title="neuropype 0.0 documentation" href="../index.html"/>
         <link rel="up" title="Examples" href="examples.html"/>
-        <link rel="next" title="Spectral connectivity and graph pipeline" href="conn_graph_example.html"/>
+        <link rel="next" title="PSD pipeline" href="power_example.html"/>
         <link rel="prev" title="Examples" href="examples.html"/> 
 
   
@@ -76,9 +76,9 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="examples.html">Examples</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="">From raw data to preprocessed data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="power_example.html">PSD pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="conn_graph_example.html">Spectral connectivity and graph pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="inv_example.html">Source reconstruction pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="epoch_example.html">From epoch data to graph theoretical analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples.html#scripts">Scripts</a></li>
 </ul>
 </li>
@@ -133,10 +133,10 @@
 
 <span class="kn">from</span> <span class="nn">neuropype_ephy.pipelines.preproc_meeg</span> <span class="kn">import</span> <span class="n">create_pipeline_preproc_meeg</span>
 
-<span class="kn">from</span> <span class="nn">params</span> <span class="kn">import</span> <span class="n">main_path</span><span class="p">,</span> <span class="n">data_path</span><span class="p">,</span> <span class="n">subject_ids</span><span class="p">,</span> <span class="n">sessions</span>
-<span class="kn">from</span> <span class="nn">params</span> <span class="kn">import</span> <span class="n">preproc_pipeline_name</span>
-<span class="kn">from</span> <span class="nn">params</span> <span class="kn">import</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">down_sfreq</span><span class="p">,</span> <span class="n">l_freq</span><span class="p">,</span> <span class="n">h_freq</span>
-<span class="kn">from</span> <span class="nn">params</span> <span class="kn">import</span> <span class="n">variance</span><span class="p">,</span> <span class="n">ECG_ch_name</span><span class="p">,</span> <span class="n">EoG_ch_name</span>
+<span class="kn">from</span> <span class="nn">params_ica</span> <span class="kn">import</span> <span class="n">main_path</span><span class="p">,</span> <span class="n">data_path</span><span class="p">,</span> <span class="n">subject_ids</span><span class="p">,</span> <span class="n">sessions</span>
+<span class="kn">from</span> <span class="nn">params_ica</span> <span class="kn">import</span> <span class="n">preproc_pipeline_name</span>
+<span class="kn">from</span> <span class="nn">params_ica</span> <span class="kn">import</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">down_sfreq</span><span class="p">,</span> <span class="n">l_freq</span><span class="p">,</span> <span class="n">h_freq</span>
+<span class="kn">from</span> <span class="nn">params_ica</span> <span class="kn">import</span> <span class="n">variance</span><span class="p">,</span> <span class="n">ECG_ch_name</span><span class="p">,</span> <span class="n">EoG_ch_name</span>
 
 
 <span class="k">def</span> <span class="nf">create_infosource</span><span class="p">():</span>
@@ -152,7 +152,7 @@
     <span class="k">return</span> <span class="n">infosource</span>
 
 
-<span class="c"># it could be ds or fif file. Set data_type in the params.py file</span>
+<span class="c"># it could be ds or fif file. Set data_type in the params_ica.py file</span>
 <span class="k">def</span> <span class="nf">create_datasource</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;&quot;Create node to grab data&quot;&quot;&quot;</span>
 
@@ -230,6 +230,7 @@ possible include or exclude the ICA components inspecting their topographies and
 <p class="first admonition-title">Warning</p>
 <p class="last">The new cleaned raw data file has to be saved in the <strong>subject data directory</strong>.</p>
 </div>
+<p><strong>Download</strong> Parameters file: <a class="reference download internal" href="../_downloads/params_ica.py"><code class="xref download docutils literal"><span class="pre">params_ica.py</span></code></a></p>
 <p><strong>Download</strong> Python source code: <a class="reference download internal" href="../_downloads/run_preprocess_pipeline.py"><code class="xref download docutils literal"><span class="pre">run_preprocess_pipeline.py</span></code></a></p>
 <p><strong>Download</strong> Jupyter notebook: <a class="reference download internal" href="../_downloads/ipynb_report.ipynb"><code class="xref download docutils literal"><span class="pre">ipynb_report.ipynb</span></code></a></p>
 </div>
@@ -240,7 +241,7 @@ possible include or exclude the ICA components inspecting their topographies and
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="conn_graph_example.html" class="btn btn-neutral float-right" title="Spectral connectivity and graph pipeline">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="power_example.html" class="btn btn-neutral float-right" title="PSD pipeline">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="examples.html" class="btn btn-neutral" title="Examples"><span class="fa fa-arrow-circle-left"></span> Previous</a>

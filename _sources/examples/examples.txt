@@ -30,17 +30,17 @@ All example scripts need a :ref:`params` where to set
 
 
  +---------------------------------------------+---------------------------------------------+
- | .. figure::  ../img/ICA_1comp.jpg           | .. figure::  ../img/graph_dot_conn2graph.jpg|
+ | .. figure::  ../img/ICA_1comp.jpg           | .. figure::  ../img/power.jpg               |
  |    :scale: 50 %                             |    :scale: 50 %                             |
  |    :align: center                           |    :align: center                           |
  |                                             |                                             |
- |    :ref:`preproc_example`                   |    :ref:`conn_graph_example`                |
+ |    :ref:`preproc_example`                   |    :ref:`power_example`                     |
  +---------------------------------------------+---------------------------------------------+
- | .. figure::  ../img/graph_epoch2graph.jpg   | .. figure::  ../img/graph_dot_inv2graph.jpg |
+ | .. figure::  ../img/graph_dot_conn2graph.jpg| .. figure::  ../img/graph_dot_inv2graph.jpg |
  |    :scale: 50 %                             |    :scale: 50 %                             |
  |    :align: center                           |    :align: center        	             |
  |                                             |                      		             |
- |    :ref:`epoch_example`                     |    :ref:`inv_example`                       |
+ |    :ref:`conn_graph_example`                |    :ref:`inv_example`                       |
  +---------------------------------------------+---------------------------------------------+  
  
  
@@ -48,9 +48,10 @@ All example scripts need a :ref:`params` where to set
    :maxdepth: 1
    
    preproc_example
+   power_example
    conn_graph_example
    inv_example
-   epoch_example
+   
    
 Scripts
 +++++++

@@ -16,10 +16,10 @@ The following script implements the preprocessing pipeline to perform **ICA** on
 
   from neuropype_ephy.pipelines.preproc_meeg import create_pipeline_preproc_meeg
 
-  from params import main_path, data_path, subject_ids, sessions
-  from params import preproc_pipeline_name
-  from params import data_type, down_sfreq, l_freq, h_freq
-  from params import variance, ECG_ch_name, EoG_ch_name
+  from params_ica import main_path, data_path, subject_ids, sessions
+  from params_ica import preproc_pipeline_name
+  from params_ica import data_type, down_sfreq, l_freq, h_freq
+  from params_ica import variance, ECG_ch_name, EoG_ch_name
 
 
   def create_infosource():
@@ -35,7 +35,7 @@ The following script implements the preprocessing pipeline to perform **ICA** on
       return infosource
 
 
-  # it could be ds or fif file. Set data_type in the params.py file
+  # it could be ds or fif file. Set data_type in the params_ica.py file
   def create_datasource():
       """"Create node to grab data"""
       
@@ -112,7 +112,8 @@ possible include or exclude the ICA components inspecting their topographies and
 
 .. warning:: The new cleaned raw data file has to be saved in the **subject data directory**.
 
-   
+**Download** Parameters file: :download:`params_ica.py <../../examples/params_ica.py>`
+
 **Download** Python source code: :download:`run_preprocess_pipeline.py <../../examples/run_preprocess_pipeline.py>`
 
 **Download** Jupyter notebook: :download:`ipynb_report.ipynb <../../examples/ipynb_report.ipynb>`

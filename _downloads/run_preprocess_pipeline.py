@@ -1,4 +1,4 @@
-"""Workflow for data preprocessing with neuropyconn
+"""Workflow for data preprocessing with neuropype
 OUTLINE:
     import raw .ds data
             ||
@@ -10,13 +10,10 @@ OUTLINE:
             ||
             \/
     compute ICA solution
-
-CREATED:
-    Thu Apr 6 12:32:10 MSK 2017
-AUTHOR:
-    dmalt
-
 """
+# Authors: Dmitrii Altukhov <dm-altukhov@ya.ru>
+#          Annalisa Pascarella <a.pascarella@iac.cnr.it>
+
 
 import nipype.pipeline.engine as pe
 import nipype.interfaces.io as nio
@@ -25,17 +22,18 @@ from nipype.interfaces.utility import IdentityInterface
 
 from neuropype_ephy.pipelines.preproc_meeg import create_pipeline_preproc_meeg
 
-from params import main_path, data_path, subject_ids, sessions
-from params import preproc_pipeline_name
-from params import data_type, down_sfreq, l_freq, h_freq
-from params import variance, ECG_ch_name, EoG_ch_name
-from params import is_set_ICA_components, n_comp_exclude
+from params_ica import main_path, data_path, subject_ids, sessions
+from params_ica import preproc_pipeline_name
+from params_ica import data_type, down_sfreq, l_freq, h_freq
+from params_ica import variance, ECG_ch_name, EoG_ch_name
+from params_ica import is_set_ICA_components, n_comp_exclude
 
-from params import test
+from params_ica import test
+
 
 def create_infosource():
     """Create node which passes input filenames to DataGrabber"""
-    
+
     infosource = pe.Node(interface=IdentityInterface(fields=['subject_id',
                                                              'sess_index']),
                          name="infosource")
@@ -54,10 +52,10 @@ def create_infosource():
     return infosource
 
 
-# it could be ds or fif file. Set data_type in the params.py file
+# it could be ds or fif file. Set data_type in the params_ica.py file
 def create_datasource():
     """"Create node to grab data"""
-    
+
     datasource = pe.Node(interface=nio.DataGrabber(infields=['subject_id',
                                                              'sess_index'],
                                                    outfields=['raw_file']),
@@ -65,10 +63,10 @@ def create_datasource():
 
     datasource.inputs.base_directory = data_path
     if test:
-      datasource.inputs.template = '*%s/%s/meg/%s*rest*short_raw.fif'
+        datasource.inputs.template = '*%s/%s/meg/%s*rest*short_raw.fif'
     else:
-      datasource.inputs.template = '*%s/%s/meg/%s*rest*.ds'
-      
+        datasource.inputs.template = '*%s/%s/meg/%s*rest*.ds'
+
     datasource.inputs.template_args = dict(raw_file=[['subject_id',
                                                       'sess_index',
                                                       'subject_id']])
@@ -80,7 +78,7 @@ def create_datasource():
 
 def create_workflow_preproc():
     """Create nodes and connect them into a workflow"""
-    
+
     main_workflow = pe.Workflow(name=preproc_pipeline_name)
     main_workflow.base_dir = main_path
 
@@ -114,8 +112,6 @@ def create_workflow_preproc():
 
 
 if __name__ == '__main__':
-
-    from params import test
 
     # run pipeline:
     main_workflow = create_workflow_preproc()

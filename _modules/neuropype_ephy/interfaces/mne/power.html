@@ -74,9 +74,9 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../examples/examples.html">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../examples/preproc_example.html">From raw data to preprocessed data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../examples/power_example.html">PSD pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../examples/conn_graph_example.html">Spectral connectivity and graph pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../examples/inv_example.html">Source reconstruction pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../../examples/epoch_example.html">From epoch data to graph theoretical analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../examples/examples.html#scripts">Scripts</a></li>
 </ul>
 </li>
@@ -122,36 +122,33 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Power computation module</span>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="c"># Author: Dmitrii Altukhov &lt;dm-altukhov@ya.ru&gt;</span>
 
 <span class="kn">from</span> <span class="nn">nipype.interfaces.base</span> <span class="kn">import</span> <span class="n">BaseInterface</span><span class="p">,</span> \
     <span class="n">BaseInterfaceInputSpec</span><span class="p">,</span> <span class="n">traits</span><span class="p">,</span> <span class="n">File</span><span class="p">,</span> <span class="n">TraitedSpec</span>
-<span class="kn">from</span> <span class="nn">nipype.utils.filemanip</span> <span class="kn">import</span> <span class="n">split_filename</span>
-
-<span class="kn">import</span> <span class="nn">nibabel</span> <span class="kn">as</span> <span class="nn">nbconvert</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">os</span>
-
 <span class="kn">from</span> <span class="nn">neuropype_ephy.power</span> <span class="kn">import</span> <span class="n">compute_and_save_psd</span>
 
+
 <span class="k">class</span> <span class="nc">PowerInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
-<span class="c">#    epochs_file = traits.File(exists=True, desc=&#39;File with mne.Epochs&#39;, mandatory=True)</span>
-    <span class="n">epochs_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> 
-                           <span class="n">desc</span><span class="o">=</span><span class="s">&#39;File with mne.Epochs or mne.io.Raw&#39;</span><span class="p">,</span> 
-                           <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">epochs_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                              <span class="n">desc</span><span class="o">=</span><span class="s">&#39;File with mne.Epochs or mne.io.Raw&#39;</span><span class="p">,</span>
+                              <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">fmin</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;lower psd frequency&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
     <span class="n">fmax</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;higher psd frequency&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-    <span class="n">method</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Enum</span><span class="p">(</span><span class="s">&#39;welch&#39;</span><span class="p">,</span> <span class="s">&#39;multitaper&#39;</span><span class="p">,</span> 
+    <span class="n">method</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Enum</span><span class="p">(</span><span class="s">&#39;welch&#39;</span><span class="p">,</span> <span class="s">&#39;multitaper&#39;</span><span class="p">,</span>
                          <span class="n">desc</span><span class="o">=</span><span class="s">&#39;power spectral density computation method&#39;</span><span class="p">)</span>
     <span class="n">is_epoched</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Bool</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;if true input data are mne.Epochs&#39;</span><span class="p">,</span>
                              <span class="n">mandatory</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">PowerOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
-    <span class="n">psds_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;psd tensor and frequencies in .npz format&#39;</span><span class="p">)</span>
+    <span class="n">psds_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                     <span class="n">desc</span><span class="o">=</span><span class="s">&#39;psd tensor and frequencies in .npz format&#39;</span><span class="p">)</span>
+
 
 <div class="viewcode-block" id="Power"><a class="viewcode-back" href="../../../../ephypype/neuropype_ephy.interfaces.mne.html#neuropype_ephy.interfaces.mne.power.Power">[docs]</a><span class="k">class</span> <span class="nc">Power</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Compute power spectral density on epochs</span>
+<span class="sd">    Compute power spectral density on epochs or raw data</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">input_spec</span> <span class="o">=</span> <span class="n">PowerInputSpec</span>
     <span class="n">output_spec</span> <span class="o">=</span> <span class="n">PowerOutputSpec</span>
