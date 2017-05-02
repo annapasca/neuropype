@@ -1,0 +1,39 @@
+.. _power:
+
+Power pipeline
+**************
+
+The power pipeline computes the power spectral density (PSD) on epochs or raw data
+on sensor space. 
+
+The input data has to be in **fif** format. 
+
+The output are the **psd tensor and frequencies in .npz format** stored in the workflow directory. 
+
+The power pipeline is implemented by the function :py:func:`create_pipeline_power <neuropype_ephy.pipelines.power.create_pipeline_power>`
+and its Node (:py:class:`power <neuropype_ephy.interfaces.mne.power.Power>`) 
+wraps the MNE Python functions  |welch|, |multitaper| computing the PSD
+using Welch's method and multitapers respectively.
+
+.. figure::  ../../img/graph_dot_power.jpg
+   :scale: 75 %
+   :align: center
+   
+
+.. seealso:: :ref:`power_example` to get an example on how to write a power pipeline.
+
+
+.. |welch| raw:: html
+
+   <a href="http://martinos.org/mne/stable/generated/mne.time_frequency.psd_welch.html#mne.time_frequency.psd_welch" target="_blank">mne.time_frequency.psd_welch</a>
+
+
+.. |multitaper| raw:: html
+
+   <a href="http://martinos.org/mne/stable/generated/mne.time_frequency.psd_multitaper.html#mne.time_frequency.psd_multitaper" target="_blank">mne.time_frequency.psd_multitaper</a>
+   
+
+
+
+
+
