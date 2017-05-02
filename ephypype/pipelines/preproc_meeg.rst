@@ -9,8 +9,8 @@ correct and/or fine-tune the correction in each subject (see the example section
 
 The input data can be in **ds** or **fif** format. 
 
-The output is the **preprocessed data** stored in the workflow directoty. It's a good rule
-to inspect the report file saved in the same dir to look at the excluded IAC components. It is
+The output is the **preprocessed data** stored in the workflow directory. It's a good rule
+to inspect the report file saved in the same dir to look at the excluded ICA components. It is
 also possible to include and exclude more components by using either a jupyter notebook or
 the preprocessing pipeline with different flag parameters.
 
@@ -20,8 +20,6 @@ and its Nodes (:py:class:`ds2fif <neuropype_ephy.nodes.import_data.ConvertDs2Fif
 :py:class:`ica <neuropype_ephy.interfaces.mne.preproc.CompIca>`) 
 are based on the MNE Python functions performing the decomposition of the MEG/EEG signal using an ICA
 algorithm.
-
-An **ICA tutorial** with the main functions used in MNE can be found |here|.
 
 .. |here| raw:: html
 
@@ -38,7 +36,8 @@ In particular, the node:
    :scale: 75 %
    :align: center
    
-See :ref:`preproc_example` to get an example on how to write a preprocessing pipeline.
+.. note:: An **ICA tutorial** with the main functions used in MNE can be found |here|.
+.. seealso:: :ref:`preproc_example` to get an example on how to write a preprocessing pipeline.
 
 
 

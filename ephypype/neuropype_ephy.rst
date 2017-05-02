@@ -14,6 +14,7 @@ Current implementations allow for
 The neuropype_ephy package provides the main pipelines in the :ref:`pipelines`:
 
 * the :ref:`preproc_meeg` runs the ICA algorithm for an automatic removal of eyes and heart related artefacts
+* the :ref:`power` computes the power spectral density (PSD) on sensor space
 * the :ref:`source_reconstruction` computes the inverse solution starting from raw/epoched data
 * the :ref:`spectral_connectivity` perform connectivity analysis in sensor or source space
 
@@ -25,6 +26,7 @@ Pipelines
    :maxdepth: 2
 
    pipelines/preproc_meeg
+   pipelines/power
    pipelines/source_reconstruction
    pipelines/spectral_connectivity
    

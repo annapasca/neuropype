@@ -3,7 +3,6 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-
 NeuroPype documentation
 ***********************
 
@@ -49,6 +48,7 @@ Each pipeline based on nipype engine is defined by nodes connected together,
 where each node maybe wrapping of existing software (as MNE-python modules or radatools functions) 
 as well as providing easy ways to implement function defined by the user. 
 
+.. _installation:
 
 Installation
 ============
@@ -63,6 +63,7 @@ Install neuropype_ephy
     sudo python setup.py develop
     cd ..
 
+see :ref:`includeme` for more information
 
 Install neuropype_cli
 +++++++++++++++++++++++
@@ -84,7 +85,10 @@ Install neuropype_graph
     sudo python setup.py develop
     cd ..
 
+see `README <http://davidmeunier79.github.io/neuropype_graph/includeme.html>`_ for 
+more information
 
+.. _packages:
 
 Packages
 ========
@@ -96,7 +100,7 @@ Packages
    neuropype_cli <https://dmalt.github.io/neuropype_cli/>
    neuropype_graph <http://davidmeunier79.github.io/neuropype_graph/>
    
-
+.. _examples:
 
 Examples
 ========
@@ -105,7 +109,9 @@ Examples
    :maxdepth: 1
    
    examples/examples 
-   
+
+.. _links:
+
 CINQ
 ====
 

@@ -18,8 +18,6 @@ and the kind of MEG data (ds or fif format)
     
     main_path = '/meg_data/omega/sample_BIDS_omega/'
     data_path = main_path
-
-    test = True
   
     subject_ids = ['sub-0002', 'sub-0003', 'sub-0004', 'sub-0006', 'sub-0007']       
     sessions = ['ses-0001']
@@ -52,9 +50,19 @@ Set ``is_ICA = True`` to apply ICA to automatically remove ECG and EoG artifacts
     reject = dict(mag=5e-12, grad=5000e-13)
 
     preproc_pipeline_name = "preprocessing_pipeline"
-    if test:
-      preproc_pipeline_name = preproc_pipeline_name + '_test'
 
+PSD variables
++++++++++++++
+
+.. code:: python
+
+  data_type = 'fif'
+  data_folder = 'Cleaned&epoched_files'
+  power_analysis_name = 'power_pipeline'
+  fmin = 0
+  fmax = 300
+  power_method = 'welch'
+  is_epoched = False
 
 Connectivity variables
 ++++++++++++++++++++++
@@ -75,4 +83,8 @@ Here we specify the frequency bands in which we want to compute the connectivity
 				'_' + con_method
     
     
-Download :download:`the params file <../../examples/params.py>`
+**Download** the parameters file
+
+  * with all variables :download:`params.py  <../../examples/params.py>`
+  * for :ref:`preproc_example` example :download:`params_ica.py  <../../examples/params_ica.py>`
+  * for :ref:`power` example :download:`params_power.py  <../../examples/params_power.py>`
