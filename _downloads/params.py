@@ -56,7 +56,7 @@ is_epoched = False
 
 # ----------------------- SET connectivity variables ----------------------#
 
-freq_bands = [[2, 4], [5, 7], [8, 12], [15, 29], [30, 59], [60, 90]]
+freq_bands = [[2, 4], [5, 7], [8, 12], [13, 29], [30, 59], [60, 90]]
 freq_band_names = ['delta', 'theta', 'alpha', 'beta', 'gamma1', 'gamma2']
 
 # 'pli', 'plv', 'pli2_unbiased', 'coh', 'cohy', 'ppc', 'wpli'

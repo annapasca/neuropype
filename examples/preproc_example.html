@@ -125,7 +125,18 @@
   <div class="section" id="from-raw-data-to-preprocessed-data">
 <span id="preproc-example"></span><h1>From raw data to preprocessed data<a class="headerlink" href="#from-raw-data-to-preprocessed-data" title="Permalink to this headline">¶</a></h1>
 <p>The following script implements the preprocessing pipeline to perform <strong>ICA</strong> on MEG data in <strong>ds</strong> format
-(see <a class="reference internal" href="../ephypype/pipelines/preproc_meeg.html#preproc-meeg"><span>Preprocessing pipeline</span></a>). Before to run the script, the <a class="reference internal" href="params.html#params"><span>params file</span></a> has to be downloaded.</p>
+(see <a class="reference internal" href="../ephypype/pipelines/preproc_meeg.html#preproc-meeg"><span>Preprocessing pipeline</span></a>).</p>
+<p>Before to run the script, the <a class="reference internal" href="params.html#params"><span>params file</span></a> has to be downloaded (see download
+link below). The main parameters to set for the preprocessing pipeline are</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">data_type</span></code> : &#8216;fif&#8217; or &#8216;ds&#8217;</li>
+<li><code class="docutils literal"><span class="pre">l_freq</span></code> : low cut-off frequency in Hz</li>
+<li><code class="docutils literal"><span class="pre">h_freq</span></code> : high cut-off frequency in Hz</li>
+<li><code class="docutils literal"><span class="pre">down_sfreq</span></code> : sampling frequency at which the data are downsampled</li>
+<li><code class="docutils literal"><span class="pre">variance</span></code> : float between 0 and 1: the ICA components will be selected by the cumulative percentage of explained variance</li>
+<li><code class="docutils literal"><span class="pre">ECG_ch_name</span></code> : the name of ECG channels</li>
+<li><code class="docutils literal"><span class="pre">EoG_ch_name</span></code> : the name of EoG channels</li>
+</ul>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="kn">as</span> <span class="nn">pe</span>
 <span class="kn">import</span> <span class="nn">nipype.interfaces.io</span> <span class="kn">as</span> <span class="nn">nio</span>
 
