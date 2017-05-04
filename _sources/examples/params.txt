@@ -12,7 +12,6 @@ and the kind of MEG data (ds or fif format)
 .. code:: python
     
     import os
-    import getpass
   
     data_type = 'ds'
     
@@ -57,13 +56,14 @@ PSD variables
 .. code:: python
 
   data_type = 'fif'
-  data_folder = 'Cleaned&epoched_files'
-  power_analysis_name = 'power_pipeline'
+
   fmin = 0
   fmax = 300
   power_method = 'welch'
   is_epoched = False
 
+  power_analysis_name = 'power_pipeline'
+   
 Connectivity variables
 ++++++++++++++++++++++
 

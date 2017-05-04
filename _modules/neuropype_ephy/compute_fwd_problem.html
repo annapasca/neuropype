@@ -193,10 +193,11 @@
     <span class="n">src_fname</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bem_dir</span><span class="p">,</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">-</span><span class="si">%s</span><span class="s">-src.fif&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">sbj_id</span><span class="p">,</span> <span class="n">spacing</span><span class="p">))</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">op</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">src_fname</span><span class="p">):</span>
         <span class="n">src</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">setup_source_space</span><span class="p">(</span><span class="n">sbj_id</span><span class="p">,</span> <span class="n">subjects_dir</span><span class="o">=</span><span class="n">sbj_dir</span><span class="p">,</span>
-                                     <span class="n">fname</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
                                      <span class="n">spacing</span><span class="o">=</span><span class="n">spacing</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;-&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">),</span>
-                                     <span class="n">add_dist</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                                     <span class="n">add_dist</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
                                      <span class="n">n_jobs</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="n">mne</span><span class="o">.</span><span class="n">write_source_spaces</span><span class="p">(</span><span class="n">src_fname</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
         <span class="k">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">*** source space file </span><span class="si">%s</span><span class="s"> written ***</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">src_fname</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">*** source space file </span><span class="si">%s</span><span class="s"> exists!!!</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">src_fname</span>
@@ -246,16 +247,20 @@
 
     <span class="kn">from</span> <span class="nn">nipype.utils.filemanip</span> <span class="kn">import</span> <span class="n">split_filename</span> <span class="k">as</span> <span class="n">split_f</span>
 
-<span class="c">#    data_path, raw_fname, ext = split_f(raw_info[&#39;filename&#39;])</span>
     <span class="n">data_path</span><span class="p">,</span> <span class="n">raw_fname</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">split_f</span><span class="p">(</span><span class="n">raw_fname</span><span class="p">)</span>
 
     <span class="c"># check if the co-registration file was created</span>
     <span class="c"># if not raise an runtime error</span>
-    <span class="n">i_ica</span> <span class="o">=</span> <span class="n">raw_fname</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;-cleaned&#39;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">i_ica</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-        <span class="n">raw_fname</span> <span class="o">=</span> <span class="n">raw_fname</span><span class="p">[:</span><span class="n">i_ica</span><span class="p">]</span>
+<span class="c">#    i_ica = raw_fname.find(&#39;ica&#39;)</span>
+<span class="c">#    if i_ica != -1:</span>
+<span class="c">#        raw_fname = raw_fname[:i_ica]</span>
 
-    <span class="n">trans_fname</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">*trans.fif&#39;</span> <span class="o">%</span> <span class="n">raw_fname</span><span class="p">)</span>
+    <span class="n">raw_fname_4trans</span> <span class="o">=</span> <span class="n">raw_fname</span>
+    <span class="n">raw_fname_4trans</span> <span class="o">=</span> <span class="n">raw_fname_4trans</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;_filt&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
+    <span class="n">raw_fname_4trans</span> <span class="o">=</span> <span class="n">raw_fname_4trans</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;_dsamp&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
+    <span class="n">raw_fname_4trans</span> <span class="o">=</span> <span class="n">raw_fname_4trans</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;_ica&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
+
+    <span class="n">trans_fname</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">*trans.fif&#39;</span> <span class="o">%</span> <span class="n">raw_fname_4trans</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">trans_fname</span> <span class="ow">in</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">trans_fname</span><span class="p">):</span>
         <span class="k">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">*** coregistration file </span><span class="si">%s</span><span class="s"> found!!!</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">trans_fname</span>
 
@@ -272,13 +277,12 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">import</span> <span class="nn">mne</span>
 
-    <span class="n">mne</span><span class="o">.</span><span class="n">make_forward_solution</span><span class="p">(</span><span class="n">raw_info</span><span class="p">,</span> <span class="n">trans_fname</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">bem</span><span class="p">,</span>
-                              <span class="n">fwd_filename</span><span class="p">,</span>
-                              <span class="n">mindist</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span> <span class="c"># ignore sources &lt;= 0mm from inner skull</span>
-                              <span class="n">meg</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">eeg</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-                              <span class="n">n_jobs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                              <span class="n">overwrite</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">fwd</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">make_forward_solution</span><span class="p">(</span><span class="n">raw_info</span><span class="p">,</span> <span class="n">trans_fname</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">bem</span><span class="p">,</span>
+                                    <span class="n">mindist</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span> <span class="c"># ignore sources &lt;= 0mm from inner skull</span>
+                                    <span class="n">meg</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">eeg</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                                    <span class="n">n_jobs</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
+    <span class="n">mne</span><span class="o">.</span><span class="n">write_forward_solution</span><span class="p">(</span><span class="n">fwd_filename</span><span class="p">,</span> <span class="n">fwd</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="k">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">*** FWD file </span><span class="si">%s</span><span class="s"> written!!!</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">fwd_filename</span></div>
 </pre></div>
 

@@ -209,6 +209,26 @@ regions defined in aseg_labels will be added to the source space</dd>
 <dd><p>Description:</p>
 <blockquote>
 <div>Wraps functions of MNE to compute PSD of epoch or raw data</div></blockquote>
+<p>Inputs:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>main_path <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>the main path of the pipeline</dd>
+<dt>pipeline_name <span class="classifier-delimiter">:</span> <span class="classifier">str (default &#8216;power&#8217;)</span></dt>
+<dd>name of the pipeline</dd>
+<dt>fmin <span class="classifier-delimiter">:</span> <span class="classifier">float (default 0)</span></dt>
+<dd>min frequency of interest</dd>
+<dt>fmax <span class="classifier-delimiter">:</span> <span class="classifier">float (default 300)</span></dt>
+<dd>max frequency of interest</dd>
+<dt>method <span class="classifier-delimiter">:</span> <span class="classifier">str (default &#8216;welch&#8217;)</span></dt>
+<dd>if &#8216;welch&#8217; the power spectral density (PSD) is computed by Welch&#8217;s
+method; otherwise, if &#8216;multitaper&#8217; the PSD is computed by
+multitapers</dd>
+<dt>is_epoched <span class="classifier-delimiter">:</span> <span class="classifier">bool (default False)</span></dt>
+<dd>True if the input data are in epoch format (-epo.fif); False
+if the input data are raw data (-raw.fif)</dd>
+</dl>
+</div></blockquote>
 </dd></dl>
 
 </div>

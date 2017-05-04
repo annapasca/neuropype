@@ -5,7 +5,7 @@
 
 NeuroPype documentation
 ***********************
-
+    
 NeuroPype is an open-source multi-modal brain data analysis kit which provides **Python-based 
 pipelines** for advanced multi-thread processing of fMRI, MEG and EEG data, with a focus on connectivity 
 and graph analyses. NeuroPype is based on `Nipype <http://nipype.readthedocs.io/en/latest/#>`_,
@@ -15,7 +15,7 @@ python framework.
 NeuroPype project includes three different packages:
 
 * :ref:`neuropype_ephy` based on |MNE python| includes pipelines for electrophysiology analysis
-* `neuropype_cli <https://dmalt.github.io/neuropype_cli/>`_ is a command line interface for neuropype_ephy package
+* `neuropype_cli <https://github.com/dmalt/neuropype_cli>`_ is a command line interface for neuropype_ephy package
 * `neuropype_graph <http://davidmeunier79.github.io/neuropype_graph/>`_ based on |radatools| includes pipelines for graph theoretical analysis of neuroimaging data
 
 
@@ -60,7 +60,7 @@ Install neuropype_ephy
 
     git clone https://github.com/annapasca/neuropype_ephy.git
     cd neuropype_ephy
-    sudo python setup.py develop
+    pip install .
     cd ..
 
 see :ref:`includeme` for more information
@@ -73,6 +73,7 @@ Install neuropype_cli
     git clone https://github.com/dmalt/neuropype_cli.git
     cd neuropype_cli
     pip install .
+    cd ..
     
     
 Install neuropype_graph
@@ -82,7 +83,7 @@ Install neuropype_graph
 
     git clone https://github.com/davidmeunier79/neuropype_graph.git
     cd neuropype_graph
-    sudo python setup.py develop
+    pip install .
     cd ..
 
 see `README <http://davidmeunier79.github.io/neuropype_graph/includeme.html>`_ for 

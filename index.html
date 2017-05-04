@@ -128,7 +128,7 @@ python framework.</p>
 <p>NeuroPype project includes three different packages:</p>
 <ul class="simple">
 <li><a class="reference internal" href="ephypype/neuropype_ephy.html#neuropype-ephy"><span>neuropype_ephy</span></a> based on <a href="http://martinos.org/mne/stable/index.html" target="_blank">MNE python</a> includes pipelines for electrophysiology analysis</li>
-<li><a class="reference external" href="https://dmalt.github.io/neuropype_cli/">neuropype_cli</a> is a command line interface for neuropype_ephy package</li>
+<li><a class="reference external" href="https://github.com/dmalt/neuropype_cli">neuropype_cli</a> is a command line interface for neuropype_ephy package</li>
 <li><a class="reference external" href="http://davidmeunier79.github.io/neuropype_graph/">neuropype_graph</a> based on <a href="http://deim.urv.cat/~sergio.gomez/radatools.php" target="_blank">radatools</a> includes pipelines for graph theoretical analysis of neuroimaging data</li>
 </ul>
 <p>NeuroPype provides a very common and fast framework to develop workflows for advanced analyses, in particular
@@ -153,7 +153,7 @@ as well as providing easy ways to implement function defined by the user.</p>
 <h3>Install neuropype_ephy<a class="headerlink" href="#install-neuropype-ephy" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-python"><div class="highlight"><pre>git clone https://github.com/annapasca/neuropype_ephy.git
 cd neuropype_ephy
-sudo python setup.py develop
+pip install .
 cd ..
 </pre></div>
 </div>
@@ -164,6 +164,7 @@ cd ..
 <div class="highlight-python"><div class="highlight"><pre>git clone https://github.com/dmalt/neuropype_cli.git
 cd neuropype_cli
 pip install .
+cd ..
 </pre></div>
 </div>
 </div>
@@ -171,7 +172,7 @@ pip install .
 <h3>Install neuropype_graph<a class="headerlink" href="#install-neuropype-graph" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-python"><div class="highlight"><pre>git clone https://github.com/davidmeunier79/neuropype_graph.git
 cd neuropype_graph
-sudo python setup.py develop
+pip install .
 cd ..
 </pre></div>
 </div>

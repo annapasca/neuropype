@@ -129,7 +129,6 @@
 <p>Set the main directories where the data are stored, the list of subjects and sessions
 and the kind of MEG data (ds or fif format)</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">getpass</span>
 
 <span class="n">data_type</span> <span class="o">=</span> <span class="s">&#39;ds&#39;</span>
 
@@ -168,12 +167,13 @@ and the kind of MEG data (ds or fif format)</p>
 <div class="section" id="psd-variables">
 <h2>PSD variables<a class="headerlink" href="#psd-variables" title="Permalink to this headline">¶</a></h2>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">data_type</span> <span class="o">=</span> <span class="s">&#39;fif&#39;</span>
-<span class="n">data_folder</span> <span class="o">=</span> <span class="s">&#39;Cleaned&amp;epoched_files&#39;</span>
-<span class="n">power_analysis_name</span> <span class="o">=</span> <span class="s">&#39;power_pipeline&#39;</span>
+
 <span class="n">fmin</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="n">fmax</span> <span class="o">=</span> <span class="mi">300</span>
 <span class="n">power_method</span> <span class="o">=</span> <span class="s">&#39;welch&#39;</span>
 <span class="n">is_epoched</span> <span class="o">=</span> <span class="bp">False</span>
+
+<span class="n">power_analysis_name</span> <span class="o">=</span> <span class="s">&#39;power_pipeline&#39;</span>
 </pre></div>
 </div>
 </div>

@@ -136,9 +136,27 @@
                           <span class="n">is_epoched</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Description:</span>
-<span class="sd">    </span>
+
 <span class="sd">        Wraps functions of MNE to compute PSD of epoch or raw data</span>
-<span class="sd">    &quot;&quot;&quot;</span>    
+
+<span class="sd">    Inputs:</span>
+
+<span class="sd">        main_path : str</span>
+<span class="sd">            the main path of the pipeline</span>
+<span class="sd">        pipeline_name : str (default &#39;power&#39;)</span>
+<span class="sd">            name of the pipeline</span>
+<span class="sd">        fmin : float (default 0)</span>
+<span class="sd">            min frequency of interest</span>
+<span class="sd">        fmax : float (default 300)</span>
+<span class="sd">            max frequency of interest</span>
+<span class="sd">        method : str (default &#39;welch&#39;)</span>
+<span class="sd">            if &#39;welch&#39; the power spectral density (PSD) is computed by Welch&#39;s</span>
+<span class="sd">            method; otherwise, if &#39;multitaper&#39; the PSD is computed by</span>
+<span class="sd">            multitapers</span>
+<span class="sd">        is_epoched : bool (default False)</span>
+<span class="sd">            True if the input data are in epoch format (-epo.fif); False</span>
+<span class="sd">            if the input data are raw data (-raw.fif)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">pipeline</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">pipeline_name</span><span class="p">)</span>
     <span class="n">pipeline</span><span class="o">.</span><span class="n">base_dir</span> <span class="o">=</span> <span class="n">main_path</span>

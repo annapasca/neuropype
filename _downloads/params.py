@@ -36,7 +36,7 @@ preproc_pipeline_name = "preprocessing_pipeline"
 if test:
     preproc_pipeline_name = preproc_pipeline_name + '_test'
 
-    is_set_ICA_components = True
+    is_set_ICA_components = False
 
     if is_set_ICA_components:
         n_comp_exclude = {'sub-0002': {'ses-0001': [0, 1, 3]}}

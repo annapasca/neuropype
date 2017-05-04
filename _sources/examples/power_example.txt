@@ -4,8 +4,18 @@ PSD pipeline
 ============
 
 The following script implements the power pipeline to compute **PSD** on MEG data in **fif** format 
-(see :ref:`power`). Before to run the script, the :ref:`params` has to be downloaded. 
+(see :ref:`power`). Before to run the script, the :ref:`params` has to be downloaded (see download
+link below).
 
+The main parameters to set for the power pipeline are
+            
+* ``fmin`` : min frequency of interest
+* ``fmax`` : max frequency of interest
+* ``power_method`` : if 'welch' the power spectral density (PSD) is computed by Welch's
+  method; otherwise, if 'multitaper' the PSD is computed by multitapers
+* ``is_epoched`` : True if the input data are in epoch format (-epo.fif), False if the input data are raw data (-raw.fif)
+    
+    
 .. code:: python
 
   import nipype.pipeline.engine as pe
@@ -41,7 +51,7 @@ The following script implements the power pipeline to compute **PSD** on MEG dat
 			  name='datasource')
 
       datasource.inputs.base_directory = data_path
-      datasource.inputs.template = '*%s/%s/meg/%s*rest*.*ica-raw.fif'
+      datasource.inputs.template = '*%s/%s/meg/%s*rest*.*ica.fif'
       datasource.inputs.template_args = dict(raw_file=[['subject_id',
 							'sess_index',
 							'subject_id']])

@@ -127,9 +127,9 @@
 <p>The power pipeline computes the power spectral density (PSD) on epochs or raw data
 on sensor space.</p>
 <p>The input data has to be in <strong>fif</strong> format.</p>
-<p>The output are the <strong>psd tensor and frequencies in .npz format</strong> stored in the workflow directory.</p>
+<p>The outputs are the <strong>psd tensor and frequencies in .npz format</strong> stored in the workflow directory.</p>
 <p>The power pipeline is implemented by the function <a class="reference internal" href="../neuropype_ephy.pipelines.html#neuropype_ephy.pipelines.power.create_pipeline_power" title="neuropype_ephy.pipelines.power.create_pipeline_power"><code class="xref py py-func docutils literal"><span class="pre">create_pipeline_power</span></code></a>
-and its Node (<a class="reference internal" href="../neuropype_ephy.interfaces.mne.html#neuropype_ephy.interfaces.mne.power.Power" title="neuropype_ephy.interfaces.mne.power.Power"><code class="xref py py-class docutils literal"><span class="pre">power</span></code></a>)
+and its Node <a class="reference internal" href="../neuropype_ephy.interfaces.mne.html#neuropype_ephy.interfaces.mne.power.Power" title="neuropype_ephy.interfaces.mne.power.Power"><code class="xref py py-class docutils literal"><span class="pre">power</span></code></a>
 wraps the MNE Python functions  <a href="http://martinos.org/mne/stable/generated/mne.time_frequency.psd_welch.html#mne.time_frequency.psd_welch" target="_blank">mne.time_frequency.psd_welch</a>, <a href="http://martinos.org/mne/stable/generated/mne.time_frequency.psd_multitaper.html#mne.time_frequency.psd_multitaper" target="_blank">mne.time_frequency.psd_multitaper</a> computing the PSD
 using Welch&#8217;s method and multitapers respectively.</p>
 <div class="figure align-center">
@@ -137,7 +137,7 @@ using Welch&#8217;s method and multitapers respectively.</p>
 </div>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="../../examples/power_example.html#power-example"><span>PSD pipeline</span></a> to get an example on how to write a power pipeline.</p>
+<p class="last">See <a class="reference internal" href="../../examples/power_example.html#power-example"><span>PSD pipeline</span></a> to get an example on how to write a power pipeline.</p>
 </div>
 </div>
 
