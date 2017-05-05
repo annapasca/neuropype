@@ -1,0 +1,530 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>neuropype_ephy.pipelines.ts_to_conmat &mdash; neuropype 0.0 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="neuropype 0.0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../../../index.html" class="fa fa-home"> neuropype</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../ephypype/neuropype_ephy.html">neuropype_ephy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../ephypype/neuropype_ephy.html#pipelines">Pipelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ephypype/neuropype_ephy.html#installation">Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/dmalt/neuropype_cli">neuropype_cli</a></li>
+<li class="toctree-l1"><a class="reference external" href="http://davidmeunier79.github.io/neuropype_graph/">neuropype_graph</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/examples.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/preproc_example.html">From raw data to preprocessed data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/power_example.html">PSD pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/conn_graph_example.html">Spectral connectivity and graph pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/inv_example.html">Source reconstruction pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/examples.html#scripts">Scripts</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cinq/cinq.html">CINQ</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">neuropype</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>neuropype_ephy.pipelines.ts_to_conmat</li>
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <h1>Source code for neuropype_ephy.pipelines.ts_to_conmat</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Description:</span>
+
+<span class="sd">Wraps spectral connectivity function of MNE, as well as</span>
+<span class="sd">plot_circular_connectivity</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c"># Author: David Meunier &lt;david_meunier_79@hotmail.fr&gt;</span>
+
+<span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="kn">as</span> <span class="nn">pe</span>
+<span class="kn">from</span> <span class="nn">nipype.interfaces.utility</span> <span class="kn">import</span> <span class="n">IdentityInterface</span>
+<span class="c">#,Function</span>
+
+<span class="kn">from</span> <span class="nn">neuropype_ephy.interfaces.mne.spectral</span> <span class="kn">import</span>  <span class="n">SpectralConn</span><span class="p">,</span><span class="n">PlotSpectralConn</span>
+<span class="kn">from</span> <span class="nn">neuropype_ephy.nodes.ts_tools</span> <span class="kn">import</span> <span class="n">SplitWindows</span>
+
+<span class="c">### to modify and add in &quot;Nodes&quot;</span>
+<span class="c">#from neuropype_ephy.spectral import  filter_adj_plot_mat</span>
+
+<div class="viewcode-block" id="create_pipeline_time_series_to_spectral_connectivity"><a class="viewcode-back" href="../../../ephypype/neuropype_ephy.pipelines.html#neuropype_ephy.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity">[docs]</a><span class="k">def</span> <span class="nf">create_pipeline_time_series_to_spectral_connectivity</span><span class="p">(</span> <span class="n">main_path</span><span class="p">,</span> <span class="n">pipeline_name</span> <span class="o">=</span> <span class="s">&quot;ts_to_conmat&quot;</span><span class="p">,</span><span class="n">con_method</span> <span class="o">=</span> <span class="s">&quot;coh&quot;</span><span class="p">,</span> <span class="n">multi_con</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">export_to_matlab</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">n_windows</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">mode</span> <span class="o">=</span> <span class="s">&#39;multitaper&#39;</span><span class="p">):</span>
+    
+    <span class="k">if</span> <span class="n">multi_con</span><span class="p">:</span>
+        <span class="n">pipeline_name</span> <span class="o">=</span> <span class="n">pipeline_name</span> <span class="o">+</span> <span class="s">&#39;_multicon&#39;</span>
+        
+    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span> <span class="n">pipeline_name</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">base_dir</span> <span class="o">=</span> <span class="n">main_path</span>
+        
+    <span class="n">inputnode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;ts_file&#39;</span><span class="p">,</span><span class="s">&#39;freq_band&#39;</span><span class="p">,</span><span class="s">&#39;sfreq&#39;</span><span class="p">,</span><span class="s">&#39;labels_file&#39;</span><span class="p">,</span><span class="s">&#39;epoch_window_length&#39;</span><span class="p">,</span><span class="s">&#39;is_sensor_space&#39;</span><span class="p">,</span><span class="s">&#39;index&#39;</span><span class="p">]),</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;inputnode&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">n_windows</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            
+        <span class="k">print</span> <span class="s">&quot;$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ Multiple trials $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$&quot;</span>
+        
+        <span class="c">#### spectral</span>
+        <span class="n">spectral</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">SpectralConn</span><span class="p">(),</span> <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;spectral&quot;</span><span class="p">)</span>
+        
+        <span class="n">spectral</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">con_method</span> <span class="o">=</span> <span class="n">con_method</span>  
+        <span class="n">spectral</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">export_to_matlab</span> <span class="o">=</span> <span class="n">export_to_matlab</span>
+        <span class="c">#spectral.inputs.sfreq = sfreq</span>
+        <span class="n">spectral</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">multi_con</span> <span class="o">=</span> <span class="n">multi_con</span>
+        <span class="n">spectral</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span>
+        
+        <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s">&#39;sfreq&#39;</span><span class="p">,</span> <span class="n">spectral</span><span class="p">,</span> <span class="s">&#39;sfreq&#39;</span><span class="p">)</span>
+        <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s">&#39;ts_file&#39;</span><span class="p">,</span> <span class="n">spectral</span><span class="p">,</span> <span class="s">&#39;ts_file&#39;</span><span class="p">)</span>
+        <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s">&#39;freq_band&#39;</span><span class="p">,</span> <span class="n">spectral</span><span class="p">,</span> <span class="s">&#39;freq_band&#39;</span><span class="p">)</span>
+        <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s">&#39;index&#39;</span><span class="p">,</span> <span class="n">spectral</span><span class="p">,</span> <span class="s">&#39;index&#39;</span><span class="p">)</span>
+        <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s">&#39;epoch_window_length&#39;</span><span class="p">,</span> <span class="n">spectral</span><span class="p">,</span> <span class="s">&#39;epoch_window_length&#39;</span><span class="p">)</span>
+
+        <span class="c">#### plot spectral</span>
+        <span class="n">plot_spectral</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">MapNode</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">PlotSpectralConn</span><span class="p">(),</span> <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;plot_spectral&quot;</span><span class="p">,</span><span class="n">iterfield</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;conmat_file&#39;</span><span class="p">])</span>
+        
+        <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span>  <span class="s">&#39;labels_file&#39;</span><span class="p">,</span><span class="n">plot_spectral</span><span class="p">,</span><span class="s">&#39;labels_file&#39;</span><span class="p">)</span>
+        <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span>  <span class="s">&#39;is_sensor_space&#39;</span><span class="p">,</span><span class="n">plot_spectral</span><span class="p">,</span><span class="s">&#39;is_sensor_space&#39;</span><span class="p">)</span>
+        
+        <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">spectral</span><span class="p">,</span> <span class="s">&quot;conmat_file&quot;</span><span class="p">,</span>    <span class="n">plot_spectral</span><span class="p">,</span> <span class="s">&#39;conmat_file&#39;</span><span class="p">)</span>
+        
+    <span class="k">else</span><span class="p">:</span>
+        
+        <span class="k">print</span> <span class="s">&quot;$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ Multiple windows, multiple trials  $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$&quot;</span>
+        <span class="k">print</span> <span class="n">n_windows</span>
+        
+        <span class="c">### win_ts</span>
+        <span class="c">##### </span>
+        <span class="n">win_ts</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">SplitWindows</span><span class="p">(),</span> <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;win_ts&quot;</span><span class="p">)</span>            
+        <span class="n">win_ts</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">n_windows</span> <span class="o">=</span> <span class="n">n_windows</span>
+        
+        <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s">&#39;ts_file&#39;</span><span class="p">,</span> <span class="n">win_ts</span><span class="p">,</span> <span class="s">&#39;ts_file&#39;</span><span class="p">)</span>
+
+        
+        <span class="c">#### spectral</span>
+        <span class="n">spectral</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">MapNode</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">SpectralConn</span><span class="p">(),</span> <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;spectral&quot;</span><span class="p">,</span><span class="n">iterfield</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;ts_file&#39;</span><span class="p">])</span>
+        
+        <span class="n">spectral</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">con_method</span> <span class="o">=</span> <span class="n">con_method</span>  
+        <span class="n">spectral</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">export_to_matlab</span> <span class="o">=</span> <span class="n">export_to_matlab</span>            
+        <span class="c">#spectral.inputs.sfreq = sfreq</span>
+        <span class="n">spectral</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">multi_con</span> <span class="o">=</span> <span class="n">multi_con</span>
+        <span class="n">spectral</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span>
+        
+        <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s">&#39;sfreq&#39;</span><span class="p">,</span> <span class="n">spectral</span><span class="p">,</span> <span class="s">&#39;sfreq&#39;</span><span class="p">)</span>
+        <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">win_ts</span><span class="p">,</span> <span class="s">&#39;win_ts_files&#39;</span><span class="p">,</span> <span class="n">spectral</span><span class="p">,</span> <span class="s">&#39;ts_file&#39;</span><span class="p">)</span>
+        <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s">&#39;freq_band&#39;</span><span class="p">,</span> <span class="n">spectral</span><span class="p">,</span> <span class="s">&#39;freq_band&#39;</span><span class="p">)</span>
+        <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s">&#39;index&#39;</span><span class="p">,</span> <span class="n">spectral</span><span class="p">,</span> <span class="s">&#39;index&#39;</span><span class="p">)</span>
+        <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s">&#39;epoch_window_length&#39;</span><span class="p">,</span> <span class="n">spectral</span><span class="p">,</span> <span class="s">&#39;epoch_window_length&#39;</span><span class="p">)</span>
+
+ 
+    <span class="k">return</span> <span class="n">pipeline</span>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+<span class="c">#### previous version in vhdr </span>
+    <span class="c">#if multicon == False:</span>
+        
+        <span class="c">#if len(n_windows) == 0:</span>
+                
+            <span class="c">##### spectral</span>
+            <span class="c">#spectral = pe.Node(interface = SpectralConn(), name = &quot;spectral&quot;)</span>
+            
+            <span class="c">#spectral.inputs.con_method = con_method    </span>
+            <span class="c">#spectral.inputs.sfreq = sfreq</span>
+            
+            <span class="c">#pipeline.connect(inputnode, &#39;freq_band&#39;, spectral, &#39;freq_band&#39;)</span>
+            <span class="c">#pipeline.connect(split_vhdr, &#39;splitted_ts_file&#39;, spectral, &#39;ts_file&#39;)</span>
+
+            <span class="c">##### plot spectral</span>
+            <span class="c">#plot_spectral = pe.Node(interface = PlotSpectralConn(), name = &quot;plot_spectral&quot;)</span>
+            
+            <span class="c">#pipeline.connect(split_vhdr,  &#39;channel_names&#39;,plot_spectral,&#39;labels_file&#39;)</span>
+            <span class="c">#pipeline.connect(spectral, &quot;conmat_file&quot;,    plot_spectral, &#39;conmat_file&#39;)</span>
+            
+            
+            <span class="c">##if filter_spectral == True:</span>
+                    
+                <span class="c">##### filter spectral</span>
+                <span class="c">##filter_spectral = pe.Node(interface = Function(input_names = [&quot;conmat_file&quot;,&quot;labels_file&quot;,&quot;sep_label_name&quot;,&quot;k_neigh&quot;], </span>
+                                                            <span class="c">##output_names = &quot;filtered_conmat_file&quot;, </span>
+                                                            <span class="c">##function = filter_adj_plot_mat), name = &quot;filter_spectral_&quot; + str(k_neigh))</span>
+                <span class="c">##filter_spectral.inputs.sep_label_name = sep_label_name</span>
+                <span class="c">##filter_spectral.inputs.k_neigh = k_neigh</span>
+                
+                <span class="c">##pipeline.connect(split_vhdr,  &#39;channel_names&#39;,filter_spectral,&#39;labels_file&#39;)</span>
+                <span class="c">##pipeline.connect(spectral, &quot;conmat_file&quot;,    filter_spectral, &#39;conmat_file&#39;)</span>
+                
+                
+                
+                <span class="c">###### plot filter_spectral</span>
+                <span class="c">##plot_filter_spectral = pe.Node(interface = Function(input_names = [&quot;conmat_file&quot;,&quot;labels_file&quot;,&quot;nb_lines&quot;,&quot;vmin&quot;,&quot;vmax&quot;],</span>
+                                                            <span class="c">##output_names = &quot;plot_conmat_file&quot;,</span>
+                                                            <span class="c">##function = plot_circular_connectivity), name = &quot;plot_filter_spectral_&quot; + str(k_neigh))</span>
+                
+                <span class="c">### plot_spectral.inputs.labels_file = MEG_elec_names_file AP 021015</span>
+                <span class="c">##plot_filter_spectral.inputs.nb_lines = 50</span>
+                
+                <span class="c">##plot_filter_spectral.inputs.vmin = 0.3</span>
+                <span class="c">##plot_filter_spectral.inputs.vmax = 1.0</span>
+            
+            
+                <span class="c">##pipeline.connect(split_vhdr,  &#39;channel_names&#39;,plot_filter_spectral,&#39;labels_file&#39;)</span>
+                <span class="c">##pipeline.connect(filter_spectral, &quot;filtered_conmat_file&quot;,    plot_filter_spectral, &#39;conmat_file&#39;)</span>
+                
+        <span class="c">#else:</span>
+            
+            <span class="c">#print &quot;$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ Multiple windows $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$&quot;</span>
+            <span class="c">#print n_windows</span>
+            
+            <span class="c">#### win_ts</span>
+            <span class="c">#win_ts = pe.Node(interface = SplitWindows(), name = &quot;win_ts&quot;)</span>
+            
+            <span class="c">#win_ts.inputs.n_windows = n_windows</span>
+            
+            <span class="c">#pipeline.connect(split_vhdr, &#39;splitted_ts_file&#39;, win_ts, &#39;ts_file&#39;)</span>
+
+            <span class="c">##### spectral</span>
+            <span class="c">#spectral = pe.MapNode(interface = SpectralConn(), iterfield = [&#39;ts_file&#39;], name = &quot;spectral&quot;)</span>
+            
+            <span class="c">#spectral.inputs.con_method = con_method    </span>
+            <span class="c">#spectral.inputs.sfreq = sfreq</span>
+            
+            <span class="c">##spectral.inputs.epoch_window_length = epoch_window_length</span>
+            <span class="c">#pipeline.connect(win_ts, &#39;win_ts_files&#39;, spectral, &#39;ts_file&#39;)</span>
+            <span class="c">#pipeline.connect(inputnode,&#39;freq_band&#39;, spectral, &#39;freq_band&#39;)</span>
+            
+            
+            <span class="c">##### plot spectral</span>
+            <span class="c">##plot_spectral = pe.MapNode(interface = PlotSpectralConn(), name = &quot;plot_spectral&quot;)</span>
+            
+            <span class="c">###plot_spectral = pe.Node(interface = Function(input_names = [&quot;conmat_file&quot;,&quot;labels_file&quot;,&quot;nb_lines&quot;,&quot;vmin&quot;,&quot;vmax&quot;],</span>
+                                                        <span class="c">###output_names = &quot;plot_conmat_file&quot;,</span>
+                                                        <span class="c">###function = plot_circular_connectivity), name = &quot;plot_spectral&quot;)</span>
+            
+            <span class="c">### plot_spectral.inputs.labels_file = MEG_elec_names_file AP 021015</span>
+            <span class="c">##plot_spectral.inputs.nb_lines = 200</span>
+            <span class="c">##plot_spectral.inputs.vmin = 0.3</span>
+            <span class="c">##plot_spectral.inputs.vmax = 1.0</span>
+            
+            <span class="c">##pipeline.connect(split_vhdr,  &#39;channel_names&#39;,plot_spectral,&#39;labels_file&#39;)</span>
+            <span class="c">##pipeline.connect(spectral, &quot;conmat_file&quot;,    plot_spectral, &#39;conmat_file&#39;)</span>
+            
+    <span class="c">#else:</span>
+        <span class="c">#if len(n_windows) == 0:</span>
+                
+            <span class="c">##### spectral</span>
+            <span class="c">#spectral = pe.Node(interface = Function(input_names = [&quot;ts_file&quot;,&quot;sfreq&quot;,&quot;freq_band&quot;,&quot;con_method&quot;],</span>
+                                                    <span class="c">#output_names = &quot;conmat_files&quot;,</span>
+                                                    <span class="c">#function = multiple_spectral_proc),name = &quot;spectral&quot;)</span>
+            
+            <span class="c">#spectral.inputs.con_method = con_method    </span>
+            <span class="c">#spectral.inputs.sfreq = sfreq</span>
+            
+            <span class="c">#pipeline.connect(split_ascii, &#39;splitted_ts_file&#39;, spectral, &#39;ts_file&#39;)</span>
+            <span class="c">#pipeline.connect(inputnode, &#39;freq_band&#39;, spectral, &#39;freq_band&#39;)</span>
+            
+        <span class="c">#else:</span>
+            
+            <span class="c">#print &quot;$$$$$$$$$$$$$$$$$$$$$$$ Multiple windows, multiple connectivity  $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$&quot;</span>
+            <span class="c">#print n_windows</span>
+            
+            <span class="c">#### win_ts</span>
+            <span class="c">###### </span>
+            <span class="c">#win_ts = pe.Node(interface = SplitWindows(), name = &quot;win_ts&quot;)</span>
+            
+            <span class="c">#win_ts.inputs.n_windows = n_windows</span>
+            
+            <span class="c">#pipeline.connect(split_vhdr, &#39;splitted_ts_file&#39;, win_ts, &#39;ts_file&#39;)</span>
+
+            <span class="c">##### spectral</span>
+            <span class="c">#spectral = pe.MapNode(interface = Function(input_names = [&quot;ts_file&quot;,&quot;sfreq&quot;,&quot;freq_band&quot;,&quot;con_method&quot;],</span>
+                                                    <span class="c">#output_names = &quot;conmat_files&quot;,</span>
+                                                    <span class="c">#function = multiple_spectral_proc),name = &quot;spectral&quot;,iterfield = [&#39;ts_file&#39;])</span>
+            
+            <span class="c">#spectral.inputs.con_method = con_method    </span>
+            <span class="c">#spectral.inputs.sfreq = sfreq</span>
+            
+            <span class="c">#pipeline.connect(win_ts, &#39;win_ts_files&#39;, spectral, &#39;ts_file&#39;)</span>
+            <span class="c">#pipeline.connect(inputnode, &#39;freq_band&#39;, spectral, &#39;freq_band&#39;)</span>
+            
+            
+            <span class="c">###### plot spectral</span>
+            <span class="c">##plot_spectral = pe.MapNode(interface = PlotSpectralConn(), name = &quot;plot_spectral&quot;)</span>
+            
+            <span class="c">###plot_spectral = pe.Node(interface = Function(input_names = [&quot;conmat_file&quot;,&quot;labels_file&quot;,&quot;nb_lines&quot;,&quot;vmin&quot;,&quot;vmax&quot;],</span>
+                                                        <span class="c">###output_names = &quot;plot_conmat_file&quot;,</span>
+                                                        <span class="c">###function = plot_circular_connectivity), name = &quot;plot_spectral&quot;)</span>
+            
+            <span class="c">### plot_spectral.inputs.labels_file = MEG_elec_names_file AP 021015</span>
+            <span class="c">##plot_spectral.inputs.nb_lines = 200</span>
+            <span class="c">##plot_spectral.inputs.vmin = 0.3</span>
+            <span class="c">##plot_spectral.inputs.vmax = 1.0</span>
+            
+            <span class="c">##pipeline.connect(split_vhdr,  &#39;channel_names&#39;,plot_spectral,&#39;labels_file&#39;)</span>
+            <span class="c">##pipeline.connect(spectral, &quot;conmat_file&quot;,    plot_spectral, &#39;conmat_file&#39;)</span>
+           
+    
+<span class="c">### previous version, was in split_ascii</span>
+
+     
+    <span class="c">#if multicon == False:</span>
+        
+        <span class="c">#if len(n_windows) == 0:</span>
+                
+            <span class="c">##### spectral</span>
+            
+            <span class="c">#spectral = pe.Node(interface = SpectralConn(), name = &quot;spectral&quot;)</span>
+            
+            <span class="c">##spectral = pe.Node(interface = Function(input_names = [&quot;ts_file&quot;,&quot;sfreq&quot;,&quot;freq_band&quot;,&quot;con_method&quot;],</span>
+            <span class="c">##                                        output_names = &quot;conmat_file&quot;,</span>
+            <span class="c">##                                        function = spectral_proc),name = &quot;spectral&quot;)</span>
+            
+            <span class="c">#spectral.inputs.con_method = con_method    </span>
+            <span class="c">#spectral.inputs.sfreq = sfreq</span>
+            
+            <span class="c">#pipeline.connect(inputnode, &#39;freq_band&#39;, spectral, &#39;freq_band&#39;)</span>
+            
+            <span class="c">#pipeline.connect(split_ascii, &#39;splitted_ts_file&#39;, spectral, &#39;ts_file&#39;)</span>
+
+            <span class="c">##### plot spectral</span>
+            <span class="c">#plot_spectral = pe.Node(interface = PlotSpectralConn(), name = &quot;plot_spectral&quot;)</span>
+            
+            <span class="c">##plot_spectral = pe.Node(interface = Function(input_names = [&quot;conmat_file&quot;,&quot;labels_file&quot;,&quot;nb_lines&quot;,&quot;vmin&quot;,&quot;vmax&quot;],</span>
+                                                        <span class="c">##output_names = &quot;plot_conmat_file&quot;,</span>
+                                                        <span class="c">##function = plot_circular_connectivity), name = &quot;plot_spectral&quot;)</span>
+            
+            <span class="c">## plot_spectral.inputs.labels_file = MEG_elec_names_file AP 021015</span>
+            <span class="c">#plot_spectral.inputs.nb_lines = 200</span>
+            <span class="c">#plot_spectral.inputs.vmin = 0.3</span>
+            <span class="c">#plot_spectral.inputs.vmax = 1.0</span>
+            
+            <span class="c">#pipeline.connect(split_ascii,  &#39;elec_names_file&#39;,plot_spectral,&#39;labels_file&#39;)</span>
+            <span class="c">#pipeline.connect(spectral, &quot;conmat_file&quot;,    plot_spectral, &#39;conmat_file&#39;)</span>
+            
+            
+            <span class="c">##if filter_spectral == True:</span>
+                    
+                <span class="c">##### filter spectral</span>
+                <span class="c">##filter_spectral = pe.Node(interface = Function(input_names = [&quot;conmat_file&quot;,&quot;labels_file&quot;,&quot;sep_label_name&quot;,&quot;k_neigh&quot;], </span>
+                                                            <span class="c">##output_names = &quot;filtered_conmat_file&quot;, </span>
+                                                            <span class="c">##function = filter_adj_plot_mat), name = &quot;filter_spectral_&quot; + str(k_neigh))</span>
+                <span class="c">##filter_spectral.inputs.sep_label_name = sep_label_name</span>
+                <span class="c">##filter_spectral.inputs.k_neigh = k_neigh</span>
+                
+                <span class="c">##pipeline.connect(split_ascii,  &#39;elec_names_file&#39;,filter_spectral,&#39;labels_file&#39;)</span>
+                <span class="c">##pipeline.connect(spectral, &quot;conmat_file&quot;,    filter_spectral, &#39;conmat_file&#39;)</span>
+                
+                
+                
+                <span class="c">###### plot filter_spectral</span>
+                <span class="c">##plot_filter_spectral = pe.Node(interface = Function(input_names = [&quot;conmat_file&quot;,&quot;labels_file&quot;,&quot;nb_lines&quot;,&quot;vmin&quot;,&quot;vmax&quot;],</span>
+                                                            <span class="c">##output_names = &quot;plot_conmat_file&quot;,</span>
+                                                            <span class="c">##function = plot_circular_connectivity), name = &quot;plot_filter_spectral_&quot; + str(k_neigh))</span>
+                
+                <span class="c">### plot_spectral.inputs.labels_file = MEG_elec_names_file AP 021015</span>
+                <span class="c">##plot_filter_spectral.inputs.nb_lines = 50</span>
+                
+                <span class="c">##plot_filter_spectral.inputs.vmin = 0.3</span>
+                <span class="c">##plot_filter_spectral.inputs.vmax = 1.0</span>
+            
+            
+                <span class="c">##pipeline.connect(split_ascii,  &#39;elec_names_file&#39;,plot_filter_spectral,&#39;labels_file&#39;)</span>
+                <span class="c">##pipeline.connect(filter_spectral, &quot;filtered_conmat_file&quot;,    plot_filter_spectral, &#39;conmat_file&#39;)</span>
+                
+        <span class="c">#else:</span>
+            <span class="c">#print &quot;$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ Multiple windows $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$&quot;</span>
+            <span class="c">#print n_windows</span>
+            
+            <span class="c">#### win_ts</span>
+            <span class="c">###### </span>
+            <span class="c">#win_ts = pe.Node(interface = SplitWindows(), name = &quot;win_ts&quot;)</span>
+            
+            <span class="c">#win_ts.inputs.n_windows = n_windows</span>
+            
+            <span class="c">#pipeline.connect(split_vhdr,&#39;splitted_ts_file&#39;,win_ts,&#39;ts_file&#39;)</span>
+                    
+            <span class="c">##win_ts = pe.Node(interface = Function(input_names = [&quot;splitted_ts_file&quot;,&quot;n_windows&quot;],output_names = [&quot;win_splitted_ts_files&quot;],function = split_win_ts), name = &quot;win_ts&quot;)</span>
+            
+            <span class="c">##win_ts.inputs.n_windows = n_windows</span>
+            
+            <span class="c">##pipeline.connect(split_ascii,&#39;splitted_ts_file&#39;,win_ts,&#39;splitted_ts_file&#39;)</span>
+                    
+                    
+            <span class="c">#spectral = pe.MapNode(interface = SpectralConn(), iterfield = [&#39;ts_file&#39;], name = &quot;spectral&quot;)</span>
+            
+            
+            <span class="c">#spectral.inputs.con_method = con_method    </span>
+            <span class="c">#spectral.inputs.sfreq = sfreq</span>
+            
+            <span class="c">##spectral.inputs.epoch_window_length = epoch_window_length</span>
+            <span class="c">#pipeline.connect(win_ts, &#39;win_ts_files&#39;, spectral, &#39;ts_file&#39;)</span>
+            <span class="c">#pipeline.connect(inputnode,&#39;freq_band&#39;, spectral, &#39;freq_band&#39;)</span>
+    <span class="c">#else:</span>
+        
+        <span class="c">##### spectral</span>
+        <span class="c">#spectral = pe.Node(interface = Function(input_names = [&quot;ts_file&quot;,&quot;sfreq&quot;,&quot;freq_band&quot;,&quot;con_method&quot;],</span>
+                                                <span class="c">#output_names = &quot;conmat_files&quot;,</span>
+                                                <span class="c">#function = multiple_spectral_proc),name = &quot;spectral&quot;)</span>
+        
+        <span class="c">#spectral.inputs.con_method = con_method    </span>
+        <span class="c">#spectral.inputs.sfreq = sfreq</span>
+        
+        <span class="c">#pipeline.connect(split_ascii, &#39;splitted_ts_file&#39;, spectral, &#39;ts_file&#39;)</span>
+        <span class="c">#pipeline.connect(inputnode, &#39;freq_band&#39;, spectral, &#39;freq_band&#39;)</span>
+
+    
+    </div>
+</pre></div>
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Dmitrii Altukhov, David Meunier, Annalisa Pascarella.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
