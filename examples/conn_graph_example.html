@@ -70,7 +70,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../ephypype/neuropype_ephy.html#installation">Installation</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference external" href="https://dmalt.github.io/neuropype_cli/">neuropype_cli</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/dmalt/neuropype_cli">neuropype_cli</a></li>
 <li class="toctree-l1"><a class="reference external" href="http://davidmeunier79.github.io/neuropype_graph/">neuropype_graph</a></li>
 </ul>
 <ul class="current">
@@ -124,6 +124,20 @@
             
   <div class="section" id="spectral-connectivity-and-graph-pipeline">
 <span id="conn-graph-example"></span><h1>Spectral connectivity and graph pipeline<a class="headerlink" href="#spectral-connectivity-and-graph-pipeline" title="Permalink to this headline">¶</a></h1>
+<p>The following script allows to perform spectral connectivity and graph analysis in sensor space.
+(see <a class="reference internal" href="../ephypype/pipelines/spectral_connectivity.html#spectral-connectivity"><span>Connectivity pipeline</span></a>).</p>
+<p>Before to run the script, the <a class="reference internal" href="params.html#params"><span>params file</span></a> has to be downloaded (see download
+link below). The main parameters to set for the preprocessing pipeline are</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">con_method</span></code> : connectivity measure</li>
+<li><code class="docutils literal"><span class="pre">freq_band</span></code> : frequency bands</li>
+<li><code class="docutils literal"><span class="pre">epoch_window_length</span></code> : epoched data</li>
+<li><code class="docutils literal"><span class="pre">is_sensor_space</span></code> : True if the connectivity matrix is computed in the sensor space, otherwise is computed in the source space</li>
+<li><code class="docutils literal"><span class="pre">export_to_matlab</span></code> : True if the connectivity matrix is exported to <strong>.mat</strong> format as well</li>
+</ul>
+<p>About the <code class="docutils literal"><span class="pre">con_method</span></code> parameter specifying the connectivity measure, the possible options are:
+&#8216;coh&#8217;, &#8216;imcoh&#8217;, &#8216;plv&#8217;, &#8216;pli&#8217;, &#8216;wpli&#8217;, &#8216;pli2_unbiased&#8217;, &#8216;ppc&#8217;, &#8216;cohy&#8217;, &#8216;wpli2_debiased&#8217;.</p>
+<p>A clear description can be found in the MNE python page explaining the <a href="http://martinos.org/mne/stable/generated/mne.connectivity.spectral_connectivity.html?highlight=spectral_connectivity#mne.connectivity.spectral_connectivity" target="_blank">spectral_connectivity</a> function.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="kn">as</span> <span class="nn">pe</span>
 <span class="kn">import</span> <span class="nn">nipype.interfaces.io</span> <span class="kn">as</span> <span class="nn">nio</span>
 
@@ -134,18 +148,18 @@
 
 <span class="kn">from</span> <span class="nn">neuropype_graph.pipelines.conmat_to_graph</span> <span class="kn">import</span> <span class="n">create_pipeline_conmat_to_graph_density</span>
 
-<span class="kn">from</span> <span class="nn">params</span> <span class="kn">import</span> <span class="n">main_path</span><span class="p">,</span> <span class="n">data_path</span><span class="p">,</span> <span class="n">subject_ids</span><span class="p">,</span> <span class="n">sessions</span>
-<span class="kn">from</span> <span class="nn">params</span> <span class="kn">import</span> <span class="n">freq_band_names</span><span class="p">,</span> <span class="n">con_method</span>
-<span class="kn">from</span> <span class="nn">params</span> <span class="kn">import</span> <span class="n">correl_analysis_name</span><span class="p">,</span> <span class="n">epoch_window_length</span>
-<span class="kn">from</span> <span class="nn">params</span> <span class="kn">import</span> <span class="n">mod</span><span class="p">,</span> <span class="n">con_den</span>
+<span class="kn">from</span> <span class="nn">params_congraph</span> <span class="kn">import</span> <span class="n">main_path</span><span class="p">,</span> <span class="n">data_path</span><span class="p">,</span> <span class="n">subject_ids</span><span class="p">,</span> <span class="n">sessions</span>
+<span class="kn">from</span> <span class="nn">params_congraph</span> <span class="kn">import</span> <span class="n">freq_band_names</span><span class="p">,</span> <span class="n">con_method</span>
+<span class="kn">from</span> <span class="nn">params_congraph</span> <span class="kn">import</span> <span class="n">correl_analysis_name</span><span class="p">,</span> <span class="n">epoch_window_length</span>
+<span class="kn">from</span> <span class="nn">params_congraph</span> <span class="kn">import</span> <span class="n">mod</span><span class="p">,</span> <span class="n">con_den</span>
 
 <span class="k">if</span> <span class="n">mod</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">params</span> <span class="kn">import</span> <span class="n">radatools_optim</span>
+    <span class="kn">from</span> <span class="nn">params_congraph</span> <span class="kn">import</span> <span class="n">radatools_optim</span>
 
 
 <span class="k">def</span> <span class="nf">get_freq_band</span><span class="p">(</span><span class="n">freq_band_name</span><span class="p">):</span>
 
-    <span class="kn">from</span> <span class="nn">params</span> <span class="kn">import</span> <span class="n">freq_band_names</span><span class="p">,</span> <span class="n">freq_bands</span>
+    <span class="kn">from</span> <span class="nn">params_congraph</span> <span class="kn">import</span> <span class="n">freq_band_names</span><span class="p">,</span> <span class="n">freq_bands</span>
 
     <span class="k">if</span> <span class="n">freq_band_name</span> <span class="ow">in</span> <span class="n">freq_band_names</span><span class="p">:</span>
         <span class="k">print</span> <span class="n">freq_band_name</span>
@@ -156,7 +170,7 @@
 
 <span class="k">def</span> <span class="nf">create_infosource</span><span class="p">():</span>
 
-    <span class="kn">from</span> <span class="nn">params</span> <span class="kn">import</span> <span class="n">test</span>
+    <span class="kn">from</span> <span class="nn">params_congraph</span> <span class="kn">import</span> <span class="n">test</span>
 
     <span class="n">infosource</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;subject_id&#39;</span><span class="p">,</span>
                                                             <span class="s">&#39;sess_index&#39;</span><span class="p">,</span>
@@ -262,6 +276,8 @@
     <span class="n">main_workflow</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">plugin</span><span class="o">=</span><span class="s">&#39;MultiProc&#39;</span><span class="p">,</span> <span class="n">plugin_args</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;n_procs&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">})</span>
 </pre></div>
 </div>
+<p><strong>Download</strong> Parameters file: <a class="reference download internal" href="../_downloads/params_congraph.py"><code class="xref download docutils literal"><span class="pre">params_congraph.py</span></code></a></p>
+<p><strong>Download</strong> Python source code: <a class="reference download internal" href="../_downloads/run_spectral_modularity.py"><code class="xref download docutils literal"><span class="pre">run_spectral_modularity.py</span></code></a></p>
 </div>
 
 

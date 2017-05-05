@@ -70,7 +70,7 @@
 <li class="toctree-l2 current"><a class="reference internal" href="../neuropype_ephy.html#installation">Installation</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference external" href="https://dmalt.github.io/neuropype_cli/">neuropype_cli</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/dmalt/neuropype_cli">neuropype_cli</a></li>
 <li class="toctree-l1"><a class="reference external" href="http://davidmeunier79.github.io/neuropype_graph/">neuropype_graph</a></li>
 </ul>
 <ul>
@@ -126,14 +126,27 @@
             
   <div class="section" id="connectivity-pipeline">
 <span id="spectral-connectivity"></span><h1>Connectivity pipeline<a class="headerlink" href="#connectivity-pipeline" title="Permalink to this headline">¶</a></h1>
-<p>The connectivity pipeline wraps spectral connectivity functions of MNE, as well as plot_circular_connectivity.</p>
-<p>The connectivity pipeline is implemented by the function <code class="xref py py-func docutils literal"><span class="pre">create_pipeline_time_series_to_spectral_connectivity</span></code></p>
+<p>The connectivity pipeline wraps spectral connectivity functions of <a href="http://martinos.org/mne/stable/auto_examples/index.html#connectivity-analysis-examples" target="_blank">MNE python</a>, as well as <a href="http://martinos.org/mne/dev/generated/mne.viz.plot_connectivity_circle.html#mne.viz.plot_connectivity_circle" target="_blank">plot_connectivity_circle</a>
+function to visualize the connectivity matrix as a circular graph.</p>
+<p>The input data can be</p>
+<ul class="simple">
+<li>the output of <a class="reference internal" href="preproc_meeg.html#preproc-meeg"><span>Preprocessing pipeline</span></a> or <a class="reference internal" href="source_reconstruction.html#source-reconstruction"><span>Source reconstruction pipeline</span></a> (<strong>.npy</strong> format) or</li>
+<li>an epoched or raw data (<strong>.fif</strong> format)</li>
+<li>a time series matrix in sensor or source space (<strong>.mat</strong> format)</li>
+</ul>
+<p>The outputs is the <strong>spectral connectivty matrix in .npy format</strong> stored in the workflow directory
+and can be used as input of the <a href="http://davidmeunier79.github.io/neuropype_graph/conmat_to_graph.html#create-pipeline-conmat-to-graph-density" target="_blank">create_pipeline_conmat_to_graph_density</a> performing graph analysis
+on the computed connectivity matrix.</p>
+<p>The connectivity pipeline is implemented by the function <a class="reference internal" href="../neuropype_ephy.pipelines.html#neuropype_ephy.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity" title="neuropype_ephy.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity"><code class="xref py py-func docutils literal"><span class="pre">create_pipeline_time_series_to_spectral_connectivity</span></code></a>
+and its Nodes <a class="reference internal" href="../neuropype_ephy.interfaces.mne.html#neuropype_ephy.interfaces.mne.spectral.SpectralConn" title="neuropype_ephy.interfaces.mne.spectral.SpectralConn"><code class="xref py py-class docutils literal"><span class="pre">spectral</span></code></a> and
+<a class="reference internal" href="../neuropype_ephy.interfaces.mne.html#neuropype_ephy.interfaces.mne.spectral.PlotSpectralConn" title="neuropype_ephy.interfaces.mne.spectral.PlotSpectralConn"><code class="xref py py-class docutils literal"><span class="pre">plot_spectral</span></code></a>
+wraps the MNE Python functions  <a href="http://martinos.org/mne/stable/generated/mne.connectivity.spectral_connectivity.html?highlight=spectral_connectivity#mne.connectivity.spectral_connectivity" target="_blank">spectral_connectivity</a>, <a href="http://martinos.org/mne/dev/generated/mne.viz.plot_connectivity_circle.html#mne.viz.plot_connectivity_circle" target="_blank">plot_connectivity_circle</a> respectively.</p>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="../../_images/graph_dot_conn2graph.jpg"><img alt="../../_images/graph_dot_conn2graph.jpg" src="../../_images/graph_dot_conn2graph.jpg" style="width: 460.5px; height: 539.5px;" /></a>
+<a class="reference internal image-reference" href="../../_images/graph_dot_conn.jpg"><img alt="../../_images/graph_dot_conn.jpg" src="../../_images/graph_dot_conn.jpg" style="width: 200.25px; height: 446.25px;" /></a>
 </div>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="../../examples/conn_graph_example.html#conn-graph-example"><span>Spectral connectivity and graph pipeline</span></a> to get an example on how to write a connectivity and graph analysis pipeline.</p>
+<p class="last">See <a class="reference internal" href="../../examples/conn_graph_example.html#conn-graph-example"><span>Spectral connectivity and graph pipeline</span></a> to get an example on how to write a connectivity and graph analysis workflow.</p>
 </div>
 </div>
 
