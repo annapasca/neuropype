@@ -3,6 +3,8 @@
 params file
 ===========
 
+We use a parameters file where we define all the variables that are specific for the data analysis.
+
 Set path and subjects list
 ++++++++++++++++++++++++++
 
@@ -71,7 +73,7 @@ Here we specify the frequency bands in which we want to compute the connectivity
 
 .. code:: python
 
-    freq_bands = [[2,4], [5,7], [8, 12], [15, 29], [30, 59], [60, 90]]
+    freq_bands = [[2,4], [5,7], [8, 12], [13, 29], [30, 59], [60, 90]]
     freq_band_names = ['delta', 'theta', 'alpha', 'beta', 'gamma1', 'gamma2']
     
     # 'pli', 'plv', 'pli2_unbiased', 'coh', 'cohy', 'ppc', 'wpli', 'wpli2_debiased', 'correl'

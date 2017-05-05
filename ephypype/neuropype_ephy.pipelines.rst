@@ -54,4 +54,5 @@ neuropype_ephy.pipelines.ts_to_conmat
 
 .. automodule:: neuropype_ephy.pipelines.ts_to_conmat
     :members:
+    :undoc-members:
 

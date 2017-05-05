@@ -16,7 +16,7 @@ NeuroPype project includes three different packages:
 
 * :ref:`neuropype_ephy` based on |MNE python| includes pipelines for electrophysiology analysis
 * `neuropype_cli <https://github.com/dmalt/neuropype_cli>`_ is a command line interface for neuropype_ephy package
-* `neuropype_graph <http://davidmeunier79.github.io/neuropype_graph/>`_ based on |radatools| includes pipelines for graph theoretical analysis of neuroimaging data
+* |neuropype_graph| based on |radatools| includes pipelines for graph theoretical analysis of neuroimaging data
 
 
 .. |MNE python| raw:: html
@@ -27,6 +27,10 @@ NeuroPype project includes three different packages:
 
    <a href="http://deim.urv.cat/~sergio.gomez/radatools.php" target="_blank">radatools</a>
 
+.. |neuropype_graph| raw:: html
+
+   <a href="http://davidmeunier79.github.io/neuropype_graph" target="_blank">neuropype_graph</a>
+   
 NeuroPype provides a very common and fast framework to develop workflows for advanced analyses, in particular
 defines a set of different pipelines that can be used stand-alone or as lego of a bigger workflow:
 the input of a pipeline will be the output of another pipeline. 
@@ -75,7 +79,12 @@ Install neuropype_cli
     pip install .
     cd ..
     
-    
+see |README_cli| for more information.
+
+.. |README_cli| raw:: html
+
+   <a href="https://github.com/dmalt/neuropype_cli/blob/master/README.md" target="_blank">README</a>
+
 Install neuropype_graph
 +++++++++++++++++++++++
 
@@ -86,8 +95,12 @@ Install neuropype_graph
     pip install .
     cd ..
 
-see `README <http://davidmeunier79.github.io/neuropype_graph/includeme.html>`_ for 
-more information
+see |README_graph| for more information.
+
+.. |README_graph| raw:: html
+
+   <a href="http://davidmeunier79.github.io/neuropype_graph/includeme.html" target="_blank">README</a>
+
 
 .. _packages:
 
@@ -98,8 +111,9 @@ Packages
    :maxdepth: 1
 
    ephypype/neuropype_ephy
-   neuropype_cli <https://dmalt.github.io/neuropype_cli/>
+   neuropype_cli <https://github.com/dmalt/neuropype_cli>
    neuropype_graph <http://davidmeunier79.github.io/neuropype_graph/>
+
    
 .. _examples:
 

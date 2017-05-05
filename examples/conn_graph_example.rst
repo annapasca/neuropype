@@ -3,6 +3,28 @@
 Spectral connectivity and graph pipeline
 ========================================
 
+The following script allows to perform spectral connectivity and graph analysis in sensor space
+(see :ref:`spectral_connectivity`). 
+
+Before to run the script, the :ref:`params` has to be downloaded (see download
+link below). The main parameters to set for the connectivity pipeline are
+            
+* ``con_method`` : connectivity measure
+* ``freq_band`` : frequency bands
+* ``epoch_window_length`` : epoched data
+* ``is_sensor_space`` : True if the connectivity matrix is computed in the sensor space, otherwise is computed in the source space
+* ``export_to_matlab`` : True if the connectivity matrix is exported to **.mat** format as well
+
+About the ``con_method`` parameter specifying the connectivity measure, the possible options are: 
+'coh', 'imcoh', 'plv', 'pli', 'wpli', 'pli2_unbiased', 'ppc', 'cohy', 'wpli2_debiased'. 
+
+A clear description can be found in the MNE python page explaining the |here| function.
+
+.. |here| raw:: html
+
+   <a href="http://martinos.org/mne/stable/generated/mne.connectivity.spectral_connectivity.html?highlight=spectral_connectivity#mne.connectivity.spectral_connectivity" target="_blank">spectral_connectivity</a>
+
+
 .. code:: python
 
   import nipype.pipeline.engine as pe
@@ -15,18 +37,18 @@ Spectral connectivity and graph pipeline
 
   from neuropype_graph.pipelines.conmat_to_graph import create_pipeline_conmat_to_graph_density
 
-  from params import main_path, data_path, subject_ids, sessions
-  from params import freq_band_names, con_method
-  from params import correl_analysis_name, epoch_window_length
-  from params import mod, con_den
+  from params_congraph import main_path, data_path, subject_ids, sessions
+  from params_congraph import freq_band_names, con_method
+  from params_congraph import correl_analysis_name, epoch_window_length
+  from params_congraph import mod, con_den
 
   if mod:
-      from params import radatools_optim
+      from params_congraph import radatools_optim
 
 
   def get_freq_band(freq_band_name):
 
-      from params import freq_band_names, freq_bands
+      from params_congraph import freq_band_names, freq_bands
 
       if freq_band_name in freq_band_names:
 	  print freq_band_name
@@ -37,7 +59,7 @@ Spectral connectivity and graph pipeline
 
   def create_infosource():
 
-      from params import test
+      from params_congraph import test
 
       infosource = pe.Node(interface=IdentityInterface(fields=['subject_id',
 							      'sess_index',
@@ -141,3 +163,8 @@ Spectral connectivity and graph pipeline
       main_workflow.write_graph(graph2use='colored')  # colored
       main_workflow.config['execution'] = {'remove_unnecessary_outputs': 'false'}
       main_workflow.run(plugin='MultiProc', plugin_args={'n_procs': 8})
+      
+      
+**Download** Parameters file: :download:`params_congraph.py <../../examples/params_congraph.py>`
+
+**Download** Python source code: :download:`run_spectral_modularity.py <../../examples/run_spectral_modularity.py>`

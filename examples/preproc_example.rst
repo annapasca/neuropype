@@ -4,7 +4,18 @@ From raw data to preprocessed data
 ==================================
 
 The following script implements the preprocessing pipeline to perform **ICA** on MEG data in **ds** format 
-(see :ref:`preproc_meeg`). Before to run the script, the :ref:`params` has to be downloaded. 
+(see :ref:`preproc_meeg`). 
+
+Before to run the script, the :ref:`params` has to be downloaded (see download
+link below). The main parameters to set for the preprocessing pipeline are
+            
+* ``data_type`` : 'fif' or 'ds'
+* ``l_freq`` : low cut-off frequency in Hz
+* ``h_freq`` : high cut-off frequency in Hz
+* ``down_sfreq`` : sampling frequency at which the data are downsampled
+* ``variance`` : float between 0 and 1: the ICA components will be selected by the cumulative percentage of explained variance
+* ``ECG_ch_name`` : the name of ECG channels
+* ``EoG_ch_name`` : the name of EoG channels
 
 
 .. code:: python

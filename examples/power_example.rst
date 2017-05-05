@@ -4,10 +4,10 @@ PSD pipeline
 ============
 
 The following script implements the power pipeline to compute **PSD** on MEG data in **fif** format 
-(see :ref:`power`). Before to run the script, the :ref:`params` has to be downloaded (see download
-link below).
+(see :ref:`power`). 
 
-The main parameters to set for the power pipeline are
+Before to run the script, the :ref:`params` has to be downloaded (see download
+link below). The main parameters to set for the power pipeline are
             
 * ``fmin`` : min frequency of interest
 * ``fmax`` : max frequency of interest

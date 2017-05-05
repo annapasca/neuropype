@@ -36,7 +36,7 @@ All example scripts need a :ref:`params` where to set
  |                                             |                                             |
  |    :ref:`preproc_example`                   |    :ref:`power_example`                     |
  +---------------------------------------------+---------------------------------------------+
- | .. figure::  ../img/graph_dot_conn2graph.jpg| .. figure::  ../img/graph_dot_inv2graph.jpg |
+ | .. figure::  ../img/graph_coclass.jpg       | .. figure::  ../img/graph_dot_inv2graph.jpg |
  |    :scale: 50 %                             |    :scale: 50 %                             |
  |    :align: center                           |    :align: center        	             |
  |                                             |                      		             |
@@ -51,6 +51,7 @@ All example scripts need a :ref:`params` where to set
    power_example
    conn_graph_example
    inv_example
+   howto
    
    
 Scripts
