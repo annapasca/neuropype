@@ -3,8 +3,10 @@
 Connectivity pipeline
 =====================
 
-The connectivity pipeline wraps spectral connectivity functions of |MNE python|, as well as |plot_connectivity_circle|
-function to visualize the connectivity matrix as a circular graph.
+The connectivity pipeline is so far based on the spectral connectivity computation of |MNE python|.
+In the frequency-domain coupling, all MNE-Python measures (e.g. Coherence, Imaginary Coherence, Phase Locking Value, 
+Phase-Lag Index), and some derived measurements are currently available.
+In the time-domain, coupling such as correlation of evelope, or phase-amplitude coupling (using Brainpipe) are also available. 
 
 .. |MNE python| raw:: html
 
@@ -16,9 +18,10 @@ function to visualize the connectivity matrix as a circular graph.
 
 The input data can be 
 
-* the output of :ref:`preproc_meeg` or :ref:`source_reconstruction` (**.npy** format) or
-* an epoched or raw data (**.fif** format)
+* the output of :ref:`preproc_meeg` or :ref:`source_reconstruction` (time series in **.npy** format) or
 * a time series matrix in sensor or source space (**.mat** format)
+
+.. comment: an epoched or raw data (**.fif** format)
 
 The outputs is the **spectral connectivty matrix in .npy format** stored in the workflow directory
 and can be used as input of the |create_pipeline_conmat_to_graph_density| performing graph analysis
@@ -32,7 +35,7 @@ on the computed connectivity matrix.
 The connectivity pipeline is implemented by the function :py:func:`create_pipeline_time_series_to_spectral_connectivity <neuropype_ephy.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity>`
 and its Nodes :py:class:`spectral <neuropype_ephy.interfaces.mne.spectral.SpectralConn>` and
 :py:class:`plot_spectral <neuropype_ephy.interfaces.mne.spectral.PlotSpectralConn>`
-wraps the MNE Python functions  |spectral_connectivity|, |plot_connectivity_circle| respectively.
+wraps the MNE Python functions  |spectral_connectivity| and |plot_connectivity_circle| to visualize the connectivity matrix as a circular graph.
 
 .. |spectral_connectivity| raw:: html
 
@@ -44,5 +47,10 @@ wraps the MNE Python functions  |spectral_connectivity|, |plot_connectivity_circ
    :scale: 75 %
    :align: center
    
+.. note:: A list of the different connectivity measures implemented by MNE can be found in the description of |here|.
+
+.. |here| raw:: html
+
+   <a href="http://martinos.org/mne/stable/generated/mne.connectivity.spectral_connectivity.html?highlight=spectral_connectivity#mne.connectivity.spectral_connectivity" target="_blank">spectral_connectivity function</a>
 
 .. seealso:: See :ref:`conn_graph_example` to get an example on how to write a connectivity and graph analysis workflow.

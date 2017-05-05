@@ -62,9 +62,11 @@ We can put all these variables in a separate file ``params_congraph.py`` (see be
       from params_congraph import radatools_optim
 
 
+Specify Nodes
+-------------
       
-      
-      
+.. code:: python
+
   def get_freq_band(freq_band_name):
 
       from params_congraph import freq_band_names, freq_bands

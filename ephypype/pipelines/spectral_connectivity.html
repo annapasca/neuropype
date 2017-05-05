@@ -79,6 +79,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../examples/power_example.html">PSD pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../examples/conn_graph_example.html">Spectral connectivity and graph pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../examples/inv_example.html">Source reconstruction pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/howto.html">How to build a Workflow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../examples/examples.html#scripts">Scripts</a></li>
 </ul>
 </li>
@@ -126,12 +127,13 @@
             
   <div class="section" id="connectivity-pipeline">
 <span id="spectral-connectivity"></span><h1>Connectivity pipeline<a class="headerlink" href="#connectivity-pipeline" title="Permalink to this headline">¶</a></h1>
-<p>The connectivity pipeline wraps spectral connectivity functions of <a href="http://martinos.org/mne/stable/auto_examples/index.html#connectivity-analysis-examples" target="_blank">MNE python</a>, as well as <a href="http://martinos.org/mne/dev/generated/mne.viz.plot_connectivity_circle.html#mne.viz.plot_connectivity_circle" target="_blank">plot_connectivity_circle</a>
-function to visualize the connectivity matrix as a circular graph.</p>
+<p>The connectivity pipeline is so far based on the spectral connectivity computation of <a href="http://martinos.org/mne/stable/auto_examples/index.html#connectivity-analysis-examples" target="_blank">MNE python</a>.
+In the frequency-domain coupling, all MNE-Python measures (e.g. Coherence, Imaginary Coherence, Phase Locking Value,
+Phase-Lag Index), and some derived measurements are currently available.
+In the time-domain, coupling such as correlation of evelope, or phase-amplitude coupling (using Brainpipe) are also available.</p>
 <p>The input data can be</p>
 <ul class="simple">
-<li>the output of <a class="reference internal" href="preproc_meeg.html#preproc-meeg"><span>Preprocessing pipeline</span></a> or <a class="reference internal" href="source_reconstruction.html#source-reconstruction"><span>Source reconstruction pipeline</span></a> (<strong>.npy</strong> format) or</li>
-<li>an epoched or raw data (<strong>.fif</strong> format)</li>
+<li>the output of <a class="reference internal" href="preproc_meeg.html#preproc-meeg"><span>Preprocessing pipeline</span></a> or <a class="reference internal" href="source_reconstruction.html#source-reconstruction"><span>Source reconstruction pipeline</span></a> (time series in <strong>.npy</strong> format) or</li>
 <li>a time series matrix in sensor or source space (<strong>.mat</strong> format)</li>
 </ul>
 <p>The outputs is the <strong>spectral connectivty matrix in .npy format</strong> stored in the workflow directory
@@ -140,9 +142,13 @@ on the computed connectivity matrix.</p>
 <p>The connectivity pipeline is implemented by the function <a class="reference internal" href="../neuropype_ephy.pipelines.html#neuropype_ephy.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity" title="neuropype_ephy.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity"><code class="xref py py-func docutils literal"><span class="pre">create_pipeline_time_series_to_spectral_connectivity</span></code></a>
 and its Nodes <a class="reference internal" href="../neuropype_ephy.interfaces.mne.html#neuropype_ephy.interfaces.mne.spectral.SpectralConn" title="neuropype_ephy.interfaces.mne.spectral.SpectralConn"><code class="xref py py-class docutils literal"><span class="pre">spectral</span></code></a> and
 <a class="reference internal" href="../neuropype_ephy.interfaces.mne.html#neuropype_ephy.interfaces.mne.spectral.PlotSpectralConn" title="neuropype_ephy.interfaces.mne.spectral.PlotSpectralConn"><code class="xref py py-class docutils literal"><span class="pre">plot_spectral</span></code></a>
-wraps the MNE Python functions  <a href="http://martinos.org/mne/stable/generated/mne.connectivity.spectral_connectivity.html?highlight=spectral_connectivity#mne.connectivity.spectral_connectivity" target="_blank">spectral_connectivity</a>, <a href="http://martinos.org/mne/dev/generated/mne.viz.plot_connectivity_circle.html#mne.viz.plot_connectivity_circle" target="_blank">plot_connectivity_circle</a> respectively.</p>
+wraps the MNE Python functions  <a href="http://martinos.org/mne/stable/generated/mne.connectivity.spectral_connectivity.html?highlight=spectral_connectivity#mne.connectivity.spectral_connectivity" target="_blank">spectral_connectivity</a> and <a href="http://martinos.org/mne/dev/generated/mne.viz.plot_connectivity_circle.html#mne.viz.plot_connectivity_circle" target="_blank">plot_connectivity_circle</a> to visualize the connectivity matrix as a circular graph.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="../../_images/graph_dot_conn.jpg"><img alt="../../_images/graph_dot_conn.jpg" src="../../_images/graph_dot_conn.jpg" style="width: 200.25px; height: 446.25px;" /></a>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">A list of the different connectivity measures implemented by MNE can be found in the description of <a href="http://martinos.org/mne/stable/generated/mne.connectivity.spectral_connectivity.html?highlight=spectral_connectivity#mne.connectivity.spectral_connectivity" target="_blank">spectral_connectivity function</a>.</p>
 </div>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
