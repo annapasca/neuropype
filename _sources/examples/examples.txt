@@ -51,6 +51,7 @@ All example scripts need a :ref:`params` where to set
    power_example
    conn_graph_example
    inv_example
+   howto
    
    
 Scripts

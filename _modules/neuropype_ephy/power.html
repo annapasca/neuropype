@@ -77,6 +77,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../examples/power_example.html">PSD pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../examples/conn_graph_example.html">Spectral connectivity and graph pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../examples/inv_example.html">Source reconstruction pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/howto.html">How to build a Workflow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../examples/examples.html#scripts">Scripts</a></li>
 </ul>
 </li>
@@ -123,7 +124,7 @@
 <span class="c"># Author: Dmitrii Altukhov &lt;dm-altukhov@ya.ru&gt;</span>
 
 
-<div class="viewcode-block" id="compute_and_save_psd"><a class="viewcode-back" href="../../ephypype/neuropype_ephy.html#neuropype_ephy.power.compute_and_save_psd">[docs]</a><span class="k">def</span> <span class="nf">compute_and_save_psd</span><span class="p">(</span><span class="n">epochs_fname</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span>
+<div class="viewcode-block" id="compute_and_save_psd"><a class="viewcode-back" href="../../ephypype/neuropype_ephy.html#neuropype_ephy.power.compute_and_save_psd">[docs]</a><span class="k">def</span> <span class="nf">compute_and_save_psd</span><span class="p">(</span><span class="n">data_fname</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span>
                          <span class="n">method</span><span class="o">=</span><span class="s">&#39;welch&#39;</span><span class="p">,</span> <span class="n">is_epoched</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
                          <span class="n">n_fft</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">n_overlap</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                          <span class="n">picks</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">proj</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
@@ -139,9 +140,9 @@
     <span class="kn">from</span> <span class="nn">mne.io</span> <span class="kn">import</span> <span class="n">read_raw_fif</span>
 
     <span class="k">if</span> <span class="n">is_epoched</span><span class="p">:</span>
-        <span class="n">epochs</span> <span class="o">=</span> <span class="n">read_epochs</span><span class="p">(</span><span class="n">epochs_fname</span><span class="p">)</span>
+        <span class="n">epochs</span> <span class="o">=</span> <span class="n">read_epochs</span><span class="p">(</span><span class="n">data_fname</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">epochs</span> <span class="o">=</span> <span class="n">read_raw_fif</span><span class="p">(</span><span class="n">epochs_fname</span><span class="p">,</span> <span class="n">preload</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">epochs</span> <span class="o">=</span> <span class="n">read_raw_fif</span><span class="p">(</span><span class="n">data_fname</span><span class="p">,</span> <span class="n">preload</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
     <span class="n">epochs_meg</span> <span class="o">=</span> <span class="n">epochs</span><span class="o">.</span><span class="n">pick_types</span><span class="p">(</span><span class="n">meg</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">eeg</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">eog</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">ecg</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 
@@ -153,7 +154,7 @@
         <span class="n">psds</span><span class="p">,</span> <span class="n">freqs</span> <span class="o">=</span> <span class="n">psd_multitaper</span><span class="p">(</span><span class="n">epochs_meg</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="n">fmax</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;nonexistent method for psd computation&#39;</span><span class="p">)</span>
-    <span class="n">path</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">epochs_fname</span><span class="p">)</span>
+    <span class="n">path</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">data_fname</span><span class="p">)</span>
     <span class="n">base</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
     <span class="n">psds_fname</span> <span class="o">=</span> <span class="n">base</span> <span class="o">+</span> <span class="s">&#39;-psds.npz&#39;</span>
     <span class="c"># freqs_fname = base + &#39;-freqs.npy&#39;</span>

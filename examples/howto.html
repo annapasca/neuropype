@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Spectral connectivity and graph pipeline &mdash; neuropype 0.0 documentation</title>
+  <title>How to build a Workflow &mdash; neuropype 0.0 documentation</title>
   
 
   
@@ -32,8 +32,8 @@
   
     <link rel="top" title="neuropype 0.0 documentation" href="../index.html"/>
         <link rel="up" title="Examples" href="examples.html"/>
-        <link rel="next" title="Source reconstruction pipeline" href="inv_example.html"/>
-        <link rel="prev" title="PSD pipeline" href="power_example.html"/> 
+        <link rel="next" title="params file" href="params.html"/>
+        <link rel="prev" title="Source reconstruction pipeline" href="inv_example.html"/> 
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -77,9 +77,9 @@
 <li class="toctree-l1 current"><a class="reference internal" href="examples.html">Examples</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="preproc_example.html">From raw data to preprocessed data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="power_example.html">PSD pipeline</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="">Spectral connectivity and graph pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="conn_graph_example.html">Spectral connectivity and graph pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="inv_example.html">Source reconstruction pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="howto.html">How to build a workflow</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">How to build a Workflow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples.html#scripts">Scripts</a></li>
 </ul>
 </li>
@@ -112,10 +112,10 @@
       
           <li><a href="examples.html">Examples</a> &raquo;</li>
       
-    <li>Spectral connectivity and graph pipeline</li>
+    <li>How to build a Workflow</li>
       <li class="wy-breadcrumbs-aside">
         
-          <a href="../_sources/examples/conn_graph_example.txt" rel="nofollow"> View page source</a>
+          <a href="../_sources/examples/howto.txt" rel="nofollow"> View page source</a>
         
       </li>
   </ul>
@@ -123,22 +123,29 @@
 </div>
           <div role="main" class="document">
             
-  <div class="section" id="spectral-connectivity-and-graph-pipeline">
-<span id="conn-graph-example"></span><h1>Spectral connectivity and graph pipeline<a class="headerlink" href="#spectral-connectivity-and-graph-pipeline" title="Permalink to this headline">¶</a></h1>
-<p>The following script allows to perform spectral connectivity and graph analysis in sensor space.
-(see <a class="reference internal" href="../ephypype/pipelines/spectral_connectivity.html#spectral-connectivity"><span>Connectivity pipeline</span></a>).</p>
-<p>Before to run the script, the <a class="reference internal" href="params.html#params"><span>params file</span></a> has to be downloaded (see download
-link below). The main parameters to set for the preprocessing pipeline are</p>
+  <div class="section" id="how-to-build-a-workflow">
+<span id="howto"></span><h1>How to build a Workflow<a class="headerlink" href="#how-to-build-a-workflow" title="Permalink to this headline">¶</a></h1>
+<p>The following section is a brief introduction on how to build a Workflow by using NeuroPype package.
+The following example script allows to construct a Workflow to perform spectral connectivity and graph analysis in sensor space
+(see <a class="reference internal" href="../ephypype/pipelines/spectral_connectivity.html#spectral-connectivity"><span>Connectivity pipeline</span></a> Section).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This section is based on the <a href="http://miykael.github.io/nipype-beginner-s-guide/firstSteps.html" target="_blank">Nipype Beginner's Guide</a></p>
+</div>
+<div class="section" id="main-steps">
+<h2>Main steps<a class="headerlink" href="#main-steps" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">con_method</span></code> : connectivity measure</li>
-<li><code class="docutils literal"><span class="pre">freq_band</span></code> : frequency bands</li>
-<li><code class="docutils literal"><span class="pre">epoch_window_length</span></code> : epoched data</li>
-<li><code class="docutils literal"><span class="pre">is_sensor_space</span></code> : True if the connectivity matrix is computed in the sensor space, otherwise is computed in the source space</li>
-<li><code class="docutils literal"><span class="pre">export_to_matlab</span></code> : True if the connectivity matrix is exported to <strong>.mat</strong> format as well</li>
+<li><strong>Import modules</strong>: the first step in any script is to import necessary functions or modules</li>
+<li><strong>Definy variables</strong>: the definition of variables we use in the script can be put in a separate file (see <a class="reference internal" href="params.html#params"><span>params file</span></a> for a list of all possible variables)</li>
+<li><strong>Specify Nodes</strong>: before to build a Workflow, we have to create some Nodes. A Node could be itself a pipeline</li>
+<li><strong>Specify Workflows and Connect Nodes</strong>: to set the order in which to execute the just created Nodes, we have to create a Workflow and specify the connections between the Nodes;
+in this way the Workflow will be executed in a sequential mode</li>
+<li><strong>Input and Output Stream</strong>: we need to specify the path of the folders where the Workflow can get the data from and where it should store the output data</li>
+<li><strong>Run Workflow</strong>: as last step we can run the Workflow!</li>
 </ul>
-<p>About the <code class="docutils literal"><span class="pre">con_method</span></code> parameter specifying the connectivity measure, the possible options are:
-&#8216;coh&#8217;, &#8216;imcoh&#8217;, &#8216;plv&#8217;, &#8216;pli&#8217;, &#8216;wpli&#8217;, &#8216;pli2_unbiased&#8217;, &#8216;ppc&#8217;, &#8216;cohy&#8217;, &#8216;wpli2_debiased&#8217;.</p>
-<p>A clear description can be found in the MNE python page explaining the <a href="http://martinos.org/mne/stable/generated/mne.connectivity.spectral_connectivity.html?highlight=spectral_connectivity#mne.connectivity.spectral_connectivity" target="_blank">spectral_connectivity</a> function.</p>
+<div class="section" id="import-modules">
+<h3>Import modules<a class="headerlink" href="#import-modules" title="Permalink to this headline">¶</a></h3>
+<p>The first thing is to import the modules we need in the script. We import from nipype and neuropype packages.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="kn">as</span> <span class="nn">pe</span>
 <span class="kn">import</span> <span class="nn">nipype.interfaces.io</span> <span class="kn">as</span> <span class="nn">nio</span>
 
@@ -148,14 +155,24 @@ link below). The main parameters to set for the preprocessing pipeline are</p>
 <span class="kn">from</span> <span class="nn">neuropype_ephy.pipelines.ts_to_conmat</span> <span class="kn">import</span> <span class="n">create_pipeline_time_series_to_spectral_connectivity</span>
 
 <span class="kn">from</span> <span class="nn">neuropype_graph.pipelines.conmat_to_graph</span> <span class="kn">import</span> <span class="n">create_pipeline_conmat_to_graph_density</span>
-
-<span class="kn">from</span> <span class="nn">params_congraph</span> <span class="kn">import</span> <span class="n">main_path</span><span class="p">,</span> <span class="n">data_path</span><span class="p">,</span> <span class="n">subject_ids</span><span class="p">,</span> <span class="n">sessions</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="define-variables">
+<h3>Define variables<a class="headerlink" href="#define-variables" title="Permalink to this headline">¶</a></h3>
+<p>We have to specify some variables that are specific for the data analysis (the main directories where the data are stored,
+the list of subjects and sessions) and the pipelines we use (connectivity measure, frequency band of interest, )
+We can put all these variables in a separate file <code class="docutils literal"><span class="pre">params_congraph.py</span></code> (see below to download the file).</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">params_congraph</span> <span class="kn">import</span> <span class="n">main_path</span><span class="p">,</span> <span class="n">data_path</span><span class="p">,</span> <span class="n">subject_ids</span><span class="p">,</span> <span class="n">sessions</span>
 <span class="kn">from</span> <span class="nn">params_congraph</span> <span class="kn">import</span> <span class="n">freq_band_names</span><span class="p">,</span> <span class="n">con_method</span>
 <span class="kn">from</span> <span class="nn">params_congraph</span> <span class="kn">import</span> <span class="n">correl_analysis_name</span><span class="p">,</span> <span class="n">epoch_window_length</span>
 <span class="kn">from</span> <span class="nn">params_congraph</span> <span class="kn">import</span> <span class="n">mod</span><span class="p">,</span> <span class="n">con_den</span>
 
 <span class="k">if</span> <span class="n">mod</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">params_congraph</span> <span class="kn">import</span> <span class="n">radatools_optim</span>
+
+
+
 
 
 <span class="k">def</span> <span class="nf">get_freq_band</span><span class="p">(</span><span class="n">freq_band_name</span><span class="p">):</span>
@@ -280,6 +297,8 @@ link below). The main parameters to set for the preprocessing pipeline are</p>
 <p><strong>Download</strong> Parameters file: <a class="reference download internal" href="../_downloads/params_congraph.py"><code class="xref download docutils literal"><span class="pre">params_congraph.py</span></code></a></p>
 <p><strong>Download</strong> Python source code: <a class="reference download internal" href="../_downloads/run_spectral_modularity.py"><code class="xref download docutils literal"><span class="pre">run_spectral_modularity.py</span></code></a></p>
 </div>
+</div>
+</div>
 
 
           </div>
@@ -287,10 +306,10 @@ link below). The main parameters to set for the preprocessing pipeline are</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="inv_example.html" class="btn btn-neutral float-right" title="Source reconstruction pipeline">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="params.html" class="btn btn-neutral float-right" title="params file">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="power_example.html" class="btn btn-neutral" title="PSD pipeline"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="inv_example.html" class="btn btn-neutral" title="Source reconstruction pipeline"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

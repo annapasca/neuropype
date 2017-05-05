@@ -77,6 +77,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../examples/power_example.html">PSD pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../examples/conn_graph_example.html">Spectral connectivity and graph pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../examples/inv_example.html">Source reconstruction pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../examples/howto.html">How to build a Workflow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../examples/examples.html#scripts">Scripts</a></li>
 </ul>
 </li>
@@ -130,7 +131,7 @@
 
 
 <span class="k">class</span> <span class="nc">PowerInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
-    <span class="n">epochs_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">data_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
                               <span class="n">desc</span><span class="o">=</span><span class="s">&#39;File with mne.Epochs or mne.io.Raw&#39;</span><span class="p">,</span>
                               <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">fmin</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;lower psd frequency&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
@@ -155,12 +156,12 @@
 
     <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
         <span class="k">print</span> <span class="s">&#39;in Power&#39;</span>
-        <span class="n">epochs_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">epochs_file</span>
+        <span class="n">data_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">data_file</span>
         <span class="n">fmin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fmin</span>
         <span class="n">fmax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fmax</span>
         <span class="n">method</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">method</span>
         <span class="n">is_epoched</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">is_epoched</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">psds_file</span> <span class="o">=</span> <span class="n">compute_and_save_psd</span><span class="p">(</span><span class="n">epochs_file</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">psds_file</span> <span class="o">=</span> <span class="n">compute_and_save_psd</span><span class="p">(</span><span class="n">data_file</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span>
                                               <span class="n">is_epoched</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">runtime</span>
 

@@ -3,6 +3,8 @@
 params file
 ===========
 
+We use a parameters file where we define all the variables that are specific for the data analysis.
+
 Set path and subjects list
 ++++++++++++++++++++++++++
 

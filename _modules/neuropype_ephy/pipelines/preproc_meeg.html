@@ -77,6 +77,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../examples/power_example.html">PSD pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../examples/conn_graph_example.html">Spectral connectivity and graph pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../examples/inv_example.html">Source reconstruction pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/howto.html">How to build a Workflow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../examples/examples.html#scripts">Scripts</a></li>
 </ul>
 </li>
@@ -202,9 +203,14 @@
 <span class="sd">        n_comp_exclude: dict</span>
 <span class="sd">            if is_set_ICA_components=True, it has to be a dict containing for</span>
 <span class="sd">            each subject and for each session the components to be excluded</span>
-<span class="sd">	is_sensor_space: boolean (default True)</span>
+<span class="sd">        is_sensor_space: boolean (default True)</span>
 <span class="sd">            True if we perform the analysis in sensor space and we use the</span>
 <span class="sd">            pipeline as lego with the connectivity or inverse pipeline</span>
+
+<span class="sd">    Inputs (inputnode):</span>
+
+<span class="sd">        * raw_file : raw meg data in fif format</span>
+<span class="sd">        * subject_id : subject id</span>
 
 <span class="sd">    Outputs:</span>
 

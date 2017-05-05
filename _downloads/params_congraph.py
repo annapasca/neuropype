@@ -27,6 +27,7 @@ correl_analysis_name = 'spectral_connectivity_' + data_type + \
 if test:
     correl_analysis_name = correl_analysis_name + '_test'
 
+
 # ---------------------------- SET graph variables -----------------------#
 freq_con_thr = [0.05] * 7  # TODO is it used???
 con_den = 0.05

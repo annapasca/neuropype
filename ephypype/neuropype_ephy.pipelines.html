@@ -79,6 +79,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/power_example.html">PSD pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/conn_graph_example.html">Spectral connectivity and graph pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/inv_example.html">Source reconstruction pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/howto.html">How to build a Workflow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/examples.html#scripts">Scripts</a></li>
 </ul>
 </li>
@@ -194,6 +195,13 @@ regions defined in aseg_labels will be added to the source space</dd>
 <dd>if True the stc will be saved</dd>
 </dl>
 </div></blockquote>
+<p>Inputs (inputnode):</p>
+<blockquote>
+<div><ul class="simple">
+<li>raw : filename of the raw data (fif format)</li>
+<li>sbj_id : subject id</li>
+</ul>
+</div></blockquote>
 <p>Outouts:</p>
 <blockquote>
 <div>pipeline : instance of Workflow</div></blockquote>
@@ -229,6 +237,15 @@ multitapers</dd>
 if the input data are raw data (-raw.fif)</dd>
 </dl>
 </div></blockquote>
+<p>Inputs (inputnode):</p>
+<blockquote>
+<div><ul class="simple">
+<li>fif_file : raw or epoched meg data in fif format</li>
+</ul>
+</div></blockquote>
+<p>Outputs:</p>
+<blockquote>
+<div>pipeline : instance of Workflow</div></blockquote>
 </dd></dl>
 
 </div>
@@ -281,6 +298,13 @@ each subject and for each session the components to be excluded</dd>
 <dd>True if we perform the analysis in sensor space and we use the
 pipeline as lego with the connectivity or inverse pipeline</dd>
 </dl>
+</div></blockquote>
+<p>Inputs (inputnode):</p>
+<blockquote>
+<div><ul class="simple">
+<li>raw_file : raw meg data in fif format</li>
+<li>subject_id : subject id</li>
+</ul>
 </div></blockquote>
 <p>Outputs:</p>
 <blockquote>
