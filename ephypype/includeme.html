@@ -141,42 +141,55 @@ neuropype_graph and nipype</p>
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="requirements">
 <h3>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h3>
-<p>Up to now neuropype_ephy works only with python2; python3 compatibility is planned for later releases</p>
+<p>Up to now neuropype_ephy works only with <strong>python2</strong>; python3 compatibility is planned for later releases</p>
 <ul class="simple">
 <li>numpy</li>
 <li>scikit-learn</li>
+<li>ipywidgets</li>
+<li>matplotlib</li>
+<li>pandas</li>
 <li>mne</li>
 <li>nipype</li>
 <li>neuropype_graph</li>
 </ul>
-<p>Some of these dependencies (numpy, scikit-learn) you should install manually, others (mne, nipype)
-are installed automatically during neuropype_ephy installation (see &#8220;Install neuropype_ephy&#8221;).
-To install neuropype_graph see &#8220;Install neuropype_graph&#8221;.
-We also recommend to install the  development master version of <a href="http://martinos.org/mne/dev/install_mne_python.html#check-your-installation" target="_blank">MNE python</a> (see Install MNE python).</p>
+<p>Some of these dependencies you should install manually (see <a class="reference internal" href="#conda-install"><span class="std std-ref">Install dependencies with conda</span></a>), others are installed automatically
+during neuropype_ephy installation (see <a class="reference internal" href="#ephy-install"><span class="std std-ref">Install neuropype_ephy</span></a>).
+To install neuropype_graph see <a class="reference internal" href="#graph-install"><span class="std std-ref">Install neuropype_graph</span></a>.</p>
+<p>We also recommend to install the  development master version of <a href="http://martinos.org/mne/dev/install_mne_python.html#check-your-installation" target="_blank">MNE python</a> (see <a class="reference internal" href="#mne-install"><span class="std std-ref">Install MNE python</span></a>).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you have Anaconda it is possible to create an environment using python2 by the command
+<code class="docutils literal"><span class="pre">conda</span> <span class="pre">create</span> <span class="pre">-n</span> <span class="pre">py27</span> <span class="pre">python=2.7</span> <span class="pre">ipykernel</span></code></p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">We also recommend to use the nipype version 0.12
+<code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">nipype==0.12</span></code></p>
+</div>
 </div>
 <div class="section" id="install-package">
 <h3>Install package<a class="headerlink" href="#install-package" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="install-neuropype-ephy">
-<h4>Install neuropype_ephy<a class="headerlink" href="#install-neuropype-ephy" title="Permalink to this headline">¶</a></h4>
+<span id="ephy-install"></span><h4>Install neuropype_ephy<a class="headerlink" href="#install-neuropype-ephy" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-bash"><div class="highlight"><pre>git clone https://github.com/annapasca/neuropype_ephy.git
 <span class="nb">cd </span>neuropype_ephy
-sudo python setup.py develop
+pip install .
 <span class="nb">cd</span> ..
 </pre></div>
 </div>
 </div>
 <div class="section" id="install-neuropype-graph">
-<h4>Install neuropype_graph<a class="headerlink" href="#install-neuropype-graph" title="Permalink to this headline">¶</a></h4>
+<span id="graph-install"></span><h4>Install neuropype_graph<a class="headerlink" href="#install-neuropype-graph" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-bash"><div class="highlight"><pre>git clone https://github.com/davidmeunier79/neuropype_graph.git
 <span class="nb">cd </span>neuropype_graph
-sudo python setup.py develop
+pip install .
 <span class="nb">cd</span> ..
 </pre></div>
 </div>
 <p>see <a href="http://davidmeunier79.github.io/neuropype_graph/includeme.html" target="_blank">README</a> for more information.</p>
 </div>
 <div class="section" id="install-mne-python">
-<h4>Install MNE python<a class="headerlink" href="#install-mne-python" title="Permalink to this headline">¶</a></h4>
+<span id="mne-install"></span><h4>Install MNE python<a class="headerlink" href="#install-mne-python" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-bash"><div class="highlight"><pre>git clone git://github.com/mne-tools/mne-python.git
 <span class="nb">cd </span>mne-python
 sudo python setup.py develop
@@ -184,6 +197,15 @@ sudo python setup.py develop
 </pre></div>
 </div>
 <p>see <a href="http://martinos.org/mne/dev/install_mne_python.html#check-your-installation" target="_blank">MNE python</a> for more information.</p>
+</div>
+<div class="section" id="install-dependencies-with-conda">
+<span id="conda-install"></span><h4>Install dependencies with conda<a class="headerlink" href="#install-dependencies-with-conda" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-bash"><div class="highlight"><pre>conda install pandas
+conda install ipywidgets
+conda install matplotlib
+conda install <span class="s1">&#39;pyqt&lt;5&#39;</span>
+</pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="software">
