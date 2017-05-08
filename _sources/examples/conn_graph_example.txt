@@ -4,7 +4,12 @@ Spectral connectivity and graph Workflow
 ========================================
 
 The following script allows to perform spectral connectivity and graph analysis in sensor space
-(see :ref:`spectral_connectivity` Section). 
+(see :ref:`spectral_connectivity` Section and |conmat_to_graph| pipeline).
+
+.. |conmat_to_graph| raw:: html
+
+   <a href="http://davidmeunier79.github.io/neuropype_graph/conmat_to_graph.html" target="_blank">create_pipeline_conmat_to_graph_density</a>
+
 
 Before to run the script, the :ref:`params` has to be downloaded (see download
 link below). The main parameters to set for the connectivity pipeline are
