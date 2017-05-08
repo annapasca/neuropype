@@ -26,9 +26,6 @@ from params_ica import main_path, data_path, subject_ids, sessions
 from params_ica import preproc_pipeline_name
 from params_ica import data_type, down_sfreq, l_freq, h_freq
 from params_ica import variance, ECG_ch_name, EoG_ch_name
-from params_ica import is_set_ICA_components, n_comp_exclude
-
-from params_ica import test
 
 
 def create_infosource():
@@ -38,16 +35,8 @@ def create_infosource():
                                                              'sess_index']),
                          name="infosource")
 
-    if test is False:
-        infosource.iterables = [('subject_id', subject_ids),
-                                ('sess_index', sessions)]
-
-    else:
-        # TEST
-        print '*** TEST ***'
-
-        infosource.iterables = [('subject_id', ['sub-0002']),
-                                ('sess_index', ['ses-0001'])]
+    infosource.iterables = [('subject_id', subject_ids),
+                            ('sess_index', sessions)]
 
     return infosource
 
@@ -62,11 +51,7 @@ def create_datasource():
                          name='datasource')
 
     datasource.inputs.base_directory = data_path
-    if test:
-        datasource.inputs.template = '*%s/%s/meg/%s*rest*short_raw.fif'
-    else:
-        datasource.inputs.template = '*%s/%s/meg/%s*rest*.ds'
-
+    datasource.inputs.template = '*%s/%s/meg/%s*rest*.ds'
     datasource.inputs.template_args = dict(raw_file=[['subject_id',
                                                       'sess_index',
                                                       'subject_id']])
@@ -98,9 +83,7 @@ def create_workflow_preproc():
                                                     variance=variance,
                                                     ECG_ch_name=ECG_ch_name,
                                                     EoG_ch_name=EoG_ch_name,
-                                                    data_type=data_type,
-                                                    is_set_ICA_components=is_set_ICA_components,
-                                                    n_comp_exclude=n_comp_exclude)
+                                                    data_type=data_type)
 
     main_workflow.connect(infosource, 'subject_id',
                           preproc_workflow, 'inputnode.subject_id')
@@ -119,8 +102,5 @@ if __name__ == '__main__':
     main_workflow.write_graph(graph2use='colored')  # colored
     main_workflow.config['execution'] = {'remove_unnecessary_outputs': 'false'}
 
-    # Run workflow locally on 2 CPUs
-    if test:
-        main_workflow.run()
-    else:
-        main_workflow.run(plugin='MultiProc', plugin_args={'n_procs': 8})
+    # Run workflow locally on 4 CPUs
+    main_workflow.run(plugin='MultiProc', plugin_args={'n_procs': 4})
