@@ -74,10 +74,10 @@
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../examples/examples.html">Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../examples/preproc_example.html">From raw data to preprocessed data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/power_example.html">PSD pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/conn_graph_example.html">Spectral connectivity and graph pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/inv_example.html">Source reconstruction pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/preproc_example.html">Preprocessing Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/power_example.html">PSD Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/conn_graph_example.html">Spectral connectivity and graph Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/inv_example.html">Source reconstruction Workflow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/howto.html">How to build a Workflow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/examples.html#scripts">Scripts</a></li>
 </ul>
@@ -211,7 +211,7 @@ exited (at least, I think that is why it lets exceptions through).</p>
 <span id="neuropype-ephy-compute-inv-problem"></span><h3>neuropype_ephy.compute_inv_problem<a class="headerlink" href="#module-neuropype_ephy.compute_inv_problem" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt id="neuropype_ephy.compute_inv_problem.compute_ROIs_inv_sol">
-<code class="descclassname">neuropype_ephy.compute_inv_problem.</code><code class="descname">compute_ROIs_inv_sol</code><span class="sig-paren">(</span><em>raw_filename</em>, <em>sbj_id</em>, <em>sbj_dir</em>, <em>fwd_filename</em>, <em>cov_fname</em>, <em>is_epoched=False</em>, <em>events_id=[]</em>, <em>t_min=None</em>, <em>t_max=None</em>, <em>is_evoked=False</em>, <em>snr=1.0</em>, <em>inv_method='MNE'</em>, <em>parc='aparc'</em>, <em>aseg=False</em>, <em>aseg_labels=[]</em>, <em>save_stc=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/compute_inv_problem.html#compute_ROIs_inv_sol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.compute_inv_problem.compute_ROIs_inv_sol" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">neuropype_ephy.compute_inv_problem.</code><code class="descname">compute_ROIs_inv_sol</code><span class="sig-paren">(</span><em>raw_filename</em>, <em>sbj_id</em>, <em>sbj_dir</em>, <em>fwd_filename</em>, <em>cov_fname</em>, <em>is_epoched=False</em>, <em>events_id=[]</em>, <em>t_min=None</em>, <em>t_max=None</em>, <em>is_evoked=False</em>, <em>snr=1.0</em>, <em>inv_method='MNE'</em>, <em>parc='aparc'</em>, <em>aseg=False</em>, <em>aseg_labels=[]</em>, <em>save_stc=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/compute_inv_problem.html#compute_ROIs_inv_sol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.compute_inv_problem.compute_ROIs_inv_sol" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the inverse solution on raw/epoched data and return the average
 time series computed in the N_r regions of the source space defined by
 the specified cortical parcellation</p>

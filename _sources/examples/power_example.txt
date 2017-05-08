@@ -1,10 +1,10 @@
 .. _power_example:
 
-PSD pipeline
+PSD Workflow
 ============
 
 The following script implements the power pipeline to compute **PSD** on MEG data in **fif** format 
-(see :ref:`power`). 
+(see :ref:`power` Section). 
 
 Before to run the script, the :ref:`params` has to be downloaded (see download
 link below). The main parameters to set for the power pipeline are

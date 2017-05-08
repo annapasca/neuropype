@@ -75,10 +75,11 @@
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../examples/examples.html">Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../examples/preproc_example.html">From raw data to preprocessed data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../examples/power_example.html">PSD pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../examples/conn_graph_example.html">Spectral connectivity and graph pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../examples/inv_example.html">Source reconstruction pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/preproc_example.html">Preprocessing Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/power_example.html">PSD Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/conn_graph_example.html">Spectral connectivity and graph Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/inv_example.html">Source reconstruction Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/howto.html">How to build a Workflow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../examples/examples.html#scripts">Scripts</a></li>
 </ul>
 </li>
@@ -126,9 +127,9 @@
             
   <div class="section" id="source-reconstruction-pipeline">
 <span id="source-reconstruction"></span><h1>Source reconstruction pipeline<a class="headerlink" href="#source-reconstruction-pipeline" title="Permalink to this headline">¶</a></h1>
-<p>The inverse solution pipeline allows to perform source reconstruction starting either from raw/epoched data
-specified by the user or from the output of the <a class="reference internal" href="preproc_meeg.html#preproc-meeg"><span>Preprocessing pipeline</span></a> (cleaned raw data).</p>
-<p>The output is the source reconstruction matrix that can be used as input of the <a class="reference internal" href="spectral_connectivity.html#spectral-connectivity"><span>Connectivity pipeline</span></a>.</p>
+<p>The inverse solution pipeline performs source reconstruction starting either from raw/epoched data
+(<strong>.fif</strong> format) specified by the user or from the output of the <a class="reference internal" href="preproc_meeg.html#preproc-meeg"><span>Preprocessing pipeline</span></a> (cleaned raw data).</p>
+<p>The output is the <strong>source reconstruction matrix</strong> that can be used as input of the <a class="reference internal" href="spectral_connectivity.html#spectral-connectivity"><span>Connectivity pipeline</span></a>.</p>
 <p>The pipeline is defined by the function <a class="reference internal" href="../neuropype_ephy.pipelines.html#neuropype_ephy.pipelines.fif_to_inv_sol.create_pipeline_source_reconstruction" title="neuropype_ephy.pipelines.fif_to_inv_sol.create_pipeline_source_reconstruction"><code class="xref py py-func docutils literal"><span class="pre">create_pipeline_source_reconstruction</span></code></a></p>
 <p>The three Nodes of the inverse solution pipeline (<a class="reference internal" href="../neuropype_ephy.interfaces.mne.html#module-neuropype_ephy.interfaces.mne.LF_computation" title="neuropype_ephy.interfaces.mne.LF_computation"><code class="xref py py-class docutils literal"><span class="pre">LF_computation</span></code></a>,
 <a class="reference internal" href="../neuropype_ephy.interfaces.mne.html#neuropype_ephy.interfaces.mne.Inverse_solution.NoiseCovariance" title="neuropype_ephy.interfaces.mne.Inverse_solution.NoiseCovariance"><code class="xref py py-class docutils literal"><span class="pre">create_noise_cov</span></code></a>,

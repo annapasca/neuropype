@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>From raw data to preprocessed data &mdash; neuropype 0.0 documentation</title>
+  <title>Preprocessing Workflow &mdash; neuropype 0.0 documentation</title>
   
 
   
@@ -32,7 +32,7 @@
   
     <link rel="top" title="neuropype 0.0 documentation" href="../index.html"/>
         <link rel="up" title="Examples" href="examples.html"/>
-        <link rel="next" title="PSD pipeline" href="power_example.html"/>
+        <link rel="next" title="PSD Workflow" href="power_example.html"/>
         <link rel="prev" title="Examples" href="examples.html"/> 
 
   
@@ -75,10 +75,11 @@
 </ul>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="examples.html">Examples</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="">From raw data to preprocessed data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="power_example.html">PSD pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="conn_graph_example.html">Spectral connectivity and graph pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="inv_example.html">Source reconstruction pipeline</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Preprocessing Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="power_example.html">PSD Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="conn_graph_example.html">Spectral connectivity and graph Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inv_example.html">Source reconstruction Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto.html">How to build a Workflow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples.html#scripts">Scripts</a></li>
 </ul>
 </li>
@@ -111,7 +112,7 @@
       
           <li><a href="examples.html">Examples</a> &raquo;</li>
       
-    <li>From raw data to preprocessed data</li>
+    <li>Preprocessing Workflow</li>
       <li class="wy-breadcrumbs-aside">
         
           <a href="../_sources/examples/preproc_example.txt" rel="nofollow"> View page source</a>
@@ -122,12 +123,13 @@
 </div>
           <div role="main" class="document">
             
-  <div class="section" id="from-raw-data-to-preprocessed-data">
-<span id="preproc-example"></span><h1>From raw data to preprocessed data<a class="headerlink" href="#from-raw-data-to-preprocessed-data" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="preprocessing-workflow">
+<span id="preproc-example"></span><h1>Preprocessing Workflow<a class="headerlink" href="#preprocessing-workflow" title="Permalink to this headline">¶</a></h1>
 <p>The following script implements the preprocessing pipeline to perform <strong>ICA</strong> on MEG data in <strong>ds</strong> format
-(see <a class="reference internal" href="../ephypype/pipelines/preproc_meeg.html#preproc-meeg"><span>Preprocessing pipeline</span></a>).</p>
+(see <a class="reference internal" href="../ephypype/pipelines/preproc_meeg.html#preproc-meeg"><span>Preprocessing pipeline</span></a> Section).</p>
 <p>Before to run the script, the <a class="reference internal" href="params.html#params"><span>params file</span></a> has to be downloaded (see download
-link below). The main parameters to set for the preprocessing pipeline are</p>
+link below). The main <strong>parameters</strong> to set for the preprocessing pipeline are
+(see <a class="reference internal" href="../ephypype/neuropype_ephy.pipelines.html#neuropype_ephy.pipelines.preproc_meeg.create_pipeline_preproc_meeg" title="neuropype_ephy.pipelines.preproc_meeg.create_pipeline_preproc_meeg"><code class="xref py py-func docutils literal"><span class="pre">create_pipeline_preproc_meeg</span></code></a> for a list of all possible inputs)</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">data_type</span></code> : &#8216;fif&#8217; or &#8216;ds&#8217;</li>
 <li><code class="docutils literal"><span class="pre">l_freq</span></code> : low cut-off frequency in Hz</li>
@@ -136,6 +138,11 @@ link below). The main parameters to set for the preprocessing pipeline are</p>
 <li><code class="docutils literal"><span class="pre">variance</span></code> : float between 0 and 1: the ICA components will be selected by the cumulative percentage of explained variance</li>
 <li><code class="docutils literal"><span class="pre">ECG_ch_name</span></code> : the name of ECG channels</li>
 <li><code class="docutils literal"><span class="pre">EoG_ch_name</span></code> : the name of EoG channels</li>
+</ul>
+<p>Furthermore, the following <strong>inputnodes</strong> have to be specified:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">raw_file</span></code> : the raw meg data in <strong>fif</strong> format</li>
+<li><code class="docutils literal"><span class="pre">subject_id</span></code> : subject id</li>
 </ul>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="kn">as</span> <span class="nn">pe</span>
 <span class="kn">import</span> <span class="nn">nipype.interfaces.io</span> <span class="kn">as</span> <span class="nn">nio</span>
@@ -252,7 +259,7 @@ possible include or exclude the ICA components inspecting their topographies and
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="power_example.html" class="btn btn-neutral float-right" title="PSD pipeline">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="power_example.html" class="btn btn-neutral float-right" title="PSD Workflow">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="examples.html" class="btn btn-neutral" title="Examples"><span class="fa fa-arrow-circle-left"></span> Previous</a>

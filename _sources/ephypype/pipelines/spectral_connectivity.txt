@@ -4,9 +4,9 @@ Connectivity pipeline
 =====================
 
 The connectivity pipeline is so far based on the spectral connectivity computation of |MNE python|.
-In the frequency-domain coupling, all MNE-Python measures (e.g. Coherence, Imaginary Coherence, Phase Locking Value, 
+In the **frequency-domain**, all MNE-Python measures (e.g. Coherence, Imaginary Coherence, Phase Locking Value, 
 Phase-Lag Index), and some derived measurements are currently available.
-In the time-domain, coupling such as correlation of evelope, or phase-amplitude coupling (using Brainpipe) are also available. 
+In the **time-domain**, coupling such as correlation of evelope, or phase-amplitude coupling (using Brainpipe) are also available. 
 
 .. |MNE python| raw:: html
 

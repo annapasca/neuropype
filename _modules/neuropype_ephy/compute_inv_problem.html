@@ -73,10 +73,10 @@
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../examples/examples.html">Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../examples/preproc_example.html">From raw data to preprocessed data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../examples/power_example.html">PSD pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../examples/conn_graph_example.html">Spectral connectivity and graph pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../examples/inv_example.html">Source reconstruction pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/preproc_example.html">Preprocessing Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/power_example.html">PSD Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/conn_graph_example.html">Spectral connectivity and graph Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/inv_example.html">Source reconstruction Workflow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../examples/howto.html">How to build a Workflow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../examples/examples.html#scripts">Scripts</a></li>
 </ul>
@@ -205,7 +205,7 @@
 
     <span class="k">return</span> <span class="n">noise_cov</span>
 
-</div>
+<span class="c"># TODO remove it!!! not used</span></div>
 <span class="k">def</span> <span class="nf">compute_ts_inv_sol</span><span class="p">(</span><span class="n">raw</span><span class="p">,</span> <span class="n">fwd_filename</span><span class="p">,</span> <span class="n">cov_fname</span><span class="p">,</span> <span class="n">snr</span><span class="p">,</span> <span class="n">inv_method</span><span class="p">,</span> <span class="n">aseg</span><span class="p">):</span>
     <span class="kn">import</span> <span class="nn">os.path</span> <span class="kn">as</span> <span class="nn">op</span>
     <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
@@ -277,13 +277,13 @@
 <span class="sd">+---------------------+-----------+-----------+-----------+-----------------+--------------+       </span>
 <span class="sd">&#39;&#39;&#39;</span>
 
-
+<span class="c"># TODO too long function -&gt; put lines code about labels in a new little function</span>
 <div class="viewcode-block" id="compute_ROIs_inv_sol"><a class="viewcode-back" href="../../ephypype/neuropype_ephy.html#neuropype_ephy.compute_inv_problem.compute_ROIs_inv_sol">[docs]</a><span class="k">def</span> <span class="nf">compute_ROIs_inv_sol</span><span class="p">(</span><span class="n">raw_filename</span><span class="p">,</span> <span class="n">sbj_id</span><span class="p">,</span> <span class="n">sbj_dir</span><span class="p">,</span> <span class="n">fwd_filename</span><span class="p">,</span>
                          <span class="n">cov_fname</span><span class="p">,</span> <span class="n">is_epoched</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">events_id</span><span class="o">=</span><span class="p">[],</span>
                          <span class="n">t_min</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">t_max</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">is_evoked</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
                          <span class="n">snr</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">inv_method</span><span class="o">=</span><span class="s">&#39;MNE&#39;</span><span class="p">,</span>
                          <span class="n">parc</span><span class="o">=</span><span class="s">&#39;aparc&#39;</span><span class="p">,</span> <span class="n">aseg</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">aseg_labels</span><span class="o">=</span><span class="p">[],</span>
-                         <span class="n">save_stc</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+                         <span class="n">save_stc</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute the inverse solution on raw/epoched data and return the average</span>
 <span class="sd">    time series computed in the N_r regions of the source space defined by</span>
@@ -454,17 +454,16 @@
         <span class="k">print</span> <span class="s">&#39;***&#39;</span>
 
     <span class="k">if</span> <span class="n">save_stc</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">aseg</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">stc</span><span class="p">)):</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">subj_path</span><span class="p">,</span> <span class="s">&#39;TS&#39;</span><span class="p">))</span>
-                <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
-                    <span class="k">pass</span>
-                <span class="n">stc_file</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">subj_path</span><span class="p">,</span> <span class="s">&#39;TS&#39;</span><span class="p">,</span> <span class="n">basename</span> <span class="o">+</span> <span class="s">&#39;_&#39;</span> <span class="o">+</span>
-                                   <span class="n">inv_method</span> <span class="o">+</span> <span class="s">&#39;_stc_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;.npy&#39;</span><span class="p">)</span>
+	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">stc</span><span class="p">)):</span>
+	    <span class="k">try</span><span class="p">:</span>
+		<span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">subj_path</span><span class="p">,</span> <span class="s">&#39;TS&#39;</span><span class="p">))</span>
+	    <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+		<span class="k">pass</span>
+	    <span class="n">stc_file</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">subj_path</span><span class="p">,</span> <span class="s">&#39;TS&#39;</span><span class="p">,</span> <span class="n">basename</span> <span class="o">+</span> <span class="s">&#39;_&#39;</span> <span class="o">+</span>
+				<span class="n">inv_method</span> <span class="o">+</span> <span class="s">&#39;_stc_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;.npy&#39;</span><span class="p">)</span>
 
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">op</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">stc_file</span><span class="p">):</span>
-                    <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">stc_file</span><span class="p">,</span> <span class="n">stc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+	    <span class="k">if</span> <span class="ow">not</span> <span class="n">op</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">stc_file</span><span class="p">):</span>
+		<span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">stc_file</span><span class="p">,</span> <span class="n">stc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
 
     <span class="n">labels_cortex</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">read_labels_from_annot</span><span class="p">(</span><span class="n">sbj_id</span><span class="p">,</span> <span class="n">parc</span><span class="o">=</span><span class="n">parc</span><span class="p">,</span>
                                                <span class="n">subjects_dir</span><span class="o">=</span><span class="n">sbj_dir</span><span class="p">)</span>

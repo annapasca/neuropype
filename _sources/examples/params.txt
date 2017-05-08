@@ -4,6 +4,7 @@ params file
 ===========
 
 We use a parameters file where we define all the variables that are specific for the data analysis.
+Here a list of all possible variables for the different pipelines provided by NeuroPype.
 
 Set path and subjects list
 ++++++++++++++++++++++++++
@@ -44,12 +45,14 @@ Set ``is_ICA = True`` to apply ICA to automatically remove ECG and EoG artifacts
     is_ICA = True
 
     # specify ECG and EoG channel names if we have these channels in the data
+    # otherwise leave an empty string
     ECG_ch_name = 'ECG'
     EoG_ch_name = 'HEOG, VEOG'
     variance = 0.95
 
     reject = dict(mag=5e-12, grad=5000e-13)
 
+    # pipeline directory within the main_path dir
     preproc_pipeline_name = "preprocessing_pipeline"
 
 PSD variables
@@ -64,12 +67,13 @@ PSD variables
   power_method = 'welch'
   is_epoched = False
 
+  # pipeline directory within the main_path dir
   power_analysis_name = 'power_pipeline'
    
 Connectivity variables
 ++++++++++++++++++++++
 
-Here we specify the frequency bands in which we want to compute the connectivity matrices
+Here we specify the frequency bands in which we want to compute the connectivity matrices and the connectivity measure
 
 .. code:: python
 
@@ -89,4 +93,6 @@ Here we specify the frequency bands in which we want to compute the connectivity
 
   * with all variables :download:`params.py  <../../examples/params.py>`
   * for :ref:`preproc_example` example :download:`params_ica.py  <../../examples/params_ica.py>`
-  * for :ref:`power` example :download:`params_power.py  <../../examples/params_power.py>`
+  * for :ref:`power_example` example :download:`params_power.py  <../../examples/params_power.py>`
+  * for :ref:`conn_graph_example` example :download:`params_power.py  <../../examples/params_congraph.py>`
+ 

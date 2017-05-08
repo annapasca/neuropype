@@ -75,10 +75,11 @@
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../examples/examples.html">Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../examples/preproc_example.html">From raw data to preprocessed data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../examples/power_example.html">PSD pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../examples/conn_graph_example.html">Spectral connectivity and graph pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../examples/inv_example.html">Source reconstruction pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/preproc_example.html">Preprocessing Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/power_example.html">PSD Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/conn_graph_example.html">Spectral connectivity and graph Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/inv_example.html">Source reconstruction Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/howto.html">How to build a Workflow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../examples/examples.html#scripts">Scripts</a></li>
 </ul>
 </li>
@@ -128,9 +129,9 @@
 <span id="preproc-meeg"></span><h1>Preprocessing pipeline<a class="headerlink" href="#preprocessing-pipeline" title="Permalink to this headline">¶</a></h1>
 <p>The preprocessing pipeline runs the ICA algorithm for an automatic removal of
 eyes and heart related artefacts. A report is automatically generated and can be used to
-correct and/or fine-tune the correction in each subject (see the example section <a class="reference internal" href="../../examples/preproc_example.html#preproc-example"><span>From raw data to preprocessed data</span></a>).</p>
-<p>The input data can be in <strong>ds</strong> or <strong>fif</strong> format.</p>
-<p>The output is the <strong>preprocessed data</strong> stored in the workflow directory. It&#8217;s a good rule
+correct and/or fine-tune the correction in each subject (see the example section <a class="reference internal" href="../../examples/preproc_example.html#preproc-example"><span>Preprocessing Workflow</span></a>).</p>
+<p>The <strong>input</strong> data can be in <strong>ds</strong> or <strong>fif</strong> format.</p>
+<p>The <strong>output</strong> is the <strong>preprocessed data</strong> stored in the workflow directory. It&#8217;s a good rule
 to inspect the report file saved in the same dir to look at the excluded ICA components. It is
 also possible to include and exclude more components by using either a jupyter notebook or
 the preprocessing pipeline with different flag parameters.</p>
@@ -155,7 +156,7 @@ algorithm.</p>
 </div>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="../../examples/preproc_example.html#preproc-example"><span>From raw data to preprocessed data</span></a> to get an example on how to write a preprocessing pipeline.</p>
+<p class="last">See <a class="reference internal" href="../../examples/preproc_example.html#preproc-example"><span>Preprocessing Workflow</span></a> to get an example on how to write a preprocessing pipeline.</p>
 </div>
 </div>
 

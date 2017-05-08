@@ -3,10 +3,10 @@
 Source reconstruction pipeline
 ==============================
 
-The inverse solution pipeline allows to perform source reconstruction starting either from raw/epoched data 
-specified by the user or from the output of the :ref:`preproc_meeg` (cleaned raw data).
+The inverse solution pipeline performs source reconstruction starting either from raw/epoched data 
+(**.fif** format) specified by the user or from the output of the :ref:`preproc_meeg` (cleaned raw data).
 
-The output is the source reconstruction matrix that can be used as input of the :ref:`spectral_connectivity`.
+The output is the **source reconstruction matrix** that can be used as input of the :ref:`spectral_connectivity`.
 
 The pipeline is defined by the function :py:func:`create_pipeline_source_reconstruction <neuropype_ephy.pipelines.fif_to_inv_sol.create_pipeline_source_reconstruction>`
 

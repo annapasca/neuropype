@@ -1,13 +1,14 @@
 .. _preproc_example:
 
-From raw data to preprocessed data
-==================================
+Preprocessing Workflow
+======================
 
 The following script implements the preprocessing pipeline to perform **ICA** on MEG data in **ds** format 
-(see :ref:`preproc_meeg`). 
+(see :ref:`preproc_meeg` Section). 
 
 Before to run the script, the :ref:`params` has to be downloaded (see download
-link below). The main parameters to set for the preprocessing pipeline are
+link below). The main **parameters** to set for the preprocessing pipeline are
+(see :py:func:`create_pipeline_preproc_meeg <neuropype_ephy.pipelines.preproc_meeg.create_pipeline_preproc_meeg>` for a list of all possible inputs)
             
 * ``data_type`` : 'fif' or 'ds'
 * ``l_freq`` : low cut-off frequency in Hz
@@ -17,6 +18,10 @@ link below). The main parameters to set for the preprocessing pipeline are
 * ``ECG_ch_name`` : the name of ECG channels
 * ``EoG_ch_name`` : the name of EoG channels
 
+Furthermore, the following **inputnodes** have to be specified:
+
+* ``raw_file`` : the raw meg data in **fif** format
+* ``subject_id`` : subject id
 
 .. code:: python
 

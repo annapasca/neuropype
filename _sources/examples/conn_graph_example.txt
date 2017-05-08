@@ -1,10 +1,10 @@
 .. _conn_graph_example:
 
-Spectral connectivity and graph pipeline
+Spectral connectivity and graph Workflow
 ========================================
 
 The following script allows to perform spectral connectivity and graph analysis in sensor space
-(see :ref:`spectral_connectivity`). 
+(see :ref:`spectral_connectivity` Section). 
 
 Before to run the script, the :ref:`params` has to be downloaded (see download
 link below). The main parameters to set for the connectivity pipeline are

@@ -4,7 +4,7 @@ How to build a Workflow
 =======================
 
 The following section is a brief introduction on how to build a Workflow by using NeuroPype package.
-The following example script allows to construct a Workflow to perform spectral connectivity and graph analysis in sensor space
+This example script allows to construct a Workflow to perform spectral connectivity and graph analysis in sensor space
 (see :ref:`spectral_connectivity` Section). 
 
 .. note:: This section is based on the |nipype_beginner|
@@ -18,7 +18,7 @@ Main steps
 ++++++++++
 
 * **Import modules**: the first step in any script is to import necessary functions or modules
-* **Definy variables**: the definition of variables we use in the script can be put in a separate file (see :ref:`params` for a list of all possible variables)
+* **Define variables**: the definition of variables we use in the script can be put in a separate file (see :ref:`params` for a list of all possible variables)
 * **Specify Nodes**: before to build a Workflow, we have to create some Nodes. A Node could be itself a pipeline
 * **Specify Workflows and Connect Nodes**: to set the order in which to execute the just created Nodes, we have to create a Workflow and specify the connections between the Nodes;
   in this way the Workflow will be executed in a sequential mode
@@ -48,7 +48,7 @@ Define variables
 ----------------
 
 We have to specify some variables that are specific for the data analysis (the main directories where the data are stored,
-the list of subjects and sessions) and the pipelines we use (connectivity measure, frequency band of interest, )
+the list of subjects and sessions, ...) and the pipelines we use (connectivity measure, frequency band of interest, ...)
 We can put all these variables in a separate file ``params_congraph.py`` (see below to download the file).
 
 .. code:: python  
@@ -62,9 +62,6 @@ We can put all these variables in a separate file ``params_congraph.py`` (see be
       from params_congraph import radatools_optim
 
 
-Specify Nodes
--------------
-      
 .. code:: python
 
   def get_freq_band(freq_band_name):
@@ -77,11 +74,35 @@ Specify Nodes
 
 	  return freq_bands[freq_band_names.index(freq_band_name)]
 
+Specify Nodes
+-------------
+
+Before to create a Workflow we have to create the Nodes that define the workflow itself. A Node is an object that can encapsulate 
+either an Interface to an external tool or a function defined by the user. A Node can also encapsulate an another pipeline.
+Every node has always at least one input and one output field: this existent of those fields allow Nipype to connect different nodes
+to each other and therefore define the stream of input and output between the nodes. 
+In this example the main Nodes are
+
+* ``create_ts`` : read the raw data input and returns the sensors locations and labels file
+* ``ts_to_conmat``
+* ``graph_den_pipe_den_0_05``
+
+The ``DataGrabber Interface`` allows the user to define flexible search patterns which can be parameterized by user
+defined inputs (such as subject ID, session, etc.).
+In this example we parameterize the pattern search with ``subject_id`` and ``sess_index``. 
+To run the Workflow for different subjects ans sessions we have to iterate over a list of subject IDs
+and session names by setting the iterables property of the DataGrabber Node for the inputs ``subject_id`` and ``sess_index``.
+In our example this is performed by connecting the inputs of ``datasource`` Node (``subject_id`` and ``sess_index``) to the iterables inputs of 
+``infosource`` Node.
+
+.. code:: python
 
   def create_infosource():
 
       from params_congraph import test
-
+  
+      # Infosource - a function free node to iterate over the list of subject IDs, sessions and 
+      # frequency bands
       infosource = pe.Node(interface=IdentityInterface(fields=['subject_id',
 							      'sess_index',
 							      'freq_band_name']),
@@ -92,8 +113,9 @@ Specify Nodes
 			      ('sess_index', sessions),
 			      ('freq_band_name', freq_band_names)]
 
-      return infosource
+      return infosource 
 
+.. code:: python
 
   def create_datasource():
 
@@ -112,6 +134,16 @@ Specify Nodes
 
       return datasource
 
+
+Specify Workflows and Connect Nodes
+-----------------------------------
+
+Thus, we create a main Workflow to connect the different Nodes and define the data flow from the outputs of one Node 
+to the inputs of the connected Nodes. Furthermore, we add the possibility to grab data for the analysis (``create_datasource()``). 
+The specified connections create our Workflow (see Figure). 
+
+      
+.. code:: python
 
   def create_main_workflow_spectral_modularity():
 
@@ -138,11 +170,20 @@ Specify Nodes
       main_workflow.connect(datasource, 'raw_file',
 			    create_ts_node, 'raw_fname')
 
+
+Each pipeline provided by NeuroPype requires two different kind of inputs:
+
+* inputs of the module: here ``main_path`` and ``con_method`` are inputs of :py:func:`create_pipeline_time_series_to_spectral_connectivity <neuropype_ephy.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity>`
+* **inputnode**: these inputs are defined after the creation of the pipeline and can be either directly specified (``spectral_workflow.inputs.inputnode.is_sensor_space = True``) or defined as output of a previous Node (``main_workflow.connect(create_ts_node, 'ts_file', spectral_workflow, 'inputnode.ts_file')``)
+
+.. code:: python
+
       spectral_workflow = \
 	  create_pipeline_time_series_to_spectral_connectivity(main_path,
 							      con_method=con_method)
 
       spectral_workflow.inputs.inputnode.is_sensor_space = True
+
       spectral_workflow.inputs.inputnode.epoch_window_length = epoch_window_length
       
       main_workflow.connect(create_ts_node, 'ts_file',
@@ -175,6 +216,18 @@ Specify Nodes
 
       return main_workflow
 
+Run Workflow
+------------
+
+After we have specified all the Nodes and connections of the Workflow, the last step is to run it
+by calling the so defined is ready to ``run()`` method. 
+It's also possible to generate static graphs representing Nodes and connections between them
+by calling ``write_graph()`` method.
+If we rerun the Workflow, only the Nodes whose inputs have changed since the last run
+will be executed again.  If not, it will simply return cached results. 
+This is achieved by recording a hash of the inputs.
+
+.. code:: python
 
   if __name__ == '__main__':
 
@@ -184,7 +237,11 @@ Specify Nodes
       main_workflow.write_graph(graph2use='colored')  # colored
       main_workflow.config['execution'] = {'remove_unnecessary_outputs': 'false'}
       main_workflow.run(plugin='MultiProc', plugin_args={'n_procs': 8})
-      
+
+.. figure::  ../img/graph_dot_conn2graph.jpg
+    :scale: 75 %
+    :align: center
+
       
 **Download** Parameters file: :download:`params_congraph.py <../../examples/params_congraph.py>`
 

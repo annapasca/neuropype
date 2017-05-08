@@ -1,6 +1,6 @@
 .. _inv_example:
 
-Source reconstruction pipeline
+Source reconstruction Workflow
 ==============================
 
 
