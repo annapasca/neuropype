@@ -30,6 +30,9 @@
   
 
   
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="neuropype 0.0 documentation" href="../index.html"/>
         <link rel="up" title="Examples" href="examples.html"/>
         <link rel="next" title="Spectral connectivity and graph Workflow" href="conn_graph_example.html"/>
@@ -76,7 +79,7 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="examples.html">Examples</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="preproc_example.html">Preprocessing Workflow</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="">PSD Workflow</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">PSD Workflow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="conn_graph_example.html">Spectral connectivity and graph Workflow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="inv_example.html">Source reconstruction Workflow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howto.html">How to build a Workflow</a></li>
@@ -115,7 +118,7 @@
     <li>PSD Workflow</li>
       <li class="wy-breadcrumbs-aside">
         
-          <a href="../_sources/examples/power_example.txt" rel="nofollow"> View page source</a>
+          <a href="../_sources/examples/power_example.rst.txt" rel="nofollow"> View page source</a>
         
       </li>
   </ul>
@@ -126,8 +129,8 @@
   <div class="section" id="psd-workflow">
 <span id="power-example"></span><h1>PSD Workflow<a class="headerlink" href="#psd-workflow" title="Permalink to this headline">¶</a></h1>
 <p>The following script implements the power pipeline to compute <strong>PSD</strong> on MEG data in <strong>fif</strong> format
-(see <a class="reference internal" href="../ephypype/pipelines/power.html#power"><span>Power pipeline</span></a> Section).</p>
-<p>Before to run the script, the <a class="reference internal" href="params.html#params"><span>params file</span></a> has to be downloaded (see download
+(see <a class="reference internal" href="../ephypype/pipelines/power.html#power"><span class="std std-ref">Power pipeline</span></a> Section).</p>
+<p>Before to run the script, the <a class="reference internal" href="params.html#params"><span class="std std-ref">params file</span></a> has to be downloaded (see download
 link below). The main parameters to set for the power pipeline are</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">fmin</span></code> : min frequency of interest</li>
@@ -136,16 +139,16 @@ link below). The main parameters to set for the power pipeline are</p>
 method; otherwise, if &#8216;multitaper&#8217; the PSD is computed by multitapers</li>
 <li><code class="docutils literal"><span class="pre">is_epoched</span></code> : True if the input data are in epoch format (-epo.fif), False if the input data are raw data (-raw.fif)</li>
 </ul>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="kn">as</span> <span class="nn">pe</span>
-<span class="kn">from</span> <span class="nn">nipype.interfaces.utility</span> <span class="kn">import</span> <span class="n">IdentityInterface</span>
-<span class="kn">import</span> <span class="nn">nipype.interfaces.io</span> <span class="kn">as</span> <span class="nn">nio</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="k">as</span> <span class="nn">pe</span>
+<span class="kn">from</span> <span class="nn">nipype.interfaces.utility</span> <span class="k">import</span> <span class="n">IdentityInterface</span>
+<span class="kn">import</span> <span class="nn">nipype.interfaces.io</span> <span class="k">as</span> <span class="nn">nio</span>
 
-<span class="kn">from</span> <span class="nn">neuropype_ephy.pipelines.power</span> <span class="kn">import</span> <span class="n">create_pipeline_power</span>
+<span class="kn">from</span> <span class="nn">neuropype_ephy.pipelines.power</span> <span class="k">import</span> <span class="n">create_pipeline_power</span>
 
-<span class="kn">from</span> <span class="nn">params_power</span> <span class="kn">import</span> <span class="n">main_path</span><span class="p">,</span> <span class="n">data_path</span>
-<span class="kn">from</span> <span class="nn">params_power</span> <span class="kn">import</span> <span class="n">subject_ids</span><span class="p">,</span> <span class="n">sessions</span>
-<span class="kn">from</span> <span class="nn">params_power</span> <span class="kn">import</span> <span class="n">power_analysis_name</span>
-<span class="kn">from</span> <span class="nn">params_power</span> <span class="kn">import</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">,</span> <span class="n">power_method</span><span class="p">,</span> <span class="n">is_epoched</span>
+<span class="kn">from</span> <span class="nn">params_power</span> <span class="k">import</span> <span class="n">main_path</span><span class="p">,</span> <span class="n">data_path</span>
+<span class="kn">from</span> <span class="nn">params_power</span> <span class="k">import</span> <span class="n">subject_ids</span><span class="p">,</span> <span class="n">sessions</span>
+<span class="kn">from</span> <span class="nn">params_power</span> <span class="k">import</span> <span class="n">power_analysis_name</span>
+<span class="kn">from</span> <span class="nn">params_power</span> <span class="k">import</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">,</span> <span class="n">power_method</span><span class="p">,</span> <span class="n">is_epoched</span>
 
 
 <span class="k">def</span> <span class="nf">create_infosource</span><span class="p">():</span>
@@ -169,11 +172,11 @@ method; otherwise, if &#8216;multitaper&#8217; the PSD is computed by multitaper
                         <span class="n">name</span><span class="o">=</span><span class="s">&#39;datasource&#39;</span><span class="p">)</span>
 
     <span class="n">datasource</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">base_directory</span> <span class="o">=</span> <span class="n">data_path</span>
-    <span class="n">datasource</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">template</span> <span class="o">=</span> <span class="s">&#39;*</span><span class="si">%s</span><span class="s">/</span><span class="si">%s</span><span class="s">/meg/</span><span class="si">%s</span><span class="s">*rest*.*ica.fif&#39;</span>
+    <span class="n">datasource</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">template</span> <span class="o">=</span> <span class="s">&#39;*%s/%s/meg/%s*rest*.*ica.fif&#39;</span>
     <span class="n">datasource</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">template_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">raw_file</span><span class="o">=</span><span class="p">[[</span><span class="s">&#39;subject_id&#39;</span><span class="p">,</span>
                                                       <span class="s">&#39;sess_index&#39;</span><span class="p">,</span>
                                                       <span class="s">&#39;subject_id&#39;</span><span class="p">]])</span>
-    <span class="n">datasource</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">sort_filelist</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">datasource</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">sort_filelist</span> <span class="o">=</span> <span class="k">True</span>
 
     <span class="k">return</span> <span class="n">datasource</span>
 
@@ -214,8 +217,8 @@ method; otherwise, if &#8216;multitaper&#8217; the PSD is computed by multitaper
     <span class="n">main_workflow</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">plugin</span><span class="o">=</span><span class="s">&#39;MultiProc&#39;</span><span class="p">,</span> <span class="n">plugin_args</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;n_procs&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">})</span>
 </pre></div>
 </div>
-<p><strong>Download</strong> Parameters file: <a class="reference download internal" href="../_downloads/params_power.py"><code class="xref download docutils literal"><span class="pre">params_power.py</span></code></a></p>
-<p><strong>Download</strong> Python source code: <a class="reference download internal" href="../_downloads/run_power_analysis.py"><code class="xref download docutils literal"><span class="pre">run_power_analysis.py</span></code></a></p>
+<p><strong>Download</strong> Parameters file: <a class="reference download internal" href="../_downloads/params_power.py" download=""><code class="xref download docutils literal"><span class="pre">params_power.py</span></code></a></p>
+<p><strong>Download</strong> Python source code: <a class="reference download internal" href="../_downloads/run_power_analysis.py" download=""><code class="xref download docutils literal"><span class="pre">run_power_analysis.py</span></code></a></p>
 </div>
 
 

@@ -30,6 +30,9 @@
   
 
   
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
     <link rel="top" title="neuropype 0.0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
@@ -125,32 +128,32 @@
 
 
 <div class="viewcode-block" id="compute_and_save_psd"><a class="viewcode-back" href="../../ephypype/neuropype_ephy.html#neuropype_ephy.power.compute_and_save_psd">[docs]</a><span class="k">def</span> <span class="nf">compute_and_save_psd</span><span class="p">(</span><span class="n">data_fname</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span>
-                         <span class="n">method</span><span class="o">=</span><span class="s">&#39;welch&#39;</span><span class="p">,</span> <span class="n">is_epoched</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                         <span class="n">method</span><span class="o">=</span><span class="s">&#39;welch&#39;</span><span class="p">,</span> <span class="n">is_epoched</span><span class="o">=</span><span class="k">False</span><span class="p">,</span>
                          <span class="n">n_fft</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">n_overlap</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                         <span class="n">picks</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">proj</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+                         <span class="n">picks</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">proj</span><span class="o">=</span><span class="k">False</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="k">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Load epochs/raw from file,</span>
 <span class="sd">    compute psd and save the result in numpy arrays</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">import</span> <span class="nn">os</span>
-    <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-    <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+    <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-    <span class="kn">from</span> <span class="nn">mne</span> <span class="kn">import</span> <span class="n">read_epochs</span>
-    <span class="kn">from</span> <span class="nn">mne.io</span> <span class="kn">import</span> <span class="n">read_raw_fif</span>
+    <span class="kn">from</span> <span class="nn">mne</span> <span class="k">import</span> <span class="n">read_epochs</span>
+    <span class="kn">from</span> <span class="nn">mne.io</span> <span class="k">import</span> <span class="n">read_raw_fif</span>
 
     <span class="k">if</span> <span class="n">is_epoched</span><span class="p">:</span>
         <span class="n">epochs</span> <span class="o">=</span> <span class="n">read_epochs</span><span class="p">(</span><span class="n">data_fname</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">epochs</span> <span class="o">=</span> <span class="n">read_raw_fif</span><span class="p">(</span><span class="n">data_fname</span><span class="p">,</span> <span class="n">preload</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">epochs</span> <span class="o">=</span> <span class="n">read_raw_fif</span><span class="p">(</span><span class="n">data_fname</span><span class="p">,</span> <span class="n">preload</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
 
-    <span class="n">epochs_meg</span> <span class="o">=</span> <span class="n">epochs</span><span class="o">.</span><span class="n">pick_types</span><span class="p">(</span><span class="n">meg</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">eeg</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">eog</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">ecg</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">epochs_meg</span> <span class="o">=</span> <span class="n">epochs</span><span class="o">.</span><span class="n">pick_types</span><span class="p">(</span><span class="n">meg</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">eeg</span><span class="o">=</span><span class="k">False</span><span class="p">,</span> <span class="n">eog</span><span class="o">=</span><span class="k">False</span><span class="p">,</span> <span class="n">ecg</span><span class="o">=</span><span class="k">False</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s">&#39;welch&#39;</span><span class="p">:</span>
-        <span class="kn">from</span> <span class="nn">mne.time_frequency</span> <span class="kn">import</span> <span class="n">psd_welch</span>
+        <span class="kn">from</span> <span class="nn">mne.time_frequency</span> <span class="k">import</span> <span class="n">psd_welch</span>
         <span class="n">psds</span><span class="p">,</span> <span class="n">freqs</span> <span class="o">=</span> <span class="n">psd_welch</span><span class="p">(</span><span class="n">epochs_meg</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="n">fmax</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s">&#39;multitaper&#39;</span><span class="p">:</span>
-        <span class="kn">from</span> <span class="nn">mne.time_frequency</span> <span class="kn">import</span> <span class="n">psd_multitaper</span>
+        <span class="kn">from</span> <span class="nn">mne.time_frequency</span> <span class="k">import</span> <span class="n">psd_multitaper</span>
         <span class="n">psds</span><span class="p">,</span> <span class="n">freqs</span> <span class="o">=</span> <span class="n">psd_multitaper</span><span class="p">(</span><span class="n">epochs_meg</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="n">fmax</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;nonexistent method for psd computation&#39;</span><span class="p">)</span>

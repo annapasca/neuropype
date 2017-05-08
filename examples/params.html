@@ -30,6 +30,9 @@
   
 
   
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="neuropype 0.0 documentation" href="../index.html"/>
         <link rel="up" title="Examples" href="examples.html"/>
         <link rel="next" title="CINQ" href="../cinq/cinq.html"/>
@@ -115,7 +118,7 @@
     <li>params file</li>
       <li class="wy-breadcrumbs-aside">
         
-          <a href="../_sources/examples/params.txt" rel="nofollow"> View page source</a>
+          <a href="../_sources/examples/params.rst.txt" rel="nofollow"> View page source</a>
         
       </li>
   </ul>
@@ -131,7 +134,7 @@ Here a list of all possible variables for the different pipelines provided by Ne
 <h2>Set path and subjects list<a class="headerlink" href="#set-path-and-subjects-list" title="Permalink to this headline">¶</a></h2>
 <p>Set the main directories where the data are stored, the list of subjects and sessions
 and the kind of MEG data (ds or fif format)</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
 
 <span class="n">data_type</span> <span class="o">=</span> <span class="s">&#39;ds&#39;</span>
 
@@ -145,7 +148,7 @@ and the kind of MEG data (ds or fif format)</p>
 </div>
 <div class="section" id="filter-parameters">
 <h2>Filter parameters<a class="headerlink" href="#filter-parameters" title="Permalink to this headline">¶</a></h2>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">down_sfreq</span> <span class="o">=</span> <span class="mi">800</span>  <span class="c"># sampling frequency at which downsample the data</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="n">down_sfreq</span> <span class="o">=</span> <span class="mi">800</span>  <span class="c"># sampling frequency at which downsample the data</span>
 <span class="n">l_freq</span> <span class="o">=</span> <span class="mf">0.1</span>
 <span class="n">h_freq</span> <span class="o">=</span> <span class="mi">150</span>
 </pre></div>
@@ -154,7 +157,7 @@ and the kind of MEG data (ds or fif format)</p>
 <div class="section" id="ica-variables">
 <h2>ICA variables<a class="headerlink" href="#ica-variables" title="Permalink to this headline">¶</a></h2>
 <p>Set <code class="docutils literal"><span class="pre">is_ICA</span> <span class="pre">=</span> <span class="pre">True</span></code> to apply ICA to automatically remove ECG and EoG artifacts</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">is_ICA</span> <span class="o">=</span> <span class="bp">True</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="n">is_ICA</span> <span class="o">=</span> <span class="k">True</span>
 
 <span class="c"># specify ECG and EoG channel names if we have these channels in the data</span>
 <span class="c"># otherwise leave an empty string</span>
@@ -162,7 +165,7 @@ and the kind of MEG data (ds or fif format)</p>
 <span class="n">EoG_ch_name</span> <span class="o">=</span> <span class="s">&#39;HEOG, VEOG&#39;</span>
 <span class="n">variance</span> <span class="o">=</span> <span class="mf">0.95</span>
 
-<span class="n">reject</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">mag</span><span class="o">=</span><span class="mf">5e-12</span><span class="p">,</span> <span class="n">grad</span><span class="o">=</span><span class="mf">5000e-13</span><span class="p">)</span>
+<span class="n">reject</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">mag</span><span class="o">=</span><span class="mi">5</span><span class="n">e</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="n">grad</span><span class="o">=</span><span class="mi">5000</span><span class="n">e</span><span class="o">-</span><span class="mi">13</span><span class="p">)</span>
 
 <span class="c"># pipeline directory within the main_path dir</span>
 <span class="n">preproc_pipeline_name</span> <span class="o">=</span> <span class="s">&quot;preprocessing_pipeline&quot;</span>
@@ -171,12 +174,12 @@ and the kind of MEG data (ds or fif format)</p>
 </div>
 <div class="section" id="psd-variables">
 <h2>PSD variables<a class="headerlink" href="#psd-variables" title="Permalink to this headline">¶</a></h2>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">data_type</span> <span class="o">=</span> <span class="s">&#39;fif&#39;</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="n">data_type</span> <span class="o">=</span> <span class="s">&#39;fif&#39;</span>
 
 <span class="n">fmin</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="n">fmax</span> <span class="o">=</span> <span class="mi">300</span>
 <span class="n">power_method</span> <span class="o">=</span> <span class="s">&#39;welch&#39;</span>
-<span class="n">is_epoched</span> <span class="o">=</span> <span class="bp">False</span>
+<span class="n">is_epoched</span> <span class="o">=</span> <span class="k">False</span>
 
 <span class="c"># pipeline directory within the main_path dir</span>
 <span class="n">power_analysis_name</span> <span class="o">=</span> <span class="s">&#39;power_pipeline&#39;</span>
@@ -186,7 +189,7 @@ and the kind of MEG data (ds or fif format)</p>
 <div class="section" id="connectivity-variables">
 <h2>Connectivity variables<a class="headerlink" href="#connectivity-variables" title="Permalink to this headline">¶</a></h2>
 <p>Here we specify the frequency bands in which we want to compute the connectivity matrices and the connectivity measure</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">freq_bands</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">],</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">12</span><span class="p">],</span> <span class="p">[</span><span class="mi">13</span><span class="p">,</span> <span class="mi">29</span><span class="p">],</span> <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">59</span><span class="p">],</span> <span class="p">[</span><span class="mi">60</span><span class="p">,</span> <span class="mi">90</span><span class="p">]]</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="n">freq_bands</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">],</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">12</span><span class="p">],</span> <span class="p">[</span><span class="mi">13</span><span class="p">,</span> <span class="mi">29</span><span class="p">],</span> <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">59</span><span class="p">],</span> <span class="p">[</span><span class="mi">60</span><span class="p">,</span> <span class="mi">90</span><span class="p">]]</span>
 <span class="n">freq_band_names</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;delta&#39;</span><span class="p">,</span> <span class="s">&#39;theta&#39;</span><span class="p">,</span> <span class="s">&#39;alpha&#39;</span><span class="p">,</span> <span class="s">&#39;beta&#39;</span><span class="p">,</span> <span class="s">&#39;gamma1&#39;</span><span class="p">,</span> <span class="s">&#39;gamma2&#39;</span><span class="p">]</span>
 
 <span class="c"># &#39;pli&#39;, &#39;plv&#39;, &#39;pli2_unbiased&#39;, &#39;coh&#39;, &#39;cohy&#39;, &#39;ppc&#39;, &#39;wpli&#39;, &#39;wpli2_debiased&#39;, &#39;correl&#39;</span>
@@ -201,10 +204,10 @@ and the kind of MEG data (ds or fif format)</p>
 <p><strong>Download</strong> the parameters file</p>
 <blockquote>
 <div><ul class="simple">
-<li>with all variables <a class="reference download internal" href="../_downloads/params.py"><code class="xref download docutils literal"><span class="pre">params.py</span></code></a></li>
-<li>for <a class="reference internal" href="preproc_example.html#preproc-example"><span>Preprocessing Workflow</span></a> example <a class="reference download internal" href="../_downloads/params_ica.py"><code class="xref download docutils literal"><span class="pre">params_ica.py</span></code></a></li>
-<li>for <a class="reference internal" href="power_example.html#power-example"><span>PSD Workflow</span></a> example <a class="reference download internal" href="../_downloads/params_power.py"><code class="xref download docutils literal"><span class="pre">params_power.py</span></code></a></li>
-<li>for <a class="reference internal" href="conn_graph_example.html#conn-graph-example"><span>Spectral connectivity and graph Workflow</span></a> example <a class="reference download internal" href="../_downloads/params_congraph.py"><code class="xref download docutils literal"><span class="pre">params_power.py</span></code></a></li>
+<li>with all variables <a class="reference download internal" href="../_downloads/params.py" download=""><code class="xref download docutils literal"><span class="pre">params.py</span></code></a></li>
+<li>for <a class="reference internal" href="preproc_example.html#preproc-example"><span class="std std-ref">Preprocessing Workflow</span></a> example <a class="reference download internal" href="../_downloads/params_ica.py" download=""><code class="xref download docutils literal"><span class="pre">params_ica.py</span></code></a></li>
+<li>for <a class="reference internal" href="power_example.html#power-example"><span class="std std-ref">PSD Workflow</span></a> example <a class="reference download internal" href="../_downloads/params_power.py" download=""><code class="xref download docutils literal"><span class="pre">params_power.py</span></code></a></li>
+<li>for <a class="reference internal" href="conn_graph_example.html#conn-graph-example"><span class="std std-ref">Spectral connectivity and graph Workflow</span></a> example <a class="reference download internal" href="../_downloads/params_congraph.py" download=""><code class="xref download docutils literal"><span class="pre">params_power.py</span></code></a></li>
 </ul>
 </div></blockquote>
 </div>

@@ -30,10 +30,13 @@
   
 
   
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
     <link rel="top" title="neuropype 0.0 documentation" href="../../index.html"/>
-        <link rel="up" title="neuropype_ephy.pipelines package" href="../neuropype_ephy.pipelines.html"/>
+        <link rel="up" title="neuropype_ephy" href="../neuropype_ephy.html"/>
         <link rel="next" title="Inverse solution Nodes" href="nodes/inv_solution.html"/>
-        <link rel="prev" title="Preprocessing pipeline" href="preproc_meeg.html"/> 
+        <link rel="prev" title="Power pipeline" href="power.html"/> 
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -112,12 +115,10 @@
       
           <li><a href="../neuropype_ephy.html">neuropype_ephy</a> &raquo;</li>
       
-          <li><a href="../neuropype_ephy.pipelines.html">neuropype_ephy.pipelines package</a> &raquo;</li>
-      
     <li>Source reconstruction pipeline</li>
       <li class="wy-breadcrumbs-aside">
         
-          <a href="../../_sources/ephypype/pipelines/source_reconstruction.txt" rel="nofollow"> View page source</a>
+          <a href="../../_sources/ephypype/pipelines/source_reconstruction.rst.txt" rel="nofollow"> View page source</a>
         
       </li>
   </ul>
@@ -128,8 +129,8 @@
   <div class="section" id="source-reconstruction-pipeline">
 <span id="source-reconstruction"></span><h1>Source reconstruction pipeline<a class="headerlink" href="#source-reconstruction-pipeline" title="Permalink to this headline">¶</a></h1>
 <p>The inverse solution pipeline performs source reconstruction starting either from raw/epoched data
-(<strong>.fif</strong> format) specified by the user or from the output of the <a class="reference internal" href="preproc_meeg.html#preproc-meeg"><span>Preprocessing pipeline</span></a> (cleaned raw data).</p>
-<p>The output is the <strong>source reconstruction matrix</strong> that can be used as input of the <a class="reference internal" href="spectral_connectivity.html#spectral-connectivity"><span>Connectivity pipeline</span></a>.</p>
+(<strong>.fif</strong> format) specified by the user or from the output of the <a class="reference internal" href="preproc_meeg.html#preproc-meeg"><span class="std std-ref">Preprocessing pipeline</span></a> (cleaned raw data).</p>
+<p>The output is the <strong>source reconstruction matrix</strong> that can be used as input of the <a class="reference internal" href="spectral_connectivity.html#spectral-connectivity"><span class="std std-ref">Connectivity pipeline</span></a>.</p>
 <p>The pipeline is defined by the function <a class="reference internal" href="../neuropype_ephy.pipelines.html#neuropype_ephy.pipelines.fif_to_inv_sol.create_pipeline_source_reconstruction" title="neuropype_ephy.pipelines.fif_to_inv_sol.create_pipeline_source_reconstruction"><code class="xref py py-func docutils literal"><span class="pre">create_pipeline_source_reconstruction</span></code></a></p>
 <p>The three Nodes of the inverse solution pipeline (<a class="reference internal" href="../neuropype_ephy.interfaces.mne.html#module-neuropype_ephy.interfaces.mne.LF_computation" title="neuropype_ephy.interfaces.mne.LF_computation"><code class="xref py py-class docutils literal"><span class="pre">LF_computation</span></code></a>,
 <a class="reference internal" href="../neuropype_ephy.interfaces.mne.html#neuropype_ephy.interfaces.mne.Inverse_solution.NoiseCovariance" title="neuropype_ephy.interfaces.mne.Inverse_solution.NoiseCovariance"><code class="xref py py-class docutils literal"><span class="pre">create_noise_cov</span></code></a>,
@@ -137,9 +138,9 @@
 wrap the MNE Python functions that perform the source reconstruction steps.</p>
 <p>In particular:</p>
 <ul class="simple">
-<li><a class="reference internal" href="nodes/inv_solution.html#lf-computation"><span>Lead Field Node</span></a>: compute the Lead Field matrix</li>
-<li><a class="reference internal" href="nodes/inv_solution.html#noise-covariance"><span>Noise Covariance Node</span></a>: compute the noise covariance matrix</li>
-<li><a class="reference internal" href="nodes/inv_solution.html#inv-solution"><span>Inverse Solution Node</span></a>: estimate the time series of the neural sources on a set of dipoles grid</li>
+<li><a class="reference internal" href="nodes/inv_solution.html#lf-computation"><span class="std std-ref">Lead Field Node</span></a>: compute the Lead Field matrix</li>
+<li><a class="reference internal" href="nodes/inv_solution.html#noise-covariance"><span class="std std-ref">Noise Covariance Node</span></a>: compute the noise covariance matrix</li>
+<li><a class="reference internal" href="nodes/inv_solution.html#inv-solution"><span class="std std-ref">Inverse Solution Node</span></a>: estimate the time series of the neural sources on a set of dipoles grid</li>
 </ul>
 <div class="figure align-center" id="inv-pipeline">
 <a class="reference internal image-reference" href="../../_images/graph_dot_inv.jpg"><img alt="../../_images/graph_dot_inv.jpg" src="../../_images/graph_dot_inv.jpg" style="width: 443.25px; height: 345.0px;" /></a>
@@ -161,7 +162,7 @@ wrap the MNE Python functions that perform the source reconstruction steps.</p>
         <a href="nodes/inv_solution.html" class="btn btn-neutral float-right" title="Inverse solution Nodes">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="preproc_meeg.html" class="btn btn-neutral" title="Preprocessing pipeline"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="power.html" class="btn btn-neutral" title="Power pipeline"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

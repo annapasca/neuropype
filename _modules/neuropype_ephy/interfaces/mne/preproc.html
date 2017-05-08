@@ -30,6 +30,9 @@
   
 
   
+        <link rel="index" title="Index"
+              href="../../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../../search.html"/>
     <link rel="top" title="neuropype 0.0 documentation" href="../../../../index.html"/>
         <link rel="up" title="Module code" href="../../../index.html"/> 
 
@@ -124,10 +127,10 @@
 <span class="c"># Authors: Dmitrii Altukhov &lt;dm-altukhov@ya.ru&gt;</span>
 
 
-<span class="kn">from</span> <span class="nn">nipype.interfaces.base</span> <span class="kn">import</span> <span class="n">BaseInterface</span><span class="p">,</span>\
+<span class="kn">from</span> <span class="nn">nipype.interfaces.base</span> <span class="k">import</span> <span class="n">BaseInterface</span><span class="p">,</span>\
     <span class="n">BaseInterfaceInputSpec</span><span class="p">,</span> <span class="n">traits</span><span class="p">,</span> <span class="n">TraitedSpec</span>
 
-<span class="kn">from</span> <span class="nn">neuropype_ephy.preproc</span> <span class="kn">import</span> <span class="n">compute_ica</span><span class="p">,</span>\
+<span class="kn">from</span> <span class="nn">neuropype_ephy.preproc</span> <span class="k">import</span> <span class="n">compute_ica</span><span class="p">,</span>\
                                    <span class="n">preprocess_fif</span><span class="p">,</span>\
                                    <span class="n">create_epochs</span>
 
@@ -135,33 +138,33 @@
 <div class="viewcode-block" id="CompIcaInputSpec"><a class="viewcode-back" href="../../../../ephypype/neuropype_ephy.interfaces.mne.html#neuropype_ephy.interfaces.mne.preproc.CompIcaInputSpec">[docs]</a><span class="k">class</span> <span class="nc">CompIcaInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Input specification for CompIca&quot;&quot;&quot;</span>
 
-    <span class="n">fif_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">fif_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
                            <span class="n">desc</span><span class="o">=</span><span class="s">&#39;raw meg data in fif format&#39;</span><span class="p">,</span>
-                           <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                           <span class="n">mandatory</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
     <span class="n">ecg_ch_name</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;name of ecg channel&#39;</span><span class="p">)</span>
     <span class="n">eog_ch_name</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;name of eog channel&#39;</span><span class="p">)</span>
-    <span class="n">n_components</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;number of ica components&#39;</span><span class="p">)</span>
+    <span class="n">n_components</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;number of ica components&#39;</span><span class="p">)</span></div>
 
-</div>
+
 <div class="viewcode-block" id="CompIcaOutputSpec"><a class="viewcode-back" href="../../../../ephypype/neuropype_ephy.interfaces.mne.html#neuropype_ephy.interfaces.mne.preproc.CompIcaOutputSpec">[docs]</a><span class="k">class</span> <span class="nc">CompIcaOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Output specification for CompIca&quot;&quot;&quot;</span>
 
-    <span class="n">ica_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">ica_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
                            <span class="n">desc</span><span class="o">=</span><span class="s">&#39;file with raw file in .fif&#39;</span><span class="p">,</span>
-                           <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                           <span class="n">mandatory</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
 
-    <span class="n">ica_sol_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">ica_sol_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
                                <span class="n">desc</span><span class="o">=</span><span class="s">&#39;file with ica solution in .fif&#39;</span><span class="p">,</span>
-                               <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">ica_ts_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                               <span class="n">mandatory</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+    <span class="n">ica_ts_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
                               <span class="n">desc</span><span class="o">=</span><span class="s">&#39;file with ica components in .fif&#39;</span><span class="p">,</span>
-                              <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                              <span class="n">mandatory</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
 
-    <span class="n">report_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">report_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
                               <span class="n">desc</span><span class="o">=</span><span class="s">&#39;ica report in .html&#39;</span><span class="p">,</span>
-                              <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                              <span class="n">mandatory</span><span class="o">=</span><span class="k">True</span><span class="p">)</span></div>
 
-</div>
+
 <div class="viewcode-block" id="CompIca"><a class="viewcode-back" href="../../../../ephypype/neuropype_ephy.interfaces.mne.html#neuropype_ephy.interfaces.mne.preproc.CompIca">[docs]</a><span class="k">class</span> <span class="nc">CompIca</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Compute ICA solution on raw fif data&quot;&quot;&quot;</span>
 
@@ -189,28 +192,28 @@
         <span class="n">outputs</span><span class="p">[</span><span class="s">&#39;ica_sol_file&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ica_sol_file</span>
         <span class="n">outputs</span><span class="p">[</span><span class="s">&#39;ica_ts_file&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ica_ts_file</span>
         <span class="n">outputs</span><span class="p">[</span><span class="s">&#39;report_file&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">report_file</span>
-        <span class="k">return</span> <span class="n">outputs</span>
+        <span class="k">return</span> <span class="n">outputs</span></div>
 
-</div>
+
 <div class="viewcode-block" id="PreprocFifInputSpec"><a class="viewcode-back" href="../../../../ephypype/neuropype_ephy.interfaces.mne.html#neuropype_ephy.interfaces.mne.preproc.PreprocFifInputSpec">[docs]</a><span class="k">class</span> <span class="nc">PreprocFifInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Input specification for PreprocFif&quot;&quot;&quot;</span>
 
-    <span class="n">fif_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">fif_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
                            <span class="n">desc</span><span class="o">=</span><span class="s">&#39;raw meg data in fif format&#39;</span><span class="p">,</span>
-                           <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                           <span class="n">mandatory</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
     <span class="n">l_freq</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;lower bound for filtering&#39;</span><span class="p">)</span>
     <span class="n">h_freq</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;upper bound for filtering&#39;</span><span class="p">)</span>
-    <span class="n">down_sfreq</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Int</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;downsampling frequency&#39;</span><span class="p">)</span>
+    <span class="n">down_sfreq</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Int</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;downsampling frequency&#39;</span><span class="p">)</span></div>
 
-</div>
+
 <div class="viewcode-block" id="PreprocFifOutputSpec"><a class="viewcode-back" href="../../../../ephypype/neuropype_ephy.interfaces.mne.html#neuropype_ephy.interfaces.mne.preproc.PreprocFifOutputSpec">[docs]</a><span class="k">class</span> <span class="nc">PreprocFifOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Output specification for PreprocFif&quot;&quot;&quot;</span>
 
-    <span class="n">fif_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">fif_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
                            <span class="n">desc</span><span class="o">=</span><span class="s">&#39;.fif file&#39;</span><span class="p">,</span>
-                           <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                           <span class="n">mandatory</span><span class="o">=</span><span class="k">True</span><span class="p">)</span></div>
 
-</div>
+
 <div class="viewcode-block" id="PreprocFif"><a class="viewcode-back" href="../../../../ephypype/neuropype_ephy.interfaces.mne.html#neuropype_ephy.interfaces.mne.preproc.PreprocFif">[docs]</a><span class="k">class</span> <span class="nc">PreprocFif</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Interface for preproc.preprocess_fif&quot;&quot;&quot;</span>
 
@@ -231,26 +234,26 @@
     <span class="k">def</span> <span class="nf">_list_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_outputs</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
         <span class="n">outputs</span><span class="p">[</span><span class="s">&#39;fif_file&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fif_file</span>
-        <span class="k">return</span> <span class="n">outputs</span>
+        <span class="k">return</span> <span class="n">outputs</span></div>
 
-</div>
+
 <div class="viewcode-block" id="CreateEpInputSpec"><a class="viewcode-back" href="../../../../ephypype/neuropype_ephy.interfaces.mne.html#neuropype_ephy.interfaces.mne.preproc.CreateEpInputSpec">[docs]</a><span class="k">class</span> <span class="nc">CreateEpInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Input specification for CreateEp&quot;&quot;&quot;</span>
 
-    <span class="n">fif_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">fif_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
                            <span class="n">desc</span><span class="o">=</span><span class="s">&#39;raw meg data in fif format&#39;</span><span class="p">,</span>
-                           <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">ep_length</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;epoch length in seconds&#39;</span><span class="p">)</span>
+                           <span class="n">mandatory</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+    <span class="n">ep_length</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;epoch length in seconds&#39;</span><span class="p">)</span></div>
 
-</div>
+
 <div class="viewcode-block" id="CreateEpOutputSpec"><a class="viewcode-back" href="../../../../ephypype/neuropype_ephy.interfaces.mne.html#neuropype_ephy.interfaces.mne.preproc.CreateEpOutputSpec">[docs]</a><span class="k">class</span> <span class="nc">CreateEpOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Output specification for CreateEp&quot;&quot;&quot;</span>
 
-    <span class="n">epo_fif_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">epo_fif_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
                                <span class="n">desc</span><span class="o">=</span><span class="s">&#39;-epo.fif file&#39;</span><span class="p">,</span>
-                               <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                               <span class="n">mandatory</span><span class="o">=</span><span class="k">True</span><span class="p">)</span></div>
 
-</div>
+
 <div class="viewcode-block" id="CreateEp"><a class="viewcode-back" href="../../../../ephypype/neuropype_ephy.interfaces.mne.html#neuropype_ephy.interfaces.mne.preproc.CreateEp">[docs]</a><span class="k">class</span> <span class="nc">CreateEp</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Interface for preproc.create_epochs&quot;&quot;&quot;</span>
 

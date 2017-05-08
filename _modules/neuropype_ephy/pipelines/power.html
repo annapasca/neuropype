@@ -30,6 +30,9 @@
   
 
   
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
     <link rel="top" title="neuropype 0.0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
@@ -126,19 +129,19 @@
 <span class="c"># Authors: Dmitrii Altukhov &lt;dm-altukhov@ya.ru&gt;</span>
 <span class="c">#          Annalisa Pascarella &lt;a.pascarella@iac.cnr.it&gt;</span>
 
-<span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="kn">as</span> <span class="nn">pe</span>
+<span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="k">as</span> <span class="nn">pe</span>
 
-<span class="kn">from</span> <span class="nn">nipype.interfaces.utility</span> <span class="kn">import</span> <span class="n">IdentityInterface</span>
-<span class="kn">from</span> <span class="nn">neuropype_ephy.interfaces.mne.power</span> <span class="kn">import</span> <span class="n">Power</span>
+<span class="kn">from</span> <span class="nn">nipype.interfaces.utility</span> <span class="k">import</span> <span class="n">IdentityInterface</span>
+<span class="kn">from</span> <span class="nn">neuropype_ephy.interfaces.mne.power</span> <span class="k">import</span> <span class="n">Power</span>
 
 
 <div class="viewcode-block" id="create_pipeline_power"><a class="viewcode-back" href="../../../ephypype/neuropype_ephy.pipelines.html#neuropype_ephy.pipelines.power.create_pipeline_power">[docs]</a><span class="k">def</span> <span class="nf">create_pipeline_power</span><span class="p">(</span><span class="n">main_path</span><span class="p">,</span> <span class="n">pipeline_name</span><span class="o">=</span><span class="s">&#39;power&#39;</span><span class="p">,</span>
                           <span class="n">fmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s">&#39;welch&#39;</span><span class="p">,</span>
-                          <span class="n">is_epoched</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+                          <span class="n">is_epoched</span><span class="o">=</span><span class="k">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Description:</span>
 
-<span class="sd">        Wraps functions of MNE to compute PSD of epoch or raw data</span>
+<span class="sd">        Power pipeline: wraps functions of MNE to compute PSD of epoch or raw data</span>
 
 <span class="sd">    Inputs:</span>
 
@@ -160,7 +163,8 @@
 
 <span class="sd">    Inputs (inputnode):</span>
 
-<span class="sd">        * fif_file : raw or epoched meg data in fif format</span>
+<span class="sd">        fif_file : str</span>
+<span class="sd">	    path to raw or epoched meg data in fif format</span>
 
 <span class="sd">    Outputs:</span>
 
@@ -171,7 +175,7 @@
     <span class="n">pipeline</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">pipeline_name</span><span class="p">)</span>
     <span class="n">pipeline</span><span class="o">.</span><span class="n">base_dir</span> <span class="o">=</span> <span class="n">main_path</span>
 
-    <span class="k">print</span> <span class="s">&#39;*** main_path -&gt; </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">main_path</span> <span class="o">+</span> <span class="s">&#39; ***&#39;</span>
+    <span class="nb">print</span> <span class="s">&#39;*** main_path -&gt; %s&#39;</span> <span class="o">%</span> <span class="n">main_path</span> <span class="o">+</span> <span class="s">&#39; ***&#39;</span>
 
     <span class="c"># define the inputs of the pipeline</span>
     <span class="n">inputnode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;fif_file&#39;</span><span class="p">]),</span>

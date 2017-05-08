@@ -30,6 +30,9 @@
   
 
   
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
     <link rel="top" title="neuropype 0.0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
@@ -125,29 +128,29 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="c"># Author: Annalisa Pascarella &lt;a.pascarella@iac.cnr.it&gt;</span>
 
-<span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="kn">as</span> <span class="nn">pe</span>
+<span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="k">as</span> <span class="nn">pe</span>
 
-<span class="kn">from</span> <span class="nn">nipype.interfaces.utility</span> <span class="kn">import</span> <span class="n">IdentityInterface</span>
+<span class="kn">from</span> <span class="nn">nipype.interfaces.utility</span> <span class="k">import</span> <span class="n">IdentityInterface</span>
 
-<span class="kn">from</span> <span class="nn">neuropype_ephy.preproc</span> <span class="kn">import</span> <span class="n">get_raw_info</span><span class="p">,</span> <span class="n">get_epochs_info</span>
-<span class="kn">from</span> <span class="nn">neuropype_ephy.interfaces.mne.LF_computation</span> <span class="kn">import</span> <span class="n">LFComputation</span>
-<span class="kn">from</span> <span class="nn">neuropype_ephy.interfaces.mne.Inverse_solution</span> <span class="kn">import</span> <span class="n">NoiseCovariance</span>
-<span class="kn">from</span> <span class="nn">neuropype_ephy.interfaces.mne.Inverse_solution</span> <span class="kn">import</span> <span class="n">InverseSolution</span>
+<span class="kn">from</span> <span class="nn">neuropype_ephy.preproc</span> <span class="k">import</span> <span class="n">get_raw_info</span><span class="p">,</span> <span class="n">get_epochs_info</span>
+<span class="kn">from</span> <span class="nn">neuropype_ephy.interfaces.mne.LF_computation</span> <span class="k">import</span> <span class="n">LFComputation</span>
+<span class="kn">from</span> <span class="nn">neuropype_ephy.interfaces.mne.Inverse_solution</span> <span class="k">import</span> <span class="n">NoiseCovariance</span>
+<span class="kn">from</span> <span class="nn">neuropype_ephy.interfaces.mne.Inverse_solution</span> <span class="k">import</span> <span class="n">InverseSolution</span>
 
 
 <div class="viewcode-block" id="create_pipeline_source_reconstruction"><a class="viewcode-back" href="../../../ephypype/neuropype_ephy.pipelines.html#neuropype_ephy.pipelines.fif_to_inv_sol.create_pipeline_source_reconstruction">[docs]</a><span class="k">def</span> <span class="nf">create_pipeline_source_reconstruction</span><span class="p">(</span><span class="n">main_path</span><span class="p">,</span> <span class="n">sbj_dir</span><span class="p">,</span>
                                           <span class="n">pipeline_name</span><span class="o">=</span><span class="s">&#39;inv_sol_pipeline&#39;</span><span class="p">,</span>
                                           <span class="n">spacing</span><span class="o">=</span><span class="s">&#39;ico-5&#39;</span><span class="p">,</span>
                                           <span class="n">inv_method</span><span class="o">=</span><span class="s">&#39;MNE&#39;</span><span class="p">,</span>
-                                          <span class="n">is_epoched</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-                                          <span class="n">events_id</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-                                          <span class="n">t_min</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">t_max</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-                                          <span class="n">is_evoked</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                                          <span class="n">is_epoched</span><span class="o">=</span><span class="k">False</span><span class="p">,</span>
+                                          <span class="n">events_id</span><span class="o">=</span><span class="k">None</span><span class="p">,</span>
+                                          <span class="n">t_min</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">t_max</span><span class="o">=</span><span class="k">None</span><span class="p">,</span>
+                                          <span class="n">is_evoked</span><span class="o">=</span><span class="k">False</span><span class="p">,</span>
                                           <span class="n">parc</span><span class="o">=</span><span class="s">&#39;aparc&#39;</span><span class="p">,</span>
-                                          <span class="n">aseg</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                                          <span class="n">aseg</span><span class="o">=</span><span class="k">False</span><span class="p">,</span>
                                           <span class="n">aseg_labels</span><span class="o">=</span><span class="p">[],</span>
-                                          <span class="n">noise_cov_fname</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-                                          <span class="n">save_stc</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+                                          <span class="n">noise_cov_fname</span><span class="o">=</span><span class="k">None</span><span class="p">,</span>
+                                          <span class="n">save_stc</span><span class="o">=</span><span class="k">False</span><span class="p">):</span>
 
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Description:</span>
@@ -192,8 +195,10 @@
 
 <span class="sd">    Inputs (inputnode):</span>
 
-<span class="sd">        * raw : filename of the raw data (fif format)</span>
-<span class="sd">        * sbj_id : subject id</span>
+<span class="sd">        raw : str</span>
+<span class="sd">	    path to raw data in fif format</span>
+<span class="sd">        sbj_id : str</span>
+<span class="sd">	    subject id</span>
 
 <span class="sd">    Outouts:</span>
 
@@ -220,9 +225,9 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="n">events_id</span>
     <span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
-        <span class="n">events_id</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">events_id</span> <span class="o">=</span> <span class="k">None</span>
 
-    <span class="k">if</span> <span class="n">is_epoched</span> <span class="ow">and</span> <span class="n">events_id</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">is_epoched</span> <span class="ow">and</span> <span class="n">events_id</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
         <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;raw&#39;</span><span class="p">,</span> <span class="n">get_epochs_info</span><span class="p">),</span>
                          <span class="n">LF_computation</span><span class="p">,</span> <span class="s">&#39;raw_info&#39;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -253,7 +258,7 @@
     <span class="n">inv_solution</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inv_method</span> <span class="o">=</span> <span class="n">inv_method</span>
     <span class="n">inv_solution</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">is_epoched</span> <span class="o">=</span> <span class="n">is_epoched</span>
 
-    <span class="k">if</span> <span class="n">is_epoched</span> <span class="ow">and</span> <span class="n">events_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">is_epoched</span> <span class="ow">and</span> <span class="n">events_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
         <span class="n">inv_solution</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">events_id</span> <span class="o">=</span> <span class="n">events_id</span>
         <span class="n">inv_solution</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">t_min</span> <span class="o">=</span> <span class="n">t_min</span>
         <span class="n">inv_solution</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">t_max</span> <span class="o">=</span> <span class="n">t_max</span>

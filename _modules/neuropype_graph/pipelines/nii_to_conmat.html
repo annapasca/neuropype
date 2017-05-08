@@ -30,6 +30,9 @@
   
 
   
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
     <link rel="top" title="neuropype 0.0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
@@ -127,17 +130,17 @@
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">time</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="kn">as</span> <span class="nn">sp</span> 
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="k">as</span> <span class="nn">sp</span> 
 
-<span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="kn">as</span> <span class="nn">pe</span>
+<span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="k">as</span> <span class="nn">pe</span>
 
-<span class="kn">import</span> <span class="nn">nipype.interfaces.utility</span>  <span class="kn">as</span> <span class="nn">niu</span>
-<span class="kn">import</span> <span class="nn">nipype.interfaces.spm.utils</span> <span class="kn">as</span> <span class="nn">spmu</span>
+<span class="kn">import</span> <span class="nn">nipype.interfaces.utility</span>  <span class="k">as</span> <span class="nn">niu</span>
+<span class="kn">import</span> <span class="nn">nipype.interfaces.spm.utils</span> <span class="k">as</span> <span class="nn">spmu</span>
 
-<span class="kn">from</span> <span class="nn">neuropype_graph.nodes.correl_mat</span> <span class="kn">import</span> <span class="n">IntersectMask</span><span class="p">,</span><span class="n">ExtractTS</span><span class="p">,</span><span class="n">ExtractMeanTS</span><span class="p">,</span><span class="n">RegressCovar</span><span class="p">,</span><span class="n">FindSPMRegressor</span><span class="p">,</span><span class="n">MergeRuns</span><span class="p">,</span><span class="n">ComputeConfCorMat</span>
+<span class="kn">from</span> <span class="nn">neuropype_graph.nodes.correl_mat</span> <span class="k">import</span> <span class="n">IntersectMask</span><span class="p">,</span><span class="n">ExtractTS</span><span class="p">,</span><span class="n">ExtractMeanTS</span><span class="p">,</span><span class="n">RegressCovar</span><span class="p">,</span><span class="n">FindSPMRegressor</span><span class="p">,</span><span class="n">MergeRuns</span><span class="p">,</span><span class="n">ComputeConfCorMat</span>
 
-<span class="kn">from</span> <span class="nn">neuropype_graph.utils</span> <span class="kn">import</span> <span class="n">show_files</span><span class="p">,</span><span class="n">show_length</span>
+<span class="kn">from</span> <span class="nn">neuropype_graph.utils</span> <span class="k">import</span> <span class="n">show_files</span><span class="p">,</span><span class="n">show_length</span>
 
 <span class="c">#import imp</span>
 
@@ -173,7 +176,7 @@
     <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s">&#39;gm_anat_file&#39;</span><span class="p">,</span> <span class="n">filter_ROI_mask_with_GM</span><span class="p">,</span> <span class="s">&#39;filter_mask_file&#39;</span><span class="p">)</span>
     
     <span class="c">#### Nodes version: use min_BOLD_intensity and return coords where signal is strong enough </span>
-    <span class="n">extract_mean_ROI_ts</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">ExtractTS</span><span class="p">(</span><span class="n">plot_fig</span> <span class="o">=</span> <span class="bp">False</span><span class="p">),</span><span class="n">name</span> <span class="o">=</span> <span class="s">&#39;extract_mean_ROI_ts&#39;</span><span class="p">)</span>
+    <span class="n">extract_mean_ROI_ts</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">ExtractTS</span><span class="p">(</span><span class="n">plot_fig</span> <span class="o">=</span> <span class="k">False</span><span class="p">),</span><span class="n">name</span> <span class="o">=</span> <span class="s">&#39;extract_mean_ROI_ts&#39;</span><span class="p">)</span>
     
     
     <span class="c">#extract_mean_ROI_ts.inputs.indexed_rois_file = ROI_mask_file</span>
@@ -192,7 +195,7 @@
     <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s">&#39;wm_anat_file&#39;</span><span class="p">,</span> <span class="n">reslice_wm</span><span class="p">,</span> <span class="s">&#39;in_file&#39;</span><span class="p">)</span>
     
     <span class="c">#### extract white matter signal</span>
-    <span class="n">compute_wm_ts</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">ExtractMeanTS</span><span class="p">(</span><span class="n">plot_fig</span> <span class="o">=</span> <span class="bp">False</span><span class="p">),</span><span class="n">name</span> <span class="o">=</span> <span class="s">&#39;extract_wm_ts&#39;</span><span class="p">)</span>
+    <span class="n">compute_wm_ts</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">ExtractMeanTS</span><span class="p">(</span><span class="n">plot_fig</span> <span class="o">=</span> <span class="k">False</span><span class="p">),</span><span class="n">name</span> <span class="o">=</span> <span class="s">&#39;extract_wm_ts&#39;</span><span class="p">)</span>
     <span class="n">compute_wm_ts</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">suffix</span> <span class="o">=</span> <span class="s">&#39;wm&#39;</span>
     
     <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span><span class="s">&#39;nii_4D_file&#39;</span><span class="p">,</span> <span class="n">compute_wm_ts</span><span class="p">,</span> <span class="s">&#39;file_4D&#39;</span><span class="p">)</span>
@@ -207,7 +210,7 @@
     
     
     <span class="c">#### extract csf signal</span>
-    <span class="n">compute_csf_ts</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">ExtractMeanTS</span><span class="p">(</span><span class="n">plot_fig</span> <span class="o">=</span> <span class="bp">False</span><span class="p">),</span><span class="n">name</span> <span class="o">=</span> <span class="s">&#39;extract_csf_ts&#39;</span><span class="p">)</span>
+    <span class="n">compute_csf_ts</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">ExtractMeanTS</span><span class="p">(</span><span class="n">plot_fig</span> <span class="o">=</span> <span class="k">False</span><span class="p">),</span><span class="n">name</span> <span class="o">=</span> <span class="s">&#39;extract_csf_ts&#39;</span><span class="p">)</span>
     <span class="n">compute_csf_ts</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">suffix</span> <span class="o">=</span> <span class="s">&#39;csf&#39;</span>
     
     <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span><span class="s">&#39;nii_4D_file&#39;</span><span class="p">,</span> <span class="n">compute_csf_ts</span><span class="p">,</span> <span class="s">&#39;file_4D&#39;</span><span class="p">)</span>
@@ -236,11 +239,11 @@
     <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">regress_covar</span><span class="p">,</span> <span class="s">&#39;resid_ts_file&#39;</span><span class="p">,</span> <span class="n">compute_conf_cor_mat</span><span class="p">,</span> <span class="s">&#39;ts_file&#39;</span><span class="p">)</span>
     <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">filter_ROI_mask_with_GM</span><span class="p">,</span> <span class="s">&#39;filtered_labels_rois_file&#39;</span><span class="p">,</span> <span class="n">compute_conf_cor_mat</span><span class="p">,</span> <span class="s">&#39;labels_file&#39;</span><span class="p">)</span>
     
-    <span class="k">return</span> <span class="n">pipeline</span>
+    <span class="k">return</span> <span class="n">pipeline</span></div>
 
 <span class="c">#ROI_mask_file,ROI_coords_file,ROI_MNI_coords_file,ROI_labels_file,</span>
-</div>
-<div class="viewcode-block" id="create_pipeline_nii_to_weighted_conmat"><a class="viewcode-back" href="../../../graphpype/nii_to_conmat.html#neuropype_graph.pipelines.nii_to_conmat.create_pipeline_nii_to_weighted_conmat">[docs]</a><span class="k">def</span> <span class="nf">create_pipeline_nii_to_weighted_conmat</span><span class="p">(</span><span class="n">main_path</span><span class="p">,</span> <span class="n">pipeline_name</span> <span class="o">=</span> <span class="s">&quot;nii_to_weighted_conmat&quot;</span><span class="p">,</span> <span class="n">concatenated_runs</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">conf_interval_prob</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">mult_regnames</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">spm_reg</span> <span class="o">=</span> <span class="bp">True</span><span class="p">):</span>
+
+<div class="viewcode-block" id="create_pipeline_nii_to_weighted_conmat"><a class="viewcode-back" href="../../../graphpype/nii_to_conmat.html#neuropype_graph.pipelines.nii_to_conmat.create_pipeline_nii_to_weighted_conmat">[docs]</a><span class="k">def</span> <span class="nf">create_pipeline_nii_to_weighted_conmat</span><span class="p">(</span><span class="n">main_path</span><span class="p">,</span> <span class="n">pipeline_name</span> <span class="o">=</span> <span class="s">&quot;nii_to_weighted_conmat&quot;</span><span class="p">,</span> <span class="n">concatenated_runs</span> <span class="o">=</span> <span class="k">True</span><span class="p">,</span> <span class="n">conf_interval_prob</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">mult_regnames</span> <span class="o">=</span> <span class="k">True</span><span class="p">,</span> <span class="n">spm_reg</span> <span class="o">=</span> <span class="k">True</span><span class="p">):</span>
 
 
     <span class="n">pipeline</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">pipeline_name</span><span class="p">)</span>
@@ -253,7 +256,7 @@
         <span class="k">if</span> <span class="n">mult_regnames</span><span class="p">:</span>
                 
             <span class="c">#### extract regressor of interest from SPM.mat</span>
-            <span class="n">extract_cond</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">MapNode</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">FindSPMRegressor</span><span class="p">(</span><span class="n">only_positive_values</span> <span class="o">=</span> <span class="bp">True</span><span class="p">),</span><span class="n">iterfield</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;regressor_name&#39;</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;extract_cond&#39;</span><span class="p">)</span>
+            <span class="n">extract_cond</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">MapNode</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">FindSPMRegressor</span><span class="p">(</span><span class="n">only_positive_values</span> <span class="o">=</span> <span class="k">True</span><span class="p">),</span><span class="n">iterfield</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;regressor_name&#39;</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;extract_cond&#39;</span><span class="p">)</span>
             
             <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;spm_mat_file&#39;</span><span class="p">,</span><span class="n">show_files</span><span class="p">),</span> <span class="n">extract_cond</span><span class="p">,</span> <span class="s">&#39;spm_mat_file&#39;</span><span class="p">)</span>
             <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s">&#39;regress_names&#39;</span><span class="p">,</span> <span class="n">extract_cond</span><span class="p">,</span> <span class="s">&#39;regressor_name&#39;</span><span class="p">)</span>
@@ -278,7 +281,7 @@
         <span class="k">else</span><span class="p">:</span>
             
             <span class="c">#### extract regressor of interest from SPM.mat</span>
-            <span class="n">extract_cond</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">FindSPMRegressor</span><span class="p">(</span><span class="n">only_positive_values</span> <span class="o">=</span> <span class="bp">True</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;extract_cond&#39;</span><span class="p">)</span>
+            <span class="n">extract_cond</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">FindSPMRegressor</span><span class="p">(</span><span class="n">only_positive_values</span> <span class="o">=</span> <span class="k">True</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;extract_cond&#39;</span><span class="p">)</span>
             
             <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s">&#39;spm_mat_file&#39;</span><span class="p">,</span> <span class="n">extract_cond</span><span class="p">,</span> <span class="s">&#39;spm_mat_file&#39;</span><span class="p">)</span>
             <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s">&#39;regress_names&#39;</span><span class="p">,</span> <span class="n">extract_cond</span><span class="p">,</span> <span class="s">&#39;regressor_name&#39;</span><span class="p">)</span>

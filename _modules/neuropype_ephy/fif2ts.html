@@ -30,6 +30,9 @@
   
 
   
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
     <link rel="top" title="neuropype 0.0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
@@ -122,28 +125,29 @@
   <h1>Source code for neuropype_ephy.fif2ts</h1><div class="highlight"><pre>
 <span class="sd">&quot;&quot;&quot; fif convertors &quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">neuropype_ephy.aux_tools</span> <span class="kn">import</span> <span class="n">nostdout</span>
+<span class="kn">from</span> <span class="nn">neuropype_ephy.aux_tools</span> <span class="k">import</span> <span class="n">nostdout</span>
 
 <div class="viewcode-block" id="ep2ts"><a class="viewcode-back" href="../../ephypype/neuropype_ephy.html#neuropype_ephy.fif2ts.ep2ts">[docs]</a><span class="k">def</span> <span class="nf">ep2ts</span><span class="p">(</span><span class="n">fif_file</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Read fif file with raw data or epochs and save</span>
 <span class="sd">    timeseries to .npy</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">mne</span> <span class="kn">import</span> <span class="n">read_epochs</span>
-    <span class="kn">from</span> <span class="nn">mne</span> <span class="kn">import</span> <span class="n">pick_types</span>
+    <span class="kn">from</span> <span class="nn">mne</span> <span class="k">import</span> <span class="n">read_epochs</span>
+    <span class="kn">from</span> <span class="nn">mne</span> <span class="k">import</span> <span class="n">pick_types</span>
 
-    <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">save</span>
-    <span class="kn">import</span> <span class="nn">os.path</span> <span class="kn">as</span> <span class="nn">op</span>
+    <span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">save</span>
+    <span class="kn">import</span> <span class="nn">os.path</span> <span class="k">as</span> <span class="nn">op</span>
 
     <span class="k">with</span> <span class="n">nostdout</span><span class="p">():</span>
         <span class="n">epochs</span> <span class="o">=</span> <span class="n">read_epochs</span><span class="p">(</span><span class="n">fif_file</span><span class="p">)</span>
 
-    <span class="n">epochs_meg</span> <span class="o">=</span> <span class="n">epochs</span><span class="o">.</span><span class="n">pick_types</span><span class="p">(</span><span class="n">meg</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">eeg</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">eog</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">ecg</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">epochs_meg</span> <span class="o">=</span> <span class="n">epochs</span><span class="o">.</span><span class="n">pick_types</span><span class="p">(</span><span class="n">meg</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">eeg</span><span class="o">=</span><span class="k">False</span><span class="p">,</span> <span class="n">eog</span><span class="o">=</span><span class="k">False</span><span class="p">,</span> <span class="n">ecg</span><span class="o">=</span><span class="k">False</span><span class="p">)</span>
 
     <span class="n">data</span> <span class="o">=</span> <span class="n">epochs_meg</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
     <span class="n">save_path</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;ts_epochs.npy&#39;</span><span class="p">)</span>
     <span class="n">save</span><span class="p">(</span><span class="n">save_path</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">save_path</span>
-</pre></div></div>
+    <span class="k">return</span> <span class="n">save_path</span></div>
+
+</pre></div>
 
           </div>
           <footer>

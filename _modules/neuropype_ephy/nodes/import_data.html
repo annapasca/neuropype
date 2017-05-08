@@ -30,6 +30,9 @@
   
 
   
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
     <link rel="top" title="neuropype 0.0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
@@ -129,34 +132,34 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">os</span>
 
-<span class="kn">from</span> <span class="nn">nipype.interfaces.base</span> <span class="kn">import</span> <span class="n">BaseInterface</span><span class="p">,</span>\
+<span class="kn">from</span> <span class="nn">nipype.interfaces.base</span> <span class="k">import</span> <span class="n">BaseInterface</span><span class="p">,</span>\
     <span class="n">BaseInterfaceInputSpec</span><span class="p">,</span> <span class="n">traits</span><span class="p">,</span> <span class="n">TraitedSpec</span><span class="p">,</span> <span class="n">isdefined</span>
 
-<span class="kn">from</span> <span class="nn">nipype.interfaces.base</span> <span class="kn">import</span> <span class="n">File</span>
+<span class="kn">from</span> <span class="nn">nipype.interfaces.base</span> <span class="k">import</span> <span class="n">File</span>
 
 
 <span class="c"># ----------------- ImportMat ----------------------------- #</span>
 <div class="viewcode-block" id="ImportMatInputSpec"><a class="viewcode-back" href="../../../ephypype/neuropype_ephy.nodes.html#neuropype_ephy.nodes.import_data.ImportMatInputSpec">[docs]</a><span class="k">class</span> <span class="nc">ImportMatInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Input specification for ImportMat&quot;&quot;&quot;</span>
-    <span class="n">tsmat_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">tsmat_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
                              <span class="n">desc</span><span class="o">=</span><span class="s">&#39;time series in .mat (matlab format)&#39;</span><span class="p">,</span>
-                             <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                             <span class="n">mandatory</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
 
     <span class="n">data_field_name</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="s">&#39;F&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Name of structure in matlab&#39;</span><span class="p">,</span>
-                                    <span class="n">usedefault</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                                    <span class="n">usedefault</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
 
     <span class="n">good_channels_field_name</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="s">&#39;ChannelFlag&#39;</span><span class="p">,</span>
                                              <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Boolean structure for</span><span class="se">\</span>
 <span class="s">                                                   choosing nodes, name of</span><span class="se">\</span>
-<span class="s">                                                   structure in matlab file&#39;</span><span class="p">)</span>
+<span class="s">                                                   structure in matlab file&#39;</span><span class="p">)</span></div>
 
-</div>
+
 <div class="viewcode-block" id="ImportMatOutputSpec"><a class="viewcode-back" href="../../../ephypype/neuropype_ephy.nodes.html#neuropype_ephy.nodes.import_data.ImportMatOutputSpec">[docs]</a><span class="k">class</span> <span class="nc">ImportMatOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Output spec for Import Mat&quot;&quot;&quot;</span>
 
-    <span class="n">ts_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&quot;time series in .npy format&quot;</span><span class="p">)</span>
+    <span class="n">ts_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&quot;time series in .npy format&quot;</span><span class="p">)</span></div>
 
-</div>
+
 <div class="viewcode-block" id="ImportMat"><a class="viewcode-back" href="../../../ephypype/neuropype_ephy.nodes.html#neuropype_ephy.nodes.import_data.ImportMat">[docs]</a><span class="k">class</span> <span class="nc">ImportMat</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
 
     <span class="sd">&quot;&quot;&quot;</span>
@@ -191,7 +194,7 @@
 
     <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
 
-        <span class="kn">from</span> <span class="nn">neuropype_ephy.import_mat</span> <span class="kn">import</span> <span class="n">import_tsmat_to_ts</span>
+        <span class="kn">from</span> <span class="nn">neuropype_ephy.import_mat</span> <span class="k">import</span> <span class="n">import_tsmat_to_ts</span>
 
         <span class="n">tsmat_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">tsmat_file</span>
 
@@ -200,7 +203,7 @@
         <span class="n">good_channels_field_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">good_channels_field_name</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">isdefined</span><span class="p">(</span><span class="n">good_channels_field_name</span><span class="p">):</span>
-            <span class="n">good_channels_field_name</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="n">good_channels_field_name</span> <span class="o">=</span> <span class="k">None</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">ts_file</span> <span class="o">=</span> <span class="n">import_tsmat_to_ts</span><span class="p">(</span><span class="n">tsmat_file</span><span class="p">,</span> <span class="n">data_field_name</span><span class="p">,</span> <span class="n">good_channels_field_name</span><span class="p">)</span>
 
@@ -212,39 +215,39 @@
 
         <span class="n">outputs</span><span class="p">[</span><span class="s">&#39;ts_file&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ts_file</span>
 
-        <span class="k">return</span> <span class="n">outputs</span>
+        <span class="k">return</span> <span class="n">outputs</span></div>
 
 
-<span class="c"># ------------ ImportBrainVisionAscii --------------------- #</span></div>
+<span class="c"># ------------ ImportBrainVisionAscii --------------------- #</span>
 <span class="k">class</span> <span class="nc">ImportBrainVisionAsciiInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
 
-    <span class="n">txt_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">txt_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
                     <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Ascii text file exported from BrainVision&#39;</span><span class="p">,</span>
-                    <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                    <span class="n">mandatory</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
 
     <span class="n">sample_size</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;Size (number of time points) of all samples&#39;</span><span class="p">,</span>
-                               <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                               <span class="n">mandatory</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
 
     <span class="n">sep_label_name</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">,</span>
                                    <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Separator between electrode name </span><span class="se">\</span>
 <span class="s">                                         (normally a capital letter) and contact numbers&#39;</span><span class="p">,</span>
-                                   <span class="n">usedefault</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                                   <span class="n">usedefault</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
 
-    <span class="n">repair</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Bool</span><span class="p">(</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">repair</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Bool</span><span class="p">(</span><span class="k">True</span><span class="p">,</span>
                          <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Repair file if behaves strangely (adding space sometimes...)&#39;</span><span class="p">,</span>
-                         <span class="n">usedefault</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                         <span class="n">usedefault</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
 
-    <span class="n">sep</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="s">&quot;;&quot;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&quot;Separator between time points&quot;</span><span class="p">,</span> <span class="n">usedefault</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">sep</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="s">&quot;;&quot;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&quot;Separator between time points&quot;</span><span class="p">,</span> <span class="n">usedefault</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="ImportBrainVisionAsciiOutputSpec"><a class="viewcode-back" href="../../../ephypype/neuropype_ephy.nodes.html#neuropype_ephy.nodes.import_data.ImportBrainVisionAsciiOutputSpec">[docs]</a><span class="k">class</span> <span class="nc">ImportBrainVisionAsciiOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Output specification for ImportBrainVisionAscii&quot;&quot;&quot;</span>
 
-    <span class="n">splitted_ts_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;splitted time series in .npy format&#39;</span><span class="p">)</span>
+    <span class="n">splitted_ts_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;splitted time series in .npy format&#39;</span><span class="p">)</span>
 
-    <span class="n">elec_names_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;electrode names in txt format&#39;</span><span class="p">)</span>
+    <span class="n">elec_names_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;electrode names in txt format&#39;</span><span class="p">)</span></div>
 
-</div>
+
 <div class="viewcode-block" id="ImportBrainVisionAscii"><a class="viewcode-back" href="../../../ephypype/neuropype_ephy.nodes.html#neuropype_ephy.nodes.import_data.ImportBrainVisionAscii">[docs]</a><span class="k">class</span> <span class="nc">ImportBrainVisionAscii</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
 
     <span class="sd">&quot;&quot;&quot;</span>
@@ -287,7 +290,7 @@
 
     <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
 
-        <span class="kn">from</span> <span class="nn">neuropype_ephy.import_txt</span> <span class="kn">import</span> <span class="n">split_txt</span>
+        <span class="kn">from</span> <span class="nn">neuropype_ephy.import_txt</span> <span class="k">import</span> <span class="n">split_txt</span>
 
         <span class="n">txt_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">txt_file</span>
 
@@ -312,19 +315,19 @@
 
         <span class="n">outputs</span><span class="p">[</span><span class="s">&#39;splitted_ts_file&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;uplitted_ts.npy&#39;</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">outputs</span>
+        <span class="k">return</span> <span class="n">outputs</span></div>
 
-</div>
+
 <div class="viewcode-block" id="Ep2tsInputSpec"><a class="viewcode-back" href="../../../ephypype/neuropype_ephy.nodes.html#neuropype_ephy.nodes.import_data.Ep2tsInputSpec">[docs]</a><span class="k">class</span> <span class="nc">Ep2tsInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Input specification for Ep2ts&quot;&quot;&quot;</span>
-    <span class="n">fif_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;fif file with epochs&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">fif_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;fif file with epochs&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="k">True</span><span class="p">)</span></div>
 
-</div>
+
 <div class="viewcode-block" id="Ep2tsOutputSpec"><a class="viewcode-back" href="../../../ephypype/neuropype_ephy.nodes.html#neuropype_ephy.nodes.import_data.Ep2tsOutputSpec">[docs]</a><span class="k">class</span> <span class="nc">Ep2tsOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39; Output specification for Ep2ts &#39;&#39;&#39;</span>
-    <span class="n">ts_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&quot;time series in .npy format&quot;</span><span class="p">)</span>
+    <span class="n">ts_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&quot;time series in .npy format&quot;</span><span class="p">)</span></div>
 
-</div>
+
 <div class="viewcode-block" id="Ep2ts"><a class="viewcode-back" href="../../../ephypype/neuropype_ephy.nodes.html#neuropype_ephy.nodes.import_data.Ep2ts">[docs]</a><span class="k">class</span> <span class="nc">Ep2ts</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
 
     <span class="sd">&quot;&quot;&quot;</span>
@@ -343,7 +346,7 @@
 
     <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
 
-        <span class="kn">from</span> <span class="nn">neuropype_ephy.fif2ts</span> <span class="kn">import</span> <span class="n">ep2ts</span>
+        <span class="kn">from</span> <span class="nn">neuropype_ephy.fif2ts</span> <span class="k">import</span> <span class="n">ep2ts</span>
 
         <span class="n">fif_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fif_file</span>
 
@@ -357,22 +360,22 @@
 
         <span class="n">outputs</span><span class="p">[</span><span class="s">&#39;ts_file&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ts_file</span>
 
-        <span class="k">return</span> <span class="n">outputs</span>
+        <span class="k">return</span> <span class="n">outputs</span></div>
 
-</div>
+
 <div class="viewcode-block" id="ConvertDs2FifInputSpec"><a class="viewcode-back" href="../../../ephypype/neuropype_ephy.nodes.html#neuropype_ephy.nodes.import_data.ConvertDs2FifInputSpec">[docs]</a><span class="k">class</span> <span class="nc">ConvertDs2FifInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Input specification for ImportMat&quot;&quot;&quot;</span>
-    <span class="n">ds_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Directory</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">ds_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Directory</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
                           <span class="n">desc</span><span class="o">=</span><span class="s">&#39;raw .ds file&#39;</span><span class="p">,</span>
-                          <span class="n">mandatory</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                          <span class="n">mandatory</span><span class="o">=</span><span class="k">True</span><span class="p">)</span></div>
 
-</div>
+
 <div class="viewcode-block" id="ConvertDs2FifOutputSpec"><a class="viewcode-back" href="../../../ephypype/neuropype_ephy.nodes.html#neuropype_ephy.nodes.import_data.ConvertDs2FifOutputSpec">[docs]</a><span class="k">class</span> <span class="nc">ConvertDs2FifOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39; Output spec for Import Mat &#39;&#39;&#39;</span>
 
-    <span class="n">fif_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;raw .fif file&#39;</span><span class="p">)</span>
+    <span class="n">fif_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;raw .fif file&#39;</span><span class="p">)</span></div>
 
-</div>
+
 <div class="viewcode-block" id="ConvertDs2Fif"><a class="viewcode-back" href="../../../ephypype/neuropype_ephy.nodes.html#neuropype_ephy.nodes.import_data.ConvertDs2Fif">[docs]</a><span class="k">class</span> <span class="nc">ConvertDs2Fif</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
 
     <span class="sd">&quot;&quot;&quot;</span>
@@ -388,7 +391,7 @@
 
     <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
 
-        <span class="kn">from</span> <span class="nn">neuropype_ephy.import_ctf</span> <span class="kn">import</span> <span class="n">convert_ds_to_raw_fif</span>
+        <span class="kn">from</span> <span class="nn">neuropype_ephy.import_ctf</span> <span class="k">import</span> <span class="n">convert_ds_to_raw_fif</span>
 
         <span class="n">ds_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">ds_file</span>
 

@@ -30,6 +30,9 @@
   
 
   
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="neuropype 0.0 documentation" href="../index.html"/>
         <link rel="next" title="Preprocessing pipeline" href="pipelines/preproc_meeg.html"/>
         <link rel="prev" title="NeuroPype documentation" href="../index.html"/> 
@@ -64,7 +67,7 @@
           
           
               <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="">neuropype_ephy</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">neuropype_ephy</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#pipelines">Pipelines</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
 </ul>
@@ -112,7 +115,7 @@
     <li>neuropype_ephy</li>
       <li class="wy-breadcrumbs-aside">
         
-          <a href="../_sources/ephypype/neuropype_ephy.txt" rel="nofollow"> View page source</a>
+          <a href="../_sources/ephypype/neuropype_ephy.rst.txt" rel="nofollow"> View page source</a>
         
       </li>
   </ul>
@@ -130,12 +133,12 @@ Current implementations allow for</p>
 <li>MEG/EEG data pre-processing and cleaning by an automatic removal of eyes and heart related artifacts</li>
 <li>sensor or source-level connectivity analyses</li>
 </ul>
-<p>The neuropype_ephy package provides the main pipelines in the <a class="reference internal" href="neuropype_ephy.pipelines.html#pipelines"><span>neuropype_ephy.pipelines package</span></a>:</p>
+<p>The neuropype_ephy package provides the main pipelines in the <a class="reference internal" href="neuropype_ephy.pipelines.html#pipelines"><span class="std std-ref">neuropype_ephy.pipelines package</span></a>:</p>
 <ul class="simple">
-<li>the <a class="reference internal" href="pipelines/preproc_meeg.html#preproc-meeg"><span>Preprocessing pipeline</span></a> runs the ICA algorithm for an automatic removal of eyes and heart related artefacts</li>
-<li>the <a class="reference internal" href="pipelines/power.html#power"><span>Power pipeline</span></a> computes the power spectral density (PSD) on sensor space</li>
-<li>the <a class="reference internal" href="pipelines/source_reconstruction.html#source-reconstruction"><span>Source reconstruction pipeline</span></a> computes the inverse solution starting from raw/epoched data</li>
-<li>the <a class="reference internal" href="pipelines/spectral_connectivity.html#spectral-connectivity"><span>Connectivity pipeline</span></a> perform connectivity analysis in sensor or source space</li>
+<li>the <a class="reference internal" href="pipelines/preproc_meeg.html#preproc-meeg"><span class="std std-ref">Preprocessing pipeline</span></a> runs the ICA algorithm for an automatic removal of eyes and heart related artefacts</li>
+<li>the <a class="reference internal" href="pipelines/power.html#power"><span class="std std-ref">Power pipeline</span></a> computes the power spectral density (PSD) on sensor space</li>
+<li>the <a class="reference internal" href="pipelines/source_reconstruction.html#source-reconstruction"><span class="std std-ref">Source reconstruction pipeline</span></a> computes the inverse solution starting from raw/epoched data</li>
+<li>the <a class="reference internal" href="pipelines/spectral_connectivity.html#spectral-connectivity"><span class="std std-ref">Connectivity pipeline</span></a> perform connectivity analysis in sensor or source space</li>
 </ul>
 <div class="section" id="pipelines">
 <h2>Pipelines<a class="headerlink" href="#pipelines" title="Permalink to this headline">¶</a></h2>
@@ -379,6 +382,34 @@ length ep_length with rejection criteria</p>
 <dt id="neuropype_ephy.preproc.create_events">
 <code class="descclassname">neuropype_ephy.preproc.</code><code class="descname">create_events</code><span class="sig-paren">(</span><em>raw</em>, <em>epoch_length</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/preproc.html#create_events"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.preproc.create_events" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create events to split raw into epochs</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="neuropype_ephy.preproc.create_ts">
+<code class="descclassname">neuropype_ephy.preproc.</code><code class="descname">create_ts</code><span class="sig-paren">(</span><em>raw_fname</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/preproc.html#create_ts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.preproc.create_ts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description:</p>
+<blockquote>
+<div>Read a raw data in <strong>.fif</strong> format</div></blockquote>
+<p>Inputs:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>raw_fname <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>pathname of the raw data to read</dd>
+</dl>
+</div></blockquote>
+<p>Outputs:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>ts_file <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>pathname of the numpy file (.npy) containing the data read from raw_fname</dd>
+<dt>channel_coords_file <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>pathname of .txt file containing the channels coordinates</dd>
+<dt>channel_names_file <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>pathname of .txt file containing the channels labels</dd>
+<dt>sfreq <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>sampling frequency</dd>
+</dl>
+</div></blockquote>
 </dd></dl>
 
 <dl class="function">

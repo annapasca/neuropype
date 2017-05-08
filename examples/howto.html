@@ -30,6 +30,9 @@
   
 
   
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="neuropype 0.0 documentation" href="../index.html"/>
         <link rel="up" title="Examples" href="examples.html"/>
         <link rel="next" title="params file" href="params.html"/>
@@ -79,7 +82,7 @@
 <li class="toctree-l2"><a class="reference internal" href="power_example.html">PSD Workflow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="conn_graph_example.html">Spectral connectivity and graph Workflow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="inv_example.html">Source reconstruction Workflow</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="">How to build a Workflow</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">How to build a Workflow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples.html#scripts">Scripts</a></li>
 </ul>
 </li>
@@ -115,7 +118,7 @@
     <li>How to build a Workflow</li>
       <li class="wy-breadcrumbs-aside">
         
-          <a href="../_sources/examples/howto.txt" rel="nofollow"> View page source</a>
+          <a href="../_sources/examples/howto.rst.txt" rel="nofollow"> View page source</a>
         
       </li>
   </ul>
@@ -127,7 +130,7 @@
 <span id="howto"></span><h1>How to build a Workflow<a class="headerlink" href="#how-to-build-a-workflow" title="Permalink to this headline">¶</a></h1>
 <p>The following section is a brief introduction on how to build a Workflow by using NeuroPype package.
 This example script allows to construct a Workflow to perform spectral connectivity and graph analysis in sensor space
-(see <a class="reference internal" href="../ephypype/pipelines/spectral_connectivity.html#spectral-connectivity"><span>Connectivity pipeline</span></a> Section).</p>
+(see <a class="reference internal" href="../ephypype/pipelines/spectral_connectivity.html#spectral-connectivity"><span class="std std-ref">Connectivity pipeline</span></a> Section).</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">This section is based on the <a href="http://miykael.github.io/nipype-beginner-s-guide/firstSteps.html" target="_blank">Nipype Beginner's Guide</a></p>
@@ -136,7 +139,7 @@ This example script allows to construct a Workflow to perform spectral connectiv
 <h2>Main steps<a class="headerlink" href="#main-steps" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><strong>Import modules</strong>: the first step in any script is to import necessary functions or modules</li>
-<li><strong>Define variables</strong>: the definition of variables we use in the script can be put in a separate file (see <a class="reference internal" href="params.html#params"><span>params file</span></a> for a list of all possible variables)</li>
+<li><strong>Define variables</strong>: the definition of variables we use in the script can be put in a separate file (see <a class="reference internal" href="params.html#params"><span class="std std-ref">params file</span></a> for a list of all possible variables)</li>
 <li><strong>Specify Nodes</strong>: before to build a Workflow, we have to create some Nodes. A Node could be itself a pipeline</li>
 <li><strong>Specify Workflows and Connect Nodes</strong>: to set the order in which to execute the just created Nodes, we have to create a Workflow and specify the connections between the Nodes;
 in this way the Workflow will be executed in a sequential mode</li>
@@ -144,41 +147,41 @@ in this way the Workflow will be executed in a sequential mode</li>
 <li><strong>Run Workflow</strong>: as last step we can run the Workflow!</li>
 </ul>
 <div class="section" id="import-modules">
-<h3>Import modules<a class="headerlink" href="#import-modules" title="Permalink to this headline">¶</a></h3>
+<span id="modules"></span><h3>Import modules<a class="headerlink" href="#import-modules" title="Permalink to this headline">¶</a></h3>
 <p>The first thing is to import the modules we need in the script. We import from nipype and neuropype packages.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="kn">as</span> <span class="nn">pe</span>
-<span class="kn">import</span> <span class="nn">nipype.interfaces.io</span> <span class="kn">as</span> <span class="nn">nio</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="k">as</span> <span class="nn">pe</span>
+<span class="kn">import</span> <span class="nn">nipype.interfaces.io</span> <span class="k">as</span> <span class="nn">nio</span>
 
-<span class="kn">from</span> <span class="nn">nipype.interfaces.utility</span> <span class="kn">import</span> <span class="n">IdentityInterface</span><span class="p">,</span> <span class="n">Function</span>
+<span class="kn">from</span> <span class="nn">nipype.interfaces.utility</span> <span class="k">import</span> <span class="n">IdentityInterface</span><span class="p">,</span> <span class="n">Function</span>
 
-<span class="kn">from</span> <span class="nn">neuropype_ephy.preproc</span> <span class="kn">import</span> <span class="n">create_ts</span>
-<span class="kn">from</span> <span class="nn">neuropype_ephy.pipelines.ts_to_conmat</span> <span class="kn">import</span> <span class="n">create_pipeline_time_series_to_spectral_connectivity</span>
+<span class="kn">from</span> <span class="nn">neuropype_ephy.preproc</span> <span class="k">import</span> <span class="n">create_ts</span>
+<span class="kn">from</span> <span class="nn">neuropype_ephy.pipelines.ts_to_conmat</span> <span class="k">import</span> <span class="n">create_pipeline_time_series_to_spectral_connectivity</span>
 
-<span class="kn">from</span> <span class="nn">neuropype_graph.pipelines.conmat_to_graph</span> <span class="kn">import</span> <span class="n">create_pipeline_conmat_to_graph_density</span>
+<span class="kn">from</span> <span class="nn">neuropype_graph.pipelines.conmat_to_graph</span> <span class="k">import</span> <span class="n">create_pipeline_conmat_to_graph_density</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="define-variables">
-<h3>Define variables<a class="headerlink" href="#define-variables" title="Permalink to this headline">¶</a></h3>
+<span id="variables"></span><h3>Define variables<a class="headerlink" href="#define-variables" title="Permalink to this headline">¶</a></h3>
 <p>We have to specify some variables that are specific for the data analysis (the main directories where the data are stored,
 the list of subjects and sessions, ...) and the pipelines we use (connectivity measure, frequency band of interest, ...)
-We can put all these variables in a separate file <code class="docutils literal"><span class="pre">params_congraph.py</span></code> (see below to download the file).</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">params_congraph</span> <span class="kn">import</span> <span class="n">main_path</span><span class="p">,</span> <span class="n">data_path</span><span class="p">,</span> <span class="n">subject_ids</span><span class="p">,</span> <span class="n">sessions</span>
-<span class="kn">from</span> <span class="nn">params_congraph</span> <span class="kn">import</span> <span class="n">freq_band_names</span><span class="p">,</span> <span class="n">con_method</span>
-<span class="kn">from</span> <span class="nn">params_congraph</span> <span class="kn">import</span> <span class="n">correl_analysis_name</span><span class="p">,</span> <span class="n">epoch_window_length</span>
-<span class="kn">from</span> <span class="nn">params_congraph</span> <span class="kn">import</span> <span class="n">mod</span><span class="p">,</span> <span class="n">con_den</span>
+We can put all these variables in a separate file <a class="reference download internal" href="../_downloads/params_congraph.py" download=""><code class="xref download docutils literal"><span class="pre">params_congraph.py</span></code></a>.</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">params_congraph</span> <span class="k">import</span> <span class="n">main_path</span><span class="p">,</span> <span class="n">data_path</span><span class="p">,</span> <span class="n">subject_ids</span><span class="p">,</span> <span class="n">sessions</span>
+<span class="kn">from</span> <span class="nn">params_congraph</span> <span class="k">import</span> <span class="n">freq_band_names</span><span class="p">,</span> <span class="n">con_method</span>
+<span class="kn">from</span> <span class="nn">params_congraph</span> <span class="k">import</span> <span class="n">correl_analysis_name</span><span class="p">,</span> <span class="n">epoch_window_length</span>
+<span class="kn">from</span> <span class="nn">params_congraph</span> <span class="k">import</span> <span class="n">mod</span><span class="p">,</span> <span class="n">con_den</span>
 
 <span class="k">if</span> <span class="n">mod</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">params_congraph</span> <span class="kn">import</span> <span class="n">radatools_optim</span>
+    <span class="kn">from</span> <span class="nn">params_congraph</span> <span class="k">import</span> <span class="n">radatools_optim</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">get_freq_band</span><span class="p">(</span><span class="n">freq_band_name</span><span class="p">):</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="k">def</span> <span class="nf">get_freq_band</span><span class="p">(</span><span class="n">freq_band_name</span><span class="p">):</span>
 
-    <span class="kn">from</span> <span class="nn">params_congraph</span> <span class="kn">import</span> <span class="n">freq_band_names</span><span class="p">,</span> <span class="n">freq_bands</span>
+    <span class="kn">from</span> <span class="nn">params_congraph</span> <span class="k">import</span> <span class="n">freq_band_names</span><span class="p">,</span> <span class="n">freq_bands</span>
 
     <span class="k">if</span> <span class="n">freq_band_name</span> <span class="ow">in</span> <span class="n">freq_band_names</span><span class="p">:</span>
-        <span class="k">print</span> <span class="n">freq_band_name</span>
-        <span class="k">print</span> <span class="n">freq_band_names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">freq_band_name</span><span class="p">)</span>
+        <span class="nb">print</span> <span class="n">freq_band_name</span>
+        <span class="nb">print</span> <span class="n">freq_band_names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">freq_band_name</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">freq_bands</span><span class="p">[</span><span class="n">freq_band_names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">freq_band_name</span><span class="p">)]</span>
 </pre></div>
@@ -187,23 +190,45 @@ We can put all these variables in a separate file <code class="docutils literal"
 <div class="section" id="specify-nodes">
 <h3>Specify Nodes<a class="headerlink" href="#specify-nodes" title="Permalink to this headline">¶</a></h3>
 <p>Before to create a Workflow we have to create the Nodes that define the workflow itself. A Node is an object that can encapsulate
-either an Interface to an external tool or a function defined by the user. A Node can also encapsulate an another pipeline.
-Every node has always at least one input and one output field: this existent of those fields allow Nipype to connect different nodes
-to each other and therefore define the stream of input and output between the nodes.
+either an <strong>Interface</strong> to an external tool or a <strong>function</strong> defined by the user. A Node can also encapsulate an another <strong>pipeline</strong>.</p>
+<p>Every Node has always at least one input and one output field: the knowledge of these inputs and outputs allows to connect the different Nodes
+and define the stream of input and output between them.
 In this example the main Nodes are</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">create_ts</span></code> : read the raw data input and returns the sensors locations and labels file</li>
-<li><code class="docutils literal"><span class="pre">ts_to_conmat</span></code></li>
-<li><code class="docutils literal"><span class="pre">graph_den_pipe_den_0_05</span></code></li>
+<li><code class="docutils literal"><span class="pre">datasource</span></code> is a DataGrabber Node that allows the user to define flexible search patterns which can be parameterized by user defined inputs (see <a class="reference internal" href="#datagrabber"><span class="std std-ref">DataGrabber Input</span></a>)</li>
+<li><a class="reference internal" href="../ephypype/neuropype_ephy.html#neuropype_ephy.preproc.create_ts" title="neuropype_ephy.preproc.create_ts"><code class="xref py py-func docutils literal"><span class="pre">create_ts</span></code></a> : reads a raw data file and save in different files the data matrix, the sensors locations and the sensors labels</li>
+<li><code class="docutils literal"><span class="pre">ts_to_conmat</span></code> is a Node containing the connectivity pipeline created by <a class="reference internal" href="../ephypype/neuropype_ephy.pipelines.html#neuropype_ephy.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity" title="neuropype_ephy.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity"><code class="xref py py-func docutils literal"><span class="pre">create_pipeline_time_series_to_spectral_connectivity</span></code></a> (see <a class="reference internal" href="#inputnode"><span class="std std-ref">Pipeline Input</span></a>)</li>
+<li><code class="docutils literal"><span class="pre">graph_den_pipe_den_0_05</span></code> is a Node containing the pipeline from connectivity matrices to graph analysis created by <a href="http://davidmeunier79.github.io/neuropype_graph/conmat_to_graph.html#create-pipeline-conmat-to-graph-density" target="_blank">create_pipeline_conmat_to_graph_density</a> (see <a class="reference internal" href="#inputnode"><span class="std std-ref">Pipeline Input</span></a>)</li>
 </ul>
+<div class="section" id="pipeline-input">
+<span id="inputnode"></span><h4>Pipeline Input<a class="headerlink" href="#pipeline-input" title="Permalink to this headline">¶</a></h4>
+<p>Each pipeline provided by NeuroPype requires two different kind of inputs:</p>
+<ul class="simple">
+<li>inputs of module</li>
+<li><strong>inputnode</strong>: these particular inputs are defined after the creation of the pipeline and can be either directly specified or defined as output of a previous Node</li>
+</ul>
+<p>For example, looking at the definition of <a class="reference internal" href="../ephypype/neuropype_ephy.pipelines.html#neuropype_ephy.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity" title="neuropype_ephy.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity"><code class="xref py py-func docutils literal"><span class="pre">create_pipeline_time_series_to_spectral_connectivity</span></code></a> module
+<code class="docutils literal"><span class="pre">main_path</span></code> and <code class="docutils literal"><span class="pre">con_method</span></code> are inputs of the module
+while <code class="docutils literal"><span class="pre">is_sensor_space</span></code> and <code class="docutils literal"><span class="pre">ts_file</span></code> are inputnode and can be specified as</p>
+<p><code class="docutils literal"><span class="pre">spectral_workflow.inputs.inputnode.is_sensor_space</span> <span class="pre">=</span> <span class="pre">True</span></code>
+<code class="docutils literal"><span class="pre">main_workflow.connect(create_ts_node,</span> <span class="pre">'ts_file',</span> <span class="pre">spectral_workflow,</span> <span class="pre">'inputnode.ts_file')</span></code></p>
+</div>
+<div class="section" id="datagrabber-input">
+<span id="datagrabber"></span><h4>DataGrabber Input<a class="headerlink" href="#datagrabber-input" title="Permalink to this headline">¶</a></h4>
 <p>The <code class="docutils literal"><span class="pre">DataGrabber</span> <span class="pre">Interface</span></code> allows the user to define flexible search patterns which can be parameterized by user
 defined inputs (such as subject ID, session, etc.).
-In this example we parameterize the pattern search with <code class="docutils literal"><span class="pre">subject_id</span></code> and <code class="docutils literal"><span class="pre">sess_index</span></code>.
-To run the Workflow for different subjects ans sessions we have to iterate over a list of subject IDs
-and session names by setting the iterables property of the DataGrabber Node for the inputs <code class="docutils literal"><span class="pre">subject_id</span></code> and <code class="docutils literal"><span class="pre">sess_index</span></code>.
-In our example this is performed by connecting the inputs of <code class="docutils literal"><span class="pre">datasource</span></code> Node (<code class="docutils literal"><span class="pre">subject_id</span></code> and <code class="docutils literal"><span class="pre">sess_index</span></code>) to the iterables inputs of
-<code class="docutils literal"><span class="pre">infosource</span></code> Node.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">create_infosource</span><span class="p">():</span>
+In this example we parameterize the pattern search with <code class="docutils literal"><span class="pre">subject_id</span></code> and <code class="docutils literal"><span class="pre">sess_index</span></code>.</p>
+</div>
+<div class="section" id="iterables-input">
+<h4>Iterables Input<a class="headerlink" href="#iterables-input" title="Permalink to this headline">¶</a></h4>
+<p>Iterables are a special kind of input fields and any input field of any Node can be turned into an Iterable.
+Iterables are very important for the repeated execution of a workflow with slightly changed parameters.
+Usually, Iterables are used to feed the different subject names into the workflow, causing your workflow to create
+as many execution workflows as subjects. And depending on your system, all of those workflows could be executed in parallel.</p>
+<p>In this example script, to run the Workflow for different subjects ans sessions we have to iterate over a list of subject IDs
+and session names by setting the iterables property of the <code class="docutils literal"><span class="pre">datasource</span></code> Node for the inputs <code class="docutils literal"><span class="pre">subject_id</span></code> and <code class="docutils literal"><span class="pre">sess_index</span></code>.
+This is performed by connecting these inputs to the iterables inputs of <code class="docutils literal"><span class="pre">infosource</span></code> Node.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">create_infosource</span><span class="p">():</span>
 
     <span class="kn">from</span> <span class="nn">params_congraph</span> <span class="kn">import</span> <span class="n">test</span>
 
@@ -220,9 +245,8 @@ In our example this is performed by connecting the inputs of <code class="docuti
                             <span class="p">(</span><span class="s">&#39;freq_band_name&#39;</span><span class="p">,</span> <span class="n">freq_band_names</span><span class="p">)]</span>
 
     <span class="k">return</span> <span class="n">infosource</span>
-</pre></div>
-</div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">create_datasource</span><span class="p">():</span>
+
+<span class="k">def</span> <span class="nf">create_datasource</span><span class="p">():</span>
 
     <span class="n">datasource</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">nio</span><span class="o">.</span><span class="n">DataGrabber</span><span class="p">(</span><span class="n">infields</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;subject_id&#39;</span><span class="p">,</span>
                                                             <span class="s">&#39;sess_index&#39;</span><span class="p">],</span>
@@ -230,15 +254,16 @@ In our example this is performed by connecting the inputs of <code class="docuti
                         <span class="n">name</span><span class="o">=</span><span class="s">&#39;datasource&#39;</span><span class="p">)</span>
 
     <span class="n">datasource</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">base_directory</span> <span class="o">=</span> <span class="n">data_path</span>
-    <span class="n">datasource</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">template</span> <span class="o">=</span> <span class="s">&#39;*</span><span class="si">%s</span><span class="s">/</span><span class="si">%s</span><span class="s">/meg/</span><span class="si">%s</span><span class="s">*rest*.*ica.fif&#39;</span>
-    <span class="n">datasource</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">template_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">raw_file</span><span class="o">=</span><span class="p">[[</span><span class="s">&#39;subject_id&#39;</span><span class="p">,</span>
-                                                      <span class="s">&#39;sess_index&#39;</span><span class="p">,</span>
-                                                      <span class="s">&#39;subject_id&#39;</span><span class="p">]])</span>
-
+<span class="hll">    <span class="n">datasource</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">template</span> <span class="o">=</span> <span class="s">&#39;*</span><span class="si">%s</span><span class="s">/</span><span class="si">%s</span><span class="s">/meg/</span><span class="si">%s</span><span class="s">*rest*.*ica.fif&#39;</span>
+</span><span class="hll">    <span class="n">datasource</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">template_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">raw_file</span><span class="o">=</span><span class="p">[[</span><span class="s">&#39;subject_id&#39;</span><span class="p">,</span>
+</span><span class="hll">                                                      <span class="s">&#39;sess_index&#39;</span><span class="p">,</span>
+</span><span class="hll">                                                      <span class="s">&#39;subject_id&#39;</span><span class="p">]])</span>
+</span>
     <span class="n">datasource</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">sort_filelist</span> <span class="o">=</span> <span class="bp">True</span>
 
     <span class="k">return</span> <span class="n">datasource</span>
 </pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="specify-workflows-and-connect-nodes">
@@ -246,7 +271,7 @@ In our example this is performed by connecting the inputs of <code class="docuti
 <p>Thus, we create a main Workflow to connect the different Nodes and define the data flow from the outputs of one Node
 to the inputs of the connected Nodes. Furthermore, we add the possibility to grab data for the analysis (<code class="docutils literal"><span class="pre">create_datasource()</span></code>).
 The specified connections create our Workflow (see Figure).</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">create_main_workflow_spectral_modularity</span><span class="p">():</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">create_main_workflow_spectral_modularity</span><span class="p">():</span>
 
     <span class="n">main_workflow</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">correl_analysis_name</span><span class="p">)</span>
     <span class="n">main_workflow</span><span class="o">.</span><span class="n">base_dir</span> <span class="o">=</span> <span class="n">main_path</span>
@@ -257,9 +282,9 @@ The specified connections create our Workflow (see Figure).</p>
     <span class="c"># data source</span>
     <span class="n">datasource</span> <span class="o">=</span> <span class="n">create_datasource</span><span class="p">()</span>
 
-    <span class="n">main_workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">infosource</span><span class="p">,</span> <span class="s">&#39;subject_id&#39;</span><span class="p">,</span> <span class="n">datasource</span><span class="p">,</span> <span class="s">&#39;subject_id&#39;</span><span class="p">)</span>
-    <span class="n">main_workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">infosource</span><span class="p">,</span> <span class="s">&#39;sess_index&#39;</span><span class="p">,</span> <span class="n">datasource</span><span class="p">,</span> <span class="s">&#39;sess_index&#39;</span><span class="p">)</span>
-
+<span class="hll">    <span class="n">main_workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">infosource</span><span class="p">,</span> <span class="s">&#39;subject_id&#39;</span><span class="p">,</span> <span class="n">datasource</span><span class="p">,</span> <span class="s">&#39;subject_id&#39;</span><span class="p">)</span>
+</span><span class="hll">    <span class="n">main_workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">infosource</span><span class="p">,</span> <span class="s">&#39;sess_index&#39;</span><span class="p">,</span> <span class="n">datasource</span><span class="p">,</span> <span class="s">&#39;sess_index&#39;</span><span class="p">)</span>
+</span>
     <span class="n">create_ts_node</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;raw_fname&#39;</span><span class="p">],</span>
                                           <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;ts_file&#39;</span><span class="p">,</span>
                                                         <span class="s">&#39;channel_coords_file&#39;</span><span class="p">,</span>
@@ -272,16 +297,11 @@ The specified connections create our Workflow (see Figure).</p>
                           <span class="n">create_ts_node</span><span class="p">,</span> <span class="s">&#39;raw_fname&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Each pipeline provided by NeuroPype requires two different kind of inputs:</p>
-<ul class="simple">
-<li>inputs of the module: here <code class="docutils literal"><span class="pre">main_path</span></code> and <code class="docutils literal"><span class="pre">con_method</span></code> are inputs of <a class="reference internal" href="../ephypype/neuropype_ephy.pipelines.html#neuropype_ephy.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity" title="neuropype_ephy.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity"><code class="xref py py-func docutils literal"><span class="pre">create_pipeline_time_series_to_spectral_connectivity</span></code></a></li>
-<li><strong>inputnode</strong>: these inputs are defined after the creation of the pipeline and can be either directly specified (<code class="docutils literal"><span class="pre">spectral_workflow.inputs.inputnode.is_sensor_space</span> <span class="pre">=</span> <span class="pre">True</span></code>) or defined as output of a previous Node (<code class="docutils literal"><span class="pre">main_workflow.connect(create_ts_node,</span> <span class="pre">'ts_file',</span> <span class="pre">spectral_workflow,</span> <span class="pre">'inputnode.ts_file')</span></code>)</li>
-</ul>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">spectral_workflow</span> <span class="o">=</span> \
+<div class="code python highlight-default"><div class="highlight"><pre><span class="n">spectral_workflow</span> <span class="o">=</span> \
     <span class="n">create_pipeline_time_series_to_spectral_connectivity</span><span class="p">(</span><span class="n">main_path</span><span class="p">,</span>
                                                         <span class="n">con_method</span><span class="o">=</span><span class="n">con_method</span><span class="p">)</span>
 
-<span class="n">spectral_workflow</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputnode</span><span class="o">.</span><span class="n">is_sensor_space</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">spectral_workflow</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputnode</span><span class="o">.</span><span class="n">is_sensor_space</span> <span class="o">=</span> <span class="k">True</span>
 
 <span class="n">spectral_workflow</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputnode</span><span class="o">.</span><span class="n">epoch_window_length</span> <span class="o">=</span> <span class="n">epoch_window_length</span>
 
@@ -300,7 +320,7 @@ The specified connections create our Workflow (see Figure).</p>
 <span class="n">graph_den_pipe</span> <span class="o">=</span> <span class="n">create_pipeline_conmat_to_graph_density</span><span class="p">(</span><span class="n">main_path</span><span class="p">,</span>
                                                         <span class="n">con_den</span><span class="o">=</span><span class="n">con_den</span><span class="p">,</span>
                                                         <span class="n">mod</span><span class="o">=</span><span class="n">mod</span><span class="p">,</span>
-                                                        <span class="n">plot</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                                                        <span class="n">plot</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
 
 <span class="n">main_workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">spectral_workflow</span><span class="p">,</span> <span class="s">&#39;spectral.conmat_file&#39;</span><span class="p">,</span>
                       <span class="n">graph_den_pipe</span><span class="p">,</span> <span class="s">&#39;inputnode.conmat_file&#39;</span><span class="p">)</span>
@@ -326,7 +346,7 @@ by calling <code class="docutils literal"><span class="pre">write_graph()</span>
 If we rerun the Workflow, only the Nodes whose inputs have changed since the last run
 will be executed again.  If not, it will simply return cached results.
 This is achieved by recording a hash of the inputs.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
 
     <span class="c"># run pipeline:</span>
     <span class="n">main_workflow</span> <span class="o">=</span> <span class="n">create_main_workflow_spectral_modularity</span><span class="p">()</span>
@@ -339,8 +359,8 @@ This is achieved by recording a hash of the inputs.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="../_images/graph_dot_conn2graph.jpg"><img alt="../_images/graph_dot_conn2graph.jpg" src="../_images/graph_dot_conn2graph.jpg" style="width: 690.75px; height: 809.25px;" /></a>
 </div>
-<p><strong>Download</strong> Parameters file: <a class="reference download internal" href="../_downloads/params_congraph.py"><code class="xref download docutils literal"><span class="pre">params_congraph.py</span></code></a></p>
-<p><strong>Download</strong> Python source code: <a class="reference download internal" href="../_downloads/run_spectral_modularity.py"><code class="xref download docutils literal"><span class="pre">run_spectral_modularity.py</span></code></a></p>
+<p><strong>Download</strong> Parameters file: <a class="reference download internal" href="../_downloads/params_congraph.py" download=""><code class="xref download docutils literal"><span class="pre">params_congraph.py</span></code></a></p>
+<p><strong>Download</strong> Python source code: <a class="reference download internal" href="../_downloads/run_spectral_modularity.py" download=""><code class="xref download docutils literal"><span class="pre">run_spectral_modularity.py</span></code></a></p>
 </div>
 </div>
 </div>

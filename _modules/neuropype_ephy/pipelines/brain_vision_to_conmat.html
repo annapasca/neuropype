@@ -30,6 +30,9 @@
   
 
   
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
     <link rel="top" title="neuropype 0.0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
@@ -122,28 +125,28 @@
   <h1>Source code for neuropype_ephy.pipelines.brain_vision_to_conmat</h1><div class="highlight"><pre>
 <span class="c"># Author: David Meunier &lt;david_meunier_79@hotmail.fr&gt;</span>
 
-<span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="kn">as</span> <span class="nn">pe</span>
+<span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="k">as</span> <span class="nn">pe</span>
 
-<span class="kn">from</span> <span class="nn">nipype.interfaces.utility</span> <span class="kn">import</span> <span class="n">Function</span>
-<span class="kn">from</span> <span class="nn">nipype.interfaces.utility</span> <span class="kn">import</span> <span class="n">IdentityInterface</span>
+<span class="kn">from</span> <span class="nn">nipype.interfaces.utility</span> <span class="k">import</span> <span class="n">Function</span>
+<span class="kn">from</span> <span class="nn">nipype.interfaces.utility</span> <span class="k">import</span> <span class="n">IdentityInterface</span>
 
 
-<span class="kn">from</span> <span class="nn">neuropype_ephy.interfaces.mne.spectral</span> <span class="kn">import</span>  <span class="n">SpectralConn</span><span class="p">,</span><span class="n">PlotSpectralConn</span>
+<span class="kn">from</span> <span class="nn">neuropype_ephy.interfaces.mne.spectral</span> <span class="k">import</span>  <span class="n">SpectralConn</span><span class="p">,</span><span class="n">PlotSpectralConn</span>
 
 <span class="c"># from neuropype_ephy.spectral import  multiple_spectral_proc</span>
 
-<span class="kn">from</span> <span class="nn">neuropype_ephy.nodes.import_data</span> <span class="kn">import</span> <span class="n">ImportBrainVisionAscii</span>
+<span class="kn">from</span> <span class="nn">neuropype_ephy.nodes.import_data</span> <span class="k">import</span> <span class="n">ImportBrainVisionAscii</span>
 
-<span class="kn">from</span> <span class="nn">neuropype_ephy.nodes.ts_tools</span> <span class="kn">import</span> <span class="n">SplitWindows</span>
+<span class="kn">from</span> <span class="nn">neuropype_ephy.nodes.ts_tools</span> <span class="k">import</span> <span class="n">SplitWindows</span>
 
-<span class="kn">from</span> <span class="nn">neuropype_ephy.import_txt</span> <span class="kn">import</span> <span class="n">read_brainvision_vhdr</span>
+<span class="kn">from</span> <span class="nn">neuropype_ephy.import_txt</span> <span class="k">import</span> <span class="n">read_brainvision_vhdr</span>
 
 <span class="c">#from neuropype_ephy.spectral import split_win_ts</span>
 
 <span class="c">###TODO</span>
 <span class="c">#from neuropype_ephy.nodes.? import filter_adj_plot_mat</span>
 
-<div class="viewcode-block" id="create_pipeline_brain_vision_ascii_to_spectral_connectivity"><a class="viewcode-back" href="../../../ephypype/neuropype_ephy.pipelines.html#neuropype_ephy.pipelines.brain_vision_to_conmat.create_pipeline_brain_vision_ascii_to_spectral_connectivity">[docs]</a><span class="k">def</span> <span class="nf">create_pipeline_brain_vision_ascii_to_spectral_connectivity</span><span class="p">(</span><span class="n">main_path</span><span class="p">,</span><span class="n">pipeline_name</span><span class="o">=</span><span class="s">&quot;brain_vision_to_conmat&quot;</span><span class="p">,</span> <span class="n">con_method</span> <span class="o">=</span> <span class="s">&quot;coh&quot;</span><span class="p">,</span> <span class="n">sample_size</span> <span class="o">=</span> <span class="mi">512</span><span class="p">,</span> <span class="n">sep_label_name</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="n">sfreq</span> <span class="o">=</span> <span class="mi">512</span><span class="p">,</span><span class="n">filter_spectral</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">k_neigh</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">n_windows</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">multi_con</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="create_pipeline_brain_vision_ascii_to_spectral_connectivity"><a class="viewcode-back" href="../../../ephypype/neuropype_ephy.pipelines.html#neuropype_ephy.pipelines.brain_vision_to_conmat.create_pipeline_brain_vision_ascii_to_spectral_connectivity">[docs]</a><span class="k">def</span> <span class="nf">create_pipeline_brain_vision_ascii_to_spectral_connectivity</span><span class="p">(</span><span class="n">main_path</span><span class="p">,</span><span class="n">pipeline_name</span><span class="o">=</span><span class="s">&quot;brain_vision_to_conmat&quot;</span><span class="p">,</span> <span class="n">con_method</span> <span class="o">=</span> <span class="s">&quot;coh&quot;</span><span class="p">,</span> <span class="n">sample_size</span> <span class="o">=</span> <span class="mi">512</span><span class="p">,</span> <span class="n">sep_label_name</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="n">sfreq</span> <span class="o">=</span> <span class="mi">512</span><span class="p">,</span><span class="n">filter_spectral</span> <span class="o">=</span> <span class="k">True</span><span class="p">,</span> <span class="n">k_neigh</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">n_windows</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">multi_con</span> <span class="o">=</span> <span class="k">False</span><span class="p">):</span>
     
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Description:</span>
@@ -181,10 +184,10 @@
     <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">split_ascii</span><span class="p">,</span> <span class="s">&#39;elec_names_file&#39;</span><span class="p">,</span> <span class="n">ts_pipe</span><span class="p">,</span> <span class="s">&#39;inputnode.labels_file&#39;</span><span class="p">)</span>
 
      
-    <span class="k">return</span> <span class="n">pipeline</span>
+    <span class="k">return</span> <span class="n">pipeline</span></div>
     
-    </div>
-<div class="viewcode-block" id="create_pipeline_brain_vision_vhdr_to_spectral_connectivity"><a class="viewcode-back" href="../../../ephypype/neuropype_ephy.pipelines.html#neuropype_ephy.pipelines.brain_vision_to_conmat.create_pipeline_brain_vision_vhdr_to_spectral_connectivity">[docs]</a><span class="k">def</span> <span class="nf">create_pipeline_brain_vision_vhdr_to_spectral_connectivity</span><span class="p">(</span><span class="n">main_path</span><span class="p">,</span><span class="n">pipeline_name</span><span class="o">=</span><span class="s">&quot;brain_vision_to_conmat&quot;</span><span class="p">,</span> <span class="n">con_method</span> <span class="o">=</span> <span class="s">&quot;coh&quot;</span><span class="p">,</span> <span class="n">sample_size</span> <span class="o">=</span> <span class="mi">512</span><span class="p">,</span> <span class="n">sep_label_name</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="n">sfreq</span> <span class="o">=</span> <span class="mi">512</span><span class="p">,</span><span class="n">filter_spectral</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">k_neigh</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">n_windows</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">multi_con</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+    
+<div class="viewcode-block" id="create_pipeline_brain_vision_vhdr_to_spectral_connectivity"><a class="viewcode-back" href="../../../ephypype/neuropype_ephy.pipelines.html#neuropype_ephy.pipelines.brain_vision_to_conmat.create_pipeline_brain_vision_vhdr_to_spectral_connectivity">[docs]</a><span class="k">def</span> <span class="nf">create_pipeline_brain_vision_vhdr_to_spectral_connectivity</span><span class="p">(</span><span class="n">main_path</span><span class="p">,</span><span class="n">pipeline_name</span><span class="o">=</span><span class="s">&quot;brain_vision_to_conmat&quot;</span><span class="p">,</span> <span class="n">con_method</span> <span class="o">=</span> <span class="s">&quot;coh&quot;</span><span class="p">,</span> <span class="n">sample_size</span> <span class="o">=</span> <span class="mi">512</span><span class="p">,</span> <span class="n">sep_label_name</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="n">sfreq</span> <span class="o">=</span> <span class="mi">512</span><span class="p">,</span><span class="n">filter_spectral</span> <span class="o">=</span> <span class="k">True</span><span class="p">,</span> <span class="n">k_neigh</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">n_windows</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">multi_con</span> <span class="o">=</span> <span class="k">False</span><span class="p">):</span>
     
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Description:</span>
@@ -216,8 +219,8 @@
     <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">split_vhdr</span><span class="p">,</span><span class="s">&#39;channel_names&#39;</span><span class="p">,</span><span class="n">ts_pipe</span><span class="p">,</span> <span class="s">&#39;inputnode.labels_file&#39;</span><span class="p">)</span>
     <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s">&#39;freq_band&#39;</span><span class="p">,</span> <span class="n">ts_pipe</span><span class="p">,</span> <span class="s">&#39;inputnode.freq_band&#39;</span><span class="p">)</span>
      
-    <span class="k">return</span> <span class="n">pipeline</span>
-    </div>
+    <span class="k">return</span> <span class="n">pipeline</span></div>
+    
 </pre></div>
 
           </div>

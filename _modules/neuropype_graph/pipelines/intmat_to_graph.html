@@ -30,6 +30,9 @@
   
 
   
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
     <link rel="top" title="neuropype 0.0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
@@ -127,25 +130,25 @@
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">time</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="kn">as</span> <span class="nn">sp</span> 
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="k">as</span> <span class="nn">sp</span> 
 
-<span class="kn">import</span> <span class="nn">nipype.interfaces.utility</span>  <span class="kn">as</span> <span class="nn">niu</span>
+<span class="kn">import</span> <span class="nn">nipype.interfaces.utility</span>  <span class="k">as</span> <span class="nn">niu</span>
 
-<span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="kn">as</span> <span class="nn">pe</span>
+<span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="k">as</span> <span class="nn">pe</span>
     
-<span class="kn">from</span> <span class="nn">neuropype_graph.nodes.modularity</span> <span class="kn">import</span> <span class="n">ComputeIntNetList</span><span class="p">,</span><span class="n">ComputeNodeRoles</span>
-<span class="kn">from</span> <span class="nn">neuropype_graph.interfaces.radatools.rada</span> <span class="kn">import</span> <span class="n">PrepRada</span><span class="p">,</span><span class="n">CommRada</span><span class="p">,</span><span class="n">NetPropRada</span>
+<span class="kn">from</span> <span class="nn">neuropype_graph.nodes.modularity</span> <span class="k">import</span> <span class="n">ComputeIntNetList</span><span class="p">,</span><span class="n">ComputeNodeRoles</span>
+<span class="kn">from</span> <span class="nn">neuropype_graph.interfaces.radatools.rada</span> <span class="k">import</span> <span class="n">PrepRada</span><span class="p">,</span><span class="n">CommRada</span><span class="p">,</span><span class="n">NetPropRada</span>
  
 <span class="c">#import imp</span>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">igraph</span>
-    <span class="n">can_plot_igraph</span> <span class="o">=</span> <span class="bp">True</span>
-    <span class="kn">from</span> <span class="nn">neuropype_graph.interfaces.plot_igraph.plots</span> <span class="kn">import</span> <span class="n">PlotIGraphModules</span>
+    <span class="n">can_plot_igraph</span> <span class="o">=</span> <span class="k">True</span>
+    <span class="kn">from</span> <span class="nn">neuropype_graph.interfaces.plot_igraph.plots</span> <span class="k">import</span> <span class="n">PlotIGraphModules</span>
 
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-    <span class="n">can_plot_igraph</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">can_plot_igraph</span> <span class="o">=</span> <span class="k">False</span>
     
     
  
@@ -258,7 +261,7 @@
 
 <span class="c">################################################ threshold-based graphs</span>
     
-<div class="viewcode-block" id="create_pipeline_intmat_to_graph_threshold"><a class="viewcode-back" href="../../../graphpype/intmat_to_graph.html#neuropype_graph.pipelines.intmat_to_graph.create_pipeline_intmat_to_graph_threshold">[docs]</a><span class="k">def</span> <span class="nf">create_pipeline_intmat_to_graph_threshold</span><span class="p">(</span><span class="n">main_path</span><span class="p">,</span><span class="n">analysis_name</span> <span class="o">=</span> <span class="s">&quot;int_graph_thr_pipe&quot;</span><span class="p">,</span><span class="n">threshold</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">mod</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">plot</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span><span class="n">radatools_optim</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="create_pipeline_intmat_to_graph_threshold"><a class="viewcode-back" href="../../../graphpype/intmat_to_graph.html#neuropype_graph.pipelines.intmat_to_graph.create_pipeline_intmat_to_graph_threshold">[docs]</a><span class="k">def</span> <span class="nf">create_pipeline_intmat_to_graph_threshold</span><span class="p">(</span><span class="n">main_path</span><span class="p">,</span><span class="n">analysis_name</span> <span class="o">=</span> <span class="s">&quot;int_graph_thr_pipe&quot;</span><span class="p">,</span><span class="n">threshold</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">mod</span> <span class="o">=</span> <span class="k">False</span><span class="p">,</span> <span class="n">plot</span> <span class="o">=</span> <span class="k">False</span><span class="p">,</span><span class="n">radatools_optim</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">):</span>
 
     <span class="n">pipeline</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">analysis_name</span><span class="p">)</span>
     <span class="n">pipeline</span><span class="o">.</span><span class="n">base_dir</span> <span class="o">=</span> <span class="n">main_path</span>
@@ -268,12 +271,12 @@
                         <span class="n">name</span><span class="o">=</span><span class="s">&#39;inputnode&#39;</span><span class="p">)</span>
      
     
-    <span class="k">if</span> <span class="n">can_plot_igraph</span><span class="o">==</span><span class="bp">False</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">can_plot_igraph</span><span class="o">==</span><span class="k">False</span><span class="p">:</span>
         
-        <span class="n">plot</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">plot</span> <span class="o">=</span> <span class="k">False</span>
         
-    <span class="k">print</span> <span class="s">&quot;########################### plot = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">plot</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot; #####################################################&quot;</span>
-    <span class="k">print</span> <span class="s">&quot;can_plot_igraph = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">can_plot_igraph</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="s">&quot;########################### plot = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">plot</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot; #####################################################&quot;</span>
+    <span class="nb">print</span> <span class="s">&quot;can_plot_igraph = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">can_plot_igraph</span><span class="p">)</span>
     
     <span class="c">### compute Z_list from coclass matrix</span>
     <span class="n">compute_net_list</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">ComputeIntNetList</span><span class="p">(),</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;compute_net_list&#39;</span><span class="p">)</span>
@@ -288,7 +291,7 @@
     
     <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">compute_net_list</span><span class="p">,</span> <span class="s">&#39;net_List_file&#39;</span><span class="p">,</span> <span class="n">prep_rada</span><span class="p">,</span> <span class="s">&#39;net_List_file&#39;</span><span class="p">)</span>
     
-    <span class="k">if</span> <span class="n">mod</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">mod</span> <span class="o">==</span> <span class="k">True</span><span class="p">:</span>
             
         <span class="c">### compute community with radatools</span>
         <span class="n">community_rada</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">CommRada</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;community_rada&#39;</span><span class="p">,</span><span class="n">iterfield</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Pajek_net_file&quot;</span><span class="p">])</span>
@@ -304,7 +307,7 @@
         <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span> <span class="n">prep_rada</span><span class="p">,</span> <span class="s">&#39;Pajek_net_file&#39;</span><span class="p">,</span><span class="n">node_roles</span><span class="p">,</span><span class="s">&#39;Pajek_net_file&#39;</span><span class="p">)</span>
         <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span> <span class="n">community_rada</span><span class="p">,</span> <span class="s">&#39;rada_lol_file&#39;</span><span class="p">,</span><span class="n">node_roles</span><span class="p">,</span><span class="s">&#39;rada_lol_file&#39;</span><span class="p">)</span>
         
-        <span class="k">if</span> <span class="n">plot</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">plot</span> <span class="o">==</span> <span class="k">True</span><span class="p">:</span>
                 
             <span class="c">#### plot_igraph_modules_rada</span>
             <span class="n">plot_igraph_modules_rada</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">PlotIGraphModules</span><span class="p">(),</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;plot_igraph_modules_rada&#39;</span><span class="p">)</span>
@@ -323,9 +326,9 @@
     
     <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">prep_rada</span><span class="p">,</span> <span class="s">&#39;Pajek_net_file&#39;</span><span class="p">,</span><span class="n">net_prop</span><span class="p">,</span><span class="s">&#39;Pajek_net_file&#39;</span><span class="p">)</span>
     
-    <span class="k">return</span> <span class="n">pipeline</span>
+    <span class="k">return</span> <span class="n">pipeline</span></div>
 
-   </div>
+   
 </pre></div>
 
           </div>

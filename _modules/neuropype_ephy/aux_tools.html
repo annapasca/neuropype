@@ -30,6 +30,9 @@
   
 
   
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
     <link rel="top" title="neuropype 0.0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
@@ -122,7 +125,7 @@
   <h1>Source code for neuropype_ephy.aux_tools</h1><div class="highlight"><pre>
 <span class="sd">&quot;&quot;&quot; Aux functions &quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
+<span class="kn">from</span> <span class="nn">contextlib</span> <span class="k">import</span> <span class="n">contextmanager</span>
 <span class="kn">import</span> <span class="nn">os</span>
 
 
@@ -156,11 +159,11 @@
         <span class="n">os</span><span class="o">.</span><span class="n">dup2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">save_fds</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
         <span class="c"># Close the null files</span>
         <span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">null_fds</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">null_fds</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">null_fds</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
 
 
 
-</div>
+
 <span class="nd">@contextmanager</span>
 <div class="viewcode-block" id="nostdout"><a class="viewcode-back" href="../../ephypype/neuropype_ephy.html#neuropype_ephy.aux_tools.nostdout">[docs]</a><span class="k">def</span> <span class="nf">nostdout</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -175,21 +178,21 @@
     <span class="kn">import</span> <span class="nn">sys</span>
 
     <span class="k">try</span><span class="p">:</span>
-        <span class="kn">from</span> <span class="nn">cStringIO</span> <span class="kn">import</span> <span class="n">StringIO</span>
+        <span class="kn">from</span> <span class="nn">cStringIO</span> <span class="k">import</span> <span class="n">StringIO</span>
     <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-        <span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">StringIO</span>
+        <span class="kn">from</span> <span class="nn">io</span> <span class="k">import</span> <span class="n">StringIO</span>
     <span class="c"># --------------------------------------- #</span>
     <span class="n">save_stdout</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span>
     <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">()</span>
     <span class="k">yield</span>
-    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">save_stdout</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">save_stdout</span></div>
 
-</div>
+
 <span class="k">def</span> <span class="nf">get_freq_band</span><span class="p">(</span><span class="n">freq_band_name</span><span class="p">,</span> <span class="n">freq_band_names</span><span class="p">,</span> <span class="n">freq_bands</span><span class="p">):</span>
 
     <span class="k">if</span> <span class="n">freq_band_name</span> <span class="ow">in</span> <span class="n">freq_band_names</span><span class="p">:</span>
-        <span class="k">print</span> <span class="n">freq_band_name</span>
-        <span class="k">print</span> <span class="n">freq_band_names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">freq_band_name</span><span class="p">)</span>
+        <span class="nb">print</span> <span class="n">freq_band_name</span>
+        <span class="nb">print</span> <span class="n">freq_band_names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">freq_band_name</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">freq_bands</span><span class="p">[</span><span class="n">freq_band_names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">freq_band_name</span><span class="p">)]</span>
 </pre></div>
