@@ -23,7 +23,7 @@ Pipelines
 =========
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    pipelines/preproc_meeg
    pipelines/power
@@ -55,7 +55,6 @@ Modules
 
 neuropype_ephy.aux_tools
 ------------------------
-
 .. automodule:: neuropype_ephy.aux_tools
     :members:
 

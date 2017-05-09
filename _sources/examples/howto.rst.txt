@@ -16,11 +16,11 @@ This example script allows to construct a Workflow to perform spectral connectiv
 
 
 Main steps
-++++++++++
+----------
 
 * **Import modules**: the first step in any script is to import necessary functions or modules
 * **Define variables**: the definition of variables we use in the script can be put in a separate file (see :ref:`params` for a list of all possible variables)
-* **Specify Nodes**: before to build a Workflow, we have to create some Nodes. A Node could be itself a pipeline
+* **Specify Nodes**: before to build a Workflow, we have to create some Nodes
 * **Specify Workflows and Connect Nodes**: to set the order in which to execute the just created Nodes, we have to create a Workflow and specify the connections between the Nodes;
   in this way the Workflow will be executed in a sequential mode
 * **Input and Output Stream**: we need to specify the path of the folders where the Workflow can get the data from and where it should store the output data
@@ -105,7 +105,7 @@ In this example the main Nodes are
 .. _inputnode:
 
 Pipeline Input 
-""""""""""""""
+~~~~~~~~~~~~~~
 
 Each pipeline provided by NeuroPype requires two different kind of inputs:
 
@@ -123,7 +123,7 @@ while ``is_sensor_space`` and ``ts_file`` are inputnode and can be specified as
 
 
 DataGrabber Input
-"""""""""""""""""
+~~~~~~~~~~~~~~~~~
 
 The ``DataGrabber Interface`` allows the user to define flexible search patterns which can be parameterized by user
 defined inputs (such as subject ID, session, etc.).
@@ -131,7 +131,8 @@ In this example we parameterize the pattern search with ``subject_id`` and ``ses
 
 
 Iterables Input
-"""""""""""""""
+~~~~~~~~~~~~~~~
+
 Iterables are a special kind of input fields and any input field of any Node can be turned into an Iterable. 
 Iterables are very important for the repeated execution of a workflow with slightly changed parameters.
 Usually, Iterables are used to feed the different subject names into the workflow, causing your workflow to create 
@@ -268,7 +269,7 @@ Run Workflow
 ------------
 
 After we have specified all the Nodes and connections of the Workflow, the last step is to run it
-by calling the so defined is ready to ``run()`` method. 
+by calling the ``run()`` method. 
 It's also possible to generate static graphs representing Nodes and connections between them
 by calling ``write_graph()`` method.
 If we rerun the Workflow, only the Nodes whose inputs have changed since the last run

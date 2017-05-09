@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Power pipeline &mdash; neuropype 0.0 documentation</title>
+  <title>Power pipeline &mdash; neuropype 0.1 documentation</title>
   
 
   
@@ -33,7 +33,7 @@
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="neuropype 0.0 documentation" href="../../index.html"/>
+    <link rel="top" title="neuropype 0.1 documentation" href="../../index.html"/>
         <link rel="up" title="neuropype_ephy" href="../neuropype_ephy.html"/>
         <link rel="next" title="Source reconstruction pipeline" href="source_reconstruction.html"/>
         <link rel="prev" title="Preprocessing pipeline" href="preproc_meeg.html"/> 
@@ -88,7 +88,10 @@
 </li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../cinq/cinq.html">CINQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cinq/cinq.html">CINQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../cinq/cinq.html#preprocessing">Preprocessing</a></li>
+</ul>
+</li>
 </ul>
 
           
@@ -130,7 +133,7 @@
 <span id="power"></span><h1>Power pipeline<a class="headerlink" href="#power-pipeline" title="Permalink to this headline">¶</a></h1>
 <p>The power pipeline computes the power spectral density (PSD) on epochs or raw data
 on sensor space.</p>
-<p>The input data has to be in <strong>fif</strong> format.</p>
+<p>The input data must be in <strong>fif</strong> format.</p>
 <p>The outputs are the <strong>psd tensor and frequencies in .npz format</strong> stored in the workflow directory.</p>
 <p>The power pipeline is implemented by the function <a class="reference internal" href="../neuropype_ephy.pipelines.html#neuropype_ephy.pipelines.power.create_pipeline_power" title="neuropype_ephy.pipelines.power.create_pipeline_power"><code class="xref py py-func docutils literal"><span class="pre">create_pipeline_power</span></code></a>
 and its Node <a class="reference internal" href="../neuropype_ephy.interfaces.mne.html#neuropype_ephy.interfaces.mne.power.Power" title="neuropype_ephy.interfaces.mne.power.Power"><code class="xref py py-class docutils literal"><span class="pre">power</span></code></a>
@@ -184,7 +187,7 @@ using Welch&#8217;s method and multitapers respectively.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.0',
+            VERSION:'0.1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -193,7 +196,6 @@ using Welch&#8217;s method and multitapers respectively.</p>
       <script type="text/javascript" src="../../_static/jquery.js"></script>
       <script type="text/javascript" src="../../_static/underscore.js"></script>
       <script type="text/javascript" src="../../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>PSD Workflow &mdash; neuropype 0.0 documentation</title>
+  <title>PSD Workflow &mdash; neuropype 0.1 documentation</title>
   
 
   
@@ -33,7 +33,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="neuropype 0.0 documentation" href="../index.html"/>
+    <link rel="top" title="neuropype 0.1 documentation" href="../index.html"/>
         <link rel="up" title="Examples" href="examples.html"/>
         <link rel="next" title="Spectral connectivity and graph Workflow" href="conn_graph_example.html"/>
         <link rel="prev" title="Preprocessing Workflow" href="preproc_example.html"/> 
@@ -88,7 +88,10 @@
 </li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../cinq/cinq.html">CINQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cinq/cinq.html">CINQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cinq/cinq.html#preprocessing">Preprocessing</a></li>
+</ul>
+</li>
 </ul>
 
           
@@ -128,16 +131,19 @@
             
   <div class="section" id="psd-workflow">
 <span id="power-example"></span><h1>PSD Workflow<a class="headerlink" href="#psd-workflow" title="Permalink to this headline">¶</a></h1>
-<p>The following script implements the power pipeline to compute <strong>PSD</strong> on MEG data in <strong>fif</strong> format
+<p>The following script implements a power pipeline to compute <strong>PSD</strong> on MEG data in <strong>fif</strong> format
 (see <a class="reference internal" href="../ephypype/pipelines/power.html#power"><span class="std std-ref">Power pipeline</span></a> Section).</p>
-<p>Before to run the script, the <a class="reference internal" href="params.html#params"><span class="std std-ref">params file</span></a> has to be downloaded (see download
+<p>Before to run the script, the <a class="reference internal" href="params.html#params"><span class="std std-ref">params file</span></a> should be downloaded (see download
 link below). The main parameters to set for the power pipeline are</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">fmin</span></code> : min frequency of interest</li>
 <li><code class="docutils literal"><span class="pre">fmax</span></code> : max frequency of interest</li>
-<li><code class="docutils literal"><span class="pre">power_method</span></code> : if &#8216;welch&#8217; the power spectral density (PSD) is computed by Welch&#8217;s
-method; otherwise, if &#8216;multitaper&#8217; the PSD is computed by multitapers</li>
-<li><code class="docutils literal"><span class="pre">is_epoched</span></code> : True if the input data are in epoch format (-epo.fif), False if the input data are raw data (-raw.fif)</li>
+<li><code class="docutils literal"><span class="pre">power_method</span></code> : possible choices are <em>welch</em> and <em>multitaper</em>. If <em>welch</em> the power spectral density (PSD) is computed by Welch&#8217;s method; otherwise it is computed by multitapers</li>
+<li><code class="docutils literal"><span class="pre">is_epoched</span></code> : <em>True</em> if the input data are in epoch format (-epo.fif), <em>False</em> if the input data are raw data (-raw.fif)</li>
+</ul>
+<p>Furthermore, the following <strong>inputnode</strong> must be specified:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">fif_file</span></code> : path to raw or epoched MEG data in <strong>fif</strong> format</li>
 </ul>
 <div class="code python highlight-default"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="k">as</span> <span class="nn">pe</span>
 <span class="kn">from</span> <span class="nn">nipype.interfaces.utility</span> <span class="k">import</span> <span class="n">IdentityInterface</span>
@@ -217,7 +223,7 @@ method; otherwise, if &#8216;multitaper&#8217; the PSD is computed by multitaper
     <span class="n">main_workflow</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">plugin</span><span class="o">=</span><span class="s">&#39;MultiProc&#39;</span><span class="p">,</span> <span class="n">plugin_args</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;n_procs&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">})</span>
 </pre></div>
 </div>
-<p><strong>Download</strong> Parameters file: <a class="reference download internal" href="../_downloads/params_power.py" download=""><code class="xref download docutils literal"><span class="pre">params_power.py</span></code></a></p>
+<p id="download-power"><strong>Download</strong> Parameters file: <a class="reference download internal" href="../_downloads/params_power.py" download=""><code class="xref download docutils literal"><span class="pre">params_power.py</span></code></a></p>
 <p><strong>Download</strong> Python source code: <a class="reference download internal" href="../_downloads/run_power_analysis.py" download=""><code class="xref download docutils literal"><span class="pre">run_power_analysis.py</span></code></a></p>
 </div>
 
@@ -260,7 +266,7 @@ method; otherwise, if &#8216;multitaper&#8217; the PSD is computed by multitaper
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0',
+            VERSION:'0.1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -269,7 +275,6 @@ method; otherwise, if &#8216;multitaper&#8217; the PSD is computed by multitaper
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

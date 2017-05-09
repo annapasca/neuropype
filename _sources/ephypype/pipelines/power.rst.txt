@@ -6,7 +6,7 @@ Power pipeline
 The power pipeline computes the power spectral density (PSD) on epochs or raw data
 on sensor space. 
 
-The input data has to be in **fif** format. 
+The input data must be in **fif** format. 
 
 The outputs are the **psd tensor and frequencies in .npz format** stored in the workflow directory. 
 

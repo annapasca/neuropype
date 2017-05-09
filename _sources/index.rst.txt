@@ -58,7 +58,7 @@ Installation
 ============
 
 Install neuropype_ephy
-++++++++++++++++++++++
+----------------------
 
 .. code-block:: bash
 
@@ -70,7 +70,7 @@ Install neuropype_ephy
 see :ref:`includeme` for more information
 
 Install neuropype_cli
-+++++++++++++++++++++++
+---------------------
 
 .. code-block:: bash
 
@@ -86,7 +86,7 @@ see |README_cli| for more information.
    <a href="https://github.com/dmalt/neuropype_cli/blob/master/README.md" target="_blank">README</a>
 
 Install neuropype_graph
-+++++++++++++++++++++++
+-----------------------
 
 .. code-block:: bash
 
@@ -102,30 +102,26 @@ see |README_graph| for more information.
    <a href="http://davidmeunier79.github.io/neuropype_graph/includeme.html" target="_blank">README</a>
 
 
-.. _packages:
 
 Packages
 ========
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 3
 
    ephypype/neuropype_ephy
    neuropype_cli <https://github.com/dmalt/neuropype_cli>
    neuropype_graph <http://davidmeunier79.github.io/neuropype_graph/>
 
-   
-.. _examples:
 
 Examples
 ========
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 4
    
    examples/examples 
 
-.. _links:
 
 CINQ
 ====

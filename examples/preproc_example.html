@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Preprocessing Workflow &mdash; neuropype 0.0 documentation</title>
+  <title>Preprocessing Workflow &mdash; neuropype 0.1 documentation</title>
   
 
   
@@ -33,7 +33,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="neuropype 0.0 documentation" href="../index.html"/>
+    <link rel="top" title="neuropype 0.1 documentation" href="../index.html"/>
         <link rel="up" title="Examples" href="examples.html"/>
         <link rel="next" title="PSD Workflow" href="power_example.html"/>
         <link rel="prev" title="Examples" href="examples.html"/> 
@@ -88,7 +88,10 @@
 </li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../cinq/cinq.html">CINQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cinq/cinq.html">CINQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cinq/cinq.html#preprocessing">Preprocessing</a></li>
+</ul>
+</li>
 </ul>
 
           
@@ -128,9 +131,9 @@
             
   <div class="section" id="preprocessing-workflow">
 <span id="preproc-example"></span><h1>Preprocessing Workflow<a class="headerlink" href="#preprocessing-workflow" title="Permalink to this headline">¶</a></h1>
-<p>The following script implements the preprocessing pipeline to perform <strong>ICA</strong> on MEG data in <strong>ds</strong> format
+<p>The following script implements a preprocessing pipeline to perform <strong>ICA</strong> on MEG data in <strong>ds</strong> format
 (see <a class="reference internal" href="../ephypype/pipelines/preproc_meeg.html#preproc-meeg"><span class="std std-ref">Preprocessing pipeline</span></a> Section).</p>
-<p>Before to run the script, the <a class="reference internal" href="params.html#params"><span class="std std-ref">params file</span></a> has to be downloaded (see download
+<p>Before to run the script, the <a class="reference internal" href="params.html#params"><span class="std std-ref">params file</span></a> should be be downloaded (see download
 link below). The main <strong>parameters</strong> to set for the preprocessing pipeline are
 (see <a class="reference internal" href="../ephypype/neuropype_ephy.pipelines.html#neuropype_ephy.pipelines.preproc_meeg.create_pipeline_preproc_meeg" title="neuropype_ephy.pipelines.preproc_meeg.create_pipeline_preproc_meeg"><code class="xref py py-func docutils literal"><span class="pre">create_pipeline_preproc_meeg</span></code></a> for a list of all possible inputs)</p>
 <ul class="simple">
@@ -142,9 +145,9 @@ link below). The main <strong>parameters</strong> to set for the preprocessing p
 <li><code class="docutils literal"><span class="pre">ECG_ch_name</span></code> : the name of ECG channels</li>
 <li><code class="docutils literal"><span class="pre">EoG_ch_name</span></code> : the name of EoG channels</li>
 </ul>
-<p>Furthermore, the following <strong>inputnodes</strong> have to be specified:</p>
+<p>Furthermore, the following <strong>inputnodes</strong> must be specified:</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">raw_file</span></code> : the raw meg data in <strong>fif</strong> format</li>
+<li><code class="docutils literal"><span class="pre">raw_file</span></code> : path to raw MEG data in <strong>fif</strong> format</li>
 <li><code class="docutils literal"><span class="pre">subject_id</span></code> : subject id</li>
 </ul>
 <div class="code python highlight-default"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="k">as</span> <span class="nn">pe</span>
@@ -304,7 +307,7 @@ conda install <span class="s1">&#39;pyqt&lt;5&#39;</span>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0',
+            VERSION:'0.1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
@@ -313,7 +316,6 @@ conda install <span class="s1">&#39;pyqt&lt;5&#39;</span>
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

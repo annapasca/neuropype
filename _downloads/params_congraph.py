@@ -1,6 +1,4 @@
-""" Parameters file"""
-
-test = True
+""" Parameters file for run_spectral_modularity.py"""
 
 data_type = 'fif'
 
@@ -24,12 +22,11 @@ epoch_window_length = 3.0
 # pipeline directory within the main_path dir
 correl_analysis_name = 'spectral_connectivity_' + data_type + \
                             '_' + con_method
-if test:
-    correl_analysis_name = correl_analysis_name + '_test'
 
 
 # ---------------------------- SET graph variables -----------------------#
-freq_con_thr = [0.05] * 7  # TODO is it used???
+
+freq_con_thr = [0.05] * 7  
 con_den = 0.05
 
 if con_method == "correl":
@@ -53,7 +50,6 @@ if test:
     coclass_analysis_name = coclass_analysis_name + '_test'
 
 # mean_correl_permuts
-
 nb_permuts = 5
 
 mean_correl_permut_analysis_name = correl_analysis_name + "_permuts_" + \

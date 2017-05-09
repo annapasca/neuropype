@@ -4,3 +4,19 @@ CINQ
 ====
 
 See :ref:`example` section
+
+
+Preprocessing 
+-------------
+
+* go to ``preproc_example`` Section and **download** the params and main script file
+* set ``main_path`` to the folder where you downloaded the sample datasets
+* look at the variables you can set
+
+
+Connectivity and graph analysis
+-------------------------------
+
+* go to ``conn_graph_example`` Section and **download** the params and main script file 
+* set ``main_path`` to the folder where you downloaded the sample datasets
+* look at the variables you can set

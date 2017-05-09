@@ -11,7 +11,7 @@ The following script allows to perform spectral connectivity and graph analysis 
    <a href="http://davidmeunier79.github.io/neuropype_graph/conmat_to_graph.html" target="_blank">create_pipeline_conmat_to_graph_density</a>
 
 
-Before to run the script, the :ref:`params` has to be downloaded (see download
+Before to run the script, the :ref:`params` should be be downloaded (see download
 link below). The main parameters to set for the connectivity pipeline are
             
 * ``con_method`` : connectivity measure
