@@ -1,7 +1,5 @@
 """ Parameters file for run_power_analysis.py """
 
-test = True
-
 data_type = 'fif'
 
 main_path = '/run/media/pasca/paska/meg_data/omega/sample_BIDS_omega/'

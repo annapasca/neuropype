@@ -126,10 +126,17 @@ The outputs of the pipeline will be saved in the pipeline directory specified by
 To visually inspect the ICA components, the report file can be visualized by a jupyter notebook where it is 
 possible include or exclude the ICA components inspecting their topographies and time series.
 
-.. warning:: The new cleaned raw data file has to be saved in the **subject data directory**.
+.. warning:: The new cleaned raw data file should be saved in the **subject data directory**.
 
 **Download** Parameters file: :download:`params_ica.py <../../examples/params_ica.py>`
 
 **Download** Python source code: :download:`run_preprocess_pipeline.py <../../examples/run_preprocess_pipeline.py>`
 
 **Download** Jupyter notebook: :download:`ipynb_report.ipynb <../../examples/ipynb_report.ipynb>`
+
+.. warning:: To use the jupyter notebook, the following packages should be installed
+.. code-block:: bash 
+
+    conda install ipywidgets
+    conda install matplotlib
+    conda install 'pyqt<5'

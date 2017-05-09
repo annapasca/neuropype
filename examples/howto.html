@@ -146,14 +146,19 @@ in this way the Workflow will be executed in a sequential mode</li>
 <li><strong>Input and Output Stream</strong>: we need to specify the path of the folders where the Workflow can get the data from and where it should store the output data</li>
 <li><strong>Run Workflow</strong>: as last step we can run the Workflow!</li>
 </ul>
-<div class="contents local topic" id="steps">
-<p class="topic-title first">Steps</p>
+<div class="contents local topic" id="table-of-contents">
+<p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#import-modules" id="id1">Import modules</a></li>
 <li><a class="reference internal" href="#define-variables" id="id2">Define variables</a></li>
-<li><a class="reference internal" href="#specify-nodes" id="id3">Specify Nodes</a></li>
-<li><a class="reference internal" href="#specify-workflows-and-connect-nodes" id="id4">Specify Workflows and Connect Nodes</a></li>
-<li><a class="reference internal" href="#run-workflow" id="id5">Run Workflow</a></li>
+<li><a class="reference internal" href="#specify-nodes" id="id3">Specify Nodes</a><ul>
+<li><a class="reference internal" href="#pipeline-input" id="id4">Pipeline Input</a></li>
+<li><a class="reference internal" href="#datagrabber-input" id="id5">DataGrabber Input</a></li>
+<li><a class="reference internal" href="#iterables-input" id="id6">Iterables Input</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#specify-workflows-and-connect-nodes" id="id7">Specify Workflows and Connect Nodes</a></li>
+<li><a class="reference internal" href="#run-workflow" id="id8">Run Workflow</a></li>
 </ul>
 </div>
 <div class="section" id="import-modules">
@@ -211,7 +216,7 @@ In this example the main Nodes are</p>
 <li><code class="docutils literal"><span class="pre">graph_den_pipe_den_0_05</span></code> is a Node containing the pipeline from connectivity matrices to graph analysis created by <a href="http://davidmeunier79.github.io/neuropype_graph/conmat_to_graph.html#create-pipeline-conmat-to-graph-density" target="_blank">create_pipeline_conmat_to_graph_density</a> (see <a class="reference internal" href="#inputnode"><span class="std std-ref">Pipeline Input</span></a>)</li>
 </ul>
 <div class="section" id="pipeline-input">
-<span id="inputnode"></span><h4>Pipeline Input<a class="headerlink" href="#pipeline-input" title="Permalink to this headline">¶</a></h4>
+<span id="inputnode"></span><h4><a class="toc-backref" href="#id4">Pipeline Input</a><a class="headerlink" href="#pipeline-input" title="Permalink to this headline">¶</a></h4>
 <p>Each pipeline provided by NeuroPype requires two different kind of inputs:</p>
 <ul class="simple">
 <li>inputs of module</li>
@@ -224,13 +229,13 @@ while <code class="docutils literal"><span class="pre">is_sensor_space</span></c
 <code class="docutils literal"><span class="pre">main_workflow.connect(create_ts_node,</span> <span class="pre">'ts_file',</span> <span class="pre">spectral_workflow,</span> <span class="pre">'inputnode.ts_file')</span></code></p>
 </div>
 <div class="section" id="datagrabber-input">
-<span id="datagrabber"></span><h4>DataGrabber Input<a class="headerlink" href="#datagrabber-input" title="Permalink to this headline">¶</a></h4>
+<span id="datagrabber"></span><h4><a class="toc-backref" href="#id5">DataGrabber Input</a><a class="headerlink" href="#datagrabber-input" title="Permalink to this headline">¶</a></h4>
 <p>The <code class="docutils literal"><span class="pre">DataGrabber</span> <span class="pre">Interface</span></code> allows the user to define flexible search patterns which can be parameterized by user
 defined inputs (such as subject ID, session, etc.).
 In this example we parameterize the pattern search with <code class="docutils literal"><span class="pre">subject_id</span></code> and <code class="docutils literal"><span class="pre">sess_index</span></code>.</p>
 </div>
 <div class="section" id="iterables-input">
-<h4>Iterables Input<a class="headerlink" href="#iterables-input" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id6">Iterables Input</a><a class="headerlink" href="#iterables-input" title="Permalink to this headline">¶</a></h4>
 <p>Iterables are a special kind of input fields and any input field of any Node can be turned into an Iterable.
 Iterables are very important for the repeated execution of a workflow with slightly changed parameters.
 Usually, Iterables are used to feed the different subject names into the workflow, causing your workflow to create
@@ -277,14 +282,15 @@ This is performed by connecting these inputs to the iterables inputs of <code cl
 </div>
 </div>
 <div class="section" id="specify-workflows-and-connect-nodes">
-<h3><a class="toc-backref" href="#id4">Specify Workflows and Connect Nodes</a><a class="headerlink" href="#specify-workflows-and-connect-nodes" title="Permalink to this headline">¶</a></h3>
-<p>Thus, we create a main Workflow to connect the different Nodes and define the data flow from the outputs of one Node
-to the inputs of the connected Nodes. Furthermore, we add the possibility to grab data for the analysis (<code class="docutils literal"><span class="pre">create_datasource()</span></code>).
-The specified connections create our Workflow (see Figure).</p>
+<h3><a class="toc-backref" href="#id7">Specify Workflows and Connect Nodes</a><a class="headerlink" href="#specify-workflows-and-connect-nodes" title="Permalink to this headline">¶</a></h3>
+<p>The purpose of workflows is to guide the sequential execution of Nodes: we create a main Workflow to connect
+the different Nodes and define the data flow from the outputs of one Node
+to the inputs of the connected Nodes. The specified connections create our Workflow (see Figure).</p>
+<p>It is important to point out that we have to connect the output and input fields of each node to the output and input fields of another node.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">create_main_workflow_spectral_modularity</span><span class="p">():</span>
 
-    <span class="n">main_workflow</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">correl_analysis_name</span><span class="p">)</span>
-    <span class="n">main_workflow</span><span class="o">.</span><span class="n">base_dir</span> <span class="o">=</span> <span class="n">main_path</span>
+<span class="hll">    <span class="n">main_workflow</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">correl_analysis_name</span><span class="p">)</span>
+</span>    <span class="n">main_workflow</span><span class="o">.</span><span class="n">base_dir</span> <span class="o">=</span> <span class="n">main_path</span>
 
     <span class="c"># info source</span>
     <span class="n">infosource</span> <span class="o">=</span> <span class="n">create_infosource</span><span class="p">()</span>
@@ -348,7 +354,7 @@ The specified connections create our Workflow (see Figure).</p>
 </div>
 </div>
 <div class="section" id="run-workflow">
-<h3><a class="toc-backref" href="#id5">Run Workflow</a><a class="headerlink" href="#run-workflow" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id8">Run Workflow</a><a class="headerlink" href="#run-workflow" title="Permalink to this headline">¶</a></h3>
 <p>After we have specified all the Nodes and connections of the Workflow, the last step is to run it
 by calling the so defined is ready to <code class="docutils literal"><span class="pre">run()</span></code> method.
 It&#8217;s also possible to generate static graphs representing Nodes and connections between them

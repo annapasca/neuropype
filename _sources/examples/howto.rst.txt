@@ -26,10 +26,10 @@ Main steps
 * **Input and Output Stream**: we need to specify the path of the folders where the Workflow can get the data from and where it should store the output data
 * **Run Workflow**: as last step we can run the Workflow!
 
-.. contents:: Steps
-   :local:
-   :depth: 1
-
+.. contents:: Table of Contents
+    :local:
+    :depth: 2
+    
 .. _modules:
 
 Import modules
@@ -186,13 +186,16 @@ This is performed by connecting these inputs to the iterables inputs of ``infoso
 Specify Workflows and Connect Nodes
 -----------------------------------
 
-Thus, we create a main Workflow to connect the different Nodes and define the data flow from the outputs of one Node 
-to the inputs of the connected Nodes. Furthermore, we add the possibility to grab data for the analysis (``create_datasource()``). 
-The specified connections create our Workflow (see Figure). 
+The purpose of workflows is to guide the sequential execution of Nodes: we create a main Workflow to connect 
+the different Nodes and define the data flow from the outputs of one Node 
+to the inputs of the connected Nodes. The specified connections create our Workflow (see Figure). 
 
+It is important to point out that we have to connect the output and input fields of each node to the output and input fields of another node.
       
+
+
 .. code-block:: python
-  :emphasize-lines: 12,13
+  :emphasize-lines: 3,12,13
 
   
   def create_main_workflow_spectral_modularity():

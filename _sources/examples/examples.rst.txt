@@ -59,7 +59,7 @@ All example scripts need a :ref:`params` where to set
    inv_example
    
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
 
    howto
    

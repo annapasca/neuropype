@@ -19,7 +19,6 @@ from params_power import main_path, data_path
 from params_power import subject_ids, sessions
 from params_power import power_analysis_name
 from params_power import fmin, fmax, power_method, is_epoched
-from params_power import test
 
 
 def create_infosource():
@@ -29,16 +28,8 @@ def create_infosource():
                                                              'sess_index']),
                          name="infosource")
 
-    if test is False:
-        infosource.iterables = [('subject_id', subject_ids),
+    infosource.iterables = [('subject_id', subject_ids),
                                 ('sess_index', sessions)]
-
-    else:
-        # TEST
-        print '*** TEST ***'
-
-        infosource.iterables = [('subject_id', ['sub-0002']),
-                                ('sess_index', ['ses-0001'])]
 
     return infosource
 
@@ -51,10 +42,7 @@ def create_datasource():
                          name='datasource')
 
     datasource.inputs.base_directory = data_path
-    if test:
-        datasource.inputs.template = '*%s/%s/meg/%s*rest*short_raw*ica.fif'
-    else:
-        datasource.inputs.template = '*%s/%s/meg/%s*rest*.*ica.fif'
+    datasource.inputs.template = '*%s/%s/meg/%s*rest*.*ica.fif'
     datasource.inputs.template_args = dict(raw_file=[['subject_id',
                                                       'sess_index',
                                                       'subject_id']])
@@ -98,8 +86,5 @@ if __name__ == '__main__':
 
     main_workflow.write_graph(graph2use='colored')  # colored
     main_workflow.config['execution'] = {'remove_unnecessary_outputs': 'false'}
-
-    if test:
-        main_workflow.run()
-    else:
-        main_workflow.run(plugin='MultiProc', plugin_args={'n_procs': 8})
+    
+    main_workflow.run(plugin='MultiProc', plugin_args={'n_procs': 8})
