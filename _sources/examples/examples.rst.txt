@@ -42,7 +42,7 @@ All example scripts need a :ref:`params` where to set
  |                                             |                                             |
  |    :ref:`preproc_example`                   |    :ref:`power_example`                     |
  +---------------------------------------------+---------------------------------------------+
- | .. figure::  ../img/graph_coclass.jpg       | .. figure::  ../img/graph_dot_inv2graph.jpg |
+ | .. figure::  ../img/graph_coclass.jpg       | .. figure::  ../img/circle_conmat_coh.jpg   |
  |    :scale: 40 %                             |    :scale: 40 %                             |
  |    :align: center                           |    :align: center        	             |
  |                                             |                      		             |
