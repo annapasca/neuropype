@@ -37,13 +37,13 @@ All example scripts need a :ref:`params` where to set
 
  +---------------------------------------------+---------------------------------------------+
  | .. figure::  ../img/ICA_1comp.jpg           | .. figure::  ../img/power.jpg               |
- |    :scale: 50 %                             |    :scale: 50 %                             |
+ |    :scale: 40 %                             |    :scale: 40 %                             |
  |    :align: center                           |    :align: center                           |
  |                                             |                                             |
  |    :ref:`preproc_example`                   |    :ref:`power_example`                     |
  +---------------------------------------------+---------------------------------------------+
  | .. figure::  ../img/graph_coclass.jpg       | .. figure::  ../img/graph_dot_inv2graph.jpg |
- |    :scale: 50 %                             |    :scale: 50 %                             |
+ |    :scale: 40 %                             |    :scale: 40 %                             |
  |    :align: center                           |    :align: center        	             |
  |                                             |                      		             |
  |    :ref:`conn_graph_example`                |    :ref:`inv_example`                       |
