@@ -67,7 +67,7 @@ def create_datasource():
                          name='datasource')
 
     datasource.inputs.base_directory = data_path
-    datasource.inputs.template = '*%s/%s/meg/%s*rest*.*ica.fif'
+    datasource.inputs.template = '*%s/%s/meg/%s*rest*ica.fif'
     
     datasource.inputs.template_args = dict(raw_file=[['subject_id',
                                                       'sess_index',
