@@ -46,8 +46,6 @@ coclass_thr = 30
 
 coclass_analysis_name = "coclass_" + data_type + "_" + \
                          str(coclass_thr) + "_rada"
-if test:
-    coclass_analysis_name = coclass_analysis_name + '_test'
 
 # mean_correl_permuts
 nb_permuts = 5
