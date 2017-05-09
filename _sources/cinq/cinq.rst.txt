@@ -10,8 +10,19 @@ Preprocessing
 -------------
 
 * go to ``preproc_example`` Section and **download** the params and main script file
-* set ``main_path`` to the folder where you downloaded the sample datasets
+* set ``main_path`` in the ``params_ica.py`` file to the folder where you downloaded the sample datasets
 * look at the variables you can set
+* run the script by the command ``python run_preprocess_pipeline.py``
+* open ``ipynb_report.ipynb`` running a jupyter notebook
+
+.. code-block:: bash
+    
+    jupyter notebook 
+    
+* look at the workflow directory
+* inspect each report file and save the raw data file in the subject directory
+
+
 
 
 Connectivity and graph analysis

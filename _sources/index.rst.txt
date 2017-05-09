@@ -15,7 +15,7 @@ python framework.
 NeuroPype project includes three different packages:
 
 * :ref:`neuropype_ephy` based on |MNE python| includes pipelines for electrophysiology analysis
-* `neuropype_cli <https://github.com/dmalt/neuropype_cli>`_ is a command line interface for neuropype_ephy package
+* |neuropype_cli| is a command line interface for neuropype_ephy package
 * |neuropype_graph| based on |radatools| includes pipelines for graph theoretical analysis of neuroimaging data
 
 
@@ -31,6 +31,10 @@ NeuroPype project includes three different packages:
 
    <a href="http://davidmeunier79.github.io/neuropype_graph" target="_blank">neuropype_graph</a>
    
+.. |neuropype_cli| raw:: html
+
+   <a href="https://github.com/dmalt/neuropype_cli" target="_blank">neuropype_cli</a>
+ 
 NeuroPype provides a very common and fast framework to develop workflows for advanced analyses, in particular
 defines a set of different pipelines that can be used stand-alone or as lego of a bigger workflow:
 the input of a pipeline will be the output of another pipeline. 
