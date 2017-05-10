@@ -6,7 +6,7 @@ Connectivity pipeline
 The connectivity pipeline is so far based on the spectral connectivity computation of |MNE python|.
 In the **frequency-domain**, all MNE-Python measures (e.g. Coherence, Imaginary Coherence, Phase Locking Value, 
 Phase-Lag Index), and some derived measurements are currently available.
-In the **time-domain**, coupling such as correlation of evelope, or phase-amplitude coupling (using Brainpipe) are also available. 
+In the **time-domain**, coupling such as correlation of evelope, or phase-amplitude coupling (using |Brainpipe|) are also available. 
 
 .. |MNE python| raw:: html
 
@@ -15,6 +15,10 @@ In the **time-domain**, coupling such as correlation of evelope, or phase-amplit
 .. |plot_connectivity_circle| raw:: html
 
    <a href="http://martinos.org/mne/dev/generated/mne.viz.plot_connectivity_circle.html#mne.viz.plot_connectivity_circle" target="_blank">plot_connectivity_circle</a>
+
+.. |Brainpipe| raw:: html
+
+   <a href="https://github.com/EtienneCmb/brainpipe" target="_blank">Brainpipe</a>
 
 The input data can be 
 

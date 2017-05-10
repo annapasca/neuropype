@@ -21,9 +21,9 @@ Main steps
 * **Import modules**: the first step in any script is to import necessary functions or modules
 * **Define variables**: the definition of variables we use in the script can be put in a separate file (see :ref:`params` for a list of all possible variables)
 * **Specify Nodes**: before to build a Workflow, we have to create some Nodes
+* **Input Stream**: we need to specify the path of the folders where the Workflow can get the data from
 * **Specify Workflows and Connect Nodes**: to set the order in which to execute the just created Nodes, we have to create a Workflow and specify the connections between the Nodes;
   in this way the Workflow will be executed in a sequential mode
-* **Input and Output Stream**: we need to specify the path of the folders where the Workflow can get the data from and where it should store the output data
 * **Run Workflow**: as last step we can run the Workflow!
 
 .. contents:: Table of Contents
@@ -144,6 +144,12 @@ This is performed by connecting these inputs to the iterables inputs of ``infoso
 
 .. comment: ``main_workflow.connect(infosource, 'subject_id', datasource, 'subject_id')``
 .. comment: ``main_workflow.connect(infosource, 'sess_index', datasource, 'sess_index')``
+
+
+Input Stream
+------------
+
+To specify the folder structure of the input data we use DataGrabber Interface (see :ref:`datagrabber`)
 
 .. code-block:: python
   :emphasize-lines: 27,28,29,30
@@ -272,6 +278,7 @@ After we have specified all the Nodes and connections of the Workflow, the last 
 by calling the ``run()`` method. 
 It's also possible to generate static graphs representing Nodes and connections between them
 by calling ``write_graph()`` method.
+
 If we rerun the Workflow, only the Nodes whose inputs have changed since the last run
 will be executed again.  If not, it will simply return cached results. 
 This is achieved by recording a hash of the inputs.

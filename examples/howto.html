@@ -145,9 +145,9 @@ This example script allows to construct a Workflow to perform spectral connectiv
 <li><strong>Import modules</strong>: the first step in any script is to import necessary functions or modules</li>
 <li><strong>Define variables</strong>: the definition of variables we use in the script can be put in a separate file (see <a class="reference internal" href="params.html#params"><span class="std std-ref">params file</span></a> for a list of all possible variables)</li>
 <li><strong>Specify Nodes</strong>: before to build a Workflow, we have to create some Nodes</li>
+<li><strong>Input Stream</strong>: we need to specify the path of the folders where the Workflow can get the data from</li>
 <li><strong>Specify Workflows and Connect Nodes</strong>: to set the order in which to execute the just created Nodes, we have to create a Workflow and specify the connections between the Nodes;
 in this way the Workflow will be executed in a sequential mode</li>
-<li><strong>Input and Output Stream</strong>: we need to specify the path of the folders where the Workflow can get the data from and where it should store the output data</li>
 <li><strong>Run Workflow</strong>: as last step we can run the Workflow!</li>
 </ul>
 </div>
@@ -233,6 +233,11 @@ as many execution workflows as subjects. And depending on your system, all of th
 <p>In this example script, to run the Workflow for different subjects ans sessions we have to iterate over a list of subject IDs
 and session names by setting the iterables property of the <code class="docutils literal"><span class="pre">datasource</span></code> Node for the inputs <code class="docutils literal"><span class="pre">subject_id</span></code> and <code class="docutils literal"><span class="pre">sess_index</span></code>.
 This is performed by connecting these inputs to the iterables inputs of <code class="docutils literal"><span class="pre">infosource</span></code> Node.</p>
+</div>
+</div>
+<div class="section" id="input-stream">
+<h2>Input Stream<a class="headerlink" href="#input-stream" title="Permalink to this headline">¶</a></h2>
+<p>To specify the folder structure of the input data we use DataGrabber Interface (see <a class="reference internal" href="#datagrabber"><span class="std std-ref">DataGrabber Input</span></a>)</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">create_infosource</span><span class="p">():</span>
 
     <span class="kn">from</span> <span class="nn">params_congraph</span> <span class="kn">import</span> <span class="n">test</span>
@@ -268,7 +273,6 @@ This is performed by connecting these inputs to the iterables inputs of <code cl
 
     <span class="k">return</span> <span class="n">datasource</span>
 </pre></div>
-</div>
 </div>
 </div>
 <div class="section" id="specify-workflows-and-connect-nodes">
@@ -348,8 +352,8 @@ to the inputs of the connected Nodes. The specified connections create our Workf
 <p>After we have specified all the Nodes and connections of the Workflow, the last step is to run it
 by calling the <code class="docutils literal"><span class="pre">run()</span></code> method.
 It&#8217;s also possible to generate static graphs representing Nodes and connections between them
-by calling <code class="docutils literal"><span class="pre">write_graph()</span></code> method.
-If we rerun the Workflow, only the Nodes whose inputs have changed since the last run
+by calling <code class="docutils literal"><span class="pre">write_graph()</span></code> method.</p>
+<p>If we rerun the Workflow, only the Nodes whose inputs have changed since the last run
 will be executed again.  If not, it will simply return cached results.
 This is achieved by recording a hash of the inputs.</p>
 <div class="code python highlight-default"><div class="highlight"><pre><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
