@@ -33,3 +33,5 @@ Before to use this pipeline, we need for each subject a template MRI or the indi
    :maxdepth: 1
 
    nodes/inv_solution
+   
+.. seealso:: See :ref:`inv_example` to get an example on how to write a connectivity and graph analysis workflow on source space
