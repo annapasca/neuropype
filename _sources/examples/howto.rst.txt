@@ -275,7 +275,7 @@ This is achieved by recording a hash of the inputs.
       main_workflow.config['execution'] = {'remove_unnecessary_outputs': 'false'}
       main_workflow.run(plugin='MultiProc', plugin_args={'n_procs': 8})
 
-.. figure::  ../img/graph_dot_conn2graph.jpg
+.. figure::  ../img/graph_dot_conn.jpg
     :scale: 75 %
     :align: center
 
