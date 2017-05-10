@@ -332,7 +332,7 @@ pipeline as lego with the connectivity or inverse pipeline</dd>
 plot_circular_connectivity</p>
 <dl class="function">
 <dt id="neuropype_ephy.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity">
-<code class="descclassname">neuropype_ephy.pipelines.ts_to_conmat.</code><code class="descname">create_pipeline_time_series_to_spectral_connectivity</code><span class="sig-paren">(</span><em>main_path</em>, <em>pipeline_name='ts_to_conmat'</em>, <em>con_method='coh'</em>, <em>multi_con=False</em>, <em>export_to_matlab=False</em>, <em>n_windows=[]</em>, <em>mode='multitaper'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/pipelines/ts_to_conmat.html#create_pipeline_time_series_to_spectral_connectivity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">neuropype_ephy.pipelines.ts_to_conmat.</code><code class="descname">create_pipeline_time_series_to_spectral_connectivity</code><span class="sig-paren">(</span><em>main_path</em>, <em>pipeline_name='ts_to_conmat'</em>, <em>con_method='coh'</em>, <em>multi_con=False</em>, <em>export_to_matlab=False</em>, <em>n_windows=[]</em>, <em>mode='multitaper'</em>, <em>is_sensor_space=True</em>, <em>epoch_window_length=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/pipelines/ts_to_conmat.html#create_pipeline_time_series_to_spectral_connectivity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity" title="Permalink to this definition">¶</a></dt>
 <dd><p>Description:</p>
 <blockquote>
 <div>Connectivity pipeline: compute spectral connectivity in a given frequency bands</div></blockquote>
@@ -353,6 +353,10 @@ plot_circular_connectivity</p>
 <dd>list of start and stop points (tuple of two integers) of temporal windows</dd>
 <dt>mode <span class="classifier-delimiter">:</span> <span class="classifier">str (default &#8216;multipaper&#8217;)</span></dt>
 <dd>mode for computing frequency bands; possible choice: &#8220;multitaper&#8221;,&#8221;cwt_morlet&#8221;</dd>
+<dt>epoch_window_length <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>epoched data</dd>
+<dt>is_sensor_space <span class="classifier-delimiter">:</span> <span class="classifier">bool (default True)</span></dt>
+<dd>True if we compute connectivity on sensor space</dd>
 </dl>
 </div></blockquote>
 <p>Inputs (inputnode):</p>
@@ -366,10 +370,6 @@ plot_circular_connectivity</p>
 <dd>sampling frequency</dd>
 <dt>labels_file <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
 <dd>path to the file containing a list of labels associated with nodes</dd>
-<dt>epoch_window_length <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>epoched data</dd>
-<dt>is_sensor_space <span class="classifier-delimiter">:</span> <span class="classifier">bool (default True)</span></dt>
-<dd>True if we compute connectivity on sensor space</dd>
 <dt>index <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
 <dd>what to add to the name of the file</dd>
 </dl>

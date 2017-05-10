@@ -146,48 +146,55 @@
 <span class="c">### to modify and add in &quot;Nodes&quot;</span>
 <span class="c">#from neuropype_ephy.spectral import  filter_adj_plot_mat</span>
 
-<div class="viewcode-block" id="create_pipeline_time_series_to_spectral_connectivity"><a class="viewcode-back" href="../../../ephypype/neuropype_ephy.pipelines.html#neuropype_ephy.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity">[docs]</a><span class="k">def</span> <span class="nf">create_pipeline_time_series_to_spectral_connectivity</span><span class="p">(</span> <span class="n">main_path</span><span class="p">,</span> <span class="n">pipeline_name</span> <span class="o">=</span> <span class="s">&quot;ts_to_conmat&quot;</span><span class="p">,</span><span class="n">con_method</span> <span class="o">=</span> <span class="s">&quot;coh&quot;</span><span class="p">,</span> <span class="n">multi_con</span> <span class="o">=</span> <span class="k">False</span><span class="p">,</span> <span class="n">export_to_matlab</span> <span class="o">=</span> <span class="k">False</span><span class="p">,</span> <span class="n">n_windows</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">mode</span> <span class="o">=</span> <span class="s">&#39;multitaper&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="create_pipeline_time_series_to_spectral_connectivity"><a class="viewcode-back" href="../../../ephypype/neuropype_ephy.pipelines.html#neuropype_ephy.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity">[docs]</a><span class="k">def</span> <span class="nf">create_pipeline_time_series_to_spectral_connectivity</span><span class="p">(</span><span class="n">main_path</span><span class="p">,</span> 
+                                                         <span class="n">pipeline_name</span><span class="o">=</span><span class="s">&#39;ts_to_conmat&#39;</span><span class="p">,</span>
+                                                         <span class="n">con_method</span><span class="o">=</span><span class="s">&#39;coh&#39;</span><span class="p">,</span>
+                                                         <span class="n">multi_con</span><span class="o">=</span><span class="k">False</span><span class="p">,</span>
+                                                         <span class="n">export_to_matlab</span><span class="o">=</span><span class="k">False</span><span class="p">,</span>
+                                                         <span class="n">n_windows</span><span class="o">=</span><span class="p">[],</span>
+                                                         <span class="n">mode</span><span class="o">=</span><span class="s">&#39;multitaper&#39;</span><span class="p">,</span>
+                                                         <span class="n">is_sensor_space</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
+                                                         <span class="n">epoch_window_length</span><span class="o">=</span><span class="k">None</span><span class="p">):</span>
     
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Description:</span>
-<span class="sd">    </span>
-<span class="sd">	Connectivity pipeline: compute spectral connectivity in a given frequency bands</span>
-<span class="sd">    </span>
+
+<span class="sd">        Connectivity pipeline: compute spectral connectivity in a given frequency bands</span>
+
 <span class="sd">    Inputs:</span>
-<span class="sd">    </span>
-<span class="sd">	main_path : str</span>
+
+<span class="sd">        main_path : str</span>
 <span class="sd">            the main path of the pipeline</span>
-<span class="sd">	pipeline_name: str (default &#39;ts_to_conmat&#39;)</span>
+<span class="sd">        pipeline_name: str (default &#39;ts_to_conmat&#39;)</span>
 <span class="sd">            name of the pipeline</span>
 <span class="sd">        con_method : str</span>
-<span class="sd">	    metric computed on time series for connectivity; possible choice: &quot;coh&quot;,&quot;imcoh&quot;,&quot;plv&quot;,&quot;pli&quot;,&quot;wpli&quot;,&quot;pli2_unbiased&quot;,&quot;ppc&quot;,&quot;cohy&quot;,&quot;wpli2_debiased&quot;     </span>
-<span class="sd">	multi_con : bool (default False)</span>
-<span class="sd">	    True if multiple connectivity matrices are exported</span>
-<span class="sd">	export_to_matlab : bool (default False)</span>
-<span class="sd">	    True if conmat is exported to .mat format as well</span>
-<span class="sd">	n_windows : list</span>
-<span class="sd">	    list of start and stop points (tuple of two integers) of temporal windows</span>
-<span class="sd">	mode : str (default &#39;multipaper&#39;)</span>
-<span class="sd">	    mode for computing frequency bands; possible choice: &quot;multitaper&quot;,&quot;cwt_morlet&quot;</span>
-<span class="sd">	</span>
+<span class="sd">            metric computed on time series for connectivity; possible choice: &quot;coh&quot;,&quot;imcoh&quot;,&quot;plv&quot;,&quot;pli&quot;,&quot;wpli&quot;,&quot;pli2_unbiased&quot;,&quot;ppc&quot;,&quot;cohy&quot;,&quot;wpli2_debiased&quot;     </span>
+<span class="sd">        multi_con : bool (default False)</span>
+<span class="sd">            True if multiple connectivity matrices are exported</span>
+<span class="sd">        export_to_matlab : bool (default False)</span>
+<span class="sd">            True if conmat is exported to .mat format as well</span>
+<span class="sd">        n_windows : list</span>
+<span class="sd">            list of start and stop points (tuple of two integers) of temporal windows</span>
+<span class="sd">        mode : str (default &#39;multipaper&#39;)</span>
+<span class="sd">             mode for computing frequency bands; possible choice: &quot;multitaper&quot;,&quot;cwt_morlet&quot;</span>
+<span class="sd">        epoch_window_length : float</span>
+<span class="sd">             epoched data</span>
+<span class="sd">        is_sensor_space : bool (default True)</span>
+<span class="sd">             True if we compute connectivity on sensor space</span>
+
 <span class="sd">    Inputs (inputnode):</span>
 <span class="sd">    </span>
-<span class="sd">	ts_file : str</span>
-<span class="sd">	    path to the time series file in .npy format</span>
-<span class="sd">	freq_band : float</span>
-<span class="sd">	    frequency bands</span>
-<span class="sd">	sfreq : float</span>
-<span class="sd">	    sampling frequency</span>
-<span class="sd">	labels_file : str</span>
-<span class="sd">         path to the file containing a list of labels associated with nodes</span>
-<span class="sd">	epoch_window_length : float</span>
-<span class="sd">	    epoched data</span>
-<span class="sd">	is_sensor_space : bool (default True)</span>
-<span class="sd">         True if we compute connectivity on sensor space</span>
-<span class="sd">	index : str</span>
-<span class="sd">         what to add to the name of the file</span>
-<span class="sd">	    </span>
-<span class="sd">	    </span>
+<span class="sd">        ts_file : str</span>
+<span class="sd">            path to the time series file in .npy format</span>
+<span class="sd">        freq_band : float</span>
+<span class="sd">            frequency bands</span>
+<span class="sd">        sfreq : float</span>
+<span class="sd">            sampling frequency</span>
+<span class="sd">        labels_file : str</span>
+<span class="sd">            path to the file containing a list of labels associated with nodes</span>
+<span class="sd">        index : str</span>
+<span class="sd">            what to add to the name of the file	    </span>
+
 <span class="sd">    Outputs:</span>
 
 <span class="sd">        pipeline : instance of Workflow</span>

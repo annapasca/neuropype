@@ -109,14 +109,15 @@ Pipeline Input
 
 Each pipeline provided by NeuroPype requires two different kind of inputs:
 
-* inputs of module
-* **inputnode**: these particular inputs are defined after the creation of the pipeline and can be either directly specified or defined as output of a previous Node
+* inputs of the pipeline
+* **inputnode**: these particular inputs are defined after the creation of the pipeline; an inputnode of the pipeline is defined by an output of a previous Node
 
 For example, looking at the definition of :py:func:`create_pipeline_time_series_to_spectral_connectivity <neuropype_ephy.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity>` module
-``main_path`` and ``con_method`` are inputs of the module
-while ``is_sensor_space`` and ``ts_file`` are inputnode and can be specified as
+``main_path`` and ``con_method`` are inputs of the pipeline
+while ``ts_file`` is an inputnode and should be specified as
 
-``spectral_workflow.inputs.inputnode.is_sensor_space = True``  
+.. comment: ``spectral_workflow.inputs.inputnode.is_sensor_space = True``  
+
 ``main_workflow.connect(create_ts_node, 'ts_file', spectral_workflow, 'inputnode.ts_file')``
 
 .. _datagrabber:
@@ -138,7 +139,7 @@ Iterables are very important for the repeated execution of a workflow with sligh
 Usually, Iterables are used to feed the different subject names into the workflow, causing your workflow to create 
 as many execution workflows as subjects. And depending on your system, all of those workflows could be executed in parallel.
 
-In this example script, to run the Workflow for different subjects ans sessions we have to iterate over a list of subject IDs
+In this example script, to run the Workflow for different subjects and sessions we have to iterate over a list of subject IDs
 and session names by setting the iterables property of the ``datasource`` Node for the inputs ``subject_id`` and ``sess_index``.
 This is performed by connecting these inputs to the iterables inputs of ``infosource`` Node.
 
@@ -231,7 +232,8 @@ It is important to point out that we have to connect the output and input fields
 			    create_ts_node, 'raw_fname')
 
 
-.. code:: python
+.. code-block:: python
+    :emphasize-lines: 9,10
 
       spectral_workflow = \
 	  create_pipeline_time_series_to_spectral_connectivity(main_path,
