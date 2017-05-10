@@ -3,7 +3,7 @@
 Spectral connectivity and graph Workflow
 ========================================
 
-The following script allows to perform spectral connectivity and graph analysis in sensor space
+The following script allows to perform spectral connectivity and graph analysis in **sensor space**
 (see :ref:`spectral_connectivity` Section and |conmat_to_graph| pipeline).
 
 .. |conmat_to_graph| raw:: html
