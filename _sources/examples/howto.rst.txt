@@ -64,10 +64,6 @@ We can put all these variables in a separate file :download:`params_congraph.py 
   from params_congraph import main_path, data_path, subject_ids, sessions
   from params_congraph import freq_band_names, con_method
   from params_congraph import correl_analysis_name, epoch_window_length
-  from params_congraph import mod, con_den
-
-  if mod:
-      from params_congraph import radatools_optim
 
 
 .. code:: python
@@ -95,7 +91,8 @@ In this example the main Nodes are
 * ``datasource`` is a DataGrabber Node that allows the user to define flexible search patterns which can be parameterized by user defined inputs (see :ref:`datagrabber`)
 * :py:func:`create_ts <neuropype_ephy.preproc.create_ts>` : reads a raw data file and save in different files the data matrix, the sensors locations and the sensors labels
 * ``ts_to_conmat`` is a Node containing the connectivity pipeline created by :py:func:`create_pipeline_time_series_to_spectral_connectivity <neuropype_ephy.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity>` (see :ref:`inputnode`)
-* ``graph_den_pipe_den_0_05`` is a Node containing the pipeline from connectivity matrices to graph analysis created by |create_pipeline_conmat_to_graph_density| (see :ref:`inputnode`)
+
+.. comment: * ``graph_den_pipe_den_0_05`` is a Node containing the pipeline from connectivity matrices to graph analysis created by |create_pipeline_conmat_to_graph_density| (see :ref:`inputnode`)
 
 .. |create_pipeline_conmat_to_graph_density| raw:: html
 
@@ -237,11 +234,8 @@ It is important to point out that we have to connect the output and input fields
 
       spectral_workflow = \
 	  create_pipeline_time_series_to_spectral_connectivity(main_path,
-							      con_method=con_method)
-
-      spectral_workflow.inputs.inputnode.is_sensor_space = True
-
-      spectral_workflow.inputs.inputnode.epoch_window_length = epoch_window_length
+							      con_method=con_method,
+							      epoch_window_length=epoch_window_length)
       
       main_workflow.connect(create_ts_node, 'ts_file',
 			    spectral_workflow, 'inputnode.ts_file')
@@ -255,21 +249,6 @@ It is important to point out that we have to connect the output and input fields
       main_workflow.connect(create_ts_node, 'sfreq',
 			    spectral_workflow, 'inputnode.sfreq')
 
-      graph_den_pipe = create_pipeline_conmat_to_graph_density(main_path,
-							      con_den=con_den,
-							      mod=mod,
-							      plot=True)
-
-      main_workflow.connect(spectral_workflow, 'spectral.conmat_file',
-			    graph_den_pipe, 'inputnode.conmat_file')
-
-      if mod:
-	  graph_den_pipe.inputs.community_rada.optim_seq = radatools_optim
-
-	  main_workflow.connect(create_ts_node, 'channel_names_file',
-				graph_den_pipe, 'inputnode.labels_file')
-	  main_workflow.connect(create_ts_node, 'channel_coords_file',
-				graph_den_pipe, 'inputnode.coords_file')
 
       return main_workflow
 
@@ -301,9 +280,9 @@ This is achieved by recording a hash of the inputs.
     :align: center
 
       
-**Download** Parameters file: :download:`params_congraph.py <../../examples/params_congraph.py>`
+**Download** Parameters file: :download:`params_congraph.py <../../examples/params_conn.py>`
 
-**Download** Python source code: :download:`run_spectral_modularity.py <../../examples/run_spectral_modularity.py>`
+**Download** Python source code: :download:`run_spectral_modularity.py <../../examples/run_spectral.py>`
 
 
 

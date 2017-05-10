@@ -174,10 +174,6 @@ We can put all these variables in a separate file <a class="reference download i
 <div class="code python highlight-default"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">params_congraph</span> <span class="k">import</span> <span class="n">main_path</span><span class="p">,</span> <span class="n">data_path</span><span class="p">,</span> <span class="n">subject_ids</span><span class="p">,</span> <span class="n">sessions</span>
 <span class="kn">from</span> <span class="nn">params_congraph</span> <span class="k">import</span> <span class="n">freq_band_names</span><span class="p">,</span> <span class="n">con_method</span>
 <span class="kn">from</span> <span class="nn">params_congraph</span> <span class="k">import</span> <span class="n">correl_analysis_name</span><span class="p">,</span> <span class="n">epoch_window_length</span>
-<span class="kn">from</span> <span class="nn">params_congraph</span> <span class="k">import</span> <span class="n">mod</span><span class="p">,</span> <span class="n">con_den</span>
-
-<span class="k">if</span> <span class="n">mod</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">params_congraph</span> <span class="k">import</span> <span class="n">radatools_optim</span>
 </pre></div>
 </div>
 <div class="code python highlight-default"><div class="highlight"><pre><span class="k">def</span> <span class="nf">get_freq_band</span><span class="p">(</span><span class="n">freq_band_name</span><span class="p">):</span>
@@ -203,7 +199,6 @@ In this example the main Nodes are</p>
 <li><code class="docutils literal"><span class="pre">datasource</span></code> is a DataGrabber Node that allows the user to define flexible search patterns which can be parameterized by user defined inputs (see <a class="reference internal" href="#datagrabber"><span class="std std-ref">DataGrabber Input</span></a>)</li>
 <li><a class="reference internal" href="../ephypype/neuropype_ephy.html#neuropype_ephy.preproc.create_ts" title="neuropype_ephy.preproc.create_ts"><code class="xref py py-func docutils literal"><span class="pre">create_ts</span></code></a> : reads a raw data file and save in different files the data matrix, the sensors locations and the sensors labels</li>
 <li><code class="docutils literal"><span class="pre">ts_to_conmat</span></code> is a Node containing the connectivity pipeline created by <a class="reference internal" href="../ephypype/neuropype_ephy.pipelines.html#neuropype_ephy.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity" title="neuropype_ephy.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity"><code class="xref py py-func docutils literal"><span class="pre">create_pipeline_time_series_to_spectral_connectivity</span></code></a> (see <a class="reference internal" href="#inputnode"><span class="std std-ref">Pipeline Input</span></a>)</li>
-<li><code class="docutils literal"><span class="pre">graph_den_pipe_den_0_05</span></code> is a Node containing the pipeline from connectivity matrices to graph analysis created by <a href="http://davidmeunier79.github.io/neuropype_graph/conmat_to_graph.html#create-pipeline-conmat-to-graph-density" target="_blank">create_pipeline_conmat_to_graph_density</a> (see <a class="reference internal" href="#inputnode"><span class="std std-ref">Pipeline Input</span></a>)</li>
 </ul>
 <div class="section" id="pipeline-input">
 <span id="inputnode"></span><h3>Pipeline Input<a class="headerlink" href="#pipeline-input" title="Permalink to this headline">¶</a></h3>
@@ -308,39 +303,21 @@ to the inputs of the connected Nodes. The specified connections create our Workf
 </div>
 <div class="highlight-python"><div class="highlight"><pre>  <span class="n">spectral_workflow</span> <span class="o">=</span> \
       <span class="n">create_pipeline_time_series_to_spectral_connectivity</span><span class="p">(</span><span class="n">main_path</span><span class="p">,</span>
-                                                          <span class="n">con_method</span><span class="o">=</span><span class="n">con_method</span><span class="p">)</span>
+                                                          <span class="n">con_method</span><span class="o">=</span><span class="n">con_method</span><span class="p">,</span>
+                                                          <span class="n">epoch_window_length</span><span class="o">=</span><span class="n">epoch_window_length</span><span class="p">)</span>
 
-  <span class="n">spectral_workflow</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputnode</span><span class="o">.</span><span class="n">is_sensor_space</span> <span class="o">=</span> <span class="bp">True</span>
+  <span class="n">main_workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">create_ts_node</span><span class="p">,</span> <span class="s">&#39;ts_file&#39;</span><span class="p">,</span>
+                        <span class="n">spectral_workflow</span><span class="p">,</span> <span class="s">&#39;inputnode.ts_file&#39;</span><span class="p">)</span>
 
-  <span class="n">spectral_workflow</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputnode</span><span class="o">.</span><span class="n">epoch_window_length</span> <span class="o">=</span> <span class="n">epoch_window_length</span>
-
-<span class="hll">  <span class="n">main_workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">create_ts_node</span><span class="p">,</span> <span class="s">&#39;ts_file&#39;</span><span class="p">,</span>
-</span><span class="hll">                        <span class="n">spectral_workflow</span><span class="p">,</span> <span class="s">&#39;inputnode.ts_file&#39;</span><span class="p">)</span>
+<span class="hll">  <span class="n">main_workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">create_ts_node</span><span class="p">,</span> <span class="s">&#39;channel_names_file&#39;</span><span class="p">,</span>
+</span><span class="hll">                        <span class="n">spectral_workflow</span><span class="p">,</span> <span class="s">&#39;inputnode.labels_file&#39;</span><span class="p">)</span>
 </span>
-  <span class="n">main_workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">create_ts_node</span><span class="p">,</span> <span class="s">&#39;channel_names_file&#39;</span><span class="p">,</span>
-                        <span class="n">spectral_workflow</span><span class="p">,</span> <span class="s">&#39;inputnode.labels_file&#39;</span><span class="p">)</span>
-
   <span class="n">main_workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">infosource</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;freq_band_name&#39;</span><span class="p">,</span> <span class="n">get_freq_band</span><span class="p">),</span>
                         <span class="n">spectral_workflow</span><span class="p">,</span> <span class="s">&#39;inputnode.freq_band&#39;</span><span class="p">)</span>
 
   <span class="n">main_workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">create_ts_node</span><span class="p">,</span> <span class="s">&#39;sfreq&#39;</span><span class="p">,</span>
                         <span class="n">spectral_workflow</span><span class="p">,</span> <span class="s">&#39;inputnode.sfreq&#39;</span><span class="p">)</span>
 
-  <span class="n">graph_den_pipe</span> <span class="o">=</span> <span class="n">create_pipeline_conmat_to_graph_density</span><span class="p">(</span><span class="n">main_path</span><span class="p">,</span>
-                                                          <span class="n">con_den</span><span class="o">=</span><span class="n">con_den</span><span class="p">,</span>
-                                                          <span class="n">mod</span><span class="o">=</span><span class="n">mod</span><span class="p">,</span>
-                                                          <span class="n">plot</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-
-  <span class="n">main_workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">spectral_workflow</span><span class="p">,</span> <span class="s">&#39;spectral.conmat_file&#39;</span><span class="p">,</span>
-                        <span class="n">graph_den_pipe</span><span class="p">,</span> <span class="s">&#39;inputnode.conmat_file&#39;</span><span class="p">)</span>
-
-  <span class="k">if</span> <span class="n">mod</span><span class="p">:</span>
-      <span class="n">graph_den_pipe</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">community_rada</span><span class="o">.</span><span class="n">optim_seq</span> <span class="o">=</span> <span class="n">radatools_optim</span>
-
-      <span class="n">main_workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">create_ts_node</span><span class="p">,</span> <span class="s">&#39;channel_names_file&#39;</span><span class="p">,</span>
-                            <span class="n">graph_den_pipe</span><span class="p">,</span> <span class="s">&#39;inputnode.labels_file&#39;</span><span class="p">)</span>
-      <span class="n">main_workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">create_ts_node</span><span class="p">,</span> <span class="s">&#39;channel_coords_file&#39;</span><span class="p">,</span>
-                            <span class="n">graph_den_pipe</span><span class="p">,</span> <span class="s">&#39;inputnode.coords_file&#39;</span><span class="p">)</span>
 
   <span class="k">return</span> <span class="n">main_workflow</span>
 </pre></div>
@@ -368,8 +345,8 @@ This is achieved by recording a hash of the inputs.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="../_images/graph_dot_conn2graph.jpg"><img alt="../_images/graph_dot_conn2graph.jpg" src="../_images/graph_dot_conn2graph.jpg" style="width: 690.75px; height: 809.25px;" /></a>
 </div>
-<p><strong>Download</strong> Parameters file: <a class="reference download internal" href="../_downloads/params_congraph.py" download=""><code class="xref download docutils literal"><span class="pre">params_congraph.py</span></code></a></p>
-<p><strong>Download</strong> Python source code: <a class="reference download internal" href="../_downloads/run_spectral_modularity.py" download=""><code class="xref download docutils literal"><span class="pre">run_spectral_modularity.py</span></code></a></p>
+<p><strong>Download</strong> Parameters file: <a class="reference download internal" href="../_downloads/params_conn.py" download=""><code class="xref download docutils literal"><span class="pre">params_congraph.py</span></code></a></p>
+<p><strong>Download</strong> Python source code: <a class="reference download internal" href="../_downloads/run_spectral.py" download=""><code class="xref download docutils literal"><span class="pre">run_spectral_modularity.py</span></code></a></p>
 </div>
 </div>
 
