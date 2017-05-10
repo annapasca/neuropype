@@ -31,7 +31,7 @@ Furthermore, the following **inputnodes** should be specified:
 About the ``con_method`` parameter specifying the connectivity measure, the possible options are: 
 'coh', 'imcoh', 'plv', 'pli', 'wpli', 'pli2_unbiased', 'ppc', 'cohy', 'wpli2_debiased'. 
 
-A clear description can be found in the MNE python page explaining the |here| function.
+.. note:: A clear description of the above connectivity measures can be found in the MNE python page explaining the |here| function.
 
 .. |here| raw:: html
 
