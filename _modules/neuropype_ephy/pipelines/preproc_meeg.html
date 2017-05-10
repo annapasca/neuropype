@@ -172,13 +172,13 @@
 
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Description:</span>
-<span class="sd">    </span>
+
 <span class="sd">        Preprocessing pipeline</span>
 
 <span class="sd">    Inputs:</span>
 
 <span class="sd">        main_path : str</span>
-<span class="sd">            the main path of the pipeline</span>
+<span class="sd">            main path to of the pipeline</span>
 <span class="sd">        pipeline_name: str (default &#39;preproc_meeg&#39;)</span>
 <span class="sd">            name of the pipeline</span>
 <span class="sd">        data_type: str (default &#39;fif&#39;)</span>
@@ -192,7 +192,7 @@
 <span class="sd">        is_ICA : boolean (default True)</span>
 <span class="sd">            if True apply ICA to automatically remove ECG and EoG artifacts</span>
 <span class="sd">        variance: float (default 0.95)</span>
-<span class="sd">            float between 0 and 1: the ICA components will be selected by the </span>
+<span class="sd">            float between 0 and 1: the ICA components will be selected by the</span>
 <span class="sd">            cumulative percentage of explained variance</span>
 <span class="sd">        ECG_ch_name: str (default &#39;&#39;)</span>
 <span class="sd">            the name of ECG channels</span>
@@ -216,10 +216,10 @@
 
 <span class="sd">    Inputs (inputnode):</span>
 
-<span class="sd">        raw_file : str </span>
-<span class="sd">	    path to raw meg data in fif format</span>
+<span class="sd">        raw_file : str</span>
+<span class="sd">            path to raw meg data in fif format</span>
 <span class="sd">        subject_id : str</span>
-<span class="sd">	    subject id</span>
+<span class="sd">            subject id</span>
 
 <span class="sd">    Outputs:</span>
 

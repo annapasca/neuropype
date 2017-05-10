@@ -140,19 +140,19 @@ python framework.</p>
 <li><a href="http://davidmeunier79.github.io/neuropype_graph" target="_blank">neuropype_graph</a> based on <a href="http://deim.urv.cat/~sergio.gomez/radatools.php" target="_blank">radatools</a> includes pipelines for graph theoretical analysis of neuroimaging data</li>
 </ul>
 <p>NeuroPype provides a very common and fast framework to develop workflows for advanced analyses, in particular
-defines a set of different pipelines that can be used stand-alone or as lego of a bigger workflow:
+defines a set of different <strong>pipelines</strong> that can be used stand-alone or as <strong>lego</strong> of a bigger workflow:
 the input of a pipeline will be the output of another pipeline.</p>
-<p>For each possible workflow the input data can be specified in three different ways:</p>
+<p>For each possible workflow the <strong>input data</strong> can be specified in three different ways:</p>
 <ul class="simple">
-<li>raw MEG data in .fif and .ds format</li>
-<li>time series of connectivity matrices in .mat (Matlab) or .npy (Numpy) format</li>
-<li>connectivity matrices in .mat (Matlab) or .npy (Numpy) format</li>
+<li>raw MEG data in <strong>.fif</strong> and <strong>.ds</strong> format</li>
+<li>time series of connectivity matrices in <strong>.mat</strong> (Matlab) or <strong>.npy</strong> (Numpy) format</li>
+<li>connectivity matrices in <strong>.mat</strong> (Matlab) or <strong>.npy</strong> (Numpy) format</li>
 </ul>
 <div class="figure align-center" id="id2">
 <span id="lego"></span><img alt="_images/all_input_doors.png" src="_images/all_input_doors.png" />
 <p class="caption"><span class="caption-text">Main inputs and subsequent pipeline steps</span></p>
 </div>
-<p>Each pipeline based on nipype engine is defined by nodes connected together,
+<p>Each pipeline based on nipype engine is defined by <strong>nodes</strong> connected together,
 where each node maybe wrapping of existing software (as MNE-python modules or radatools functions)
 as well as providing easy ways to implement function defined by the user.</p>
 <div class="section" id="installation">

@@ -135,17 +135,28 @@
 <p>The following script allows to perform spectral connectivity and graph analysis in <strong>sensor space</strong>
 (see <a class="reference internal" href="../ephypype/pipelines/spectral_connectivity.html#spectral-connectivity"><span class="std std-ref">Connectivity pipeline</span></a> Section and <a href="http://davidmeunier79.github.io/neuropype_graph/conmat_to_graph.html" target="_blank">create_pipeline_conmat_to_graph_density</a> pipeline).</p>
 <p>Before to run the script, the <a class="reference internal" href="params.html#params"><span class="std std-ref">params file</span></a> should be be downloaded (see download
-link below). The main parameters to set for the connectivity pipeline are</p>
+link below). The main <strong>parameters</strong> to set for the connectivity pipeline is</p>
 <ul class="simple">
+<li><code class="docutils literal"><span class="pre">main_path</span></code> : main path of the pipeline (<em>mandatory</em>)</li>
 <li><code class="docutils literal"><span class="pre">con_method</span></code> : connectivity measure</li>
-<li><code class="docutils literal"><span class="pre">freq_band</span></code> : frequency bands</li>
+</ul>
+<p>Furthermore, the following <strong>inputnodes</strong> should be specified:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">ts_file</span></code> : path to time series in .npy format (<em>mandatory</em>)</li>
+<li><code class="docutils literal"><span class="pre">sfreq</span></code> : sampling frequency (<em>mandatory</em>)</li>
+<li><code class="docutils literal"><span class="pre">freq_band</span></code> : frequency bands (<em>mandatory</em>)</li>
+<li><code class="docutils literal"><span class="pre">labels_file</span></code> : path to the file containing a list of labels associated with nodes</li>
 <li><code class="docutils literal"><span class="pre">epoch_window_length</span></code> : epoched data</li>
-<li><code class="docutils literal"><span class="pre">is_sensor_space</span></code> : True if the connectivity matrix is computed in the sensor space, otherwise is computed in the source space</li>
-<li><code class="docutils literal"><span class="pre">export_to_matlab</span></code> : True if the connectivity matrix is exported to <strong>.mat</strong> format as well</li>
+<li><code class="docutils literal"><span class="pre">is_sensor_space</span></code> : True if we compute connectivity on sensor space</li>
+<li><code class="docutils literal"><span class="pre">index</span></code> : what to add to the name of the file</li>
 </ul>
 <p>About the <code class="docutils literal"><span class="pre">con_method</span></code> parameter specifying the connectivity measure, the possible options are:
 &#8216;coh&#8217;, &#8216;imcoh&#8217;, &#8216;plv&#8217;, &#8216;pli&#8217;, &#8216;wpli&#8217;, &#8216;pli2_unbiased&#8217;, &#8216;ppc&#8217;, &#8216;cohy&#8217;, &#8216;wpli2_debiased&#8217;.</p>
 <p>A clear description can be found in the MNE python page explaining the <a href="http://martinos.org/mne/stable/generated/mne.connectivity.spectral_connectivity.html?highlight=spectral_connectivity#mne.connectivity.spectral_connectivity" target="_blank">spectral_connectivity</a> function.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">see <a class="reference internal" href="../ephypype/neuropype_ephy.pipelines.html#neuropype_ephy.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity" title="neuropype_ephy.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity"><code class="xref py py-func docutils literal"><span class="pre">create_pipeline_time_series_to_spectral_connectivity</span></code></a> for a list of all possible inputs</p>
+</div>
 <div class="code python highlight-default"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="k">as</span> <span class="nn">pe</span>
 <span class="kn">import</span> <span class="nn">nipype.interfaces.io</span> <span class="k">as</span> <span class="nn">nio</span>
 

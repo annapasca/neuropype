@@ -7,8 +7,9 @@ The following script implements a power pipeline to compute **PSD** on MEG data 
 (see :ref:`power` Section). 
 
 Before to run the script, the :ref:`params` should be downloaded (see download
-link below). The main parameters to set for the power pipeline are
-            
+link below). The main **parameters** to set for the power pipeline are
+ 
+* ``main_path`` : main path of the pipeline (*mandatory*) 
 * ``fmin`` : min frequency of interest
 * ``fmax`` : max frequency of interest
 * ``power_method`` : possible choices are *welch* and *multitaper*. If *welch* the power spectral density (PSD) is computed by Welch's method; otherwise it is computed by multitapers
@@ -16,7 +17,9 @@ link below). The main parameters to set for the power pipeline are
     
 Furthermore, the following **inputnode** must be specified:
 
-* ``fif_file`` : path to raw or epoched MEG data in **fif** format
+* ``fif_file`` : path to raw or epoched MEG data in **fif** format (*mandatory*)
+
+.. seealso:: see :py:func:`create_pipeline_power <neuropype_ephy.pipelines.power.create_pipeline_power>` for a list of all possible inputs
 
 .. code:: python
 

@@ -135,8 +135,9 @@
 <p>The following script implements a power pipeline to compute <strong>PSD</strong> on MEG data in <strong>fif</strong> format
 (see <a class="reference internal" href="../ephypype/pipelines/power.html#power"><span class="std std-ref">Power pipeline</span></a> Section).</p>
 <p>Before to run the script, the <a class="reference internal" href="params.html#params"><span class="std std-ref">params file</span></a> should be downloaded (see download
-link below). The main parameters to set for the power pipeline are</p>
+link below). The main <strong>parameters</strong> to set for the power pipeline are</p>
 <ul class="simple">
+<li><code class="docutils literal"><span class="pre">main_path</span></code> : main path of the pipeline (<em>mandatory</em>)</li>
 <li><code class="docutils literal"><span class="pre">fmin</span></code> : min frequency of interest</li>
 <li><code class="docutils literal"><span class="pre">fmax</span></code> : max frequency of interest</li>
 <li><code class="docutils literal"><span class="pre">power_method</span></code> : possible choices are <em>welch</em> and <em>multitaper</em>. If <em>welch</em> the power spectral density (PSD) is computed by Welch&#8217;s method; otherwise it is computed by multitapers</li>
@@ -144,8 +145,12 @@ link below). The main parameters to set for the power pipeline are</p>
 </ul>
 <p>Furthermore, the following <strong>inputnode</strong> must be specified:</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">fif_file</span></code> : path to raw or epoched MEG data in <strong>fif</strong> format</li>
+<li><code class="docutils literal"><span class="pre">fif_file</span></code> : path to raw or epoched MEG data in <strong>fif</strong> format (<em>mandatory</em>)</li>
 </ul>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">see <a class="reference internal" href="../ephypype/neuropype_ephy.pipelines.html#neuropype_ephy.pipelines.power.create_pipeline_power" title="neuropype_ephy.pipelines.power.create_pipeline_power"><code class="xref py py-func docutils literal"><span class="pre">create_pipeline_power</span></code></a> for a list of all possible inputs</p>
+</div>
 <div class="code python highlight-default"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="k">as</span> <span class="nn">pe</span>
 <span class="kn">from</span> <span class="nn">nipype.interfaces.utility</span> <span class="k">import</span> <span class="n">IdentityInterface</span>
 <span class="kn">import</span> <span class="nn">nipype.interfaces.io</span> <span class="k">as</span> <span class="nn">nio</span>

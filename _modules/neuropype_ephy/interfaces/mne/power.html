@@ -139,8 +139,8 @@
 
 <span class="k">class</span> <span class="nc">PowerInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
     <span class="n">data_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
-                              <span class="n">desc</span><span class="o">=</span><span class="s">&#39;File with mne.Epochs or mne.io.Raw&#39;</span><span class="p">,</span>
-                              <span class="n">mandatory</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+                            <span class="n">desc</span><span class="o">=</span><span class="s">&#39;File with mne.Epochs or mne.io.Raw&#39;</span><span class="p">,</span>
+                            <span class="n">mandatory</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
     <span class="n">fmin</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;lower psd frequency&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="k">False</span><span class="p">)</span>
     <span class="n">fmax</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;higher psd frequency&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="k">False</span><span class="p">)</span>
     <span class="n">method</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Enum</span><span class="p">(</span><span class="s">&#39;welch&#39;</span><span class="p">,</span> <span class="s">&#39;multitaper&#39;</span><span class="p">,</span>

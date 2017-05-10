@@ -36,14 +36,14 @@ NeuroPype project includes three different packages:
    <a href="https://github.com/dmalt/neuropype_cli" target="_blank">neuropype_cli</a>
  
 NeuroPype provides a very common and fast framework to develop workflows for advanced analyses, in particular
-defines a set of different pipelines that can be used stand-alone or as lego of a bigger workflow:
+defines a set of different **pipelines** that can be used stand-alone or as **lego** of a bigger workflow:
 the input of a pipeline will be the output of another pipeline. 
 
-For each possible workflow the input data can be specified in three different ways: 
+For each possible workflow the **input data** can be specified in three different ways: 
 
-* raw MEG data in .fif and .ds format 
-* time series of connectivity matrices in .mat (Matlab) or .npy (Numpy) format
-* connectivity matrices in .mat (Matlab) or .npy (Numpy) format
+* raw MEG data in **.fif** and **.ds** format 
+* time series of connectivity matrices in **.mat** (Matlab) or **.npy** (Numpy) format
+* connectivity matrices in **.mat** (Matlab) or **.npy** (Numpy) format
 
 .. _lego:
 
@@ -52,7 +52,7 @@ For each possible workflow the input data can be specified in three different wa
 
    Main inputs and subsequent pipeline steps
 
-Each pipeline based on nipype engine is defined by nodes connected together, 
+Each pipeline based on nipype engine is defined by **nodes** connected together, 
 where each node maybe wrapping of existing software (as MNE-python modules or radatools functions) 
 as well as providing easy ways to implement function defined by the user. 
 

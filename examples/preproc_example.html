@@ -135,9 +135,9 @@
 <p>The following script implements a preprocessing pipeline to perform <strong>ICA</strong> on MEG data in <strong>ds</strong> format
 (see <a class="reference internal" href="../ephypype/pipelines/preproc_meeg.html#preproc-meeg"><span class="std std-ref">Preprocessing pipeline</span></a> Section).</p>
 <p>Before to run the script, the <a class="reference internal" href="params.html#params"><span class="std std-ref">params file</span></a> should be be downloaded (see download
-link below). The main <strong>parameters</strong> to set for the preprocessing pipeline are
-(see <a class="reference internal" href="../ephypype/neuropype_ephy.pipelines.html#neuropype_ephy.pipelines.preproc_meeg.create_pipeline_preproc_meeg" title="neuropype_ephy.pipelines.preproc_meeg.create_pipeline_preproc_meeg"><code class="xref py py-func docutils literal"><span class="pre">create_pipeline_preproc_meeg</span></code></a> for a list of all possible inputs)</p>
+link below). The main <strong>parameters</strong> to set for the preprocessing pipeline are</p>
 <ul class="simple">
+<li><code class="docutils literal"><span class="pre">main_path</span></code> : main path of the pipeline (<em>mandatory</em>)</li>
 <li><code class="docutils literal"><span class="pre">data_type</span></code> : &#8216;fif&#8217; or &#8216;ds&#8217;</li>
 <li><code class="docutils literal"><span class="pre">l_freq</span></code> : low cut-off frequency in Hz</li>
 <li><code class="docutils literal"><span class="pre">h_freq</span></code> : high cut-off frequency in Hz</li>
@@ -146,11 +146,15 @@ link below). The main <strong>parameters</strong> to set for the preprocessing p
 <li><code class="docutils literal"><span class="pre">ECG_ch_name</span></code> : the name of ECG channels</li>
 <li><code class="docutils literal"><span class="pre">EoG_ch_name</span></code> : the name of EoG channels</li>
 </ul>
-<p>Furthermore, the following <strong>inputnodes</strong> must be specified:</p>
+<p>Furthermore, the following <strong>inputnode</strong> should be specified:</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">raw_file</span></code> : path to raw MEG data in <strong>fif</strong> format</li>
+<li><code class="docutils literal"><span class="pre">raw_file</span></code> : path to raw MEG data in <strong>fif</strong> format (<em>mandatory</em>)</li>
 <li><code class="docutils literal"><span class="pre">subject_id</span></code> : subject id</li>
 </ul>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">see <a class="reference internal" href="../ephypype/neuropype_ephy.pipelines.html#neuropype_ephy.pipelines.preproc_meeg.create_pipeline_preproc_meeg" title="neuropype_ephy.pipelines.preproc_meeg.create_pipeline_preproc_meeg"><code class="xref py py-func docutils literal"><span class="pre">create_pipeline_preproc_meeg</span></code></a> for a list of all possible inputs</p>
+</div>
 <div class="code python highlight-default"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="k">as</span> <span class="nn">pe</span>
 <span class="kn">import</span> <span class="nn">nipype.interfaces.io</span> <span class="k">as</span> <span class="nn">nio</span>
 

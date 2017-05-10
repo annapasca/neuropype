@@ -12,13 +12,21 @@ The following script allows to perform spectral connectivity and graph analysis 
 
 
 Before to run the script, the :ref:`params` should be be downloaded (see download
-link below). The main parameters to set for the connectivity pipeline are
+link below). The main **parameters** to set for the connectivity pipeline is
             
+* ``main_path`` : main path of the pipeline (*mandatory*)
 * ``con_method`` : connectivity measure
-* ``freq_band`` : frequency bands
+
+Furthermore, the following **inputnodes** should be specified:
+
+* ``ts_file`` : path to time series in .npy format (*mandatory*)
+* ``sfreq`` : sampling frequency (*mandatory*)
+* ``freq_band`` : frequency bands (*mandatory*)
+* ``labels_file`` : path to the file containing a list of labels associated with nodes
 * ``epoch_window_length`` : epoched data
-* ``is_sensor_space`` : True if the connectivity matrix is computed in the sensor space, otherwise is computed in the source space
-* ``export_to_matlab`` : True if the connectivity matrix is exported to **.mat** format as well
+* ``is_sensor_space`` : True if we compute connectivity on sensor space
+* ``index`` : what to add to the name of the file
+         
 
 About the ``con_method`` parameter specifying the connectivity measure, the possible options are: 
 'coh', 'imcoh', 'plv', 'pli', 'wpli', 'pli2_unbiased', 'ppc', 'cohy', 'wpli2_debiased'. 
@@ -29,6 +37,7 @@ A clear description can be found in the MNE python page explaining the |here| fu
 
    <a href="http://martinos.org/mne/stable/generated/mne.connectivity.spectral_connectivity.html?highlight=spectral_connectivity#mne.connectivity.spectral_connectivity" target="_blank">spectral_connectivity</a>
 
+.. seealso:: see :py:func:`create_pipeline_time_series_to_spectral_connectivity <neuropype_ephy.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity>` for a list of all possible inputs
 
 .. code:: python
 

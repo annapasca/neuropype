@@ -53,8 +53,8 @@ def create_infosource():
                          name="infosource")
 
     infosource.iterables = [('subject_id', subject_ids),
-			    ('sess_index', sessions),
-			    ('freq_band_name', freq_band_names)]
+                            ('sess_index', sessions),
+                            ('freq_band_name', freq_band_names)]
 
     return infosource
 
@@ -68,7 +68,7 @@ def create_datasource():
 
     datasource.inputs.base_directory = data_path
     datasource.inputs.template = '*%s/%s/meg/%s*rest*ica.fif'
-    
+
     datasource.inputs.template_args = dict(raw_file=[['subject_id',
                                                       'sess_index',
                                                       'subject_id']])
@@ -92,13 +92,13 @@ def create_main_workflow_spectral_modularity():
     main_workflow.connect(infosource, 'subject_id', datasource, 'subject_id')
     main_workflow.connect(infosource, 'sess_index', datasource, 'sess_index')
 
-    create_ts_node = pe.Node(interface = Function(input_names=['raw_fname'], 
-                                           output_names=['ts_file',
-                                                         'channel_coords_file',
-                                                         'channel_names_file',
-                                                         'sfreq'],
-                                           function=create_ts),
-                      name='create_ts')
+    create_ts_node = pe.Node(interface=Function(input_names=['raw_fname'],
+                                                output_names=['ts_file',
+                                                              'channel_coords_file',
+                                                              'channel_names_file',
+                                                              'sfreq'],
+                                                function=create_ts),
+                             name='create_ts')
 
     main_workflow.connect(datasource, 'raw_file',
                           create_ts_node, 'raw_fname')
@@ -109,7 +109,7 @@ def create_main_workflow_spectral_modularity():
 
     spectral_workflow.inputs.inputnode.is_sensor_space = True
     spectral_workflow.inputs.inputnode.epoch_window_length = epoch_window_length
-    
+
     main_workflow.connect(create_ts_node, 'ts_file',
                           spectral_workflow, 'inputnode.ts_file')
 
