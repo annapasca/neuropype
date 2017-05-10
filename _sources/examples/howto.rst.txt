@@ -280,9 +280,9 @@ This is achieved by recording a hash of the inputs.
     :align: center
 
       
-**Download** Parameters file: :download:`params_congraph.py <../../examples/params_conn.py>`
+**Download** Parameters file: :download:`params_conn.py <../../examples/params_conn.py>`
 
-**Download** Python source code: :download:`run_spectral_modularity.py <../../examples/run_spectral.py>`
+**Download** Python source code: :download:`run_spectral.py <../../examples/run_spectral.py>`
 
 
 
