@@ -24,13 +24,20 @@ Go to the directory where you installed neuropype_ephy
     git checkout dev
     git pull origin dev
     
+    
 Preprocessing 
 -------------
 
-* go to ``preproc_example`` Section and **download** the params and main script file
-* set ``main_path`` in the ``params_ica.py`` file to the folder where you downloaded the sample datasets
+This analysis is based on :ref:`preproc_meeg` Section
+
+* set ``main_path`` in ``params_ica.py`` file to the folder where you downloaded the sample datasets
 * look at the variables you can set
-* run the script by the command ``python run_preprocess_pipeline.py``
+* run the script by the command 
+
+.. code-block:: bash
+   
+    python run_preprocess_pipeline.py
+
 * open ``ipynb_report.ipynb`` running a jupyter notebook
 
 .. code-block:: bash
@@ -42,10 +49,10 @@ Preprocessing
 
 
 
+Connectivity
+------------
 
-Connectivity and graph analysis
--------------------------------
+This analysis is based on :ref:`spectral_connectivity` Section
 
-* go to ``conn_graph_example`` Section and **download** the params and main script file 
-* set ``main_path`` to the folder where you downloaded the sample datasets
+* set ``main_path`` in ``params_conn.py`` file to the folder where you downloaded the sample datasets
 * look at the variables you can set

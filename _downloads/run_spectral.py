@@ -69,7 +69,7 @@ def create_datasource():
     return datasource
 
 
-def create_main_workflow_spectral_modularity():
+def create_main_workflow_spectral():
 
     main_workflow = pe.Workflow(name=correl_analysis_name)
     main_workflow.base_dir = main_path
@@ -117,7 +117,7 @@ def create_main_workflow_spectral_modularity():
 if __name__ == '__main__':
 
     # run pipeline:
-    main_workflow = create_main_workflow_spectral_modularity()
+    main_workflow = create_main_workflow_spectral()
 
     main_workflow.write_graph(graph2use='colored')  # colored
     main_workflow.config['execution'] = {'remove_unnecessary_outputs': 'false'}

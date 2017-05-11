@@ -90,7 +90,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#download-scripts">Download scripts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#upgrade-neuropype-ephy">Upgrade neuropype_ephy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#preprocessing">Preprocessing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#connectivity-and-graph-analysis">Connectivity and graph analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#connectivity">Connectivity</a></li>
 </ul>
 </li>
 </ul>
@@ -148,11 +148,16 @@ git pull origin dev
 </div>
 <div class="section" id="preprocessing">
 <h2>Preprocessing<a class="headerlink" href="#preprocessing" title="Permalink to this headline">¶</a></h2>
+<p>This analysis is based on <a class="reference internal" href="../ephypype/pipelines/preproc_meeg.html#preproc-meeg"><span class="std std-ref">Preprocessing pipeline</span></a> Section</p>
 <ul class="simple">
-<li>go to <code class="docutils literal"><span class="pre">preproc_example</span></code> Section and <strong>download</strong> the params and main script file</li>
-<li>set <code class="docutils literal"><span class="pre">main_path</span></code> in the <code class="docutils literal"><span class="pre">params_ica.py</span></code> file to the folder where you downloaded the sample datasets</li>
+<li>set <code class="docutils literal"><span class="pre">main_path</span></code> in <code class="docutils literal"><span class="pre">params_ica.py</span></code> file to the folder where you downloaded the sample datasets</li>
 <li>look at the variables you can set</li>
-<li>run the script by the command <code class="docutils literal"><span class="pre">python</span> <span class="pre">run_preprocess_pipeline.py</span></code></li>
+<li>run the script by the command</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre>python run_preprocess_pipeline.py
+</pre></div>
+</div>
+<ul class="simple">
 <li>open <code class="docutils literal"><span class="pre">ipynb_report.ipynb</span></code> running a jupyter notebook</li>
 </ul>
 <div class="highlight-bash"><div class="highlight"><pre>jupyter notebook
@@ -163,11 +168,11 @@ git pull origin dev
 <li>inspect each report file and save the raw data file in the subject directory</li>
 </ul>
 </div>
-<div class="section" id="connectivity-and-graph-analysis">
-<h2>Connectivity and graph analysis<a class="headerlink" href="#connectivity-and-graph-analysis" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="connectivity">
+<h2>Connectivity<a class="headerlink" href="#connectivity" title="Permalink to this headline">¶</a></h2>
+<p>This analysis is based on <a class="reference internal" href="../ephypype/pipelines/spectral_connectivity.html#spectral-connectivity"><span class="std std-ref">Connectivity pipeline</span></a> Section</p>
 <ul class="simple">
-<li>go to <code class="docutils literal"><span class="pre">conn_graph_example</span></code> Section and <strong>download</strong> the params and main script file</li>
-<li>set <code class="docutils literal"><span class="pre">main_path</span></code> to the folder where you downloaded the sample datasets</li>
+<li>set <code class="docutils literal"><span class="pre">main_path</span></code> in <code class="docutils literal"><span class="pre">params_conn.py</span></code> file to the folder where you downloaded the sample datasets</li>
 <li>look at the variables you can set</li>
 </ul>
 </div>

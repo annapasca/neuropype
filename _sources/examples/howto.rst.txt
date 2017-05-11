@@ -88,6 +88,7 @@ Every Node has always at least one input and one output field: the knowledge of 
 and define the stream of input and output between them. 
 In this example the main Nodes are
 
+* ``infosource`` is an IdentityInterface Node that just distributes values (see :ref:`infosource`)
 * ``datasource`` is a DataGrabber Node that allows the user to define flexible search patterns which can be parameterized by user defined inputs (see :ref:`datagrabber`)
 * :py:func:`create_ts <neuropype_ephy.preproc.create_ts>` : reads a raw data file and save in different files the data matrix, the sensors locations and the sensors labels
 * ``ts_to_conmat`` is a Node containing the connectivity pipeline created by :py:func:`create_pipeline_time_series_to_spectral_connectivity <neuropype_ephy.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity>` (see :ref:`inputnode`)
@@ -98,32 +99,23 @@ In this example the main Nodes are
 
    <a href="http://davidmeunier79.github.io/neuropype_graph/conmat_to_graph.html#create-pipeline-conmat-to-graph-density" target="_blank">create_pipeline_conmat_to_graph_density</a>
 
+   
+.. _infosource:
 
-.. _inputnode:
+Infosource Input
+~~~~~~~~~~~~~~~~
 
-Pipeline Input 
-~~~~~~~~~~~~~~
+The Infosource Node allows to distributes values: when we need to feed the different subject names into the workflow
+we only need a Node that can receive the input ['sub001','sub002','sub003'] and distribute those inputs to the workflow.
 
-Each pipeline provided by NeuroPype requires two different kind of inputs:
 
-* inputs of the pipeline
-* **inputnode**: these particular inputs are defined after the creation of the pipeline; an inputnode of the pipeline is defined by an output of a previous Node
-
-For example, looking at the definition of :py:func:`create_pipeline_time_series_to_spectral_connectivity <neuropype_ephy.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity>` module
-``main_path`` and ``con_method`` are inputs of the pipeline
-while ``ts_file`` is an inputnode and should be specified as
-
-.. comment: ``spectral_workflow.inputs.inputnode.is_sensor_space = True``  
-
-``main_workflow.connect(create_ts_node, 'ts_file', spectral_workflow, 'inputnode.ts_file')``
 
 .. _datagrabber:
-
 
 DataGrabber Input
 ~~~~~~~~~~~~~~~~~
 
-The ``DataGrabber Interface`` allows the user to define flexible search patterns which can be parameterized by user
+The ``DataGrabber Interface`` allows to define flexible search patterns which can be parameterized by user
 defined inputs (such as subject ID, session, etc.).
 In this example we parameterize the pattern search with ``subject_id`` and ``sess_index``. 
 
@@ -143,6 +135,23 @@ This is performed by connecting these inputs to the iterables inputs of ``infoso
 .. comment: ``main_workflow.connect(infosource, 'subject_id', datasource, 'subject_id')``
 .. comment: ``main_workflow.connect(infosource, 'sess_index', datasource, 'sess_index')``
 
+.. _inputnode:
+
+Pipeline Input 
+~~~~~~~~~~~~~~
+
+Each pipeline provided by NeuroPype requires two different kind of inputs:
+
+* inputs of the pipeline
+* **inputnode**: these particular inputs are defined after the creation of the pipeline; an inputnode of the pipeline is defined by an output of a previous Node
+
+For example, looking at the definition of :py:func:`create_pipeline_time_series_to_spectral_connectivity <neuropype_ephy.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity>` module
+``main_path`` and ``con_method`` are inputs of the pipeline
+while ``ts_file`` is an inputnode and should be specified as
+
+.. comment: ``spectral_workflow.inputs.inputnode.is_sensor_space = True``  
+
+``main_workflow.connect(create_ts_node, 'ts_file', spectral_workflow, 'inputnode.ts_file')``
 
 Input Stream
 ------------

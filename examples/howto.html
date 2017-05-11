@@ -92,7 +92,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../cinq/cinq.html#download-scripts">Download scripts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cinq/cinq.html#upgrade-neuropype-ephy">Upgrade neuropype_ephy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cinq/cinq.html#preprocessing">Preprocessing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cinq/cinq.html#connectivity-and-graph-analysis">Connectivity and graph analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cinq/cinq.html#connectivity">Connectivity</a></li>
 </ul>
 </li>
 </ul>
@@ -198,25 +198,19 @@ either an <strong>Interface</strong> to an external tool or a <strong>function</
 and define the stream of input and output between them.
 In this example the main Nodes are</p>
 <ul class="simple">
+<li><code class="docutils literal"><span class="pre">infosource</span></code> is an IdentityInterface Node that just distributes values (see <a class="reference internal" href="#infosource"><span class="std std-ref">Infosource Input</span></a>)</li>
 <li><code class="docutils literal"><span class="pre">datasource</span></code> is a DataGrabber Node that allows the user to define flexible search patterns which can be parameterized by user defined inputs (see <a class="reference internal" href="#datagrabber"><span class="std std-ref">DataGrabber Input</span></a>)</li>
 <li><a class="reference internal" href="../ephypype/neuropype_ephy.html#neuropype_ephy.preproc.create_ts" title="neuropype_ephy.preproc.create_ts"><code class="xref py py-func docutils literal"><span class="pre">create_ts</span></code></a> : reads a raw data file and save in different files the data matrix, the sensors locations and the sensors labels</li>
 <li><code class="docutils literal"><span class="pre">ts_to_conmat</span></code> is a Node containing the connectivity pipeline created by <a class="reference internal" href="../ephypype/neuropype_ephy.pipelines.html#neuropype_ephy.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity" title="neuropype_ephy.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity"><code class="xref py py-func docutils literal"><span class="pre">create_pipeline_time_series_to_spectral_connectivity</span></code></a> (see <a class="reference internal" href="#inputnode"><span class="std std-ref">Pipeline Input</span></a>)</li>
 </ul>
-<div class="section" id="pipeline-input">
-<span id="inputnode"></span><h3>Pipeline Input<a class="headerlink" href="#pipeline-input" title="Permalink to this headline">¶</a></h3>
-<p>Each pipeline provided by NeuroPype requires two different kind of inputs:</p>
-<ul class="simple">
-<li>inputs of the pipeline</li>
-<li><strong>inputnode</strong>: these particular inputs are defined after the creation of the pipeline; an inputnode of the pipeline is defined by an output of a previous Node</li>
-</ul>
-<p>For example, looking at the definition of <a class="reference internal" href="../ephypype/neuropype_ephy.pipelines.html#neuropype_ephy.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity" title="neuropype_ephy.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity"><code class="xref py py-func docutils literal"><span class="pre">create_pipeline_time_series_to_spectral_connectivity</span></code></a> module
-<code class="docutils literal"><span class="pre">main_path</span></code> and <code class="docutils literal"><span class="pre">con_method</span></code> are inputs of the pipeline
-while <code class="docutils literal"><span class="pre">ts_file</span></code> is an inputnode and should be specified as</p>
-<p><code class="docutils literal"><span class="pre">main_workflow.connect(create_ts_node,</span> <span class="pre">'ts_file',</span> <span class="pre">spectral_workflow,</span> <span class="pre">'inputnode.ts_file')</span></code></p>
+<div class="section" id="infosource-input">
+<span id="infosource"></span><h3>Infosource Input<a class="headerlink" href="#infosource-input" title="Permalink to this headline">¶</a></h3>
+<p>The Infosource Node allows to distributes values: when we need to feed the different subject names into the workflow
+we only need a Node that can receive the input [&#8216;sub001&#8217;,&#8217;sub002&#8217;,&#8217;sub003&#8217;] and distribute those inputs to the workflow.</p>
 </div>
 <div class="section" id="datagrabber-input">
 <span id="datagrabber"></span><h3>DataGrabber Input<a class="headerlink" href="#datagrabber-input" title="Permalink to this headline">¶</a></h3>
-<p>The <code class="docutils literal"><span class="pre">DataGrabber</span> <span class="pre">Interface</span></code> allows the user to define flexible search patterns which can be parameterized by user
+<p>The <code class="docutils literal"><span class="pre">DataGrabber</span> <span class="pre">Interface</span></code> allows to define flexible search patterns which can be parameterized by user
 defined inputs (such as subject ID, session, etc.).
 In this example we parameterize the pattern search with <code class="docutils literal"><span class="pre">subject_id</span></code> and <code class="docutils literal"><span class="pre">sess_index</span></code>.</p>
 </div>
@@ -229,6 +223,18 @@ as many execution workflows as subjects. And depending on your system, all of th
 <p>In this example script, to run the Workflow for different subjects and sessions we have to iterate over a list of subject IDs
 and session names by setting the iterables property of the <code class="docutils literal"><span class="pre">datasource</span></code> Node for the inputs <code class="docutils literal"><span class="pre">subject_id</span></code> and <code class="docutils literal"><span class="pre">sess_index</span></code>.
 This is performed by connecting these inputs to the iterables inputs of <code class="docutils literal"><span class="pre">infosource</span></code> Node.</p>
+</div>
+<div class="section" id="pipeline-input">
+<span id="inputnode"></span><h3>Pipeline Input<a class="headerlink" href="#pipeline-input" title="Permalink to this headline">¶</a></h3>
+<p>Each pipeline provided by NeuroPype requires two different kind of inputs:</p>
+<ul class="simple">
+<li>inputs of the pipeline</li>
+<li><strong>inputnode</strong>: these particular inputs are defined after the creation of the pipeline; an inputnode of the pipeline is defined by an output of a previous Node</li>
+</ul>
+<p>For example, looking at the definition of <a class="reference internal" href="../ephypype/neuropype_ephy.pipelines.html#neuropype_ephy.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity" title="neuropype_ephy.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity"><code class="xref py py-func docutils literal"><span class="pre">create_pipeline_time_series_to_spectral_connectivity</span></code></a> module
+<code class="docutils literal"><span class="pre">main_path</span></code> and <code class="docutils literal"><span class="pre">con_method</span></code> are inputs of the pipeline
+while <code class="docutils literal"><span class="pre">ts_file</span></code> is an inputnode and should be specified as</p>
+<p><code class="docutils literal"><span class="pre">main_workflow.connect(create_ts_node,</span> <span class="pre">'ts_file',</span> <span class="pre">spectral_workflow,</span> <span class="pre">'inputnode.ts_file')</span></code></p>
 </div>
 </div>
 <div class="section" id="input-stream">

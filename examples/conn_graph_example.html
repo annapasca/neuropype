@@ -89,8 +89,10 @@
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../cinq/cinq.html">CINQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cinq/cinq.html#download-scripts">Download scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cinq/cinq.html#upgrade-neuropype-ephy">Upgrade neuropype_ephy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cinq/cinq.html#preprocessing">Preprocessing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cinq/cinq.html#connectivity-and-graph-analysis">Connectivity and graph analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cinq/cinq.html#connectivity">Connectivity</a></li>
 </ul>
 </li>
 </ul>
@@ -139,6 +141,7 @@ link below). The main <strong>parameters</strong> to set for the connectivity pi
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">main_path</span></code> : main path of the pipeline (<em>mandatory</em>)</li>
 <li><code class="docutils literal"><span class="pre">con_method</span></code> : connectivity measure</li>
+<li><code class="docutils literal"><span class="pre">epoch_window_length</span></code> : epoched data</li>
 </ul>
 <p>Furthermore, the following <strong>inputnodes</strong> should be specified:</p>
 <ul class="simple">
@@ -146,8 +149,6 @@ link below). The main <strong>parameters</strong> to set for the connectivity pi
 <li><code class="docutils literal"><span class="pre">sfreq</span></code> : sampling frequency (<em>mandatory</em>)</li>
 <li><code class="docutils literal"><span class="pre">freq_band</span></code> : frequency bands (<em>mandatory</em>)</li>
 <li><code class="docutils literal"><span class="pre">labels_file</span></code> : path to the file containing a list of labels associated with nodes</li>
-<li><code class="docutils literal"><span class="pre">epoch_window_length</span></code> : epoched data</li>
-<li><code class="docutils literal"><span class="pre">is_sensor_space</span></code> : True if we compute connectivity on sensor space</li>
 <li><code class="docutils literal"><span class="pre">index</span></code> : what to add to the name of the file</li>
 </ul>
 <p>About the <code class="docutils literal"><span class="pre">con_method</span></code> parameter specifying the connectivity measure, the possible options are:
@@ -195,9 +196,9 @@ link below). The main <strong>parameters</strong> to set for the connectivity pi
     <span class="kn">from</span> <span class="nn">params_congraph</span> <span class="k">import</span> <span class="n">test</span>
 
     <span class="n">infosource</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;subject_id&#39;</span><span class="p">,</span>
-                                                            <span class="s">&#39;sess_index&#39;</span><span class="p">,</span>
-                                                            <span class="s">&#39;freq_band_name&#39;</span><span class="p">]),</span>
-                        <span class="n">name</span><span class="o">=</span><span class="s">&quot;infosource&quot;</span><span class="p">)</span>
+                                                             <span class="s">&#39;sess_index&#39;</span><span class="p">,</span>
+                                                             <span class="s">&#39;freq_band_name&#39;</span><span class="p">]),</span>
+                         <span class="n">name</span><span class="o">=</span><span class="s">&quot;infosource&quot;</span><span class="p">)</span>
 
 
     <span class="n">infosource</span><span class="o">.</span><span class="n">iterables</span> <span class="o">=</span> <span class="p">[(</span><span class="s">&#39;subject_id&#39;</span><span class="p">,</span> <span class="n">subject_ids</span><span class="p">),</span>
@@ -210,9 +211,9 @@ link below). The main <strong>parameters</strong> to set for the connectivity pi
 <span class="k">def</span> <span class="nf">create_datasource</span><span class="p">():</span>
 
     <span class="n">datasource</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">nio</span><span class="o">.</span><span class="n">DataGrabber</span><span class="p">(</span><span class="n">infields</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;subject_id&#39;</span><span class="p">,</span>
-                                                            <span class="s">&#39;sess_index&#39;</span><span class="p">],</span>
-                                                  <span class="n">outfields</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;raw_file&#39;</span><span class="p">]),</span>
-                        <span class="n">name</span><span class="o">=</span><span class="s">&#39;datasource&#39;</span><span class="p">)</span>
+                                                             <span class="s">&#39;sess_index&#39;</span><span class="p">],</span>
+                                                   <span class="n">outfields</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;raw_file&#39;</span><span class="p">]),</span>
+                         <span class="n">name</span><span class="o">=</span><span class="s">&#39;datasource&#39;</span><span class="p">)</span>
 
     <span class="n">datasource</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">base_directory</span> <span class="o">=</span> <span class="n">data_path</span>
     <span class="n">datasource</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">template</span> <span class="o">=</span> <span class="s">&#39;*%s/%s/meg/%s*rest*ica.fif&#39;</span>
@@ -252,10 +253,8 @@ link below). The main <strong>parameters</strong> to set for the connectivity pi
 
     <span class="n">spectral_workflow</span> <span class="o">=</span> \
         <span class="n">create_pipeline_time_series_to_spectral_connectivity</span><span class="p">(</span><span class="n">main_path</span><span class="p">,</span>
-                                                            <span class="n">con_method</span><span class="o">=</span><span class="n">con_method</span><span class="p">)</span>
-
-    <span class="n">spectral_workflow</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputnode</span><span class="o">.</span><span class="n">is_sensor_space</span> <span class="o">=</span> <span class="k">True</span>
-    <span class="n">spectral_workflow</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputnode</span><span class="o">.</span><span class="n">epoch_window_length</span> <span class="o">=</span> <span class="n">epoch_window_length</span>
+                                                             <span class="n">con_method</span><span class="o">=</span><span class="n">con_method</span><span class="p">,</span>
+                                                             <span class="n">epoch_window_length</span><span class="o">=</span><span class="n">epoch_window_length</span><span class="p">)</span>
 
     <span class="n">main_workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">create_ts_node</span><span class="p">,</span> <span class="s">&#39;ts_file&#39;</span><span class="p">,</span>
                           <span class="n">spectral_workflow</span><span class="p">,</span> <span class="s">&#39;inputnode.ts_file&#39;</span><span class="p">)</span>
@@ -270,9 +269,9 @@ link below). The main <strong>parameters</strong> to set for the connectivity pi
                           <span class="n">spectral_workflow</span><span class="p">,</span> <span class="s">&#39;inputnode.sfreq&#39;</span><span class="p">)</span>
 
     <span class="n">graph_den_pipe</span> <span class="o">=</span> <span class="n">create_pipeline_conmat_to_graph_density</span><span class="p">(</span><span class="n">main_path</span><span class="p">,</span>
-                                                            <span class="n">con_den</span><span class="o">=</span><span class="n">con_den</span><span class="p">,</span>
-                                                            <span class="n">mod</span><span class="o">=</span><span class="n">mod</span><span class="p">,</span>
-                                                            <span class="n">plot</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+                                                             <span class="n">con_den</span><span class="o">=</span><span class="n">con_den</span><span class="p">,</span>
+                                                             <span class="n">mod</span><span class="o">=</span><span class="n">mod</span><span class="p">,</span>
+                                                             <span class="n">plot</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
 
     <span class="n">main_workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">spectral_workflow</span><span class="p">,</span> <span class="s">&#39;spectral.conmat_file&#39;</span><span class="p">,</span>
                           <span class="n">graph_den_pipe</span><span class="p">,</span> <span class="s">&#39;inputnode.conmat_file&#39;</span><span class="p">)</span>
