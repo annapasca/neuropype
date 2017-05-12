@@ -1,21 +1,26 @@
 .. _power_example:
 
-PSD pipeline
+PSD Workflow
 ============
 
-The following script implements the power pipeline to compute **PSD** on MEG data in **fif** format 
-(see :ref:`power`). 
+The following script implements a power pipeline to compute **PSD** on MEG data in **fif** format 
+(see :ref:`power` Section). 
 
-Before to run the script, the :ref:`params` has to be downloaded (see download
-link below). The main parameters to set for the power pipeline are
-            
+Before to run the script, the :ref:`params` should be downloaded (see download
+link below). The main **parameters** to set for the power pipeline are
+ 
+* ``main_path`` : main path of the pipeline (*mandatory*) 
 * ``fmin`` : min frequency of interest
 * ``fmax`` : max frequency of interest
-* ``power_method`` : if 'welch' the power spectral density (PSD) is computed by Welch's
-  method; otherwise, if 'multitaper' the PSD is computed by multitapers
-* ``is_epoched`` : True if the input data are in epoch format (-epo.fif), False if the input data are raw data (-raw.fif)
+* ``power_method`` : possible choices are *welch* and *multitaper*. If *welch* the power spectral density (PSD) is computed by Welch's method; otherwise it is computed by multitapers
+* ``is_epoched`` : *True* if the input data are in epoch format (-epo.fif), *False* if the input data are raw data (-raw.fif)
     
-    
+Furthermore, the following **inputnode** must be specified:
+
+* ``fif_file`` : path to raw or epoched MEG data in **fif** format (*mandatory*)
+
+.. seealso:: see :py:func:`create_pipeline_power <neuropype_ephy.pipelines.power.create_pipeline_power>` for a list of all possible inputs
+
 .. code:: python
 
   import nipype.pipeline.engine as pe
@@ -51,7 +56,7 @@ link below). The main parameters to set for the power pipeline are
 			  name='datasource')
 
       datasource.inputs.base_directory = data_path
-      datasource.inputs.template = '*%s/%s/meg/%s*rest*.*ica.fif'
+      datasource.inputs.template = '*%s/%s/meg/%s*rest*ica.fif'
       datasource.inputs.template_args = dict(raw_file=[['subject_id',
 							'sess_index',
 							'subject_id']])
@@ -94,7 +99,9 @@ link below). The main parameters to set for the power pipeline are
       main_workflow.config['execution'] = {'remove_unnecessary_outputs': 'false'}
 
       main_workflow.run(plugin='MultiProc', plugin_args={'n_procs': 8})
-      
+
+.. _download_power:      
+
 **Download** Parameters file: :download:`params_power.py <../../examples/params_power.py>`
 
 **Download** Python source code: :download:`run_power_analysis.py <../../examples/run_power_analysis.py>`

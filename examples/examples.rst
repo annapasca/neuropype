@@ -5,7 +5,7 @@ Examples
 
 All example scripts are based on the sample datasets provided by |OMEGA|.
 In particular, we used the datasets organized according to the BIDS specifications (|BIDS|):
-after the registration to the OMEGA website, the sample datatasets to use with the scripts can be downloaded from 
+after the registration to the |OMEGA_registration|, the sample datatasets to use with the scripts can be downloaded from 
 the |OMEGA_link|.
 
 .. |OMEGA| raw:: html
@@ -19,6 +19,12 @@ the |OMEGA_link|.
 .. |OMEGA_link| raw:: html
 
    <a href="https://box.bic.mni.mcgill.ca/s/omega?path=%2FContributions%20(in%20BIDS%20format)" target="_blank">OMEGA link</a>
+   
+.. |OMEGA_registration| raw:: html
+
+   <a href="https://www.mcgill.ca/bic/omega-registration" target="_blank">OMEGA website</a>
+
+
 
 All example scripts need a :ref:`params` where to set 
 
@@ -31,13 +37,13 @@ All example scripts need a :ref:`params` where to set
 
  +---------------------------------------------+---------------------------------------------+
  | .. figure::  ../img/ICA_1comp.jpg           | .. figure::  ../img/power.jpg               |
- |    :scale: 50 %                             |    :scale: 50 %                             |
+ |    :scale: 40 %                             |    :scale: 40 %                             |
  |    :align: center                           |    :align: center                           |
  |                                             |                                             |
  |    :ref:`preproc_example`                   |    :ref:`power_example`                     |
  +---------------------------------------------+---------------------------------------------+
- | .. figure::  ../img/graph_coclass.jpg       | .. figure::  ../img/graph_dot_inv2graph.jpg |
- |    :scale: 50 %                             |    :scale: 50 %                             |
+ | .. figure::  ../img/graph_coclass.jpg       | .. figure::  ../img/circle_conmat_coh.jpg   |
+ |    :scale: 40 %                             |    :scale: 40 %                             |
  |    :align: center                           |    :align: center        	             |
  |                                             |                      		             |
  |    :ref:`conn_graph_example`                |    :ref:`inv_example`                       |
@@ -51,14 +57,18 @@ All example scripts need a :ref:`params` where to set
    power_example
    conn_graph_example
    inv_example
+   
+.. toctree::
+   :maxdepth: 3
+
    howto
    
    
 Scripts
-+++++++
+-------
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    params
 

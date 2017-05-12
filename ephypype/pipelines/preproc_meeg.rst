@@ -7,9 +7,9 @@ The preprocessing pipeline runs the ICA algorithm for an automatic removal of
 eyes and heart related artefacts. A report is automatically generated and can be used to 
 correct and/or fine-tune the correction in each subject (see the example section :ref:`preproc_example`).
 
-The input data can be in **ds** or **fif** format. 
+The **input** data can be in **ds** or **fif** format. 
 
-The output is the **preprocessed data** stored in the workflow directory. It's a good rule
+The **output** is the **preprocessed data** stored in the workflow directory. It's a good rule
 to inspect the report file saved in the same dir to look at the excluded ICA components. It is
 also possible to include and exclude more components by using either a jupyter notebook or
 the preprocessing pipeline with different flag parameters.
@@ -37,7 +37,7 @@ In particular, the node:
    :align: center
    
 .. note:: An **ICA tutorial** with the main functions used in MNE can be found |here|.
-.. seealso:: :ref:`preproc_example` to get an example on how to write a preprocessing pipeline.
+.. seealso:: See :ref:`preproc_example` to get an example on how to write a preprocessing pipeline.
 
 
 

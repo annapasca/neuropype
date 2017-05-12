@@ -15,7 +15,7 @@ python framework.
 NeuroPype project includes three different packages:
 
 * :ref:`neuropype_ephy` based on |MNE python| includes pipelines for electrophysiology analysis
-* `neuropype_cli <https://github.com/dmalt/neuropype_cli>`_ is a command line interface for neuropype_ephy package
+* |neuropype_cli| is a command line interface for neuropype_ephy package
 * |neuropype_graph| based on |radatools| includes pipelines for graph theoretical analysis of neuroimaging data
 
 
@@ -31,15 +31,19 @@ NeuroPype project includes three different packages:
 
    <a href="http://davidmeunier79.github.io/neuropype_graph" target="_blank">neuropype_graph</a>
    
+.. |neuropype_cli| raw:: html
+
+   <a href="https://github.com/dmalt/neuropype_cli" target="_blank">neuropype_cli</a>
+ 
 NeuroPype provides a very common and fast framework to develop workflows for advanced analyses, in particular
-defines a set of different pipelines that can be used stand-alone or as lego of a bigger workflow:
+defines a set of different **pipelines** that can be used stand-alone or as **lego** of a bigger workflow:
 the input of a pipeline will be the output of another pipeline. 
 
-For each possible workflow the input data can be specified in three different ways: 
+For each possible workflow the **input data** can be specified in three different ways: 
 
-* raw MEG data in .fif and .ds format 
-* time series of connectivity matrices in .mat (Matlab) or .npy (Numpy) format
-* connectivity matrices in .mat (Matlab) or .npy (Numpy) format
+* raw MEG data in **.fif** and **.ds** format 
+* time series of connectivity matrices in **.mat** (Matlab) or **.npy** (Numpy) format
+* connectivity matrices in **.mat** (Matlab) or **.npy** (Numpy) format
 
 .. _lego:
 
@@ -48,7 +52,7 @@ For each possible workflow the input data can be specified in three different wa
 
    Main inputs and subsequent pipeline steps
 
-Each pipeline based on nipype engine is defined by nodes connected together, 
+Each pipeline based on nipype engine is defined by **nodes** connected together, 
 where each node maybe wrapping of existing software (as MNE-python modules or radatools functions) 
 as well as providing easy ways to implement function defined by the user. 
 
@@ -58,9 +62,9 @@ Installation
 ============
 
 Install neuropype_ephy
-++++++++++++++++++++++
+----------------------
 
-::
+.. code-block:: bash
 
     git clone https://github.com/annapasca/neuropype_ephy.git
     cd neuropype_ephy
@@ -70,9 +74,9 @@ Install neuropype_ephy
 see :ref:`includeme` for more information
 
 Install neuropype_cli
-+++++++++++++++++++++++
+---------------------
 
-::
+.. code-block:: bash
 
     git clone https://github.com/dmalt/neuropype_cli.git
     cd neuropype_cli
@@ -86,9 +90,9 @@ see |README_cli| for more information.
    <a href="https://github.com/dmalt/neuropype_cli/blob/master/README.md" target="_blank">README</a>
 
 Install neuropype_graph
-+++++++++++++++++++++++
+-----------------------
 
-::
+.. code-block:: bash
 
     git clone https://github.com/davidmeunier79/neuropype_graph.git
     cd neuropype_graph
@@ -102,30 +106,26 @@ see |README_graph| for more information.
    <a href="http://davidmeunier79.github.io/neuropype_graph/includeme.html" target="_blank">README</a>
 
 
-.. _packages:
 
 Packages
 ========
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
    ephypype/neuropype_ephy
    neuropype_cli <https://github.com/dmalt/neuropype_cli>
    neuropype_graph <http://davidmeunier79.github.io/neuropype_graph/>
 
-   
-.. _examples:
 
 Examples
 ========
 
 .. toctree::
-   :maxdepth: 1
-   
+   :maxdepth: 3
+     
    examples/examples 
 
-.. _links:
 
 CINQ
 ====

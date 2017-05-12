@@ -1,10 +1,11 @@
 .. _howto:
 
+   
 How to build a Workflow
 =======================
 
 The following section is a brief introduction on how to build a Workflow by using NeuroPype package.
-The following example script allows to construct a Workflow to perform spectral connectivity and graph analysis in sensor space
+This example script allows to construct a Workflow to perform spectral connectivity and graph analysis in sensor space
 (see :ref:`spectral_connectivity` Section). 
 
 .. note:: This section is based on the |nipype_beginner|
@@ -15,16 +16,21 @@ The following example script allows to construct a Workflow to perform spectral 
 
 
 Main steps
-++++++++++
+----------
 
 * **Import modules**: the first step in any script is to import necessary functions or modules
-* **Definy variables**: the definition of variables we use in the script can be put in a separate file (see :ref:`params` for a list of all possible variables)
-* **Specify Nodes**: before to build a Workflow, we have to create some Nodes. A Node could be itself a pipeline
+* **Define variables**: the definition of variables we use in the script can be put in a separate file (see :ref:`params` for a list of all possible variables)
+* **Specify Nodes**: before to build a Workflow, we have to create some Nodes
+* **Input Stream**: we need to specify the path of the folders where the Workflow can get the data from
 * **Specify Workflows and Connect Nodes**: to set the order in which to execute the just created Nodes, we have to create a Workflow and specify the connections between the Nodes;
   in this way the Workflow will be executed in a sequential mode
-* **Input and Output Stream**: we need to specify the path of the folders where the Workflow can get the data from and where it should store the output data
 * **Run Workflow**: as last step we can run the Workflow!
 
+.. contents:: Table of Contents
+    :local:
+    :depth: 2
+    
+.. _modules:
 
 Import modules
 --------------
@@ -44,27 +50,22 @@ The first thing is to import the modules we need in the script. We import from n
   from neuropype_graph.pipelines.conmat_to_graph import create_pipeline_conmat_to_graph_density
 
 
+.. _variables:
+
 Define variables
 ----------------
 
 We have to specify some variables that are specific for the data analysis (the main directories where the data are stored,
-the list of subjects and sessions) and the pipelines we use (connectivity measure, frequency band of interest, )
-We can put all these variables in a separate file ``params_congraph.py`` (see below to download the file).
+the list of subjects and sessions, ...) and the pipelines we use (connectivity measure, frequency band of interest, ...)
+We can put all these variables in a separate file :download:`params_congraph.py <../../examples/params_congraph.py>`.
 
 .. code:: python  
   
   from params_congraph import main_path, data_path, subject_ids, sessions
   from params_congraph import freq_band_names, con_method
   from params_congraph import correl_analysis_name, epoch_window_length
-  from params_congraph import mod, con_den
-
-  if mod:
-      from params_congraph import radatools_optim
 
 
-Specify Nodes
--------------
-      
 .. code:: python
 
   def get_freq_band(freq_band_name):
@@ -77,11 +78,95 @@ Specify Nodes
 
 	  return freq_bands[freq_band_names.index(freq_band_name)]
 
+Specify Nodes
+-------------
 
+Before to create a Workflow we have to create the Nodes that define the workflow itself. A Node is an object that can encapsulate 
+either an **Interface** to an external tool or a **function** defined by the user. A Node can also encapsulate an another **pipeline**.
+
+Every Node has always at least one input and one output field: the knowledge of these inputs and outputs allows to connect the different Nodes
+and define the stream of input and output between them. 
+In this example the main Nodes are
+
+* ``infosource`` is an IdentityInterface Node that just distributes values (see :ref:`infosource`)
+* ``datasource`` is a DataGrabber Node that allows the user to define flexible search patterns which can be parameterized by user defined inputs (see :ref:`datagrabber`)
+* :py:func:`create_ts <neuropype_ephy.preproc.create_ts>` : reads a raw data file and save in different files the data matrix, the sensors locations and the sensors labels
+* ``ts_to_conmat`` is a Node containing the connectivity pipeline created by :py:func:`create_pipeline_time_series_to_spectral_connectivity <neuropype_ephy.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity>` (see :ref:`inputnode`)
+
+.. comment: * ``graph_den_pipe_den_0_05`` is a Node containing the pipeline from connectivity matrices to graph analysis created by |create_pipeline_conmat_to_graph_density| (see :ref:`inputnode`)
+
+.. |create_pipeline_conmat_to_graph_density| raw:: html
+
+   <a href="http://davidmeunier79.github.io/neuropype_graph/conmat_to_graph.html#create-pipeline-conmat-to-graph-density" target="_blank">create_pipeline_conmat_to_graph_density</a>
+
+   
+.. _infosource:
+
+Infosource Input
+~~~~~~~~~~~~~~~~
+
+The Infosource Node allows to distributes values: when we need to feed the different subject names into the workflow
+we only need a Node that can receive the input ['sub001','sub002','sub003'] and distribute those inputs to the workflow.
+
+
+
+.. _datagrabber:
+
+DataGrabber Input
+~~~~~~~~~~~~~~~~~
+
+The ``DataGrabber Interface`` allows to define flexible search patterns which can be parameterized by user
+defined inputs (such as subject ID, session, etc.).
+In this example we parameterize the pattern search with ``subject_id`` and ``sess_index``. 
+
+
+Iterables Input
+~~~~~~~~~~~~~~~
+
+Iterables are a special kind of input fields and any input field of any Node can be turned into an Iterable. 
+Iterables are very important for the repeated execution of a workflow with slightly changed parameters.
+Usually, Iterables are used to feed the different subject names into the workflow, causing your workflow to create 
+as many execution workflows as subjects. And depending on your system, all of those workflows could be executed in parallel.
+
+In this example script, to run the Workflow for different subjects and sessions we have to iterate over a list of subject IDs
+and session names by setting the iterables property of the ``datasource`` Node for the inputs ``subject_id`` and ``sess_index``.
+This is performed by connecting these inputs to the iterables inputs of ``infosource`` Node.
+
+.. comment: ``main_workflow.connect(infosource, 'subject_id', datasource, 'subject_id')``
+.. comment: ``main_workflow.connect(infosource, 'sess_index', datasource, 'sess_index')``
+
+.. _inputnode:
+
+Pipeline Input 
+~~~~~~~~~~~~~~
+
+Each pipeline provided by NeuroPype requires two different kind of inputs:
+
+* inputs of the pipeline
+* **inputnode**: these particular inputs are defined after the creation of the pipeline; an inputnode of the pipeline is defined by an output of a previous Node
+
+For example, looking at the definition of :py:func:`create_pipeline_time_series_to_spectral_connectivity <neuropype_ephy.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity>` module
+``main_path`` and ``con_method`` are inputs of the pipeline
+while ``ts_file`` is an inputnode and should be specified as
+
+.. comment: ``spectral_workflow.inputs.inputnode.is_sensor_space = True``  
+
+``main_workflow.connect(create_ts_node, 'ts_file', spectral_workflow, 'inputnode.ts_file')``
+
+Input Stream
+------------
+
+To specify the folder structure of the input data we use DataGrabber Interface (see :ref:`datagrabber`)
+
+.. code-block:: python
+  :emphasize-lines: 27,28,29,30
+  
   def create_infosource():
 
       from params_congraph import test
-
+  
+      # Infosource - a function free node to iterate over the list of subject IDs, sessions and 
+      # frequency bands
       infosource = pe.Node(interface=IdentityInterface(fields=['subject_id',
 							      'sess_index',
 							      'freq_band_name']),
@@ -92,8 +177,7 @@ Specify Nodes
 			      ('sess_index', sessions),
 			      ('freq_band_name', freq_band_names)]
 
-      return infosource
-
+      return infosource 
 
   def create_datasource():
 
@@ -103,7 +187,7 @@ Specify Nodes
 			  name='datasource')
 
       datasource.inputs.base_directory = data_path
-      datasource.inputs.template = '*%s/%s/meg/%s*rest*.*ica.fif'
+      datasource.inputs.template = '*%s/%s/meg/%s*rest*ica.fif'
       datasource.inputs.template_args = dict(raw_file=[['subject_id',
 							'sess_index',
 							'subject_id']])
@@ -113,6 +197,23 @@ Specify Nodes
       return datasource
 
 
+Specify Workflows and Connect Nodes
+-----------------------------------
+
+The purpose of workflows is to guide the sequential execution of Nodes: we create a main Workflow to connect 
+the different Nodes and define the data flow from the outputs of one Node 
+to the inputs of the connected Nodes. The specified connections create our Workflow: the created Nodes and the dependencies
+between them are represented as a graph (see :ref:`wf_graph`), in this way it is easy to see which Nodes are executed and in 
+which order. 
+
+It is important to point out that we have to connect the output and input fields of each node to the output and input fields of another node.
+      
+
+
+.. code-block:: python
+  :emphasize-lines: 3,12,13
+
+  
   def create_main_workflow_spectral_modularity():
 
       main_workflow = pe.Workflow(name=correl_analysis_name)
@@ -138,12 +239,14 @@ Specify Nodes
       main_workflow.connect(datasource, 'raw_file',
 			    create_ts_node, 'raw_fname')
 
+
+.. code-block:: python
+    :emphasize-lines: 9,10
+
       spectral_workflow = \
 	  create_pipeline_time_series_to_spectral_connectivity(main_path,
-							      con_method=con_method)
-
-      spectral_workflow.inputs.inputnode.is_sensor_space = True
-      spectral_workflow.inputs.inputnode.epoch_window_length = epoch_window_length
+							      con_method=con_method,
+							      epoch_window_length=epoch_window_length)
       
       main_workflow.connect(create_ts_node, 'ts_file',
 			    spectral_workflow, 'inputnode.ts_file')
@@ -157,24 +260,22 @@ Specify Nodes
       main_workflow.connect(create_ts_node, 'sfreq',
 			    spectral_workflow, 'inputnode.sfreq')
 
-      graph_den_pipe = create_pipeline_conmat_to_graph_density(main_path,
-							      con_den=con_den,
-							      mod=mod,
-							      plot=True)
-
-      main_workflow.connect(spectral_workflow, 'spectral.conmat_file',
-			    graph_den_pipe, 'inputnode.conmat_file')
-
-      if mod:
-	  graph_den_pipe.inputs.community_rada.optim_seq = radatools_optim
-
-	  main_workflow.connect(create_ts_node, 'channel_names_file',
-				graph_den_pipe, 'inputnode.labels_file')
-	  main_workflow.connect(create_ts_node, 'channel_coords_file',
-				graph_den_pipe, 'inputnode.coords_file')
 
       return main_workflow
 
+Run Workflow
+------------
+
+After we have specified all the Nodes and connections of the Workflow, the last step is to run it
+by calling the ``run()`` method. 
+It's also possible to generate static graphs representing Nodes and connections between them
+by calling ``write_graph()`` method.
+
+If we rerun the Workflow, only the Nodes whose inputs have changed since the last run
+will be executed again.  If not, it will simply return cached results. 
+This is achieved by recording a hash of the inputs.
+
+.. code:: python
 
   if __name__ == '__main__':
 
@@ -184,8 +285,19 @@ Specify Nodes
       main_workflow.write_graph(graph2use='colored')  # colored
       main_workflow.config['execution'] = {'remove_unnecessary_outputs': 'false'}
       main_workflow.run(plugin='MultiProc', plugin_args={'n_procs': 8})
-      
-      
-**Download** Parameters file: :download:`params_congraph.py <../../examples/params_congraph.py>`
 
-**Download** Python source code: :download:`run_spectral_modularity.py <../../examples/run_spectral_modularity.py>`
+.. _wf_graph:      
+
+.. figure::  ../img/graph_dot_conn.jpg
+    :scale: 75 %
+    :align: center
+    
+    Workflow graph
+
+      
+**Download** Parameters file: :download:`params_conn.py <../../examples/params_conn.py>`
+
+**Download** Python source code: :download:`run_spectral.py <../../examples/run_spectral.py>`
+
+
+

@@ -1,29 +1,42 @@
 .. _conn_graph_example:
 
-Spectral connectivity and graph pipeline
+Spectral connectivity and graph Workflow
 ========================================
 
-The following script allows to perform spectral connectivity and graph analysis in sensor space
-(see :ref:`spectral_connectivity`). 
+The following script allows to perform spectral connectivity and graph analysis in **sensor space**
+(see :ref:`spectral_connectivity` Section and |conmat_to_graph| pipeline).
 
-Before to run the script, the :ref:`params` has to be downloaded (see download
-link below). The main parameters to set for the connectivity pipeline are
+.. |conmat_to_graph| raw:: html
+
+   <a href="http://davidmeunier79.github.io/neuropype_graph/conmat_to_graph.html" target="_blank">create_pipeline_conmat_to_graph_density</a>
+
+
+Before to run the script, the :ref:`params` should be be downloaded (see download
+link below). The main **parameters** to set for the connectivity pipeline is
             
+* ``main_path`` : main path of the pipeline (*mandatory*)
 * ``con_method`` : connectivity measure
-* ``freq_band`` : frequency bands
 * ``epoch_window_length`` : epoched data
-* ``is_sensor_space`` : True if the connectivity matrix is computed in the sensor space, otherwise is computed in the source space
-* ``export_to_matlab`` : True if the connectivity matrix is exported to **.mat** format as well
+
+Furthermore, the following **inputnodes** should be specified:
+
+* ``ts_file`` : path to time series in .npy format (*mandatory*)
+* ``sfreq`` : sampling frequency (*mandatory*)
+* ``freq_band`` : frequency bands (*mandatory*)
+* ``labels_file`` : path to the file containing a list of labels associated with nodes
+* ``index`` : what to add to the name of the file
+         
 
 About the ``con_method`` parameter specifying the connectivity measure, the possible options are: 
 'coh', 'imcoh', 'plv', 'pli', 'wpli', 'pli2_unbiased', 'ppc', 'cohy', 'wpli2_debiased'. 
 
-A clear description can be found in the MNE python page explaining the |here| function.
+.. note:: A clear description of the above connectivity measures can be found in the MNE python page explaining the |here| function.
 
 .. |here| raw:: html
 
    <a href="http://martinos.org/mne/stable/generated/mne.connectivity.spectral_connectivity.html?highlight=spectral_connectivity#mne.connectivity.spectral_connectivity" target="_blank">spectral_connectivity</a>
 
+.. seealso:: see :py:func:`create_pipeline_time_series_to_spectral_connectivity <neuropype_ephy.pipelines.ts_to_conmat.create_pipeline_time_series_to_spectral_connectivity>` for a list of all possible inputs
 
 .. code:: python
 
@@ -62,9 +75,9 @@ A clear description can be found in the MNE python page explaining the |here| fu
       from params_congraph import test
 
       infosource = pe.Node(interface=IdentityInterface(fields=['subject_id',
-							      'sess_index',
-							      'freq_band_name']),
-			  name="infosource")
+			  				       'sess_index',
+							       'freq_band_name']),
+			   name="infosource")
 
 
       infosource.iterables = [('subject_id', subject_ids),
@@ -77,12 +90,12 @@ A clear description can be found in the MNE python page explaining the |here| fu
   def create_datasource():
 
       datasource = pe.Node(interface=nio.DataGrabber(infields=['subject_id',
-							      'sess_index'],
-						    outfields=['raw_file']),
-			  name='datasource')
+							       'sess_index'],
+						     outfields=['raw_file']),
+			   name='datasource')
 
       datasource.inputs.base_directory = data_path
-      datasource.inputs.template = '*%s/%s/meg/%s*rest*.*ica.fif'
+      datasource.inputs.template = '*%s/%s/meg/%s*rest*ica.fif'
       datasource.inputs.template_args = dict(raw_file=[['subject_id',
 							'sess_index',
 							'subject_id']])
@@ -119,10 +132,8 @@ A clear description can be found in the MNE python page explaining the |here| fu
 
       spectral_workflow = \
 	  create_pipeline_time_series_to_spectral_connectivity(main_path,
-							      con_method=con_method)
-
-      spectral_workflow.inputs.inputnode.is_sensor_space = True
-      spectral_workflow.inputs.inputnode.epoch_window_length = epoch_window_length
+							       con_method=con_method,
+							       epoch_window_length=epoch_window_length)
       
       main_workflow.connect(create_ts_node, 'ts_file',
 			    spectral_workflow, 'inputnode.ts_file')
@@ -137,9 +148,9 @@ A clear description can be found in the MNE python page explaining the |here| fu
 			    spectral_workflow, 'inputnode.sfreq')
 
       graph_den_pipe = create_pipeline_conmat_to_graph_density(main_path,
-							      con_den=con_den,
-							      mod=mod,
-							      plot=True)
+							       con_den=con_den,
+							       mod=mod,
+							       plot=True)
 
       main_workflow.connect(spectral_workflow, 'spectral.conmat_file',
 			    graph_den_pipe, 'inputnode.conmat_file')
