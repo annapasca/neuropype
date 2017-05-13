@@ -86,7 +86,14 @@
 </li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../cinq/cinq.html">CINQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cinq/cinq.html">CINQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../cinq/cinq.html#download-scripts">Download scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cinq/cinq.html#upgrade-neuropype-ephy">Upgrade neuropype_ephy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cinq/cinq.html#preprocessing">Preprocessing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cinq/cinq.html#power-analysis">Power analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cinq/cinq.html#connectivity-and-graph-analysis">Connectivity and graph analysis</a></li>
+</ul>
+</li>
 </ul>
 
           
@@ -124,7 +131,15 @@
             
   <h1>Source code for neuropype_graph.nodes.graph_stats</h1><div class="highlight"><pre>
 <span class="c"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. module:: grapĥ_stats</span>
+<span class="sd">   :platform: Unix</span>
+<span class="sd">   :synopsis: Preparing, computing stats and permutations</span>
 
+<span class="sd">.. moduleauthor:: David Meunier &lt;david.meunier@inserm.fr&gt;</span>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">os</span>
 
@@ -294,93 +309,6 @@
         
         <span class="k">return</span> <span class="n">outputs</span>
 
-        
-<span class="c">############################################################################################### PlotIGraphSignedIntMat #####################################################################################################</span>
-
-<span class="kn">from</span> <span class="nn">neuropype_graph.plot_igraph</span> <span class="k">import</span> <span class="n">plot_3D_igraph_signed_int_mat</span>
-<span class="kn">from</span> <span class="nn">neuropype_graph.utils</span> <span class="k">import</span> <span class="n">check_np_shapes</span>
-
-<span class="c">#from dmgraphanalysis.utils_plot import plot_cormat</span>
-    
-    
-<span class="k">class</span> <span class="nc">PlotIGraphSignedIntMatInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
-    
-    <span class="n">signed_int_mat_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>  <span class="n">desc</span><span class="o">=</span><span class="s">&#39;signed int matrix in npy format&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
-    
-    <span class="n">labels_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>  <span class="n">desc</span><span class="o">=</span><span class="s">&#39;labels of nodes (txt file)&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="k">False</span><span class="p">)</span>
-    <span class="n">coords_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>  <span class="n">desc</span><span class="o">=</span><span class="s">&#39;node coordinates in MNI space (txt file)&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="k">False</span><span class="p">)</span>
-    
-<span class="k">class</span> <span class="nc">PlotIGraphSignedIntMatOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
-    
-    <span class="n">plot_3D_signed_int_mat_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&quot;eps file with igraph spatial representation&quot;</span><span class="p">)</span>
-    <span class="c">#plot_heatmap_signed_bin_mat_file = File(exists=True, desc=&quot;eps file heatmap representation&quot;)</span>
-    
-<span class="k">class</span> <span class="nc">PlotIGraphSignedIntMat</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
-    
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Plot coclassification matrix with igraph</span>
-<span class="sd">    - labels are optional, </span>
-<span class="sd">    - threshold is optional (default, 50 = half the group)</span>
-<span class="sd">    - coordinates are optional, if no coordiantes are specified, representation in topological (Fruchterman-Reingold) space</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">input_spec</span> <span class="o">=</span> <span class="n">PlotIGraphSignedIntMatInputSpec</span>
-    <span class="n">output_spec</span> <span class="o">=</span> <span class="n">PlotIGraphSignedIntMatOutputSpec</span>
-
-    <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
-                
-        <span class="nb">print</span> <span class="s">&#39;in plot_coclass&#39;</span>
-        
-        <span class="n">signed_int_mat_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">signed_int_mat_file</span>
-        <span class="n">labels_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">labels_file</span>
-        <span class="n">coords_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">coords_file</span>
-            
-            
-        <span class="nb">print</span> <span class="s">&#39;load bin matrix&#39;</span>
-        
-        <span class="n">signed_int_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">signed_int_mat_file</span><span class="p">)</span>
-        
-        <span class="nb">print</span> <span class="n">signed_int_mat</span><span class="o">.</span><span class="n">shape</span>
-        
-        <span class="k">if</span> <span class="n">isdefined</span><span class="p">(</span><span class="n">labels_file</span><span class="p">):</span>
-            
-            <span class="nb">print</span> <span class="s">&#39;loading labels&#39;</span>
-            <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">labels_file</span><span class="p">)]</span>
-            
-        <span class="k">else</span> <span class="p">:</span>
-            <span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
-            
-        <span class="k">if</span> <span class="n">isdefined</span><span class="p">(</span><span class="n">coords_file</span><span class="p">):</span>
-            
-            <span class="nb">print</span> <span class="s">&#39;loading coords&#39;</span>
-            <span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">coords_file</span><span class="p">),</span><span class="n">dtype</span> <span class="o">=</span> <span class="s">&#39;int64&#39;</span><span class="p">)</span>
-            
-        <span class="k">else</span> <span class="p">:</span>
-            <span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
-            
-            
-        <span class="nb">print</span> <span class="n">coords</span><span class="o">.</span><span class="n">shape</span>
-        
-        
-        <span class="nb">print</span> <span class="s">&#39;plotting igraph 3D&#39;</span>
-        
-        <span class="c">######## igraph 3D</span>
-        <span class="n">plot_3D_signed_int_mat_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;plot_igraph_3D_signed_int_mat.eps&#39;</span><span class="p">)</span>
-            
-        <span class="n">plot_3D_igraph_signed_int_mat</span><span class="p">(</span><span class="n">plot_3D_signed_int_mat_file</span><span class="p">,</span><span class="n">signed_int_mat</span><span class="p">,</span><span class="n">coords</span><span class="p">,</span><span class="n">labels</span><span class="p">)</span>
-        
-                
-        <span class="k">return</span> <span class="n">runtime</span>
-        
-    <span class="k">def</span> <span class="nf">_list_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        
-        <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_outputs</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-        
-        <span class="n">outputs</span><span class="p">[</span><span class="s">&quot;plot_3D_signed_int_mat_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;plot_igraph_3D_signed_int_mat.eps&#39;</span><span class="p">)</span>
-        <span class="c">#outputs[&quot;plot_heatmap_signed_int_mat_file&quot;] = os.path.abspath(&#39;heatmap_signed_bin_mat.eps&#39;)</span>
-        
-        <span class="k">return</span> <span class="n">outputs</span>
-        
-        
         
         
 <span class="c">############################################################################################### PrepareCormat #####################################################################################################</span>
@@ -635,6 +563,8 @@
     
     <span class="n">list_of_lists</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">traits</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">traits</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">))),</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;list of all correlation matrice files (in npy format) for each subject&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
     
+    <span class="n">unbalanced</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Bool</span><span class="p">(</span><span class="k">False</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="k">True</span><span class="p">,</span> <span class="n">usedefault</span> <span class="o">=</span> <span class="k">True</span><span class="p">)</span>
+    
     <span class="n">seed</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Int</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;value for seed&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">usedefault</span> <span class="o">=</span> <span class="k">True</span><span class="p">)</span>
     
 <span class="k">class</span> <span class="nc">SwapListsOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
@@ -645,24 +575,52 @@
 <div class="viewcode-block" id="SwapLists"><a class="viewcode-back" href="../../../graphpype/graph_stats.html#neuropype_graph.nodes.graph_stats.SwapLists">[docs]</a><span class="k">class</span> <span class="nc">SwapLists</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
     
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Extract mean time series from a labelled mask in Nifti Format where the voxels of interest have values 1</span>
+<span class="sd">    Description:</span>
+<span class="sd">    </span>
+<span class="sd">    Exchange lists of files in a random fashion (based on seed value)</span>
+<span class="sd">    Typically, cor_mat, coords -&gt; 2, or Z_list, node_corres and labels -&gt; 3</span>
+<span class="sd">    </span>
+<span class="sd">    If seed = -1, no swap is done (keep original values)</span>
+<span class="sd">    </span>
+<span class="sd">    Inputs:</span>
+<span class="sd">        </span>
+<span class="sd">        list_of_lists:</span>
+<span class="sd">            * type = List of List of  List of Files,</span>
+<span class="sd">            * exists=True, </span>
+<span class="sd">            * desc=&#39;list of all correlation matrice files (in npy format) for each subject&#39;, </span>
+<span class="sd">            * mandatory=True</span>
+<span class="sd">            </span>
+<span class="sd">        seed:</span>
+<span class="sd">            type = Int, default = -1, desc=&#39;value for seed&#39;, mandatory=True, usedefault = True</span>
+<span class="sd">            </span>
+<span class="sd">    Outputs:</span>
+<span class="sd">    </span>
+<span class="sd">        permut_lists_of_lists:</span>
+<span class="sd">            type = List of  List of List of Files ,exists=True, desc=&#39;swapped list of all correlation matrice files (in npy format) for each subject&#39;, mandatory=True</span>
+<span class="sd">            </span>
+<span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">input_spec</span> <span class="o">=</span> <span class="n">SwapListsInputSpec</span>
     <span class="n">output_spec</span> <span class="o">=</span> <span class="n">SwapListsOutputSpec</span>
 
     <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
                 
-        <span class="nb">print</span> <span class="s">&#39;in prepare_coclass&#39;</span>
+        <span class="nb">print</span> <span class="s">&#39;in SwapLists&#39;</span>
         <span class="n">list_of_lists</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">list_of_lists</span>
         <span class="n">seed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">seed</span>
-        
+        <span class="n">unbalanced</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">unbalanced</span>
         
         <span class="c">######## checking lists homogeneity</span>
         <span class="nb">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">list_of_lists</span><span class="p">)</span>
         
-        <span class="nb">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">list_of_lists</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        
-        <span class="n">nb_files_per_list</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="nb">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">list_of_lists</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+    
+        <span class="k">if</span> <span class="n">unbalanced</span><span class="p">:</span>
+            <span class="n">nb_files_per_list</span> <span class="o">=</span> <span class="p">[]</span>
+            
+        <span class="k">else</span><span class="p">:</span>
+            
+            <span class="n">nb_files_per_list</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
         
         <span class="c">### number of elements tomix from (highest level)</span>
         <span class="n">nb_set_to_shuffle</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">list_of_lists</span><span class="p">)</span>
@@ -671,40 +629,59 @@
         
         <span class="n">nb_args_per_list</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
         
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="ow">in</span> <span class="nb">iter</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">nb_set_to_shuffle</span><span class="p">),</span><span class="mi">2</span><span class="p">):</span>
-                                  
-            <span class="nb">print</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nb_set_to_shuffle</span><span class="p">):</span>
+                                
+            <span class="nb">print</span> <span class="n">i</span>
             
             <span class="nb">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">list_of_lists</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-            <span class="nb">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">list_of_lists</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
             
             <span class="k">if</span> <span class="n">nb_args_per_list</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
                 <span class="n">nb_args_per_list</span> <span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">list_of_lists</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">assert</span> <span class="n">nb_args_per_list</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">list_of_lists</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span><span class="s">&quot;Error list length {} != than list {} length {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nb_args_per_list</span> <span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">list_of_lists</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
         
-            <span class="k">if</span> <span class="n">nb_files_per_list</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-                <span class="n">nb_files_per_list</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">list_of_lists</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">unbalanced</span><span class="p">:</span>
+                <span class="n">nb_files_per_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">list_of_lists</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]))</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">assert</span> <span class="n">nb_files_per_list</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">list_of_lists</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]),</span><span class="s">&quot;Error list length {} != than list {} length {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nb_files_per_list</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">list_of_lists</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]))</span>
-                
+                    
+                <span class="k">if</span> <span class="n">nb_files_per_list</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="n">nb_files_per_list</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">list_of_lists</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">assert</span> <span class="n">nb_files_per_list</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">list_of_lists</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]),</span><span class="s">&quot;Error list length {} != than list {} length {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nb_files_per_list</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">list_of_lists</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]))</span>
+                    
         <span class="nb">print</span> <span class="n">nb_files_per_list</span>
         
-        
+            
         
         <span class="c">########## generating 0 or 1 for each subj:</span>
         
         <span class="k">if</span> <span class="n">seed</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-            <span class="n">is_permut</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">nb_files_per_list</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">permut_lists_of_lists</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">list_of_lists</span>
             
+            <span class="k">return</span> <span class="n">runtime</span>
+        
+        <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">unbalanced</span><span class="p">:</span>
+            
+            <span class="k">def</span> <span class="nf">prod</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span> <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span>
+        
+            <span class="nb">print</span> <span class="nb">sum</span><span class="p">(</span><span class="n">nb_files_per_list</span><span class="p">)</span>
+            
+            <span class="n">is_permut</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">nb_set_to_shuffle</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="n">nb_files_per_list</span><span class="p">)),</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
+        
+            <span class="nb">print</span> <span class="n">is_permut</span>
+        
         <span class="k">else</span><span class="p">:</span>
-                
-            <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+            
+            <span class="k">def</span> <span class="nf">prod</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span> <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span>
+        
+            <span class="nb">print</span> <span class="n">reduce</span><span class="p">(</span><span class="n">prod</span><span class="p">,</span><span class="n">nb_files_per_list</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
             
             <span class="n">is_permut</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">nb_set_to_shuffle</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">nb_files_per_list</span><span class="p">),</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
             
-            
-        <span class="nb">print</span> <span class="n">is_permut</span>
+                
+            <span class="nb">print</span> <span class="n">is_permut</span>
                 
         <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&quot;is_permut.txt&quot;</span><span class="p">),</span><span class="n">is_permut</span><span class="p">,</span> <span class="n">fmt</span> <span class="o">=</span> <span class="s">&quot;%d&quot;</span><span class="p">)</span>
         
@@ -714,37 +691,81 @@
     
         <span class="nb">print</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">permut_lists_of_lists</span><span class="p">)</span>
         <span class="nb">print</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">permut_lists_of_lists</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="nb">print</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">permut_lists_of_lists</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
         
-        
-        <span class="k">for</span> <span class="n">index_file</span><span class="p">,</span><span class="n">permut</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">is_permut</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">unbalanced</span><span class="p">:</span>
             
-            <span class="nb">print</span> <span class="s">&quot;index_file:&quot;</span><span class="p">,</span>
-            <span class="nb">print</span> <span class="n">index_file</span>
+            <span class="n">merged_group_lists</span> <span class="o">=</span> <span class="p">[]</span>
             
-            <span class="nb">print</span> <span class="s">&quot;permut:&quot;</span><span class="p">,</span>
-            <span class="nb">print</span> <span class="n">permut</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nb_args_per_list</span><span class="p">):</span>
             
-            <span class="nb">print</span> <span class="s">&quot;nb_set_to_shuffle:&quot;</span><span class="p">,</span>
-            <span class="nb">print</span> <span class="n">nb_set_to_shuffle</span>
+                <span class="n">merged_group_list</span> <span class="o">=</span> <span class="p">[]</span>
+                
+                <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nb_set_to_shuffle</span><span class="p">):</span>
+                    <span class="c">#print group</span>
+                    
+                    <span class="n">merged_group_list</span> <span class="o">=</span> <span class="n">merged_group_list</span> <span class="o">+</span> <span class="n">list_of_lists</span><span class="p">[</span><span class="n">group</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+                    
+                    <span class="c">#print len(merged_group_list)</span>
+                    
+                <span class="c">#print len(merged_group_list)</span>
             
-            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nb_set_to_shuffle</span><span class="p">):</span>
+                <span class="n">merged_group_lists</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">merged_group_list</span><span class="p">)</span>
                 
-                <span class="nb">print</span> <span class="n">j</span><span class="p">,</span><span class="n">permut</span>
+            <span class="nb">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">merged_group_lists</span><span class="p">)</span>
+            <span class="nb">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">merged_group_lists</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            
+            <span class="k">for</span> <span class="n">index_file</span><span class="p">,</span><span class="n">permut</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">is_permut</span><span class="p">):</span>
                 
-                <span class="n">shift</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="n">permut</span>
+                <span class="nb">print</span> <span class="s">&quot;index_file:&quot;</span><span class="p">,</span>
+                <span class="nb">print</span> <span class="n">index_file</span>
                 
-                <span class="n">rel_shift</span> <span class="o">=</span> <span class="n">shift</span> <span class="o">%</span> <span class="n">nb_set_to_shuffle</span>
-                
-                <span class="nb">print</span> <span class="n">shift</span><span class="p">,</span><span class="n">rel_shift</span>
+                <span class="nb">print</span> <span class="s">&quot;permut:&quot;</span><span class="p">,</span>
+                <span class="nb">print</span> <span class="n">permut</span>
                 
                 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nb_args_per_list</span><span class="p">):</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">permut_lists_of_lists</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">list_of_lists</span><span class="p">[</span><span class="n">rel_shift</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="n">index_file</span><span class="p">])</span>
+                    
+                    <span class="bp">self</span><span class="o">.</span><span class="n">permut_lists_of_lists</span><span class="p">[</span><span class="n">permut</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">merged_group_lists</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">index_file</span><span class="p">])</span>
+                    
                 
-        <span class="c">#print self.permut_lists_of_lists</span>
-        
-        <span class="nb">print</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">permut_lists_of_lists</span><span class="p">)</span>
-        <span class="nb">print</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">permut_lists_of_lists</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        
+            <span class="nb">print</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">permut_lists_of_lists</span><span class="p">)</span>
+            <span class="nb">print</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">permut_lists_of_lists</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="nb">print</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">permut_lists_of_lists</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+            <span class="nb">print</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">permut_lists_of_lists</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+            
+            <span class="nb">print</span> <span class="bp">self</span><span class="o">.</span><span class="n">permut_lists_of_lists</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            
+        <span class="k">else</span><span class="p">:</span>
+            
+            <span class="k">for</span> <span class="n">index_file</span><span class="p">,</span><span class="n">permut</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">is_permut</span><span class="p">):</span>
+                
+                <span class="nb">print</span> <span class="s">&quot;index_file:&quot;</span><span class="p">,</span>
+                <span class="nb">print</span> <span class="n">index_file</span>
+                
+                <span class="nb">print</span> <span class="s">&quot;permut:&quot;</span><span class="p">,</span>
+                <span class="nb">print</span> <span class="n">permut</span>
+                
+                <span class="nb">print</span> <span class="s">&quot;nb_set_to_shuffle:&quot;</span><span class="p">,</span>
+                <span class="nb">print</span> <span class="n">nb_set_to_shuffle</span>
+                
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nb_set_to_shuffle</span><span class="p">):</span>
+                    
+                    <span class="nb">print</span> <span class="n">j</span><span class="p">,</span><span class="n">permut</span>
+                    
+                    <span class="n">shift</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="n">permut</span>
+                    
+                    <span class="n">rel_shift</span> <span class="o">=</span> <span class="n">shift</span> <span class="o">%</span> <span class="n">nb_set_to_shuffle</span>
+                    
+                    <span class="nb">print</span> <span class="n">shift</span><span class="p">,</span><span class="n">rel_shift</span>
+                    
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nb_args_per_list</span><span class="p">):</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">permut_lists_of_lists</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">list_of_lists</span><span class="p">[</span><span class="n">rel_shift</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="n">index_file</span><span class="p">])</span>
+                    
+            <span class="c">#print self.permut_lists_of_lists</span>
+            
+            <span class="nb">print</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">permut_lists_of_lists</span><span class="p">)</span>
+            <span class="nb">print</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">permut_lists_of_lists</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            
         <span class="k">return</span> <span class="n">runtime</span>
         
     <span class="k">def</span> <span class="nf">_list_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -773,7 +794,27 @@
 <div class="viewcode-block" id="ShuffleMatrix"><a class="viewcode-back" href="../../../graphpype/graph_stats.html#neuropype_graph.nodes.graph_stats.ShuffleMatrix">[docs]</a><span class="k">class</span> <span class="nc">ShuffleMatrix</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
     
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Extract mean time series from a labelled mask in Nifti Format where the voxels of interest have values 1</span>
+<span class="sd">    Description:</span>
+<span class="sd">    </span>
+<span class="sd">    Compute randomisation of matrix, keeping the same distribution</span>
+<span class="sd">    </span>
+<span class="sd">    If seed = -1, no shuffling is done (keep original values)</span>
+<span class="sd">    </span>
+<span class="sd">    Inputs:</span>
+<span class="sd">        </span>
+<span class="sd">        original_matrix_file:</span>
+<span class="sd">            type = File, exists=True, desc=&#39;original matrix in npy format&#39;, mandatory=True</span>
+<span class="sd">        </span>
+<span class="sd">        seed:</span>
+<span class="sd">            type = Int, default = -1, desc=&#39;value for seed&#39;, mandatory=True, usedefault = True</span>
+<span class="sd">            </span>
+<span class="sd">    Outputs:</span>
+<span class="sd">        </span>
+<span class="sd">        shuffled_matrix_file:</span>
+<span class="sd">        </span>
+<span class="sd">            type = File, exists=True, desc=&#39;shuffled matrix in npy format&#39;, mandatory=True</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">input_spec</span> <span class="o">=</span> <span class="n">ShuffleMatrixInputSpec</span>
     <span class="n">output_spec</span> <span class="o">=</span> <span class="n">ShuffleMatrixOutputSpec</span>
@@ -802,10 +843,10 @@
             
             <span class="n">np</span><span class="o">.</span><span class="n">fill_diagonal</span><span class="p">(</span><span class="n">original_matrix</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
         
-            <span class="n">shuffled_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zefros</span><span class="p">(</span><span class="n">shape</span> <span class="o">=</span> <span class="n">original_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">original_matrix</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+            <span class="n">shuffled_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span> <span class="o">=</span> <span class="n">original_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">original_matrix</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
         
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="ow">in</span> <span class="nb">iter</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">original_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="mi">2</span><span class="p">):</span>
-                <span class="nb">print</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span>
+                <span class="c">#print i,j</span>
                 
                 <span class="n">bool_ok</span> <span class="o">=</span> <span class="k">False</span>
                 
@@ -813,7 +854,7 @@
                         
                     <span class="n">new_indexes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">low</span> <span class="o">=</span> <span class="n">original_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">size</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
                     
-                    <span class="nb">print</span> <span class="n">new_indexes</span>
+                    <span class="c">#print new_indexes</span>
                     
                     <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">original_matrix</span><span class="p">[</span><span class="n">new_indexes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">new_indexes</span><span class="p">[</span><span class="mi">1</span><span class="p">]]):</span>
                                             
@@ -823,9 +864,9 @@
                                         
                         <span class="n">bool_ok</span> <span class="o">=</span> <span class="k">True</span>
                     
-                    <span class="nb">print</span> <span class="n">bool_ok</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">original_matrix</span><span class="p">))</span>
+                    <span class="c">#print bool_ok,np.sum(np.isnan(original_matrix))</span>
                     
-                <span class="nb">print</span> <span class="s">&quot;**********************************&quot;</span>
+                <span class="c">#print &quot;**********************************&quot;</span>
                     
                                         
                 

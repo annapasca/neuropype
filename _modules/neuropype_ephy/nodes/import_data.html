@@ -86,7 +86,14 @@
 </li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../cinq/cinq.html">CINQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cinq/cinq.html">CINQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../cinq/cinq.html#download-scripts">Download scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cinq/cinq.html#upgrade-neuropype-ephy">Upgrade neuropype_ephy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cinq/cinq.html#preprocessing">Preprocessing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cinq/cinq.html#power-analysis">Power analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cinq/cinq.html#connectivity-and-graph-analysis">Connectivity and graph analysis</a></li>
+</ul>
+</li>
 </ul>
 
           
@@ -218,7 +225,8 @@
         <span class="k">return</span> <span class="n">outputs</span></div>
 
 
-<span class="c"># ------------ ImportBrainVisionAscii --------------------- #</span>
+<span class="c">######################################################################################## ImportBrainVisionAscii #####################################################################################################</span>
+
 <span class="k">class</span> <span class="nc">ImportBrainVisionAsciiInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
 
     <span class="n">txt_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
@@ -316,6 +324,89 @@
         <span class="n">outputs</span><span class="p">[</span><span class="s">&#39;splitted_ts_file&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;uplitted_ts.npy&#39;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">outputs</span></div>
+
+<span class="c">######################################################################################## ImportBrainVisionVhdr #####################################################################################################</span>
+
+<span class="k">class</span> <span class="nc">ImportBrainVisionVhdrInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
+
+    <span class="n">vhdr_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
+                    <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Vhdr file exported from BrainVision&#39;</span><span class="p">,</span>
+                    <span class="n">mandatory</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+
+    <span class="n">sample_size</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;Size (number of time points) of all samples&#39;</span><span class="p">,</span>
+                               <span class="n">mandatory</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ImportBrainVisionVhdrOutputSpec"><a class="viewcode-back" href="../../../ephypype/neuropype_ephy.nodes.html#neuropype_ephy.nodes.import_data.ImportBrainVisionVhdrOutputSpec">[docs]</a><span class="k">class</span> <span class="nc">ImportBrainVisionVhdrOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Output specification for ImportBrainVisionVhdr&quot;&quot;&quot;</span>
+
+    <span class="n">splitted_ts_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;splitted time series in .npy format&#39;</span><span class="p">)</span>
+
+    <span class="n">elec_names_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;electrode names in txt format&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ImportBrainVisionVhdr"><a class="viewcode-back" href="../../../ephypype/neuropype_ephy.nodes.html#neuropype_ephy.nodes.import_data.ImportBrainVisionVhdr">[docs]</a><span class="k">class</span> <span class="nc">ImportBrainVisionVhdr</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Description:</span>
+
+<span class="sd">    Import IntraEEG Brain Vision (unsplitted) vhdr time series txt file and</span>
+<span class="sd">    return splitted time series in .npy format, as well as electrode names in txt format</span>
+
+<span class="sd">    Inputs:</span>
+
+<span class="sd">    vhdr_file</span>
+<span class="sd">        type = File, exists=True, desc=&#39;Ascii text file exported from BrainVision&#39;, mandatory=True</span>
+
+<span class="sd">    sample_size</span>
+<span class="sd">        type = Int, desc = &quot;Size (number of time points) of all samples&quot;, mandatory = True</span>
+
+<span class="sd">    Outputs:</span>
+
+<span class="sd">    splitted_ts_file</span>
+<span class="sd">        type  = File, exists=True, desc=&quot;splitted time series in .npy format&quot;</span>
+
+<span class="sd">    elec_names_file</span>
+<span class="sd">        type = File, exists=True, desc=&quot;electrode names in txt format&quot;</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">input_spec</span> <span class="o">=</span> <span class="n">ImportBrainVisionAsciiInputSpec</span>
+    <span class="n">output_spec</span> <span class="o">=</span> <span class="n">ImportBrainVisionAsciiOutputSpec</span>
+
+    <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
+
+        <span class="kn">from</span> <span class="nn">neuropype_ephy.import_txt</span> <span class="k">import</span> <span class="n">split_vhdr</span>
+
+        <span class="n">vhdr_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">vhdr_file</span>
+
+        <span class="n">sample_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">sample_size</span>
+
+        <span class="n">np_splitted_ts</span><span class="p">,</span><span class="n">ch_names</span> <span class="o">=</span> <span class="n">split_vhdr</span><span class="p">(</span><span class="n">vhdr_file</span><span class="o">=</span><span class="n">vhdr_file</span><span class="p">,</span> <span class="n">sample_size</span><span class="o">=</span><span class="n">sample_size</span><span class="p">)</span>
+
+        <span class="c">### saving</span>
+        <span class="n">ch_names_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&quot;correct_channel_names.txt&quot;</span><span class="p">)</span>
+        
+        <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">ch_names_file</span><span class="p">,</span><span class="n">ch_names</span><span class="p">,</span><span class="n">fmt</span> <span class="o">=</span> <span class="s">&quot;%s&quot;</span><span class="p">)</span>
+        
+        <span class="n">splitted_ts_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&quot;splitted_ts.npy&quot;</span><span class="p">)</span>
+
+        <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">splitted_ts_file</span><span class="p">,</span><span class="n">np_splitted_ts</span><span class="p">)</span>
+        
+        <span class="c">#return splitted_ts_file,ch_names_file</span>
+    
+        <span class="k">return</span> <span class="n">runtime</span>
+
+    <span class="k">def</span> <span class="nf">_list_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_outputs</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+
+        <span class="n">outputs</span><span class="p">[</span><span class="s">&#39;elec_names_file&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;correct_channel_names.txt&#39;</span><span class="p">)</span>
+
+        <span class="n">outputs</span><span class="p">[</span><span class="s">&#39;splitted_ts_file&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;splitted_ts.npy&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">outputs</span></div>
+
+<span class="c">######################################################################################## Ep2ts #####################################################################################################</span>
 
 
 <div class="viewcode-block" id="Ep2tsInputSpec"><a class="viewcode-back" href="../../../ephypype/neuropype_ephy.nodes.html#neuropype_ephy.nodes.import_data.Ep2tsInputSpec">[docs]</a><span class="k">class</span> <span class="nc">Ep2tsInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>

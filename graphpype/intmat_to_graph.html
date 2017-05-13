@@ -85,7 +85,13 @@
 </li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../cinq/cinq.html">CINQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cinq/cinq.html">CINQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cinq/cinq.html#download-scripts">Download scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cinq/cinq.html#upgrade-neuropype-ephy">Upgrade neuropype_ephy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cinq/cinq.html#preprocessing">Preprocessing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cinq/cinq.html#connectivity">Connectivity</a></li>
+</ul>
+</li>
 </ul>
 
           
@@ -129,7 +135,20 @@
 <dl class="function">
 <dt id="neuropype_graph.pipelines.intmat_to_graph.create_pipeline_intmat_to_graph_threshold">
 <code class="descclassname">neuropype_graph.pipelines.intmat_to_graph.</code><code class="descname">create_pipeline_intmat_to_graph_threshold</code><span class="sig-paren">(</span><em>main_path</em>, <em>analysis_name='int_graph_thr_pipe'</em>, <em>threshold=50</em>, <em>mod=False</em>, <em>plot=False</em>, <em>radatools_optim=''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_graph/pipelines/intmat_to_graph.html#create_pipeline_intmat_to_graph_threshold"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_graph.pipelines.intmat_to_graph.create_pipeline_intmat_to_graph_threshold" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Description:</p>
+<p>Pipeline from integer matrices (normally coclassification matrices) to graph analysis</p>
+<p>Threshold is value based, normally a pourcentage (threshold, 50 -&gt; 50%)</p>
+<p>Inputs (inputnode):</p>
+<blockquote>
+<div><ul class="simple">
+<li>int_mat_file</li>
+<li>coords_file</li>
+<li>labels_file</li>
+</ul>
+</div></blockquote>
+<p>Comments:</p>
+<p>Used for coclassification, not so much used anymore</p>
+</dd></dl>
 
 </div>
 </div>

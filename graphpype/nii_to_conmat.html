@@ -85,7 +85,13 @@
 </li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../cinq/cinq.html">CINQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cinq/cinq.html">CINQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cinq/cinq.html#download-scripts">Download scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cinq/cinq.html#upgrade-neuropype-ephy">Upgrade neuropype_ephy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cinq/cinq.html#preprocessing">Preprocessing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cinq/cinq.html#connectivity">Connectivity</a></li>
+</ul>
+</li>
 </ul>
 
           
@@ -129,7 +135,24 @@
 <dl class="function">
 <dt id="neuropype_graph.pipelines.nii_to_conmat.create_pipeline_nii_to_conmat">
 <code class="descclassname">neuropype_graph.pipelines.nii_to_conmat.</code><code class="descname">create_pipeline_nii_to_conmat</code><span class="sig-paren">(</span><em>main_path</em>, <em>ROI_mask_file</em>, <em>filter_gm_threshold=0.9</em>, <em>pipeline_name='nii_to_conmat'</em>, <em>conf_interval_prob=0.05</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_graph/pipelines/nii_to_conmat.html#create_pipeline_nii_to_conmat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_graph.pipelines.nii_to_conmat.create_pipeline_nii_to_conmat" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Description:</p>
+<p>Pipeline from nifti 4D (after preprocessing) to connectivity matrices</p>
+<p>Inputs (inputnode):</p>
+<blockquote>
+<div><ul class="simple">
+<li>nii_4D_file</li>
+<li>rp_file</li>
+<li>gm_anat_file</li>
+<li>wm_anat_file</li>
+<li>csf_anat_file</li>
+<li>ROI_coords_file</li>
+<li>ROI_MNI_coords_file</li>
+<li>ROI_labels_file</li>
+</ul>
+</div></blockquote>
+<p>Comments:</p>
+<p>Typically used after nipype preprocessing pipeline and before conmat_to_graph pipeline</p>
+</dd></dl>
 
 </div>
 <div class="section" id="create-pipeline-nii-to-weighted-conmat">
@@ -137,7 +160,23 @@
 <dl class="function">
 <dt id="neuropype_graph.pipelines.nii_to_conmat.create_pipeline_nii_to_weighted_conmat">
 <code class="descclassname">neuropype_graph.pipelines.nii_to_conmat.</code><code class="descname">create_pipeline_nii_to_weighted_conmat</code><span class="sig-paren">(</span><em>main_path</em>, <em>pipeline_name='nii_to_weighted_conmat'</em>, <em>concatenated_runs=True</em>, <em>conf_interval_prob=0.05</em>, <em>mult_regnames=True</em>, <em>spm_reg=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_graph/pipelines/nii_to_conmat.html#create_pipeline_nii_to_weighted_conmat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_graph.pipelines.nii_to_conmat.create_pipeline_nii_to_weighted_conmat" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Description:</p>
+<p>Pipeline from resid_ts_file (after preprocessing) to weighted connectivity matrices
+Involves a regressor file as wiehgt for computing weighted correlations</p>
+<p>Inputs (inputnode):</p>
+<blockquote>
+<div><ul class="simple">
+<li>resid_ts_file</li>
+<li>spm_mat_file (from a typical SPM level1 activation analysis)</li>
+<li>regress_names (names to look after in spm_mat_file)</li>
+<li>run_index</li>
+<li>ROI_labels_file</li>
+<li>reg_txt (if spm_reg = False)</li>
+</ul>
+</div></blockquote>
+<p>Comments:</p>
+<p>Typically used after previous pipeline (create_pipeline_nii_to_conmat) and before conmat_to_graph pipeline</p>
+</dd></dl>
 
 </div>
 </div>

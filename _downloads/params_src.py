@@ -2,13 +2,9 @@
 
 import os
 
+from params import *
+
 data_type = 'fif'
-
-main_path = '/run/media/pasca/paska/meg_data/omega/sample_BIDS_omega/'
-data_path = main_path
-
-subject_ids = ['sub-0002', 'sub-0003', 'sub-0004', 'sub-0006', 'sub-0007']
-sessions = ['ses-0001']
 
 # ------------------- SET source reconstruction variables ----------------#
 
@@ -91,9 +87,6 @@ coclass_thr = 30
 
 coclass_analysis_name = "coclass_" + data_type + "_" + \
     str(coclass_thr) + "_rada"
-
-if test:
-    coclass_analysis_name = coclass_analysis_name + '_test'
 
 # mean_correl_permuts
 

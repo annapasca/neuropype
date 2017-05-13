@@ -86,7 +86,14 @@
 </li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../cinq/cinq.html">CINQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cinq/cinq.html">CINQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../cinq/cinq.html#download-scripts">Download scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cinq/cinq.html#upgrade-neuropype-ephy">Upgrade neuropype_ephy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cinq/cinq.html#preprocessing">Preprocessing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cinq/cinq.html#power-analysis">Power analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cinq/cinq.html#connectivity-and-graph-analysis">Connectivity and graph analysis</a></li>
+</ul>
+</li>
 </ul>
 
           
@@ -188,9 +195,7 @@
 <span class="sd">            sampling frequency</span>
 <span class="sd">        labels_file : str</span>
 <span class="sd">            path to the file containing a list of labels associated with nodes</span>
-<span class="sd">        index : str</span>
-<span class="sd">            what to add to the name of the file	    </span>
-
+<span class="sd">        </span>
 <span class="sd">    Outputs:</span>
 
 <span class="sd">        pipeline : instance of Workflow</span>
@@ -207,8 +212,7 @@
         
 <span class="c">#    inputnode = pe.Node(IdentityInterface(fields=[&#39;ts_file&#39;,&#39;freq_band&#39;,&#39;sfreq&#39;,&#39;labels_file&#39;,&#39;epoch_window_length&#39;,&#39;is_sensor_space&#39;,&#39;index&#39;]), name=&#39;inputnode&#39;)</span>
     <span class="n">inputnode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;ts_file&#39;</span><span class="p">,</span> <span class="s">&#39;freq_band&#39;</span><span class="p">,</span>
-                                                  <span class="s">&#39;sfreq&#39;</span><span class="p">,</span> <span class="s">&#39;labels_file&#39;</span><span class="p">,</span>
-                                                  <span class="s">&#39;index&#39;</span><span class="p">]),</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;inputnode&#39;</span><span class="p">)</span>
+                                                  <span class="s">&#39;sfreq&#39;</span><span class="p">,</span> <span class="s">&#39;labels_file&#39;</span><span class="p">]),</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;inputnode&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">n_windows</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             
         <span class="nb">print</span> <span class="s">&quot;$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ Multiple trials $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$&quot;</span>
@@ -226,16 +230,26 @@
         <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s">&#39;sfreq&#39;</span><span class="p">,</span> <span class="n">spectral</span><span class="p">,</span> <span class="s">&#39;sfreq&#39;</span><span class="p">)</span>
         <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s">&#39;ts_file&#39;</span><span class="p">,</span> <span class="n">spectral</span><span class="p">,</span> <span class="s">&#39;ts_file&#39;</span><span class="p">)</span>
         <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s">&#39;freq_band&#39;</span><span class="p">,</span> <span class="n">spectral</span><span class="p">,</span> <span class="s">&#39;freq_band&#39;</span><span class="p">)</span>
-        <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s">&#39;index&#39;</span><span class="p">,</span> <span class="n">spectral</span><span class="p">,</span> <span class="s">&#39;index&#39;</span><span class="p">)</span>
 <span class="c">#        pipeline.connect(inputnode, &#39;epoch_window_length&#39;, spectral, &#39;epoch_window_length&#39;)</span>
 
         <span class="c">#### plot spectral</span>
-        <span class="n">plot_spectral</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">MapNode</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">PlotSpectralConn</span><span class="p">(),</span> <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;plot_spectral&quot;</span><span class="p">,</span><span class="n">iterfield</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;conmat_file&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">multi_con</span><span class="p">:</span>
+            <span class="n">plot_spectral</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">MapNode</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">PlotSpectralConn</span><span class="p">(),</span> <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;plot_spectral&quot;</span><span class="p">,</span><span class="n">iterfield</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;conmat_file&#39;</span><span class="p">])</span>
+            
+            <span class="n">plot_spectral</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">is_sensor_space</span> <span class="o">=</span> <span class="n">is_sensor_space</span>        
+            <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span>  <span class="s">&#39;labels_file&#39;</span><span class="p">,</span><span class="n">plot_spectral</span><span class="p">,</span><span class="s">&#39;labels_file&#39;</span><span class="p">)</span>
+    <span class="c">#        pipeline.connect(inputnode,  &#39;is_sensor_space&#39;,plot_spectral,&#39;is_sensor_space&#39;)        </span>
+            <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">spectral</span><span class="p">,</span> <span class="s">&quot;conmat_file&quot;</span><span class="p">,</span>    <span class="n">plot_spectral</span><span class="p">,</span> <span class="s">&#39;conmat_file&#39;</span><span class="p">)</span>
+            
+        <span class="k">else</span><span class="p">:</span>
+            
+            <span class="n">plot_spectral</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">PlotSpectralConn</span><span class="p">(),</span> <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;plot_spectral&quot;</span><span class="p">)</span>
+            
+            <span class="n">plot_spectral</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">is_sensor_space</span> <span class="o">=</span> <span class="n">is_sensor_space</span>        
+            <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span>  <span class="s">&#39;labels_file&#39;</span><span class="p">,</span><span class="n">plot_spectral</span><span class="p">,</span><span class="s">&#39;labels_file&#39;</span><span class="p">)</span>
+    <span class="c">#        pipeline.connect(inputnode,  &#39;is_sensor_space&#39;,plot_spectral,&#39;is_sensor_space&#39;)        </span>
+            <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">spectral</span><span class="p">,</span> <span class="s">&quot;conmat_file&quot;</span><span class="p">,</span>    <span class="n">plot_spectral</span><span class="p">,</span> <span class="s">&#39;conmat_file&#39;</span><span class="p">)</span>
         
-        <span class="n">plot_spectral</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">is_sensor_space</span> <span class="o">=</span> <span class="n">is_sensor_space</span>        
-        <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span>  <span class="s">&#39;labels_file&#39;</span><span class="p">,</span><span class="n">plot_spectral</span><span class="p">,</span><span class="s">&#39;labels_file&#39;</span><span class="p">)</span>
-<span class="c">#        pipeline.connect(inputnode,  &#39;is_sensor_space&#39;,plot_spectral,&#39;is_sensor_space&#39;)        </span>
-        <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">spectral</span><span class="p">,</span> <span class="s">&quot;conmat_file&quot;</span><span class="p">,</span>    <span class="n">plot_spectral</span><span class="p">,</span> <span class="s">&#39;conmat_file&#39;</span><span class="p">)</span>
         
     <span class="k">else</span><span class="p">:</span>
         
@@ -263,7 +277,6 @@
         <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s">&#39;sfreq&#39;</span><span class="p">,</span> <span class="n">spectral</span><span class="p">,</span> <span class="s">&#39;sfreq&#39;</span><span class="p">)</span>
         <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">win_ts</span><span class="p">,</span> <span class="s">&#39;win_ts_files&#39;</span><span class="p">,</span> <span class="n">spectral</span><span class="p">,</span> <span class="s">&#39;ts_file&#39;</span><span class="p">)</span>
         <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s">&#39;freq_band&#39;</span><span class="p">,</span> <span class="n">spectral</span><span class="p">,</span> <span class="s">&#39;freq_band&#39;</span><span class="p">)</span>
-        <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s">&#39;index&#39;</span><span class="p">,</span> <span class="n">spectral</span><span class="p">,</span> <span class="s">&#39;index&#39;</span><span class="p">)</span>
 <span class="c">#        pipeline.connect(inputnode, &#39;epoch_window_length&#39;, spectral, &#39;epoch_window_length&#39;)</span>
 
  

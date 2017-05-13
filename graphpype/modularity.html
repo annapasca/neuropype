@@ -85,7 +85,13 @@
 </li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../cinq/cinq.html">CINQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cinq/cinq.html">CINQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cinq/cinq.html#download-scripts">Download scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cinq/cinq.html#upgrade-neuropype-ephy">Upgrade neuropype_ephy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cinq/cinq.html#preprocessing">Preprocessing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cinq/cinq.html#connectivity">Connectivity</a></li>
+</ul>
+</li>
 </ul>
 
           
@@ -160,7 +166,30 @@
 <dl class="class">
 <dt id="neuropype_graph.nodes.modularity.ComputeNodeRoles">
 <em class="property">class </em><code class="descclassname">neuropype_graph.nodes.modularity.</code><code class="descname">ComputeNodeRoles</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_graph/nodes/modularity.html#ComputeNodeRoles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_graph.nodes.modularity.ComputeNodeRoles" title="Permalink to this definition">¶</a></dt>
-<dd><p>compute node roles from lol modular partition and original network</p>
+<dd><p>Description:</p>
+<p>Compute node roles from lol modular partition and original network</p>
+<p>Inputs:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>rada_lol_file: </dt>
+<dd>type = File, exists=True,desc=&#8217;lol file, describing modular structure of the network&#8217;, mandatory=True</dd>
+<dt>Pajek_net_file:</dt>
+<dd>type = File(exists=True, desc=&#8217;net description in Pajek format&#8217;, mandatory=True</dd>
+<dt>role_type:</dt>
+<dd>One of Enum(&#8216;Amaral_roles&#8217;, &#8216;4roles&#8217;), desc=&#8217;definition of node roles, Amaral_roles = original 7 roles defined for transport network (useful for big network), 4_roles = defines only provincial/connecteur from participation coeff&#8217;, usedefault=True</dd>
+</dl>
+</div></blockquote>
+<p>Outputs:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>node_roles_file:</dt>
+<dd>type = File, exists=True, desc=&#8221;node roles with an integer code&#8221;</dd>
+<dt>all_Z_com_degree_file:</dt>
+<dd>type = File,exists=True, desc=&#8221;value of quantity, describing the hub/non-hub role of the nodes&#8221;</dd>
+<dt>all_participation_coeff_file</dt>
+<dd>type = File, exists=True, desc=&#8221;value of quality, descibing the provincial/connector role of the nodes&#8221;</dd>
+</dl>
+</div></blockquote>
 </dd></dl>
 
 </div>

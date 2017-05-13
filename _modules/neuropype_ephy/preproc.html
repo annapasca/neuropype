@@ -86,7 +86,14 @@
 </li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../cinq/cinq.html">CINQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cinq/cinq.html">CINQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../cinq/cinq.html#download-scripts">Download scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cinq/cinq.html#upgrade-neuropype-ephy">Upgrade neuropype_ephy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cinq/cinq.html#preprocessing">Preprocessing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cinq/cinq.html#power-analysis">Power analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cinq/cinq.html#connectivity-and-graph-analysis">Connectivity and graph analysis</a></li>
+</ul>
+</li>
 </ul>
 
           
@@ -123,6 +130,7 @@
           <div role="main" class="document">
             
   <h1>Source code for neuropype_ephy.preproc</h1><div class="highlight"><pre>
+<span class="c"># -*- coding: utf-8 -*-</span>
 <span class="sd">&quot;&quot;&quot;Preprocessing functions&quot;&quot;&quot;</span>
 <span class="c"># Authors: Dmitrii Altukhov &lt;dm-altukhov@ya.ru&gt;</span>
 <span class="c">#          Annalisa Pascarella &lt;a.pascarella@iac.cnr.it&gt;</span>
@@ -267,7 +275,7 @@
     <span class="n">subj_path</span><span class="p">,</span> <span class="n">basename</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">split_f</span><span class="p">(</span><span class="n">fif_file</span><span class="p">)</span>
     <span class="p">(</span><span class="n">data_path</span><span class="p">,</span>  <span class="n">sbj_name</span><span class="p">)</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">subj_path</span><span class="p">)</span>
 
-    <span class="nb">print</span> <span class="s">&#39;*** SBJ %s&#39;</span> <span class="o">%</span> <span class="n">subject_id</span> <span class="o">+</span> <span class="s">&#39;***&#39;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s">&#39;*** SBJ %s&#39;</span> <span class="o">%</span> <span class="n">subject_id</span> <span class="o">+</span> <span class="s">&#39;***&#39;</span><span class="p">)</span>
 
     <span class="c"># Read raw</span>
     <span class="n">current_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
@@ -278,7 +286,7 @@
     <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_dir</span><span class="p">,</span> <span class="s">&#39;../ica&#39;</span><span class="p">,</span> <span class="n">basename</span> <span class="o">+</span> <span class="s">&#39;_filt_dsamp_ica&#39;</span> <span class="o">+</span> <span class="n">ext</span><span class="p">)):</span>  
         <span class="n">raw_ica_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_dir</span><span class="p">,</span> <span class="s">&#39;../ica&#39;</span><span class="p">,</span> <span class="n">basename</span> <span class="o">+</span> <span class="s">&#39;_filt_dsamp_ica&#39;</span> <span class="o">+</span> <span class="n">ext</span><span class="p">)</span>
       
-    <span class="nb">print</span> <span class="s">&#39;*** raw_ica_file %s&#39;</span> <span class="o">%</span> <span class="n">raw_ica_file</span> <span class="o">+</span> <span class="s">&#39;***&#39;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s">&#39;*** raw_ica_file %s&#39;</span> <span class="o">%</span> <span class="n">raw_ica_file</span> <span class="o">+</span> <span class="s">&#39;***&#39;</span><span class="p">)</span>
     <span class="n">raw</span> <span class="o">=</span> <span class="n">mne</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_raw_fif</span><span class="p">(</span><span class="n">raw_ica_file</span><span class="p">,</span> <span class="n">preload</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
 
     <span class="c"># load ICA</span>
@@ -290,17 +298,17 @@
         <span class="n">ica_sol_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_dir</span><span class="p">,</span> <span class="s">&#39;../ica&#39;</span><span class="p">,</span> <span class="n">basename</span> <span class="o">+</span> <span class="s">&#39;_filt_dsamp_ica_solution.fif&#39;</span><span class="p">)</span>
       
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">ica_sol_file</span><span class="p">)</span> <span class="ow">is</span> <span class="k">False</span><span class="p">:</span>
-        <span class="nb">print</span> <span class="s">&#39;$$$ Warning, no %s found&#39;</span> <span class="o">%</span> <span class="n">ica_sol_file</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s">&#39;$$$ Warning, no %s found&#39;</span> <span class="o">%</span> <span class="n">ica_sol_file</span><span class="p">)</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">ica</span> <span class="o">=</span> <span class="n">read_ica</span><span class="p">(</span><span class="n">ica_sol_file</span><span class="p">)</span>
 
-    <span class="nb">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s"> *** ica.exclude before set components= &#39;</span><span class="p">,</span> <span class="n">ica</span><span class="o">.</span><span class="n">exclude</span>
-    <span class="k">if</span> <span class="n">n_comp_exclude</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">subject_id</span><span class="p">):</span>
-        <span class="nb">print</span> <span class="s">&#39;*** ICA to be excluded for sbj %s &#39;</span> <span class="o">%</span> <span class="n">subject_id</span>
-        <span class="nb">print</span> <span class="s">&#39; &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">n_comp_exclude</span><span class="p">[</span><span class="n">subject_id</span><span class="p">])</span> <span class="o">+</span> <span class="s">&#39;***&#39;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s"> *** ica.exclude before set components= &#39;</span><span class="p">,</span> <span class="n">ica</span><span class="o">.</span><span class="n">exclude</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">subject_id</span> <span class="ow">in</span> <span class="n">n_comp_exclude</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s">&#39;*** ICA to be excluded for sbj %s &#39;</span> <span class="o">%</span> <span class="n">subject_id</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s">&#39; &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">n_comp_exclude</span><span class="p">[</span><span class="n">subject_id</span><span class="p">])</span> <span class="o">+</span> <span class="s">&#39;***&#39;</span><span class="p">)</span>
         <span class="n">session_dict</span> <span class="o">=</span> <span class="n">n_comp_exclude</span><span class="p">[</span><span class="n">subject_id</span><span class="p">]</span>
-        <span class="n">session_names</span> <span class="o">=</span> <span class="n">session_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="n">session_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">session_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 
         <span class="n">componentes</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">session_names</span><span class="p">:</span>
@@ -309,14 +317,14 @@
             <span class="c">#    break</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">componentes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="nb">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s"> no ICA to be excluded </span><span class="se">\n</span><span class="s">&#39;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s"> no ICA to be excluded </span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="nb">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s"> *** ICA to be excluded for session %s &#39;</span> <span class="o">%</span> <span class="n">s</span> <span class="o">+</span> \
-                    <span class="s">&#39; &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">componentes</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39; *** </span><span class="se">\n</span><span class="s">&#39;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s"> *** ICA to be excluded for session %s &#39;</span> <span class="o">%</span> <span class="n">s</span> <span class="o">+</span> \
+                    <span class="s">&#39; &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">componentes</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39; *** </span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
 
     <span class="n">ica</span><span class="o">.</span><span class="n">exclude</span> <span class="o">=</span> <span class="n">componentes</span>
 
-    <span class="nb">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s"> *** ica.exclude after set components = &#39;</span><span class="p">,</span> <span class="n">ica</span><span class="o">.</span><span class="n">exclude</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s"> *** ica.exclude after set components = &#39;</span><span class="p">,</span> <span class="n">ica</span><span class="o">.</span><span class="n">exclude</span><span class="p">)</span>
 
 
     <span class="c"># apply ICA to raw data </span>
@@ -326,7 +334,7 @@
     <span class="n">raw_ica</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">new_raw_ica_file</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
 
     <span class="c"># save ICA solution</span>
-    <span class="nb">print</span> <span class="n">ica_sol_file</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">ica_sol_file</span><span class="p">)</span>
     <span class="n">ica</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">ica_sol_file</span><span class="p">)</span>
 
     <span class="n">ts_file</span><span class="p">,</span> <span class="n">channel_coords_file</span><span class="p">,</span> <span class="n">channel_names_file</span><span class="p">,</span> <span class="n">raw</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s">&#39;sfreq&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">create_ts</span><span class="p">(</span><span class="n">new_raw_ica_file</span><span class="p">)</span>
@@ -432,23 +440,24 @@
     <span class="n">sens_loc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sens_loc</span><span class="p">)</span>
 
     <span class="n">channel_coords_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;correct_channel_coords.txt&#39;</span><span class="p">)</span>
-    <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">channel_coords_file</span><span class="p">,</span> <span class="n">sens_loc</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s">&#39;%s&#39;</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">channel_coords_file</span><span class="p">,</span> <span class="n">sens_loc</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="s">&quot;%s&quot;</span><span class="p">))</span>
+    <span class="c">#np.savetxt(ROI_coords_file,np.array(ROI_coords,dtype = int),fmt = &quot;%d&quot;)</span>
 
     <span class="c"># save electrode names</span>
     <span class="n">sens_names</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">raw</span><span class="o">.</span><span class="n">ch_names</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span> <span class="k">for</span> <span class="n">pos</span> <span class="ow">in</span> <span class="n">select_sensors</span><span class="p">],</span>
                           <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;str&#39;</span><span class="p">)</span>
 
     <span class="n">channel_names_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;correct_channel_names.txt&#39;</span><span class="p">)</span>
-    <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">channel_names_file</span><span class="p">,</span> <span class="n">sens_names</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s">&#39;%s&#39;</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">channel_names_file</span><span class="p">,</span> <span class="n">sens_names</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="s">&#39;%s&#39;</span><span class="p">))</span>
 
     <span class="n">data</span><span class="p">,</span> <span class="n">times</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">select_sensors</span><span class="p">,</span> <span class="p">:]</span>
 
-    <span class="nb">print</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
     
     <span class="n">ts_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">basename</span> <span class="o">+</span> <span class="s">&#39;.npy&#39;</span><span class="p">)</span>
     <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">ts_file</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-    <span class="nb">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s"> *** TS FILE &#39;</span> <span class="o">+</span> <span class="n">ts_file</span> <span class="o">+</span> <span class="s">&#39;*** </span><span class="se">\n</span><span class="s">&#39;</span>
-    <span class="nb">print</span> <span class="s">&#39;*** raw.info[sfreq] = &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">raw</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s">&#39;sfreq&#39;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s"> *** TS FILE &#39;</span> <span class="o">+</span> <span class="n">ts_file</span> <span class="o">+</span> <span class="s">&#39;*** </span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s">&#39;*** raw.info[sfreq] = &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">raw</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s">&#39;sfreq&#39;</span><span class="p">]))</span>
         
     <span class="k">return</span> <span class="n">ts_file</span><span class="p">,</span> <span class="n">channel_coords_file</span><span class="p">,</span> <span class="n">channel_names_file</span><span class="p">,</span> <span class="n">raw</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s">&#39;sfreq&#39;</span><span class="p">]</span></div>
 
@@ -538,7 +547,7 @@
         <span class="n">report</span><span class="o">.</span><span class="n">add_figs_to_section</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">captions</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;Time-locked EOG sources&#39;</span><span class="p">],</span>
                                    <span class="n">section</span><span class="o">=</span><span class="s">&#39;ICA - EOG&#39;</span><span class="p">)</span>
     <span class="c"># ----------------- end generate report for EoG ---------- #</span>
-    <span class="n">ic_nums</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">ica</span><span class="o">.</span><span class="n">n_components_</span><span class="p">)</span>
+    <span class="n">ic_nums</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">ica</span><span class="o">.</span><span class="n">n_components_</span><span class="p">))</span>
     <span class="n">fig</span> <span class="o">=</span> <span class="n">ica</span><span class="o">.</span><span class="n">plot_components</span><span class="p">(</span><span class="n">picks</span><span class="o">=</span><span class="n">ic_nums</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="k">False</span><span class="p">)</span>
     <span class="n">report</span><span class="o">.</span><span class="n">add_figs_to_section</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">captions</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;All IC topographies&#39;</span><span class="p">],</span>
                                <span class="n">section</span><span class="o">=</span><span class="s">&#39;ICA - muscles&#39;</span><span class="p">)</span>
@@ -561,7 +570,7 @@
                                <span class="n">section</span><span class="o">=</span><span class="s">&#39;ICA - muscles&#39;</span><span class="p">)</span>
 
     <span class="n">report_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">basename</span> <span class="o">+</span> <span class="s">&quot;-report.html&quot;</span><span class="p">)</span>
-    <span class="nb">print</span> <span class="s">&#39;******* &#39;</span> <span class="o">+</span> <span class="n">report_filename</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s">&#39;******* &#39;</span> <span class="o">+</span> <span class="n">report_filename</span><span class="p">)</span>
     <span class="n">report</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">report_filename</span><span class="p">,</span> <span class="n">open_browser</span><span class="o">=</span><span class="k">False</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">report_filename</span></div>
 

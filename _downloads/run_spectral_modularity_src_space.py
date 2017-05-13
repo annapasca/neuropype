@@ -104,10 +104,7 @@ def create_main_workflow_spectral_modularity_src_space():
     spectral_workflow = \
         create_pipeline_time_series_to_spectral_connectivity(main_path,
                                                              con_method=con_method,
-                                                             export_to_matlab=True)
-
-    spectral_workflow.inputs.inputnode.is_sensor_space = False
-    spectral_workflow.inputs.inputnode.epoch_window_length = epoch_window_length
+                                                             epoch_window_length=epoch_window_length)
     
     main_workflow.connect(inv_sol_workflow, 'inv_solution.ts_file',
                           spectral_workflow, 'inputnode.ts_file')

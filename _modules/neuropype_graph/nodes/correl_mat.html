@@ -86,7 +86,14 @@
 </li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../cinq/cinq.html">CINQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cinq/cinq.html">CINQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../cinq/cinq.html#download-scripts">Download scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cinq/cinq.html#upgrade-neuropype-ephy">Upgrade neuropype_ephy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cinq/cinq.html#preprocessing">Preprocessing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cinq/cinq.html#power-analysis">Power analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cinq/cinq.html#connectivity-and-graph-analysis">Connectivity and graph analysis</a></li>
+</ul>
+</li>
 </ul>
 
           
@@ -159,6 +166,8 @@
     
     <span class="n">coord_rois_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;ROI coordinates&#39;</span><span class="p">)</span>
     
+    <span class="n">label_rois_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;ROI labels&#39;</span><span class="p">)</span>
+    
     <span class="n">min_BOLD_intensity</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="mf">50.0</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;BOLD signal below this value will be set to zero&#39;</span><span class="p">,</span><span class="n">usedefault</span> <span class="o">=</span> <span class="k">True</span><span class="p">)</span>
 
     <span class="n">percent_signal</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">desc</span>  <span class="o">=</span> <span class="s">&quot;Percent of voxels in a ROI with signal higher that min_BOLD_intensity to keep this ROI&quot;</span><span class="p">,</span><span class="n">usedefault</span> <span class="o">=</span> <span class="k">True</span><span class="p">)</span>
@@ -170,7 +179,9 @@
     
     <span class="n">mean_masked_ts_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&quot;mean ts in .npy (pickle format)&quot;</span><span class="p">)</span>
     
-    <span class="n">subj_coord_rois_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&quot;ROI coordinates retained for the subject&quot;</span><span class="p">)</span>
+    <span class="n">subj_coord_rois_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s">&quot;ROI coordinates retained for the subject&quot;</span><span class="p">)</span>
+    
+    <span class="n">subj_label_rois_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s">&quot;ROI labels retained for the subject&quot;</span><span class="p">)</span>
     
 
 <div class="viewcode-block" id="ExtractTS"><a class="viewcode-back" href="../../../graphpype/correl_mat.html#neuropype_graph.nodes.correl_mat.ExtractTS">[docs]</a><span class="k">class</span> <span class="nc">ExtractTS</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
@@ -190,6 +201,9 @@
 <span class="sd">        coord_rois_file:</span>
 <span class="sd">            type = File, desc=&#39;ROI coordinates&#39;</span>
 <span class="sd">        </span>
+<span class="sd">        label_rois_file:</span>
+<span class="sd">            type = File, desc=&#39;ROI labels&#39;)</span>
+<span class="sd">    </span>
 <span class="sd">        min_BOLD_intensity:</span>
 <span class="sd">            type = Float, default = 50.0, desc=&#39;BOLD signal below this value will be set to zero&#39;,usedefault = True</span>
 
@@ -205,8 +219,11 @@
 <span class="sd">            type = File, exists=True, desc=&quot;mean ts in .npy (pickle format)&quot;</span>
 <span class="sd">    </span>
 <span class="sd">        subj_coord_rois_file: </span>
-<span class="sd">            type = File, exists=True, desc=&quot;ROI coordinates retained for the subject&quot;</span>
+<span class="sd">            type = File, desc=&quot;ROI coordinates retained for the subject&quot;</span>
 <span class="sd">            </span>
+<span class="sd">            </span>
+<span class="sd">        subj_label_rois_file: </span>
+<span class="sd">            type = File, desc=&quot;ROI labels retained for the subject&quot;</span>
 <span class="sd">            </span>
 <span class="sd">    </span>
 
@@ -217,18 +234,12 @@
 
     <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
               
-        <span class="n">coord_rois_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">coord_rois_file</span>
         <span class="n">indexed_rois_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">indexed_rois_file</span>
         <span class="n">file_4D</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">file_4D</span>
         <span class="n">min_BOLD_intensity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">min_BOLD_intensity</span>
+        <span class="n">percent_signal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">percent_signal</span>
         
         <span class="n">plot_fig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">plot_fig</span>
-        
-        <span class="c">## loading ROI coordinates</span>
-        <span class="n">coord_rois</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">coord_rois_file</span><span class="p">)</span>
-        
-        <span class="nb">print</span> <span class="s">&quot;coord_rois: &quot;</span> 
-        <span class="nb">print</span> <span class="n">coord_rois</span><span class="o">.</span><span class="n">shape</span>
         
         <span class="c">## loading ROI indexed mask</span>
         <span class="n">indexed_rois_img</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">indexed_rois_file</span><span class="p">)</span>
@@ -240,20 +251,54 @@
         <span class="nb">print</span> <span class="s">&quot;orig_ts shape:&quot;</span>
         <span class="nb">print</span> <span class="n">orig_ts</span><span class="o">.</span><span class="n">shape</span>
             
-        <span class="n">mean_masked_ts</span><span class="p">,</span><span class="n">subj_coord_rois</span> <span class="o">=</span> <span class="n">mean_select_indexed_mask_data</span><span class="p">(</span><span class="n">orig_ts</span><span class="p">,</span><span class="n">indexed_mask_rois_data</span><span class="p">,</span><span class="n">coord_rois</span><span class="p">,</span><span class="n">min_BOLD_intensity</span><span class="p">,</span> <span class="n">percent_signal</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
+        <span class="n">mean_masked_ts</span><span class="p">,</span><span class="n">keep_rois</span> <span class="o">=</span> <span class="n">mean_select_indexed_mask_data</span><span class="p">(</span><span class="n">orig_ts</span><span class="p">,</span><span class="n">indexed_mask_rois_data</span><span class="p">,</span><span class="n">min_BOLD_intensity</span><span class="p">,</span> <span class="n">percent_signal</span> <span class="o">=</span> <span class="n">percent_signal</span><span class="p">,</span> <span class="n">background_val</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">)</span>
         
+        <span class="nb">print</span> <span class="n">keep_rois</span>
+        
+        <span class="c">## loading ROI coordinates</span>
+        
+        <span class="k">if</span> <span class="n">isdefined</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">coord_rois_file</span><span class="p">):</span>
+            
+            <span class="n">coord_rois_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">coord_rois_file</span>
+        
+            <span class="n">coord_rois</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">coord_rois_file</span><span class="p">)</span>
+            
+            <span class="nb">print</span> <span class="s">&quot;coord_rois: &quot;</span> 
+            <span class="nb">print</span> <span class="n">coord_rois</span><span class="o">.</span><span class="n">shape</span>
+            
+            <span class="n">subj_coord_rois</span> <span class="o">=</span> <span class="n">coord_rois</span><span class="p">[</span><span class="n">keep_rois</span><span class="p">,:]</span>
+            
+            <span class="nb">print</span> <span class="n">coord_rois</span><span class="o">.</span><span class="n">shape</span>
+            <span class="nb">print</span> <span class="n">subj_coord_rois</span><span class="o">.</span><span class="n">shape</span>
+            
+            <span class="c">### saving subject ROIs</span>
+            <span class="n">subj_coord_rois_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&quot;subj_coord_rois.txt&quot;</span><span class="p">)</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">subj_coord_rois_file</span><span class="p">,</span><span class="n">subj_coord_rois</span><span class="p">,</span><span class="n">fmt</span> <span class="o">=</span> <span class="s">&#39;%.3f&#39;</span><span class="p">)</span>
+            
+        <span class="k">if</span> <span class="n">isdefined</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">label_rois_file</span><span class="p">):</span>
+            
+            <span class="n">label_rois_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">label_rois_file</span>
+        
+            <span class="n">labels_rois</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">label_rois_file</span><span class="p">)],</span><span class="n">dtype</span> <span class="o">=</span> <span class="s">&#39;str&#39;</span><span class="p">)</span>
+            
+            <span class="nb">print</span> <span class="n">labels_rois</span><span class="o">.</span><span class="n">shape</span>
+            
+            <span class="n">subj_label_rois</span> <span class="o">=</span> <span class="n">labels_rois</span><span class="p">[</span><span class="n">keep_rois</span><span class="p">]</span>
+            
+            <span class="nb">print</span> <span class="n">labels_rois</span><span class="o">.</span><span class="n">shape</span>
+            <span class="nb">print</span> <span class="n">subj_label_rois</span><span class="o">.</span><span class="n">shape</span>
+            
+            <span class="c">### saving subject ROIs</span>
+            <span class="n">subj_label_rois_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&quot;subj_label_rois.txt&quot;</span><span class="p">)</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">subj_label_rois_file</span><span class="p">,</span><span class="n">subj_label_rois</span><span class="p">,</span><span class="n">fmt</span> <span class="o">=</span> <span class="s">&#39;%s&#39;</span><span class="p">)</span>
+            
         <span class="n">mean_masked_ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">mean_masked_ts</span><span class="p">,</span><span class="n">dtype</span> <span class="o">=</span> <span class="s">&#39;f&#39;</span><span class="p">)</span>
-        <span class="n">subj_coord_rois</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">subj_coord_rois</span><span class="p">,</span><span class="n">dtype</span> <span class="o">=</span> <span class="s">&#39;float&#39;</span><span class="p">)</span>
         
         <span class="nb">print</span> <span class="n">mean_masked_ts</span><span class="o">.</span><span class="n">shape</span>
             
         <span class="c">### saving time series</span>
         <span class="n">mean_masked_ts_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&quot;mean_masked_ts.txt&quot;</span><span class="p">)</span>
         <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">mean_masked_ts_file</span><span class="p">,</span><span class="n">mean_masked_ts</span><span class="p">,</span><span class="n">fmt</span> <span class="o">=</span> <span class="s">&#39;%.3f&#39;</span><span class="p">)</span>
-        
-        <span class="c">### saving subject ROIs</span>
-        <span class="n">subj_coord_rois_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&quot;subj_coord_rois.txt&quot;</span><span class="p">)</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">subj_coord_rois_file</span><span class="p">,</span><span class="n">subj_coord_rois</span><span class="p">,</span><span class="n">fmt</span> <span class="o">=</span> <span class="s">&#39;%.3f&#39;</span><span class="p">)</span>
         
         <span class="k">if</span> <span class="n">plot_fig</span> <span class="o">==</span> <span class="k">True</span><span class="p">:</span>
                 
@@ -272,7 +317,14 @@
         <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_outputs</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
         
         <span class="n">outputs</span><span class="p">[</span><span class="s">&quot;mean_masked_ts_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&quot;mean_masked_ts.txt&quot;</span><span class="p">)</span>
-        <span class="n">outputs</span><span class="p">[</span><span class="s">&quot;subj_coord_rois_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&quot;subj_coord_rois.txt&quot;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">isdefined</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">coord_rois_file</span><span class="p">):</span>
+            
+            <span class="n">outputs</span><span class="p">[</span><span class="s">&quot;subj_coord_rois_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&quot;subj_coord_rois.txt&quot;</span><span class="p">)</span>
+    
+        <span class="k">if</span> <span class="n">isdefined</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">label_rois_file</span><span class="p">):</span>
+            
+            <span class="n">outputs</span><span class="p">[</span><span class="s">&quot;subj_label_rois_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&quot;subj_label_rois.txt&quot;</span><span class="p">)</span>
     
         <span class="k">return</span> <span class="n">outputs</span></div>
 
@@ -313,13 +365,13 @@
     
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Description:</span>
-<span class="sd">        Keep only values of indexed mask where filtermask is present</span>
-<span class="sd">        Optionnally, keep only ijk_coords, MNI_coords and labels that are kept in filtered mask</span>
+<span class="sd">    </span>
+<span class="sd">    Keep only values of indexed mask where filter_mask is present.</span>
+<span class="sd">    Optionnally, keep only ijk_coords, MNI_coords and labels that are kept in filtered mask</span>
 <span class="sd">        </span>
 <span class="sd">    Inputs:</span>
 <span class="sd">            </span>
 <span class="sd">        indexed_rois_file:</span>
-<span class="sd">        </span>
 <span class="sd">            type = File, exists=True, desc=&#39;nii file with indexed mask where all voxels belonging to the same ROI have the same value (! starting from 0)&#39;, mandatory=True</span>
 <span class="sd">            </span>
 <span class="sd">        filter_mask_file:</span>
@@ -531,29 +583,62 @@
 <span class="c">############################################################################################### ExtractMeanTS #####################################################################################################</span>
 
 <span class="kn">from</span> <span class="nn">neuropype_graph.utils_cor</span> <span class="k">import</span> <span class="n">mean_select_mask_data</span>
+<span class="kn">from</span> <span class="nn">neuropype_graph.utils</span> <span class="k">import</span> <span class="n">check_np_dimension</span>
 
 <span class="k">class</span> <span class="nc">ExtractMeanTSInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
-    <span class="n">mask_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">xor</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;filter_mask_file&#39;</span><span class="p">],</span> <span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;mask file where all voxels belonging to the selected region have index 1&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
-    
-    <span class="n">filter_mask_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">xor</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;mask_file&#39;</span><span class="p">],</span><span class="n">requires</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;filter_thr&#39;</span><span class="p">],</span> <span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;mask file where all voxels belonging to the selected region have values higher than threshold&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
-    
-    <span class="n">filter_thr</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="mf">0.99</span><span class="p">,</span> <span class="n">usedefault</span> <span class="o">=</span> <span class="k">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Value to threshold filter_mask&#39;</span><span class="p">)</span>
     
     <span class="n">file_4D</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;4D volume to be extracted&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
     
-    <span class="n">suffix</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;Suffix added to describe the extracted time series&#39;</span><span class="p">,</span><span class="n">mandatory</span><span class="o">=</span><span class="k">False</span><span class="p">)</span>
+    <span class="n">ROI_coord</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">traits</span><span class="o">.</span><span class="n">Int</span><span class="p">(</span><span class="n">exists</span> <span class="o">=</span> <span class="k">True</span><span class="p">),</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;values for extracting ROI&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="k">True</span><span class="p">,</span><span class="n">xor</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;mask_file&#39;</span><span class="p">,</span><span class="s">&#39;filter_mask_file&#39;</span><span class="p">])</span>
+        
+    <span class="n">mask_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">xor</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;filter_mask_file&#39;</span><span class="p">,</span><span class="s">&#39;ROI_coord&#39;</span><span class="p">],</span> <span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;mask file where all voxels belonging to the selected region have index 1&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+    
+    <span class="n">filter_mask_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">xor</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;mask_file&#39;</span><span class="p">,</span><span class="s">&#39;ROI_coord&#39;</span><span class="p">],</span><span class="n">requires</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;filter_thr&#39;</span><span class="p">],</span> <span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;mask file where all voxels belonging to the selected region have values higher than threshold&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+    
+    <span class="n">filter_thr</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="mf">0.99</span><span class="p">,</span> <span class="n">usedefault</span> <span class="o">=</span> <span class="k">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Value to threshold filter_mask&#39;</span><span class="p">)</span>
+    
+    <span class="n">suffix</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="s">&quot;suf&quot;</span><span class="p">,</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;Suffix added to describe the extracted time series&#39;</span><span class="p">,</span><span class="n">mandatory</span><span class="o">=</span><span class="k">False</span><span class="p">,</span><span class="n">usedefault</span> <span class="o">=</span> <span class="k">True</span><span class="p">)</span>
 
     <span class="n">plot_fig</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Bool</span><span class="p">(</span><span class="k">False</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&quot;Plotting mean signal or not&quot;</span><span class="p">,</span> <span class="n">usedefault</span> <span class="o">=</span> <span class="k">True</span><span class="p">)</span>
     
 <span class="k">class</span> <span class="nc">ExtractMeanTSOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
     
-    <span class="n">mean_masked_ts_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&quot;mean ts in .npy (pickle format)&quot;</span><span class="p">)</span>
+    <span class="n">mean_masked_ts_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&quot;mean ts in .npy format&quot;</span><span class="p">)</span>
     
 
 <div class="viewcode-block" id="ExtractMeanTS"><a class="viewcode-back" href="../../../graphpype/correl_mat.html#neuropype_graph.nodes.correl_mat.ExtractMeanTS">[docs]</a><span class="k">class</span> <span class="nc">ExtractMeanTS</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
     
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Extract mean time series from a labelled mask in Nifti Format where the voxels of interest have values 1</span>
+<span class="sd">    Description:</span>
+<span class="sd">    </span>
+<span class="sd">    Extract mean time series from a labelled mask in Nifti Format where the voxels of interest have values 1 (mask_file), or from a percent mask (filter_mask_file) with values higher than threshold (filter_thr)</span>
+<span class="sd">    </span>
+<span class="sd">    Inputs:</span>
+<span class="sd">        </span>
+<span class="sd">        file_4D:</span>
+<span class="sd">            type = File, exists=True, desc=&#39;4D volume to be extracted&#39;, mandatory=True</span>
+<span class="sd">        </span>
+<span class="sd">        mask_file:</span>
+<span class="sd">            type = File, xor = [&#39;filter_mask_file&#39;], exists=True, desc=&#39;mask file where all voxels belonging to the selected region have index 1&#39;, mandatory=True</span>
+<span class="sd">        </span>
+<span class="sd">        filter_mask_file:</span>
+<span class="sd">            type = File, xor = [&#39;mask_file&#39;],requires = [&#39;filter_thr&#39;], exists=True, desc=&#39;mask file where all voxels belonging to the selected region have values higher than threshold&#39;, mandatory=True</span>
+<span class="sd">        </span>
+<span class="sd">        filter_thr:</span>
+<span class="sd">            type = Float, default = 0.99, usedefault = True, desc=&#39;Value to threshold filter_mask&#39;</span>
+<span class="sd">        </span>
+<span class="sd">        suffix:</span>
+<span class="sd">            type = String, default = &quot;suf&quot;,desc=&#39;Suffix added to describe the extracted time series&#39;,mandatory=False,usedefault = True</span>
+
+<span class="sd">        plot_fig:</span>
+<span class="sd">            type = Bool, default = False, desc = &quot;Plotting mean signal or not&quot;, usedefault = True</span>
+<span class="sd">        </span>
+<span class="sd">    Outputs:</span>
+<span class="sd">    </span>
+<span class="sd">        mean_masked_ts_file:</span>
+<span class="sd">            type = File, exists=True, desc=&quot;mean ts in .npy format&quot;</span>
+<span class="sd">    </span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">input_spec</span> <span class="o">=</span> <span class="n">ExtractMeanTSInputSpec</span>
     <span class="n">output_spec</span> <span class="o">=</span> <span class="n">ExtractMeanTSOutputSpec</span>
@@ -563,17 +648,14 @@
         <span class="nb">print</span> <span class="s">&#39;in select_ts_with_mask&#39;</span>
         
         <span class="n">file_4D</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">file_4D</span>
+        <span class="n">ROI_coord</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">ROI_coord</span>
         <span class="n">mask_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mask_file</span>
         <span class="n">filter_mask_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">filter_mask_file</span>
         <span class="n">filter_thr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">filter_thr</span>
         <span class="n">plot_fig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">plot_fig</span>
         
         
-        <span class="k">if</span> <span class="n">isdefined</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">suffix</span><span class="p">):</span>
-            <span class="n">suffix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">suffix</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">suffix</span> <span class="o">=</span> <span class="s">&quot;suf&quot;</span>
-            
+        <span class="n">suffix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">suffix</span>            
             
         <span class="nb">print</span> <span class="s">&quot;loading img data &quot;</span> <span class="o">+</span> <span class="n">file_4D</span>
 
@@ -584,21 +666,43 @@
         <span class="nb">print</span> <span class="n">img_data</span><span class="o">.</span><span class="n">shape</span>
 
         
-        <span class="c">### Reading 4D volume file to extract time series</span>
+        <span class="c">### Reading 3D mask file</span>
         <span class="k">if</span> <span class="n">isdefined</span><span class="p">(</span><span class="n">mask_file</span><span class="p">):</span>
         
             <span class="nb">print</span> <span class="s">&quot;loading mask data &quot;</span> <span class="o">+</span> <span class="n">mask_file</span>
 
             <span class="n">mask_data</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">mask_file</span><span class="p">)</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
             
-        <span class="k">elif</span> <span class="n">isdefined</span><span class="p">(</span><span class="n">filter_mask_file</span><span class="p">):</span>
+        <span class="k">elif</span> <span class="n">isdefined</span><span class="p">(</span><span class="n">filter_mask_file</span><span class="p">)</span> <span class="ow">and</span> <span class="n">isdefined</span><span class="p">(</span><span class="n">filter_thr</span><span class="p">):</span>
             <span class="nb">print</span> <span class="s">&quot;loading filter mask data &quot;</span> <span class="o">+</span> <span class="n">filter_mask_file</span>
-
+            
             <span class="n">filter_mask_data</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filter_mask_file</span><span class="p">)</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
+            
             <span class="n">mask_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span> <span class="o">=</span> <span class="n">filter_mask_data</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="s">&#39;int&#39;</span><span class="p">)</span>
             
             <span class="n">mask_data</span><span class="p">[</span><span class="n">filter_mask_data</span> <span class="o">&gt;</span> <span class="n">filter_thr</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
             
+        <span class="k">elif</span> <span class="n">isdefined</span><span class="p">(</span><span class="n">ROI_coord</span><span class="p">):</span>
+        
+            <span class="nb">print</span> <span class="p">(</span><span class="s">&quot;In ROI coords&quot;</span><span class="p">)</span>
+            
+            <span class="n">mask_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span> <span class="o">=</span> <span class="n">img_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">3</span><span class="p">],</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
+            <span class="nb">print</span> <span class="n">mask_data</span><span class="o">.</span><span class="n">shape</span>
+                  
+            <span class="n">ROI_coord</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ROI_coord</span><span class="p">,</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
+            
+            <span class="k">assert</span> <span class="n">check_np_dimension</span><span class="p">(</span><span class="n">mask_data</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">ROI_coord</span><span class="p">),</span> <span class="s">&quot;Error, non compatible indexes {} with shape {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ROI_coord</span><span class="p">,</span><span class="n">mask_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+                
+            <span class="n">mask_data</span><span class="p">[</span><span class="n">ROI_coord</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">ROI_coord</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">ROI_coord</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">1</span>
+            
+            <span class="c">#print np.where(mask_data == 1)</span>
+            
+            
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s">&quot;Error, either mask_file or (filter_mask_file and filter_thr) should be defined&quot;</span><span class="p">)</span>
+            
+            <span class="k">return</span>
+        
         <span class="nb">print</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">mask_data</span><span class="p">)</span>
         <span class="nb">print</span> <span class="n">mask_data</span><span class="o">.</span><span class="n">shape</span>
         
@@ -657,23 +761,35 @@
 
 <div class="viewcode-block" id="ConcatTS"><a class="viewcode-back" href="../../../graphpype/correl_mat.html#neuropype_graph.nodes.correl_mat.ConcatTS">[docs]</a><span class="k">class</span> <span class="nc">ConcatTS</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
     
-    <span class="sd">&quot;&quot;&quot;Concenate time series &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Description:</span>
+<span class="sd">    </span>
+<span class="sd">    Concatenate time series </span>
+<span class="sd">    </span>
+<span class="sd">    Inputs:</span>
+<span class="sd">    </span>
+<span class="sd">        all_ts_file:</span>
+<span class="sd">            type = File, exists=True, desc=&#39;npy file containing all ts to be concatenated&#39;, mandatory=True</span>
+<span class="sd">            </span>
+<span class="sd">    Outputs:</span>
+<span class="sd">        </span>
+<span class="sd">        concatenated_ts_file:</span>
+<span class="sd">            type = File, exists=True, desc=&quot;ts after concatenation&quot;</span>
+<span class="sd">        </span>
+<span class="sd">    Comments:</span>
+<span class="sd">    </span>
+<span class="sd">    Not sure where it is used</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">input_spec</span> <span class="o">=</span> <span class="n">ConcatTSInputSpec</span>
     <span class="n">output_spec</span> <span class="o">=</span> <span class="n">ConcatTSOutputSpec</span>
 
     <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
             
-        <span class="c">#import os</span>
-        <span class="c">#import numpy as np</span>
-        <span class="c">#import nibabel as nib</span>
-        
-        <span class="c">#from neuropype_graph.utils_plot import plot_signals</span>
-        
         <span class="n">all_ts_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">all_ts_file</span>
         
         
-        <span class="c">## loading ROI coordinates</span>
+        <span class="c">## loading time series</span>
         <span class="n">all_ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">all_ts_file</span><span class="p">)</span>
         
         <span class="nb">print</span> <span class="s">&quot;all_ts: &quot;</span> 
@@ -688,8 +804,6 @@
         <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">concatenated_ts_file</span><span class="p">,</span><span class="n">concatenated_ts</span><span class="p">)</span>
         
         <span class="k">return</span> <span class="n">runtime</span>
-        
-        <span class="c">#return mean_masked_ts_file,subj_coord_rois_file</span>
         
     <span class="k">def</span> <span class="nf">_list_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
@@ -712,7 +826,26 @@
 
 <div class="viewcode-block" id="MergeTS"><a class="viewcode-back" href="../../../graphpype/correl_mat.html#neuropype_graph.nodes.correl_mat.MergeTS">[docs]</a><span class="k">class</span> <span class="nc">MergeTS</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
     
-    <span class="sd">&quot;&quot;&quot;Merges time series from several files &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Description:</span>
+<span class="sd">    </span>
+<span class="sd">    Merges time series from several files </span>
+<span class="sd">    </span>
+<span class="sd">    Inputs:</span>
+<span class="sd">    </span>
+<span class="sd">        all_ts_files:</span>
+<span class="sd">            type = List of Files, exists=True, desc=&#39;list of npy files containing all ts to be merged&#39;, mandatory=True</span>
+<span class="sd">            </span>
+<span class="sd">    Outputs:</span>
+<span class="sd">        </span>
+<span class="sd">        merged_ts_file: </span>
+<span class="sd">            type = File, exists=True, desc=&quot;ts after merge&quot;</span>
+<span class="sd">        </span>
+<span class="sd">    Comments:</span>
+<span class="sd">    </span>
+<span class="sd">    Used for multiple-session merges</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">input_spec</span> <span class="o">=</span> <span class="n">MergeTSInputSpec</span>
     <span class="n">output_spec</span> <span class="o">=</span> <span class="n">MergeTSOutputSpec</span>
@@ -766,7 +899,26 @@
     
 <div class="viewcode-block" id="SeparateTS"><a class="viewcode-back" href="../../../graphpype/correl_mat.html#neuropype_graph.nodes.correl_mat.SeparateTS">[docs]</a><span class="k">class</span> <span class="nc">SeparateTS</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
     
-    <span class="sd">&quot;&quot;&quot;Extract time series from a labelled mask in Nifti Format where all ROIs have the same index&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Description:</span>
+<span class="sd">    </span>
+<span class="sd">    Save all time series from a npy file to several single time series npy files</span>
+<span class="sd">    </span>
+<span class="sd">    Inputs:</span>
+<span class="sd">    </span>
+<span class="sd">        all_ts_file:</span>
+<span class="sd">            type = File, exists=True, desc=&#39;npy file containing all ts to be concatenated&#39;, mandatory=True</span>
+<span class="sd">            </span>
+<span class="sd">    Outputs:</span>
+<span class="sd">    </span>
+<span class="sd">        separated_ts_files</span>
+<span class="sd">            type = List of Files, exists=True, desc=&quot;ts files after separation&quot;</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    Comments:</span>
+<span class="sd">    </span>
+<span class="sd">    Not sure where it is used...</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">input_spec</span> <span class="o">=</span> <span class="n">SeparateTSInputSpec</span>
     <span class="n">output_spec</span> <span class="o">=</span> <span class="n">SeparateTSOutputSpec</span>
@@ -840,8 +992,38 @@
     
 <span class="k">class</span> <span class="nc">RegressCovar</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Regress parameters of non-interest (i.e. movement parameters, white matter, csf) from signal</span>
-<span class="sd">    Optionnally filter and normalize (z-score) the residuals</span>
+<span class="sd">    Description:</span>
+<span class="sd">    </span>
+<span class="sd">    Regress parameters of non-interest (i.e. movement parameters, white matter, csf) from signal.</span>
+<span class="sd">    Optionnally filter and normalize (z-score) the residuals.</span>
+<span class="sd">    </span>
+<span class="sd">    Inputs:</span>
+<span class="sd">        </span>
+<span class="sd">        masked_ts_file:</span>
+<span class="sd">            type = File, exists=True, desc=&#39;Time series in npy format&#39;, mandatory=True</span>
+<span class="sd">        </span>
+<span class="sd">        rp_file: </span>
+<span class="sd">            type = File, exists=True, desc=&#39;Movement parameters in txt format, SPM style&#39;, mandatory=True</span>
+<span class="sd">        </span>
+<span class="sd">        mean_wm_ts_file:</span>
+<span class="sd">            type = File: exists=True, desc=&#39;White matter signal&#39;, mandatory=False</span>
+<span class="sd">            </span>
+<span class="sd">        </span>
+<span class="sd">        mean_csf_ts_file:   </span>
+<span class="sd">            type = File, exists=True, desc=&#39;Cerebro-spinal fluid (ventricules) signal&#39;, mandatory=False</span>
+<span class="sd">        </span>
+<span class="sd">        filtered:</span>
+<span class="sd">            type= Bool, default = True, usedefault = True , desc = &quot;Filter the signal  after regression?&quot;</span>
+<span class="sd">        </span>
+<span class="sd">        normalized</span>
+<span class="sd">            type = Bool(True, usedefault = True , desc = &quot;Normalize the signal after regression?&quot;</span>
+<span class="sd">            </span>
+<span class="sd">    Outputs:</span>
+<span class="sd">    </span>
+<span class="sd">        resid_ts_file:</span>
+<span class="sd">            type = File, exists=True, desc=&quot;residuals of time series after regression of all paramters&quot;</span>
+<span class="sd">    </span>
+<span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">input_spec</span> <span class="o">=</span> <span class="n">RegressCovarInputSpec</span>
     <span class="n">output_spec</span> <span class="o">=</span> <span class="n">RegressCovarOutputSpec</span>
@@ -867,7 +1049,6 @@
         <span class="nb">print</span> <span class="n">rp_file</span>
         
         <span class="n">rp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">genfromtxt</span><span class="p">(</span><span class="n">rp_file</span><span class="p">)</span>
-        <span class="c">#rp = np.loadtxt(rp_file,dtype = np.float)</span>
         
         <span class="nb">print</span> <span class="n">rp</span><span class="o">.</span><span class="n">shape</span>
         
@@ -881,7 +1062,6 @@
             
             <span class="nb">print</span> <span class="n">mean_csf_ts</span><span class="o">.</span><span class="n">shape</span>
             
-            <span class="c">#rp = np.concatenate((rp,mean_csf_ts),axis = 1)</span>
             <span class="n">rp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">rp</span><span class="p">,</span><span class="n">mean_csf_ts</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">mean_csf_ts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="mi">1</span><span class="p">)),</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
             
             <span class="nb">print</span> <span class="n">rp</span><span class="o">.</span><span class="n">shape</span>
@@ -895,8 +1075,6 @@
             
             <span class="n">mean_wm_ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">mean_wm_ts_file</span><span class="p">)</span>
             
-            
-            <span class="c">#rp = np.concatenate((rp,mean_csf_ts),axis = 1)</span>
             <span class="n">rp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">rp</span><span class="p">,</span><span class="n">mean_wm_ts</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">mean_wm_ts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="mi">1</span><span class="p">)),</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
             
             <span class="nb">print</span> <span class="n">rp</span><span class="o">.</span><span class="n">shape</span>
@@ -954,13 +1132,6 @@
             
             <span class="n">plot_sep_signals</span><span class="p">(</span><span class="n">plot_resid_ts_file</span><span class="p">,</span><span class="n">resid_data_matrix</span><span class="p">)</span>
             
-            
-            <span class="c">#print &quot;plotting diff filtered and non filtered data&quot;</span>
-            
-            <span class="c">#plot_diff_filt_ts_file = os.path.abspath(&#39;diff_filt_ts.eps&#39;)</span>
-            
-            <span class="c">#plot_signals(plot_diff_filt_ts_file,np.array(resid_filt_data_matrix - resid_data_matrix,dtype = &#39;float&#39;))</span>
-            
         <span class="k">else</span><span class="p">:</span>
             
             <span class="nb">print</span> <span class="s">&quot;Warning, not implemented (RegressCovar)&quot;</span>
@@ -989,7 +1160,6 @@
      
     <span class="n">only_positive_values</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Bool</span><span class="p">(</span><span class="k">True</span><span class="p">,</span> <span class="n">usedefault</span> <span class="o">=</span> <span class="k">True</span> <span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&quot;Return only positive values of the regressor (negative values are set to 0)&quot;</span><span class="p">)</span>
     
-    <span class="c">#concatenate_runs = traits.Int(1, usedefault = True , desc = &quot;If concatenate runs, how many runs there is (needed to return the part of the regressors that is active for the session only)&quot;)</span>
     <span class="n">concatenated_runs</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Bool</span><span class="p">(</span><span class="k">False</span><span class="p">,</span> <span class="n">usedefault</span> <span class="o">=</span> <span class="k">True</span> <span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&quot;If concatenate runs, need to search for the lenghth of the session&quot;</span><span class="p">)</span>
     
 <span class="k">class</span> <span class="nc">FindSPMRegressorOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
@@ -998,8 +1168,35 @@
     
 <div class="viewcode-block" id="FindSPMRegressor"><a class="viewcode-back" href="../../../graphpype/correl_mat.html#neuropype_graph.nodes.correl_mat.FindSPMRegressor">[docs]</a><span class="k">class</span> <span class="nc">FindSPMRegressor</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Regress parameters of non-interest (i.e. movement parameters, white matter, csf) from signal</span>
-<span class="sd">    Optionnally filter and normalize (z-score) the residuals</span>
+<span class="sd">    </span>
+<span class="sd">    Description:</span>
+<span class="sd">    </span>
+<span class="sd">    Find regressor in SPM.mat and save it as timeseries txt file</span>
+<span class="sd">    </span>
+<span class="sd">    Inputs:</span>
+<span class="sd">        </span>
+<span class="sd">        spm_mat_file:</span>
+<span class="sd">            type = File, exists=True, desc=&#39;SPM design matrix after generate model&#39;, mandatory=True</span>
+<span class="sd">        </span>
+<span class="sd">        regressor_name:</span>
+<span class="sd">            type = String, exists=True, desc=&#39;Name of the regressor in SPM design matrix to be looked after&#39;, mandatory=True</span>
+<span class="sd">        </span>
+<span class="sd">        run_index:</span>
+<span class="sd">            type = Int, default = 1 , usedefault = True , desc = &quot;Run (session) index, default is one in SPM&quot;</span>
+<span class="sd">        </span>
+<span class="sd">        only_positive_values:</span>
+<span class="sd">            type = Bool, default = True, usedefault = True , desc = &quot;Return only positive values of the regressor (negative values are set to 0); Otherwise return all values&quot;</span>
+<span class="sd">        </span>
+<span class="sd">        concatenated_runs:  </span>
+<span class="sd">            type = Bool, default = False , usedefault = True , desc = &quot;If concatenate runs, need to search for the length of the session&quot;</span>
+<span class="sd">            </span>
+<span class="sd">            Deprecation: #concatenate_runs = traits.Int(1, usedefault = True , desc = &quot;If concatenate runs, how many runs there is (needed to return the part of the regressors that is active for the session only)&quot;)</span>
+<span class="sd">    Outputs:</span>
+<span class="sd">        </span>
+<span class="sd">        regressor_file:</span>
+<span class="sd">            type = File,exists=True, desc=&quot;txt file containing the regressor&quot;</span>
+<span class="sd">        </span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">input_spec</span> <span class="o">=</span> <span class="n">FindSPMRegressorInputSpec</span>
     <span class="n">output_spec</span> <span class="o">=</span> <span class="n">FindSPMRegressorOutputSpec</span>
@@ -1263,7 +1460,7 @@
     
     <span class="n">conf_cor_mat_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&quot;npy file containing the confidence interval around R values&quot;</span><span class="p">)</span>
     
-    <span class="c">#Z_conf_cor_mat_file = File(exists=True, desc=&quot;npy file containing the Z-values (after Fisher&#39;s R-to-Z trasformation) of correlation&quot;)</span>
+    <span class="n">Z_conf_cor_mat_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&quot;npy file containing the Z-values (after Fisher&#39;s R-to-Z trasformation) of correlation&quot;</span><span class="p">)</span>
     
 <div class="viewcode-block" id="ComputeConfCorMat"><a class="viewcode-back" href="../../../graphpype/correl_mat.html#neuropype_graph.nodes.correl_mat.ComputeConfCorMat">[docs]</a><span class="k">class</span> <span class="nc">ComputeConfCorMat</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
     
@@ -1380,11 +1577,13 @@
         <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">Z_cor_mat_file</span><span class="p">,</span><span class="n">Z_cor_mat</span><span class="p">)</span>
         
         
-        <span class="c">#print &quot;saving Z_conf_cor_mat as npy&quot;</span>
+        <span class="nb">print</span> <span class="s">&quot;saving Z_conf_cor_mat as npy&quot;</span>
         
-        <span class="c">#Z_conf_cor_mat_file = os.path.abspath(&#39;Z_conf_cor_mat_&#39; + fname + &#39;.npy&#39;)</span>
+        <span class="n">Z_conf_cor_mat_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;Z_conf_cor_mat_&#39;</span> <span class="o">+</span> <span class="n">fname</span> <span class="o">+</span> <span class="s">&#39;.npy&#39;</span><span class="p">)</span>
         
-        <span class="c">#np.save(Z_conf_cor_mat_file,Z_conf_cor_mat)</span>
+        <span class="n">Z_conf_cor_mat</span> <span class="o">=</span> <span class="n">Z_conf_cor_mat</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">Z_conf_cor_mat</span><span class="p">)</span>
+        
+        <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">Z_conf_cor_mat_file</span><span class="p">,</span><span class="n">Z_conf_cor_mat</span><span class="p">)</span>
         
         
         <span class="k">if</span> <span class="n">plot_mat</span> <span class="o">==</span> <span class="k">True</span><span class="p">:</span>
@@ -1421,7 +1620,7 @@
             
             <span class="c">############ Z_cor_mat</span>
             
-            <span class="n">Z_cor_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">Z_cor_mat_file</span><span class="p">)</span>
+            <span class="c">#Z_cor_mat = np.load(Z_cor_mat_file)</span>
             
             <span class="c">#### heatmap </span>
             
@@ -1431,13 +1630,13 @@
             
             <span class="n">plot_cormat</span><span class="p">(</span><span class="n">plot_heatmap_Z_cor_mat_file</span><span class="p">,</span><span class="n">Z_cor_mat</span><span class="p">,</span><span class="n">list_labels</span> <span class="o">=</span> <span class="n">labels</span><span class="p">)</span>
             
-            <span class="c">#### heatmap </span>
+            <span class="c">##### heatmap </span>
             
-            <span class="nb">print</span> <span class="s">&#39;plotting cor_mat heatmap&#39;</span>
+            <span class="c">#print &#39;plotting cor_mat heatmap&#39;</span>
             
-            <span class="n">plot_heatmap_ranged_Z_cor_mat_file</span> <span class="o">=</span>  <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;heatmap_ranged_cor_mat_&#39;</span> <span class="o">+</span> <span class="n">fname</span> <span class="o">+</span> <span class="s">&#39;.eps&#39;</span><span class="p">)</span>
+            <span class="c">#plot_heatmap_ranged_Z_cor_mat_file =  os.path.abspath(&#39;heatmap_ranged_cor_mat_&#39; + fname + &#39;.eps&#39;)</span>
             
-            <span class="n">plot_ranged_cormat</span><span class="p">(</span><span class="n">plot_heatmap_ranged_Z_cor_mat_file</span><span class="p">,</span><span class="n">Z_cor_mat</span><span class="p">,</span><span class="n">fix_full_range</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">3.5</span><span class="p">],</span><span class="n">list_labels</span> <span class="o">=</span> <span class="n">labels</span><span class="p">)</span>
+            <span class="c">#plot_ranged_cormat(plot_heatmap_ranged_Z_cor_mat_file,Z_cor_mat,fix_full_range = [0.0,3.5],list_labels = labels)</span>
             
             <span class="c">#### histogram </span>
             
@@ -1470,13 +1669,13 @@
             
             <span class="c">#Z_conf_cor_mat = np.load(Z_conf_cor_mat_file)</span>
             
-            <span class="c">##### heatmap </span>
+            <span class="c">#### heatmap </span>
             
-            <span class="c">#print &#39;plotting Z_conf_cor_mat heatmap&#39;</span>
+            <span class="nb">print</span> <span class="s">&#39;plotting Z_conf_cor_mat heatmap&#39;</span>
             
-            <span class="c">#plot_heatmap_Z_conf_cor_mat_file =  os.path.abspath(&#39;heatmap_Z_conf_cor_mat_&#39; + fname + &#39;.eps&#39;)</span>
+            <span class="n">plot_heatmap_Z_conf_cor_mat_file</span> <span class="o">=</span>  <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;heatmap_Z_conf_cor_mat_&#39;</span> <span class="o">+</span> <span class="n">fname</span> <span class="o">+</span> <span class="s">&#39;.eps&#39;</span><span class="p">)</span>
             
-            <span class="c">#plot_cormat(plot_heatmap_Z_conf_cor_mat_file,Z_conf_cor_mat,list_labels = labels)</span>
+            <span class="n">plot_cormat</span><span class="p">(</span><span class="n">plot_heatmap_Z_conf_cor_mat_file</span><span class="p">,</span><span class="n">Z_conf_cor_mat</span><span class="p">,</span><span class="n">list_labels</span> <span class="o">=</span> <span class="n">labels</span><span class="p">)</span>
             
             <span class="c">##### histogram </span>
             
@@ -1501,7 +1700,7 @@
         
         <span class="n">outputs</span><span class="p">[</span><span class="s">&quot;Z_cor_mat_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;Z_cor_mat_&#39;</span> <span class="o">+</span> <span class="n">fname</span> <span class="o">+</span> <span class="s">&#39;.npy&#39;</span><span class="p">)</span>
         
-        <span class="c">#outputs[&quot;Z_conf_cor_mat_file&quot;] = os.path.abspath(&#39;Z_conf_cor_mat_&#39; + fname + &#39;.npy&#39;)</span>
+        <span class="n">outputs</span><span class="p">[</span><span class="s">&quot;Z_conf_cor_mat_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;Z_conf_cor_mat_&#39;</span> <span class="o">+</span> <span class="n">fname</span> <span class="o">+</span> <span class="s">&#39;.npy&#39;</span><span class="p">)</span>
         
         <span class="nb">print</span> <span class="n">outputs</span>
         
@@ -1619,21 +1818,35 @@
 
 <span class="c">##################################################### PrepareMeanCorrel ###############################################################################</span>
 
-<span class="kn">from</span> <span class="nn">neuropype_graph.utils_cor</span> <span class="k">import</span> <span class="n">return_corres_correl_mat</span>
+<span class="kn">from</span> <span class="nn">neuropype_graph.utils_cor</span> <span class="k">import</span> <span class="n">return_corres_correl_mat</span><span class="p">,</span><span class="n">return_corres_correl_mat_labels</span>
 
 <span class="k">class</span> <span class="nc">PrepareMeanCorrelInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
     
     <span class="c">#print &quot;in PrepareMeanCorrelInputSpec&quot;</span>
     
-    <span class="n">gm_mask_coords_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;reference coordinates&#39;</span><span class="p">,</span><span class="n">mandatory</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+    <span class="c">#gm_mask_coords_file = File(exists=True, desc=&#39;reference coordinates&#39;,mandatory=True)</span>
                 
     <span class="n">cor_mat_files</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Numpy files with correlation matrices gm_mask_coords&#39;</span><span class="p">,</span><span class="n">mandatory</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
 
-    <span class="n">coords_files</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Txt files with coordinates (corresponding to the space also described in &#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+    <span class="c">#coords_files = traits.List(File(exists=True), desc=&#39;Txt files with coordinates (corresponding to the space also described in &#39;, mandatory=True)</span>
     
-    <span class="n">labels_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;reference labels&#39;</span><span class="p">,</span><span class="n">mandatory</span><span class="o">=</span><span class="k">False</span><span class="p">)</span>
+    <span class="c">#labels_file = File(exists=True, desc=&#39;reference labels&#39;,mandatory=False)</span>
+    
+    
+    <span class="n">coords_files</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;list of all coordinates in numpy space files (in txt format) for each subject (after removal of non void data)&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">xor</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;labels_files&#39;</span><span class="p">])</span>
+    
+    <span class="n">labels_files</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;list of labels (in txt format) for each subject (after removal of non void data)&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">xor</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;coords_files&#39;</span><span class="p">])</span>
+    
+    <span class="n">gm_mask_coords_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Coordinates in numpy space, corresponding to all possible nodes in the original space&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="k">False</span><span class="p">)</span>
+    
+    <span class="n">gm_mask_labels_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Labels for all possible nodes - in case coords are varying from one indiv to the other (source space for example)&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="k">False</span><span class="p">)</span>
+    
+    
+    
     
     <span class="n">plot_mat</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Bool</span><span class="p">(</span><span class="k">True</span><span class="p">,</span> <span class="n">usedefault</span> <span class="o">=</span> <span class="k">True</span><span class="p">,</span> <span class="n">mandatory</span> <span class="o">=</span> <span class="k">False</span><span class="p">)</span>
+    
+    <span class="n">export_csv</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Bool</span><span class="p">(</span><span class="k">False</span><span class="p">,</span> <span class="n">usedefault</span> <span class="o">=</span> <span class="k">True</span><span class="p">,</span> <span class="n">mandatory</span> <span class="o">=</span> <span class="k">False</span><span class="p">)</span>
     
 <span class="k">class</span> <span class="nc">PrepareMeanCorrelOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
     
@@ -1652,6 +1865,7 @@
     <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
     <span class="kn">import</span> <span class="nn">os</span>
 
+    
     <span class="c">#import nibabel as nib</span>
     
     <span class="sd">&quot;&quot;&quot;</span>
@@ -1670,7 +1884,7 @@
 <span class="sd">    coords_files:</span>
 <span class="sd">        type = List of Files, exists=True, desc=&#39;Txt files with coordinates (corresponding to the space also described in &#39;, mandatory=True</span>
 <span class="sd">    </span>
-<span class="sd">    labels_file:</span>
+<span class="sd">    gm_mask_labels_file:</span>
 <span class="sd">        type = File, exists=True, desc=&#39;reference labels&#39;,mandatory=False</span>
 <span class="sd">    </span>
 <span class="sd">    plot_mat:</span>
@@ -1698,69 +1912,151 @@
 
     <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
                 
-            <span class="n">gm_mask_coords_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">gm_mask_coords_file</span>
+            <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+    
             <span class="n">cor_mat_files</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">cor_mat_files</span>
-            <span class="n">coords_files</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">coords_files</span>
-            <span class="n">labels_file</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">labels_file</span>
+            <span class="n">gm_mask_labels_file</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">gm_mask_labels_file</span>
             <span class="n">plot_mat</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">plot_mat</span>
+            <span class="n">export_csv</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">export_csv</span>
             
-            <span class="nb">print</span> <span class="s">&#39;loading gm mask corres&#39;</span>
             
-            <span class="n">gm_mask_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">gm_mask_coords_file</span><span class="p">),</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
-            
-            <span class="nb">print</span> <span class="n">gm_mask_coords</span>
-            <span class="nb">print</span> <span class="n">gm_mask_coords</span><span class="o">.</span><span class="n">shape</span>
-            
-            <span class="c">#### read matrix from the first group</span>
-            <span class="c">#print Z_cor_mat_files</span>
-            
-            <span class="n">sum_cor_mat_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">gm_mask_coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">gm_mask_coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
-            <span class="nb">print</span> <span class="n">sum_cor_mat_matrix</span><span class="o">.</span><span class="n">shape</span>
-            
-            <span class="n">sum_possible_edge_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">gm_mask_coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">gm_mask_coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
-            <span class="nb">print</span> <span class="n">sum_possible_edge_matrix</span><span class="o">.</span><span class="n">shape</span>
-            
+            <span class="k">if</span> <span class="n">isdefined</span><span class="p">(</span><span class="n">gm_mask_labels_file</span><span class="p">):</span>
                     
-            <span class="n">group_cor_mat_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">gm_mask_coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">gm_mask_coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="nb">len</span><span class="p">(</span><span class="n">cor_mat_files</span><span class="p">)),</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
-            <span class="nb">print</span> <span class="n">group_cor_mat_matrix</span><span class="o">.</span><span class="n">shape</span>
-            
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cor_mat_files</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">coords_files</span><span class="p">):</span>
-                <span class="nb">print</span> <span class="s">&quot;warning, length of cor_mat_files, coords_files are imcompatible {} {} {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cor_mat_files</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">coords_files</span><span class="p">))</span>
-            
-            <span class="k">for</span> <span class="n">index_file</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cor_mat_files</span><span class="p">)):</span>
+                <span class="nb">print</span> <span class="s">&#39;extracting node labels&#39;</span>
+                    
+                <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">gm_mask_labels_file</span><span class="p">)]</span>
+                <span class="nb">print</span> <span class="n">labels</span>
                 
-                <span class="nb">print</span> <span class="n">cor_mat_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">]</span>
-                
-                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">cor_mat_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">])</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">coords_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">]):</span>
-                
-                    <span class="n">Z_cor_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">cor_mat_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">])</span>
-                    <span class="nb">print</span> <span class="n">Z_cor_mat</span><span class="o">.</span><span class="n">shape</span>
-                    
-                    
-                    <span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">coords_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">]),</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
-                    
-                    <span class="nb">print</span> <span class="n">coords</span>
-                    <span class="nb">print</span> <span class="n">coords</span><span class="o">.</span><span class="n">shape</span>
-                                        
-                    <span class="n">corres_cor_mat</span><span class="p">,</span><span class="n">possible_edge_mat</span> <span class="o">=</span> <span class="n">return_corres_correl_mat</span><span class="p">(</span><span class="n">Z_cor_mat</span><span class="p">,</span><span class="n">coords</span><span class="p">,</span><span class="n">gm_mask_coords</span><span class="p">)</span>
-                    
-                    
-                    <span class="n">np</span><span class="o">.</span><span class="n">fill_diagonal</span><span class="p">(</span><span class="n">corres_cor_mat</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
-                    
-                    <span class="n">np</span><span class="o">.</span><span class="n">fill_diagonal</span><span class="p">(</span><span class="n">possible_edge_mat</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-                    
-                    <span class="n">sum_cor_mat_matrix</span> <span class="o">+=</span> <span class="n">corres_cor_mat</span>
-                    
-                    <span class="n">sum_possible_edge_matrix</span> <span class="o">+=</span> <span class="n">possible_edge_mat</span>
-                    
-                    
-                    <span class="n">group_cor_mat_matrix</span><span class="p">[:,:,</span><span class="n">index_file</span><span class="p">]</span> <span class="o">=</span> <span class="n">corres_cor_mat</span>
-                    
-                    
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="nb">print</span> <span class="s">&quot;Warning, one or more files between &quot;</span> <span class="o">+</span> <span class="n">cor_mat_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;, &#39;</span> <span class="o">+</span> <span class="n">coords_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">]</span> <span class="o">+</span> <span class="s">&quot; do not exists&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
+            
                 
                 
+            <span class="k">if</span> <span class="n">isdefined</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">gm_mask_coords_file</span><span class="p">)</span> <span class="ow">and</span> <span class="n">isdefined</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">coords_files</span><span class="p">):</span>
+            
+                <span class="n">coords_files</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">coords_files</span>
+                
+                <span class="n">gm_mask_coords_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">gm_mask_coords_file</span>
+            
+                <span class="nb">print</span> <span class="s">&#39;loading gm mask corres&#39;</span>
+                
+                <span class="n">gm_mask_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">gm_mask_coords_file</span><span class="p">)</span>
+                
+                <span class="nb">print</span> <span class="n">gm_mask_coords</span><span class="o">.</span><span class="n">shape</span>
+                    
+                <span class="n">sum_cor_mat_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">gm_mask_coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">gm_mask_coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
+                <span class="nb">print</span> <span class="n">sum_cor_mat_matrix</span><span class="o">.</span><span class="n">shape</span>
+                
+                <span class="n">sum_possible_edge_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">gm_mask_coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">gm_mask_coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
+                <span class="nb">print</span> <span class="n">sum_possible_edge_matrix</span><span class="o">.</span><span class="n">shape</span>
+                
+                        
+                <span class="n">group_cor_mat_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">gm_mask_coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">gm_mask_coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="nb">len</span><span class="p">(</span><span class="n">cor_mat_files</span><span class="p">)),</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
+                <span class="nb">print</span> <span class="n">group_cor_mat_matrix</span><span class="o">.</span><span class="n">shape</span>
+                
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cor_mat_files</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">coords_files</span><span class="p">):</span>
+                    <span class="nb">print</span> <span class="s">&quot;warning, length of cor_mat_files, coords_files are imcompatible {} {} {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cor_mat_files</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">coords_files</span><span class="p">))</span>
+                
+                <span class="k">for</span> <span class="n">index_file</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cor_mat_files</span><span class="p">)):</span>
+                    
+                    <span class="nb">print</span> <span class="n">cor_mat_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">]</span>
+                    
+                    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">cor_mat_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">])</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">coords_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">]):</span>
+                    
+                        <span class="n">Z_cor_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">cor_mat_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">])</span>
+                        <span class="nb">print</span> <span class="n">Z_cor_mat</span><span class="o">.</span><span class="n">shape</span>
+                        
+                        
+                        <span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">coords_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">]),</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
+                        
+                        <span class="nb">print</span> <span class="n">coords</span>
+                        <span class="nb">print</span> <span class="n">coords</span><span class="o">.</span><span class="n">shape</span>
+                                            
+                        <span class="n">corres_cor_mat</span><span class="p">,</span><span class="n">possible_edge_mat</span> <span class="o">=</span> <span class="n">return_corres_correl_mat</span><span class="p">(</span><span class="n">Z_cor_mat</span><span class="p">,</span><span class="n">coords</span><span class="p">,</span><span class="n">gm_mask_coords</span><span class="p">)</span>
+                        
+                        
+                        <span class="n">np</span><span class="o">.</span><span class="n">fill_diagonal</span><span class="p">(</span><span class="n">corres_cor_mat</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+                        
+                        <span class="n">np</span><span class="o">.</span><span class="n">fill_diagonal</span><span class="p">(</span><span class="n">possible_edge_mat</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+                        
+                        <span class="n">sum_cor_mat_matrix</span> <span class="o">+=</span> <span class="n">corres_cor_mat</span>
+                        
+                        <span class="n">sum_possible_edge_matrix</span> <span class="o">+=</span> <span class="n">possible_edge_mat</span>
+                        
+                        
+                        <span class="n">group_cor_mat_matrix</span><span class="p">[:,:,</span><span class="n">index_file</span><span class="p">]</span> <span class="o">=</span> <span class="n">corres_cor_mat</span>
+                        
+                        
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="nb">print</span> <span class="s">&quot;Warning, one or more files between &quot;</span> <span class="o">+</span> <span class="n">cor_mat_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;, &#39;</span> <span class="o">+</span> <span class="n">coords_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">]</span> <span class="o">+</span> <span class="s">&quot; do not exists&quot;</span>
+                    
+                    
+                    
+            <span class="k">elif</span> <span class="n">isdefined</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">gm_mask_labels_file</span><span class="p">)</span> <span class="ow">and</span> <span class="n">isdefined</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">labels_files</span><span class="p">):</span>    
+                    
+                <span class="n">labels_files</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">labels_files</span>
+                
+                <span class="n">gm_mask_labels_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">gm_mask_labels_file</span>
+                
+                    
+                <span class="nb">print</span> <span class="s">&#39;loading gm mask labels&#39;</span>
+                
+                <span class="n">gm_mask_labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">gm_mask_labels_file</span><span class="p">)]</span>
+                
+                <span class="nb">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">gm_mask_labels</span><span class="p">)</span>
+                    
+                <span class="n">gm_mask_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">gm_mask_labels_file</span><span class="p">)],</span><span class="n">dtype</span> <span class="o">=</span> <span class="s">&#39;str&#39;</span><span class="p">)</span>
+            
+                <span class="n">sum_cor_mat_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">gm_mask_labels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">gm_mask_labels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
+                <span class="nb">print</span> <span class="n">sum_cor_mat_matrix</span><span class="o">.</span><span class="n">shape</span>
+                
+                <span class="n">sum_possible_edge_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">gm_mask_labels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">gm_mask_labels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
+                <span class="nb">print</span> <span class="n">sum_possible_edge_matrix</span><span class="o">.</span><span class="n">shape</span>
+                
+                        
+                <span class="n">group_cor_mat_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">gm_mask_labels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">gm_mask_labels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="nb">len</span><span class="p">(</span><span class="n">cor_mat_files</span><span class="p">)),</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
+                <span class="nb">print</span> <span class="n">group_cor_mat_matrix</span><span class="o">.</span><span class="n">shape</span>
+                
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cor_mat_files</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels_files</span><span class="p">):</span>
+                    <span class="nb">print</span> <span class="s">&quot;warning, length of cor_mat_files, labels_files are imcompatible {} {} {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cor_mat_files</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">labels_files</span><span class="p">))</span>
+                
+                <span class="k">for</span> <span class="n">index_file</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cor_mat_files</span><span class="p">)):</span>
+                    
+                    <span class="nb">print</span> <span class="n">cor_mat_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">]</span>
+                    
+                    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">cor_mat_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">])</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">labels_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">]):</span>
+                    
+                        <span class="n">Z_cor_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">cor_mat_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">])</span>
+                        <span class="nb">print</span> <span class="n">Z_cor_mat</span><span class="o">.</span><span class="n">shape</span>
+                        
+                        <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">gm_mask_labels_file</span><span class="p">)]</span>
+                        <span class="nb">print</span> <span class="n">labels</span>
+                
+                        <span class="n">np_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">str</span><span class="p">)</span>
+                        
+                        <span class="nb">print</span> <span class="n">np_labels</span>
+                        <span class="nb">print</span> <span class="n">np_labels</span><span class="o">.</span><span class="n">shape</span>
+                                            
+                        <span class="n">corres_cor_mat</span><span class="p">,</span><span class="n">possible_edge_mat</span> <span class="o">=</span> <span class="n">return_corres_correl_mat_labels</span><span class="p">(</span><span class="n">Z_cor_mat</span><span class="p">,</span><span class="n">np_labels</span><span class="p">,</span><span class="n">gm_mask_labels</span><span class="p">)</span>
+                        
+                        <span class="nb">print</span> <span class="n">corres_cor_mat</span>
+                        
+                        <span class="n">np</span><span class="o">.</span><span class="n">fill_diagonal</span><span class="p">(</span><span class="n">corres_cor_mat</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+                        
+                        <span class="n">np</span><span class="o">.</span><span class="n">fill_diagonal</span><span class="p">(</span><span class="n">possible_edge_mat</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+                        
+                        <span class="n">sum_cor_mat_matrix</span> <span class="o">+=</span> <span class="n">corres_cor_mat</span>
+                        
+                        <span class="n">sum_possible_edge_matrix</span> <span class="o">+=</span> <span class="n">possible_edge_mat</span>
+                        
+                        
+                        <span class="n">group_cor_mat_matrix</span><span class="p">[:,:,</span><span class="n">index_file</span><span class="p">]</span> <span class="o">=</span> <span class="n">corres_cor_mat</span>
+                        
+                        
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="nb">print</span> <span class="s">&quot;Warning, one or more files between &quot;</span> <span class="o">+</span> <span class="n">cor_mat_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;, &#39;</span> <span class="o">+</span> <span class="n">labels_files</span><span class="p">[</span><span class="n">index_file</span><span class="p">]</span> <span class="o">+</span> <span class="s">&quot; do not exists&quot;</span>
+                    
+                    
             <span class="bp">self</span><span class="o">.</span><span class="n">group_cor_mat_matrix_file</span><span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;group_cor_mat_matrix.npy&#39;</span><span class="p">)</span>
             
             <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">group_cor_mat_matrix_file</span><span class="p">,</span><span class="n">group_cor_mat_matrix</span><span class="p">)</span>
@@ -1782,7 +2078,7 @@
             
             <span class="bp">self</span><span class="o">.</span><span class="n">avg_cor_mat_matrix_file</span>  <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;avg_cor_mat_matrix.npy&#39;</span><span class="p">)</span>
             
-            <span class="n">avg_cor_mat_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">gm_mask_coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">gm_mask_coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
+            <span class="c">#avg_cor_mat_matrix = np.zeros((gm_mask_coords.shape[0],gm_mask_coords.shape[0]),dtype = float)</span>
             
             
             <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sum_possible_edge_matrix</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -1793,30 +2089,33 @@
                     
                     <span class="nb">print</span> <span class="n">np</span><span class="o">.</span><span class="n">amin</span><span class="p">(</span><span class="n">avg_cor_mat_matrix</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">avg_cor_mat_matrix</span><span class="p">)</span>
                     
-                    
                     <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">avg_cor_mat_matrix_file</span><span class="p">,</span><span class="n">avg_cor_mat_matrix</span><span class="p">)</span>
+                    
+                    
+                    <span class="k">if</span> <span class="n">export_csv</span><span class="p">:</span>
+                        
+                        <span class="n">csv_avg_cor_mat_matrix_file</span>  <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;avg_cor_mat_matrix.csv&#39;</span><span class="p">)</span>
+                        
+                        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">avg_cor_mat_matrix</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">labels</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="n">labels</span><span class="p">)</span>
+                        
+                        <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">csv_avg_cor_mat_matrix_file</span><span class="p">)</span>
+                        
+                
             
             <span class="k">else</span><span class="p">:</span>
                     <span class="nb">print</span> <span class="s">&quot;!!!!!!!!!!!!!!!!!!!!!!Breaking!!!!!!!!!!!!!!!!!!!!!!!!, found 0 elements in sum_cor_mat_matrix&quot;</span>
                     
                     <span class="nb">print</span> <span class="n">sum_possible_edge_matrix</span>
                     <span class="nb">print</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sum_possible_edge_matrix</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+                    <span class="nb">print</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sum_possible_edge_matrix</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
                     <span class="nb">print</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sum_possible_edge_matrix</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span>
+                    
+                    <span class="nb">print</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">sum_possible_edge_matrix</span><span class="p">)</span>
                     
                     <span class="k">return</span>
                 
                 
             <span class="k">if</span> <span class="n">plot_mat</span> <span class="o">==</span> <span class="k">True</span><span class="p">:</span>
-                
-                <span class="k">if</span> <span class="n">isdefined</span><span class="p">(</span><span class="n">labels_file</span><span class="p">):</span>
-                        
-                    <span class="nb">print</span> <span class="s">&#39;extracting node labels&#39;</span>
-                        
-                    <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">labels_file</span><span class="p">)]</span>
-                    <span class="nb">print</span> <span class="n">labels</span>
-                    
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
                 
                 <span class="c">#### heatmap </span>
                 

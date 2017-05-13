@@ -86,7 +86,14 @@
 </li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../cinq/cinq.html">CINQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cinq/cinq.html">CINQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../cinq/cinq.html#download-scripts">Download scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cinq/cinq.html#upgrade-neuropype-ephy">Upgrade neuropype_ephy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cinq/cinq.html#preprocessing">Preprocessing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cinq/cinq.html#power-analysis">Power analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cinq/cinq.html#connectivity-and-graph-analysis">Connectivity and graph analysis</a></li>
+</ul>
+</li>
 </ul>
 
           
@@ -135,11 +142,10 @@
 
 <span class="c"># from neuropype_ephy.spectral import  multiple_spectral_proc</span>
 
-<span class="kn">from</span> <span class="nn">neuropype_ephy.nodes.import_data</span> <span class="k">import</span> <span class="n">ImportBrainVisionAscii</span>
+<span class="kn">from</span> <span class="nn">neuropype_ephy.nodes.import_data</span> <span class="k">import</span> <span class="n">ImportBrainVisionAscii</span><span class="p">,</span> <span class="n">ImportBrainVisionVhdr</span>
 
-<span class="kn">from</span> <span class="nn">neuropype_ephy.nodes.ts_tools</span> <span class="k">import</span> <span class="n">SplitWindows</span>
+<span class="c">#from neuropype_ephy.nodes.ts_tools import SplitWindows</span>
 
-<span class="kn">from</span> <span class="nn">neuropype_ephy.import_txt</span> <span class="k">import</span> <span class="n">read_brainvision_vhdr</span>
 
 <span class="c">#from neuropype_ephy.spectral import split_win_ts</span>
 
@@ -207,7 +213,7 @@
     <span class="n">inputnode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;vhdr_file&#39;</span><span class="p">,</span><span class="s">&#39;freq_band&#39;</span><span class="p">]),</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;inputnode&#39;</span><span class="p">)</span>
     
     <span class="c">#### convert</span>
-    <span class="n">split_vhdr</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">Function</span><span class="p">(</span><span class="n">input_names</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;vhdr_file&quot;</span><span class="p">,</span><span class="s">&quot;sample_size&quot;</span><span class="p">],</span><span class="n">output_names</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;splitted_ts_file&quot;</span><span class="p">,</span><span class="s">&quot;channel_names&quot;</span><span class="p">],</span><span class="n">function</span> <span class="o">=</span> <span class="n">read_brainvision_vhdr</span><span class="p">),</span><span class="n">name</span> <span class="o">=</span> <span class="s">&#39;split_vhdr&#39;</span><span class="p">)</span>
+    <span class="n">split_vhdr</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">ImportBrainVisionVhdr</span><span class="p">()</span> <span class="p">,</span><span class="n">name</span> <span class="o">=</span> <span class="s">&#39;split_vhdr&#39;</span><span class="p">)</span>
 
     <span class="n">split_vhdr</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">sample_size</span> <span class="o">=</span> <span class="n">sample_size</span>
     <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s">&#39;vhdr_file&#39;</span><span class="p">,</span><span class="n">split_vhdr</span><span class="p">,</span><span class="s">&#39;vhdr_file&#39;</span><span class="p">)</span>
@@ -216,7 +222,7 @@
     <span class="n">ts_pipe</span> <span class="o">=</span> <span class="n">create_pipeline_time_series_to_spectral_connectivity</span><span class="p">(</span><span class="n">main_path</span><span class="p">,</span><span class="n">sfreq</span><span class="p">,</span> <span class="n">con_method</span> <span class="o">=</span> <span class="n">con_method</span><span class="p">,</span> <span class="n">multi_con</span> <span class="o">=</span> <span class="n">multi_con</span><span class="p">,</span> <span class="n">export_to_matlab</span> <span class="o">=</span> <span class="n">export_to_matlab</span><span class="p">,</span> <span class="n">n_windows</span> <span class="o">=</span> <span class="n">n_windows</span><span class="p">)</span>
     
     <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">split_vhdr</span><span class="p">,</span><span class="s">&#39;splitted_ts_file&#39;</span><span class="p">,</span><span class="n">ts_pipe</span><span class="p">,</span> <span class="s">&#39;inputnode.ts_file&#39;</span><span class="p">)</span>
-    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">split_vhdr</span><span class="p">,</span><span class="s">&#39;channel_names&#39;</span><span class="p">,</span><span class="n">ts_pipe</span><span class="p">,</span> <span class="s">&#39;inputnode.labels_file&#39;</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">split_vhdr</span><span class="p">,</span><span class="s">&#39;elec_names_file&#39;</span><span class="p">,</span><span class="n">ts_pipe</span><span class="p">,</span> <span class="s">&#39;inputnode.labels_file&#39;</span><span class="p">)</span>
     <span class="n">pipeline</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="s">&#39;freq_band&#39;</span><span class="p">,</span> <span class="n">ts_pipe</span><span class="p">,</span> <span class="s">&#39;inputnode.freq_band&#39;</span><span class="p">)</span>
      
     <span class="k">return</span> <span class="n">pipeline</span></div>

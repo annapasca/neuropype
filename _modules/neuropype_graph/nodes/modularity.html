@@ -86,7 +86,14 @@
 </li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../cinq/cinq.html">CINQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cinq/cinq.html">CINQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../cinq/cinq.html#download-scripts">Download scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cinq/cinq.html#upgrade-neuropype-ephy">Upgrade neuropype_ephy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cinq/cinq.html#preprocessing">Preprocessing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cinq/cinq.html#power-analysis">Power analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cinq/cinq.html#connectivity-and-graph-analysis">Connectivity and graph analysis</a></li>
+</ul>
+</li>
 </ul>
 
           
@@ -253,38 +260,19 @@
             <span class="n">Z_list</span> <span class="o">=</span> <span class="n">return_net_list</span><span class="p">(</span><span class="n">Z_cor_mat</span><span class="p">)</span>
         
         <span class="c">## Z correl_mat as list of edges</span>
-        
         <span class="nb">print</span> <span class="s">&quot;saving Z_list as list of edges&quot;</span>
         
         <span class="n">net_List_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&#39;Z_List.txt&#39;</span><span class="p">)</span>
         
         <span class="n">export_List_net_from_list</span><span class="p">(</span><span class="n">net_List_file</span><span class="p">,</span><span class="n">Z_list</span><span class="p">)</span>
         
-        <span class="c">### Z correl_mat as Louvain format</span>
-        
-        <span class="c">#print &quot;saving Z_list as Louvain format&quot;</span>
-        
-        <span class="c">#net_Louvain_file = os.path.abspath(&#39;Z_Louvain.txt&#39;)</span>
-        
-        <span class="c">#export_Louvain_net_from_list(net_Louvain_file,Z_list,coords)</span>
-        
-        <span class="c">#### saving coordinates for references</span>
-        
-        <span class="c">#out_coords_file = os.path.abspath(&#39;coords.txt&#39;)</span>
-        
-        <span class="c">#np.savetxt(out_coords_file,coords,fmt = &quot;%d&quot;)</span>
-        
         <span class="k">return</span> <span class="n">runtime</span>
-        
-        <span class="c">#return mean_masked_ts_file,subj_coord_rois_file</span>
         
     <span class="k">def</span> <span class="nf">_list_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
         <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_outputs</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
         
         <span class="n">outputs</span><span class="p">[</span><span class="s">&quot;net_List_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&quot;Z_List.txt&quot;</span><span class="p">)</span>
-        <span class="c">#outputs[&quot;net_Louvain_file&quot;] = os.path.abspath(&quot;Z_Louvain.txt&quot;)</span>
-        <span class="c">#outputs[&quot;out_coords_file&quot;] = os.path.abspath(&quot;coords.txt&quot;)</span>
         
         <span class="k">return</span> <span class="n">outputs</span></div>
     
@@ -375,11 +363,10 @@
 
 <span class="k">class</span> <span class="nc">ComputeNodeRolesInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
     
-    <span class="n">rada_lol_file</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;lol file, describing modular structure of the network&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">position</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">argstr</span><span class="o">=</span><span class="s">&quot;%s&quot;</span><span class="p">)</span>
+    <span class="n">rada_lol_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;lol file, describing modular structure of the network&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
     <span class="n">Pajek_net_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;net description in Pajek format&#39;</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
     
-    <span class="n">role_type</span> <span class="o">=</span>  <span class="n">traits</span><span class="o">.</span><span class="n">Enum</span><span class="p">(</span><span class="s">&#39;Amaral_roles&#39;</span><span class="p">,</span> <span class="s">&#39;4roles&#39;</span><span class="p">,</span> 
-    <span class="n">desc</span><span class="o">=</span><span class="s">&#39;definition of node roles, Amaral_roles = original 7 roles defined for transport network (useful for big network), 4_roles defines only provincial/connecteur from participation coeff&#39;</span><span class="p">,</span>
+    <span class="n">role_type</span> <span class="o">=</span>  <span class="n">traits</span><span class="o">.</span><span class="n">Enum</span><span class="p">(</span><span class="s">&#39;Amaral_roles&#39;</span><span class="p">,</span> <span class="s">&#39;4roles&#39;</span><span class="p">,</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;definition of node roles, Amaral_roles = original 7 roles defined for transport network (useful for big network), 4_roles defines only provincial/connecteur from participation coeff&#39;</span><span class="p">,</span>
     <span class="n">usedefault</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
     
 <span class="k">class</span> <span class="nc">ComputeNodeRolesOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
@@ -391,7 +378,33 @@
 <div class="viewcode-block" id="ComputeNodeRoles"><a class="viewcode-back" href="../../../graphpype/modularity.html#neuropype_graph.nodes.modularity.ComputeNodeRoles">[docs]</a><span class="k">class</span> <span class="nc">ComputeNodeRoles</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
     
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    compute node roles from lol modular partition and original network</span>
+<span class="sd">    Description:</span>
+<span class="sd">    </span>
+<span class="sd">    Compute node roles from lol modular partition and original network</span>
+<span class="sd">    </span>
+<span class="sd">    Inputs: </span>
+
+<span class="sd">        rada_lol_file: </span>
+<span class="sd">            type = File, exists=True,desc=&#39;lol file, describing modular structure of the network&#39;, mandatory=True</span>
+<span class="sd">            </span>
+<span class="sd">        </span>
+<span class="sd">        Pajek_net_file:</span>
+<span class="sd">            type = File(exists=True, desc=&#39;net description in Pajek format&#39;, mandatory=True</span>
+
+<span class="sd">        role_type:</span>
+<span class="sd">            One of Enum(&#39;Amaral_roles&#39;, &#39;4roles&#39;), desc=&#39;definition of node roles, Amaral_roles = original 7 roles defined for transport network (useful for big network), 4_roles = defines only provincial/connecteur from participation coeff&#39;, usedefault=True</span>
+<span class="sd">    </span>
+<span class="sd">    Outputs:</span>
+<span class="sd">    </span>
+<span class="sd">        node_roles_file:</span>
+<span class="sd">            type = File, exists=True, desc=&quot;node roles with an integer code&quot;</span>
+<span class="sd">            </span>
+<span class="sd">        all_Z_com_degree_file:</span>
+<span class="sd">            type = File,exists=True, desc=&quot;value of quantity, describing the hub/non-hub role of the nodes&quot;</span>
+<span class="sd">            </span>
+<span class="sd">        all_participation_coeff_file</span>
+<span class="sd">            type = File, exists=True, desc=&quot;value of quality, descibing the provincial/connector role of the nodes&quot;</span>
+<span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">input_spec</span> <span class="o">=</span> <span class="n">ComputeNodeRolesInputSpec</span>
     <span class="n">output_spec</span> <span class="o">=</span> <span class="n">ComputeNodeRolesOutputSpec</span>

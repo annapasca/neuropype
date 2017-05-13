@@ -88,7 +88,13 @@
 </li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../cinq/cinq.html">CINQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cinq/cinq.html">CINQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cinq/cinq.html#download-scripts">Download scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cinq/cinq.html#upgrade-neuropype-ephy">Upgrade neuropype_ephy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cinq/cinq.html#preprocessing">Preprocessing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cinq/cinq.html#connectivity">Connectivity</a></li>
+</ul>
+</li>
 </ul>
 
           
@@ -240,6 +246,40 @@ return splitted time series in .npy format, as well as electrode names in txt fo
 <dt id="neuropype_ephy.nodes.import_data.ImportBrainVisionAsciiOutputSpec">
 <em class="property">class </em><code class="descclassname">neuropype_ephy.nodes.import_data.</code><code class="descname">ImportBrainVisionAsciiOutputSpec</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/nodes/import_data.html#ImportBrainVisionAsciiOutputSpec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.nodes.import_data.ImportBrainVisionAsciiOutputSpec" title="Permalink to this definition">¶</a></dt>
 <dd><p>Output specification for ImportBrainVisionAscii</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="neuropype_ephy.nodes.import_data.ImportBrainVisionVhdr">
+<em class="property">class </em><code class="descclassname">neuropype_ephy.nodes.import_data.</code><code class="descname">ImportBrainVisionVhdr</code><span class="sig-paren">(</span><em>**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/nodes/import_data.html#ImportBrainVisionVhdr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.nodes.import_data.ImportBrainVisionVhdr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description:</p>
+<p>Import IntraEEG Brain Vision (unsplitted) vhdr time series txt file and
+return splitted time series in .npy format, as well as electrode names in txt format</p>
+<p>Inputs:</p>
+<dl class="docutils">
+<dt>vhdr_file</dt>
+<dd>type = File, exists=True, desc=&#8217;Ascii text file exported from BrainVision&#8217;, mandatory=True</dd>
+<dt>sample_size</dt>
+<dd>type = Int, desc = &#8220;Size (number of time points) of all samples&#8221;, mandatory = True</dd>
+</dl>
+<p>Outputs:</p>
+<dl class="docutils">
+<dt>splitted_ts_file</dt>
+<dd>type  = File, exists=True, desc=&#8221;splitted time series in .npy format&#8221;</dd>
+<dt>elec_names_file</dt>
+<dd>type = File, exists=True, desc=&#8221;electrode names in txt format&#8221;</dd>
+</dl>
+<dl class="attribute">
+<dt id="neuropype_ephy.nodes.import_data.ImportBrainVisionVhdr.output_spec">
+<code class="descname">output_spec</code><a class="headerlink" href="#neuropype_ephy.nodes.import_data.ImportBrainVisionVhdr.output_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#neuropype_ephy.nodes.import_data.ImportBrainVisionAsciiOutputSpec" title="neuropype_ephy.nodes.import_data.ImportBrainVisionAsciiOutputSpec"><code class="xref py py-class docutils literal"><span class="pre">ImportBrainVisionAsciiOutputSpec</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="neuropype_ephy.nodes.import_data.ImportBrainVisionVhdrOutputSpec">
+<em class="property">class </em><code class="descclassname">neuropype_ephy.nodes.import_data.</code><code class="descname">ImportBrainVisionVhdrOutputSpec</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/neuropype_ephy/nodes/import_data.html#ImportBrainVisionVhdrOutputSpec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#neuropype_ephy.nodes.import_data.ImportBrainVisionVhdrOutputSpec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Output specification for ImportBrainVisionVhdr</p>
 </dd></dl>
 
 <dl class="class">
